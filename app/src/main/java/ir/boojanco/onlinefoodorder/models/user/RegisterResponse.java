@@ -19,6 +19,7 @@ public class RegisterResponse {
         this.mobile = mobile;
 
     }
+    /*public RegisterResponse(){}*/
 
     public String getReason() {
         return reason;

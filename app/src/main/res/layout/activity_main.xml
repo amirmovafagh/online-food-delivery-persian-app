@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="loginViewModel"
-            type="ir.boojanco.onlinefoodorder.viewmodels.LoginViewModel" />
+            name="registerViewModel"
+            type="ir.boojanco.onlinefoodorder.viewmodels.RegisterViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:error="@{loginViewModel.errorEmail}"
+
             app:errorEnabled="true"
             app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
             app:layout_constraintTop_toTopOf="parent"
@@ -28,7 +28,7 @@
                 android:hint="Email"
                 android:inputType="textEmailAddress"
                 android:padding="8dp"
-                android:text="@={loginViewModel.email}" />
+                android:text="@={registerViewModel.phoneNumber}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -36,7 +36,7 @@
             android:id="@+id/textInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:error="@{loginViewModel.errorPassword}"
+
             app:errorEnabled="true"
             app:layout_constraintBottom_toTopOf="@+id/progressBar"
             app:layout_constraintTop_toTopOf="parent"
@@ -49,7 +49,7 @@
                 android:hint="Password"
                 android:inputType="textPassword"
                 android:padding="8dp"
-                android:text="@={loginViewModel.password}" />
+                 />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -57,7 +57,7 @@
             android:id="@+id/button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{()-> loginViewModel.onLoginClicked()}"
+            android:onClick="@{()-> registerViewModel.onRegisterClicked()}"
             android:text="LOGIN"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/progressBar"
@@ -69,7 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:visibility="@{loginViewModel.busy}"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

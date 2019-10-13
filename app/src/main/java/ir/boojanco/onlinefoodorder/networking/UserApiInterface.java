@@ -12,6 +12,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import rx.Observable;
 
@@ -19,12 +20,16 @@ import rx.Observable;
 public interface UserApiInterface {
 
     @POST("user/register")
-    Call<RegisterResponse> registerUser(@Body RegisterResponse registerResponse);
-    /**
+    //@Headers("Content-Type: application/x-www-form-urlencoded")
+
+    @FormUrlEncoded
+
+    Call<RegisterResponse> registerUser(@Field("mobile") String phoneNumber/*@Body RegisterResponse registerResponse*/);
+     /**
     * Update the APIService savePost(...) method from Call to become an Observable for using Rx java.
     * */
 
-    /*@POST("user/fill_info")
+    @POST("user/fill_info")
     Call<FillUserInfoResponse> fillUserInfo(@Body FillUserInfoResponse fillUserInfoResponse);
 
     @POST("user/user_login")
@@ -37,5 +42,5 @@ public interface UserApiInterface {
     Call<EditInfoResponse> editInfo(@Body EditInfoResponse editInfoResponse);
 
     @POST("user/change_password")
-    Call<ChangePasswordResponse> changePassword(@Body ChangePasswordResponse changePasswordResponse);*/
+    Call<ChangePasswordResponse> changePassword(@Body ChangePasswordResponse changePasswordResponse);
 }

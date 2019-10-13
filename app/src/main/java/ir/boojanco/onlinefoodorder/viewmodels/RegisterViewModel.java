@@ -1,30 +1,54 @@
 package ir.boojanco.onlinefoodorder.viewmodels;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+
 
 import ir.boojanco.onlinefoodorder.models.user.RegisterResponse;
 import ir.boojanco.onlinefoodorder.networking.UserRepository;
+import ir.boojanco.onlinefoodorder.ui.navigator.MainNavigator;
+import ir.boojanco.onlinefoodorder.ui.base.BaseViewModel;
 
-public class RegisterViewModel extends ViewModel {
+public class RegisterViewModel extends BaseViewModel<MainNavigator> {
+    private final String TAG = RegisterViewModel.class.getSimpleName();
     public MutableLiveData<String> phoneNumber = new MutableLiveData<>();
     private MutableLiveData<RegisterResponse> mutableLiveData;
     private UserRepository userRepository;
 
-    public void init(String phoneNumber){
-        if(mutableLiveData != null)
+
+    public void init() {
+        if (mutableLiveData != null)
             return;
         userRepository = UserRepository.getInstance();
-        mutableLiveData = userRepository.registerUser(phoneNumber);
+
+        //mutableLiveData = userRepository.registerUser(null);
+
     }
 
-    public void onRegisterClicked(){
-        if(phoneNumber.getValue() != null)
-            init(phoneNumber.toString());
+    public void onRegisterClicked() {
+        Log.d(TAG, "1" + phoneNumber.getValue());
+        if (phoneNumber.getValue() != null) {
+            if (mutableLiveData == null) {
+                mutableLiveData = userRepository.registerUser(phoneNumber.getValue());
+                getNavigator().setObserver();
+            } else mutableLiveData = userRepository.registerUser(phoneNumber.getValue());
+
+
+        }
+
+
     }
 
-    public LiveData<RegisterResponse> getRegisterResponse(){
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+    }
+
+    public LiveData<RegisterResponse> getRegisterResponse() {
+
+
         return mutableLiveData;
     }
 }

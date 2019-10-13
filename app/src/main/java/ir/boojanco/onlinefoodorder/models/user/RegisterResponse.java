@@ -15,10 +15,10 @@ public class RegisterResponse {
     private String reason;
 
     //required fields
-    public RegisterResponse(String mobile) {
+    /*public RegisterResponse(String mobile) {
         this.mobile = mobile;
 
-    }
+    }*/
     /*public RegisterResponse(){}*/
 
     public String getReason() {
@@ -61,4 +61,8 @@ public class RegisterResponse {
     public void setVerificationCode(String verificationCode) {
         this.verificationCode = verificationCode;
     }
+
+    /*//public Boolean isValidate (){
+        return
+    }*/
 }

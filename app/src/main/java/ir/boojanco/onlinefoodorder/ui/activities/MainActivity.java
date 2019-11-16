@@ -2,6 +2,7 @@ package ir.boojanco.onlinefoodorder.ui.activities;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
@@ -11,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders;
 import ir.boojanco.onlinefoodorder.R;
 
 import ir.boojanco.onlinefoodorder.databinding.ActivityMainBinding;
+import ir.boojanco.onlinefoodorder.models.user.RegisterUserResponse;
 import ir.boojanco.onlinefoodorder.ui.base.BaseActivity;
 import ir.boojanco.onlinefoodorder.ui.navigator.MainNavigator;
 import ir.boojanco.onlinefoodorder.viewmodels.RegisterViewModel;
@@ -18,6 +20,7 @@ import ir.boojanco.onlinefoodorder.viewmodels.RegisterViewModel;
 public class MainActivity extends BaseActivity implements MainNavigator {
     private static String TAG = "regTest";
     private RegisterViewModel registerViewModel;
+    private RegisterUserResponse registerUserResponse;
     ActivityMainBinding binding;
 
 
@@ -41,7 +44,24 @@ public class MainActivity extends BaseActivity implements MainNavigator {
 
     @Override
     public void setObserver() {
-        registerViewModel.getRegisterResponse().observe(this, registerResponse -> Toast.makeText(MainActivity.this, "" + registerResponse.getMessage() + "verifyCode: " + registerResponse.getVerificationCode(), Toast.LENGTH_SHORT).show());
+        registerViewModel.getRegisterResponse().observe(this, registerUserResponse -> {
+            this.registerUserResponse = registerUserResponse;
+            Toast.makeText(this, "Verification Code : "+ registerUserResponse.getVerificationCode(), Toast.LENGTH_LONG).show();
+            Log.d(TAG,"message: "+ registerUserResponse.getMessage());
+            Log.d(TAG,"code: "+ registerUserResponse.getCode());
+            Log.d(TAG,"reason: "+ registerUserResponse.getReason());
+
+            registerViewModel.checkRegisterState(registerUserResponse);
+        });
+
+
+
+    }
+
+    @Override
+    public void onSuccessRegister() {
+        if(registerViewModel.authenticateVerificationCode(registerUserResponse.getVerificationCode()))
+            Toast.makeText(this, "registered successfully", Toast.LENGTH_SHORT).show();
     }
 
 }

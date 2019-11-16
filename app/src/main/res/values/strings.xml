@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">onlineFoodOrder</string>
+
+    <string name="welcome">خوش آمدید</string>
+    <string name="verification">تایید شماره موبایل</string>
+    <string name="login_info_activity">ورود</string>
+    <string name="register_info_activity">لطفا کد ارسال شده را وارد کنید</string>
+    <string name="hint_text_phone_number_edt_text">شماره موبایل</string>
+    <string name="hint_text_password_edt_text">کلمه عبور</string>
+    <string name="forgot_password"><u>کلمه عبور را فراموش کرده اید ؟</u></string>
+    <string name="send_again_verification_code">ارسال مجدد کد (60)</string>
 </resources>

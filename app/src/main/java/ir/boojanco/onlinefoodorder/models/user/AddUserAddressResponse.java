@@ -2,9 +2,9 @@ package ir.boojanco.onlinefoodorder.models.user;
 
 import com.google.gson.annotations.SerializedName;
 
-public class AddAddressResponse {
-    @SerializedName("mobile")
-    private String mobile;
+public class AddUserAddressResponse {
+    @SerializedName("id")
+    private long id;
     @SerializedName("address")
     private String address;
     @SerializedName("zipCode")
@@ -16,19 +16,19 @@ public class AddAddressResponse {
     @SerializedName("code")
     private String code;
 
-    public AddAddressResponse(String mobile, String address, String zipCode, long region_id) {
-        this.mobile = mobile;
+    /*public AddUserAddressResponse(String id, String address, String zipCode, long region_id) {
+        this.id = id;
         this.address = address;
         this.zipCode = zipCode;
         this.region_id = region_id;
+    }*/
+
+    public long getId() {
+        return id;
     }
 
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getAddress() {

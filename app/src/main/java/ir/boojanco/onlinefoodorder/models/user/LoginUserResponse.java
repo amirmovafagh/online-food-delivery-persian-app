@@ -12,11 +12,11 @@ public class LoginUserResponse {
     @SerializedName("message")
     private String message;
 
-    //required fields
+    /*//required fields
     public LoginUserResponse(String mobile, String password) {
         this.mobile = mobile;
         this.password = password;
-    }
+    }*/
 
     public String getMobile() {
         return mobile;

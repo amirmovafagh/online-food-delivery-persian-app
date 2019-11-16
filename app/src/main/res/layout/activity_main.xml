@@ -22,11 +22,11 @@
             tools:layout_editor_absoluteX="0dp">
 
             <EditText
-                android:id="@+id/inEmail"
+                android:id="@+id/inPhoneNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email"
-                android:inputType="textEmailAddress"
+                android:hint="Phone number"
+                android:inputType="phone"
                 android:padding="8dp"
                 android:text="@={registerViewModel.phoneNumber}" />
 
@@ -43,11 +43,12 @@
             tools:layout_editor_absoluteX="0dp">
 
             <EditText
-                android:id="@+id/inPassword"
+                android:id="@+id/inVerificationCode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Password"
-                android:inputType="textPassword"
+                android:hint="verification code"
+                android:text="@={registerViewModel.enterVerificationCode}"
+                android:inputType="text"
                 android:padding="8dp"
                  />
 

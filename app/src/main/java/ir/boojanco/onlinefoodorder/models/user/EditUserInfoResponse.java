@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import retrofit2.http.Body;
 
-public class EditInfoResponse {
+public class EditUserInfoResponse {
     @SerializedName("mobile") //maybe change in future
     private String mobile;
     @SerializedName("name")
@@ -19,7 +19,7 @@ public class EditInfoResponse {
     private String message;
 
     //required fields
-    public EditInfoResponse(String mobile, String name, String lastName, String birthDate) {
+    public EditUserInfoResponse(String mobile, String name, String lastName, String birthDate) {
         this.mobile = mobile;
         this.name = name;
         this.lastName = lastName;

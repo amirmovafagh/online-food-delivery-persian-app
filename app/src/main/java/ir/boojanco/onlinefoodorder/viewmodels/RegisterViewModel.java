@@ -1,20 +1,19 @@
 package ir.boojanco.onlinefoodorder.viewmodels;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-
-import ir.boojanco.onlinefoodorder.models.user.RegisterResponse;
+import ir.boojanco.onlinefoodorder.models.user.RegisterUserResponse;
 import ir.boojanco.onlinefoodorder.networking.UserRepository;
-import ir.boojanco.onlinefoodorder.ui.navigator.MainNavigator;
 import ir.boojanco.onlinefoodorder.ui.base.BaseViewModel;
+import ir.boojanco.onlinefoodorder.ui.navigator.MainNavigator;
 
 public class RegisterViewModel extends BaseViewModel<MainNavigator> {
-    private final String TAG = RegisterViewModel.class.getSimpleName();
+    private final static String TAG = RegisterViewModel.class.getSimpleName();
+
     public MutableLiveData<String> phoneNumber = new MutableLiveData<>();
-    private MutableLiveData<RegisterResponse> mutableLiveData;
+    public MutableLiveData<String> enterVerificationCode = new MutableLiveData<>();
+    private MutableLiveData<RegisterUserResponse> mutableLiveData;
     private UserRepository userRepository;
 
 
@@ -22,18 +21,16 @@ public class RegisterViewModel extends BaseViewModel<MainNavigator> {
         if (mutableLiveData != null)
             return;
         userRepository = UserRepository.getInstance();
-
-        //mutableLiveData = userRepository.registerUser(null);
-
     }
 
     public void onRegisterClicked() {
-        Log.d(TAG, "1" + phoneNumber.getValue());
-        if (phoneNumber.getValue() != null) {
+        if (isValidPhoneNumber()) {
             if (mutableLiveData == null) {
                 mutableLiveData = userRepository.registerUser(phoneNumber.getValue());
                 getNavigator().setObserver();
-            } else mutableLiveData = userRepository.registerUser(phoneNumber.getValue());
+            } else  {
+                mutableLiveData = userRepository.registerUser(phoneNumber.getValue());
+            }
 
 
         }
@@ -46,9 +43,33 @@ public class RegisterViewModel extends BaseViewModel<MainNavigator> {
         super.onCleared();
     }
 
-    public LiveData<RegisterResponse> getRegisterResponse() {
-
-
+    public LiveData<RegisterUserResponse> getRegisterResponse() {
         return mutableLiveData;
+    }
+
+    private boolean isValidPhoneNumber() {
+        return phoneNumber.getValue() != null && phoneNumber.getValue().length() > 10;
+    }
+
+    public void checkRegisterState(RegisterUserResponse mRegisterUserResponse){
+        /*switch(mRegisterUserResponse.getState()){
+            case "1":   // new register
+                if(authenticateVerificationCode(mRegisterUserResponse.getVerificationCode())){
+                    getNavigator().onSuccessRegister();
+                }
+                return;
+            case "2":   // is regitered already but dont check the verification code yet!
+                return;
+            case "3":   //
+                return;
+            case "4":
+                return;
+        }*/
+    }
+
+    public boolean authenticateVerificationCode(String serverVerificationCode) {
+
+        return serverVerificationCode.equalsIgnoreCase(enterVerificationCode.getValue());
+
     }
 }

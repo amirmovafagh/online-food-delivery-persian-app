@@ -2,7 +2,7 @@ package ir.boojanco.onlinefoodorder.models.user;
 
 import com.google.gson.annotations.SerializedName;
 
-public class RegisterResponse {
+public class RegisterUserResponse {
     @SerializedName("code")
     private String code;
     @SerializedName("mobile")
@@ -13,13 +13,23 @@ public class RegisterResponse {
     private String verificationCode;
     @SerializedName("reason")
     private String reason;
+    @SerializedName("state")
+    private String state;
 
     //required fields
-    /*public RegisterResponse(String mobile) {
+    /*public RegisterUserResponse(String mobile) {
         this.mobile = mobile;
 
     }*/
-    /*public RegisterResponse(){}*/
+    /*public RegisterUserResponse(){}*/
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 
     public String getReason() {
         return reason;

@@ -6,4 +6,5 @@
     <color name="colorAccent">#ff6659</color>
 
     <color name="colorEdtTextHalfRounded">#B2FF6659</color>
+    <color name="colorBotomNavigationNotSelected">#808080</color>
 </resources>

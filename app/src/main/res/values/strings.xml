@@ -9,4 +9,8 @@
     <string name="hint_text_password_edt_text">کلمه عبور</string>
     <string name="forgot_password"><u>کلمه عبور را فراموش کرده اید ؟</u></string>
     <string name="send_again_verification_code">ارسال مجدد کد (60)</string>
+    <string name="userProfile">پروفایل</string>
+    <string name="cart">سفارشات</string>
+    <string name="restaurants">رستوران ها</string>
+    <string name="home">خانه</string>
 </resources>

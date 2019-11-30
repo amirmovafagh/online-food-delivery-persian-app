@@ -27,7 +27,7 @@ public class RegisterViewModel extends BaseViewModel<MainNavigator> {
         if (isValidPhoneNumber()) {
             if (mutableLiveData == null) {
                 mutableLiveData = userRepository.registerUser(phoneNumber.getValue());
-                getNavigator().setObserver();
+                //getNavigator().setObserver();
             } else  {
                 mutableLiveData = userRepository.registerUser(phoneNumber.getValue());
             }

@@ -1,81 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="registerViewModel"
-            type="ir.boojanco.onlinefoodorder.viewmodels.RegisterViewModel" />
+            name="main"
+            type="ir.boojanco.onlinefoodorder.viewmodels.MainViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layoutDirection="rtl"
+        >
 
-        <include layout="@layout/bottom_app_bar" />
+        <include layout="@layout/bottom_navigation_menu"
+            bind:secMain="@{main}"/>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
 
-            app:errorEnabled="true"
-            app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="0dp">
-
-            <EditText
-                android:id="@+id/inPhoneNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Phone number"
-                android:inputType="phone"
-                android:padding="8dp"
-                android:text="@={registerViewModel.phoneNumber}" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            app:errorEnabled="true"
-            app:layout_constraintBottom_toTopOf="@+id/progressBar"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="0dp">
-
-            <EditText
-                android:id="@+id/inVerificationCode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="verification code"
-                android:text="@={registerViewModel.enterVerificationCode}"
-                android:inputType="text"
-                android:padding="8dp"
-                 />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="@{()-> registerViewModel.onRegisterClicked()}"
-            android:text="LOGIN"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progressBar"
-            tools:layout_editor_absoluteX="-16dp" />
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

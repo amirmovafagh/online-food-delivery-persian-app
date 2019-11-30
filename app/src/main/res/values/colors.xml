@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#d32f2f</color>
+    <color name="colorPrimary">#e53935</color>
     <color name="colorPrimaryDark">#9a0007</color>
-    <color name="colorPrimaryLight">#ff6659</color>
-    <color name="colorAccent">#ff6659</color>
+    <color name="colorPrimaryLight">#ff6f60</color>
+    <color name="colorAccent">#ff6f60</color>
 
     <color name="colorEdtTextHalfRounded">#B2FF6659</color>
     <color name="colorBotomNavigationNotSelected">#808080</color>

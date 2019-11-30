@@ -19,10 +19,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="@android:color/white"
+            android:background="?android:attr/windowBackground"
             app:itemIconTint="@drawable/bottom_navigation_selector"
-            app:itemTextColor="@color/colorPrimary"
-            app:onNavigationItemSelected="@{secMain::onNavigationClick}"
+            app:onNavigationItemSelected="@{secMain::onNavigationItemSelected}"
             app:menu="@menu/bottom_navigation_menu" />
 
     </FrameLayout>

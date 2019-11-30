@@ -6,22 +6,18 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import ir.boojanco.onlinefoodorder.ui.base.BaseViewModel;
 import ir.boojanco.onlinefoodorder.ui.navigator.MainNavigator;
 
-public class MainViewModel extends BaseViewModel<MainNavigator> {
+public class MainViewModel extends BaseViewModel<MainNavigator> implements BottomNavigationView.OnNavigationItemSelectedListener{
     private static final String TAG =MainViewModel.class.getSimpleName();
-    private Application application;
 
-    public MainViewModel(Application application){
-        this.application = application;
-    }
 
-    public boolean onNavigationClick(@NonNull MenuItem item){
-        /*switch (item.getItemId()){
-
-        }*/
-        Log.i(TAG,""+item.getItemId());
-        return true;
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        Log.e(TAG, ""+menuItem.getItemId());
+        return false;
     }
 }

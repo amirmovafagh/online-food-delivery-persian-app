@@ -10,6 +10,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationMenu;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -51,38 +53,13 @@ public class MainActivity extends BaseActivity implements MainNavigator {
         binding.setMain(mainViewModel); // connect activity_Main variable to ViewModel class
         // Specify the current activity as the lifecycle owner.
         binding.setLifecycleOwner(this);
-
-        fm.beginTransaction().add(R.id.fragment_frame_layout, cartFragment, "3").hide(cartFragment).commit();
-        fm.beginTransaction().add(R.id.fragment_frame_layout, userProfileFragment, "3").hide(userProfileFragment).commit();
-        fm.beginTransaction().add(R.id.fragment_frame_layout, restaurantFragment, "2").hide(restaurantFragment).commit();
-        fm.beginTransaction().add(R.id.fragment_frame_layout, homeFragment, "1").commit();
         bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
+        NavHostFragment navHostFragment = (NavHostFragment)getSupportFragmentManager()
+                .findFragmentById(R.id.nav_host_fragment);
+        assert navHostFragment != null;
+        NavigationUI.setupWithNavController(bottomNavigationView,
+                navHostFragment.getNavController());
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = item -> {
-                switch (item.getItemId()) {
-                    case R.id.home_fragment:
-                        fm.beginTransaction().hide(active).show(homeFragment).commit();
-                        active = homeFragment;
-                        return true;
 
-                    case R.id.cart_fragment:
-                        fm.beginTransaction().hide(active).show(cartFragment).commit();
-                        active = cartFragment;
-                        return true;
-
-                    case R.id.user_profile_fragment:
-                        fm.beginTransaction().hide(active).show(userProfileFragment).commit();
-                        active = userProfileFragment;
-                        return true;
-                    case R.id.restaurants_fragment:
-                        fm.beginTransaction().hide(active).show(restaurantFragment).commit();
-                        active = restaurantFragment;
-                        return true;
-                }
-                return false;
-            };
 }

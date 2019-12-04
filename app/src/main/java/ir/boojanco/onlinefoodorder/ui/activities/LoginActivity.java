@@ -1,20 +1,24 @@
 package ir.boojanco.onlinefoodorder.ui.activities;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import ir.boojanco.onlinefoodorder.LoginAuth;
 import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.databinding.ActivityLoginBinding;
-import ir.boojanco.onlinefoodorder.ui.base.BaseActivity;
-import ir.boojanco.onlinefoodorder.ui.navigator.LoginNavigator;
+import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
 import ir.boojanco.onlinefoodorder.viewmodels.LoginViewModel;
 
-public class LoginActivity extends BaseActivity implements LoginNavigator {
+public class LoginActivity extends AppCompatActivity implements LoginAuth {
     private LoginViewModel loginViewModel;
     ActivityLoginBinding binding;
     EditText password;
@@ -30,7 +34,7 @@ public class LoginActivity extends BaseActivity implements LoginNavigator {
         binding.setUserLogin(loginViewModel); // connect activity_Main variable to ViewModel class
         // Specify the current activity as the lifecycle owner.
         binding.setLifecycleOwner(this);
-        loginViewModel.setNavigator(this);
+        loginViewModel.loginAuth = this;
 
         loginViewModel.init();
         password = findViewById(R.id.loginPasswordEdtText);
@@ -38,8 +42,22 @@ public class LoginActivity extends BaseActivity implements LoginNavigator {
         password.setTransformationMethod(new PasswordTransformationMethod());
     }
 
+
+
     @Override
-    public void setObserver() {
+    public void onStarted() {
+        Toast.makeText(this, "AAA", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSuccess(MutableLiveData<LoginUserResponse> loginMutableLiveData) {
+        if(loginMutableLiveData!= null) {
+            loginMutableLiveData.observe(this, loginUserResponse -> Toast.makeText(LoginActivity.this, "" + loginUserResponse.getId(), Toast.LENGTH_SHORT).show());
+        }else Toast.makeText(LoginActivity.this, "deghattttt" , Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onFailure() {
 
     }
 }

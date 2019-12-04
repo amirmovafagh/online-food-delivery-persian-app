@@ -8,6 +8,7 @@ import ir.boojanco.onlinefoodorder.models.user.FillUserInfoResponse;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
 import ir.boojanco.onlinefoodorder.models.user.RegisterUserResponse;
 import ir.boojanco.onlinefoodorder.models.user.VerifyEmailResponse;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -30,7 +31,8 @@ public interface UserApiInterface {
     @POST("user/fill_info")
     Call<FillUserInfoResponse> fillUserInfo(@Body FillUserInfoResponse fillUserInfoResponse);
 
-    @POST("user/user_login")
+    @POST("/api/v1/auth/login")
+    @FormUrlEncoded
     Call<LoginUserResponse> loginUser(@Field("mobile") String phoneNumber, @Field("password") String password);
 
     @POST("user/verify_Email")

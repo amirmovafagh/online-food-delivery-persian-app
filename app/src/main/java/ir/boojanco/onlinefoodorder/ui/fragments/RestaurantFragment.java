@@ -1,5 +1,6 @@
 package ir.boojanco.onlinefoodorder.ui.fragments;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -36,4 +37,10 @@ public class RestaurantFragment extends Fragment {
         // TODO: Use the ViewModel
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+
+    }
 }

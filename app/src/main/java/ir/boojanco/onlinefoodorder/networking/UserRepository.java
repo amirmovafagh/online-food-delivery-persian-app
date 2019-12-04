@@ -1,12 +1,14 @@
 package ir.boojanco.onlinefoodorder.networking;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import ir.boojanco.onlinefoodorder.models.user.AddUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.ChangeUserPasswordResponse;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
 import ir.boojanco.onlinefoodorder.models.user.RegisterUserResponse;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,7 +46,14 @@ public class UserRepository {
             @Override
             public void onResponse(Call<LoginUserResponse> call, Response<LoginUserResponse> response) {
                 if (response.isSuccessful())
-                    loginData.setValue(response.body());
+
+                        loginData.setValue(response.body());
+
+
+                 /*else {
+                         loginData.setValue(response.errorBody().);
+
+                }*/
             }
 
             @Override

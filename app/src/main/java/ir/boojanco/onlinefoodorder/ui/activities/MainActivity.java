@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 
 import androidx.fragment.app.Fragment;
@@ -29,7 +31,7 @@ import ir.boojanco.onlinefoodorder.ui.navigator.MainNavigator;
 import ir.boojanco.onlinefoodorder.viewmodels.MainViewModel;
 
 
-public class MainActivity extends BaseActivity implements MainNavigator {
+public class MainActivity extends AppCompatActivity  {
     private static String TAG = "regTest";
     private MainViewModel mainViewModel;
     ActivityMainBinding binding;
@@ -40,7 +42,7 @@ public class MainActivity extends BaseActivity implements MainNavigator {
     final FragmentManager fm = getSupportFragmentManager();
     Fragment active = homeFragment;
     BottomNavigationView bottomNavigationView ;
-
+    Toolbar myToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,9 @@ public class MainActivity extends BaseActivity implements MainNavigator {
         assert navHostFragment != null;
         NavigationUI.setupWithNavController(bottomNavigationView,
                 navHostFragment.getNavController());
+
+        myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
     }
 
 

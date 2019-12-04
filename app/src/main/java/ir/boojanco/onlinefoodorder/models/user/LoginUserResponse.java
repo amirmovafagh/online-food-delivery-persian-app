@@ -7,10 +7,14 @@ public class LoginUserResponse {
     private String mobile;
     @SerializedName("password")
     private String password;
-    @SerializedName("code")
-    private String code;
+    @SerializedName("name")
+    private String name;
+    @SerializedName("email")
+    private String email;
     @SerializedName("message")
     private String message;
+    @SerializedName("id")
+    private String id;
 
     /*//required fields
     public LoginUserResponse(String mobile, String password) {
@@ -34,8 +38,16 @@ public class LoginUserResponse {
         this.password = password;
     }
 
-    public String getCode() {
-        return code;
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getMessage() {

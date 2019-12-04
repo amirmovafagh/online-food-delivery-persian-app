@@ -58,6 +58,10 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0-rc01'
     implementation "androidx.lifecycle:lifecycle-common-java8:2.0.0"
 
+    implementation 'com.google.dagger:dagger-android:2.20'
+    implementation 'com.google.dagger:dagger-android-support:2.20'
+
+
     implementation 'com.github.mukeshsolanki:android-otpview-pinview:2.1.0'
 //for verification code view
 

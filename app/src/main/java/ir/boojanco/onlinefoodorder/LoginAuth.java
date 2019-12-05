@@ -7,6 +7,6 @@ import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
 
 public interface LoginAuth {
     void onStarted();
-    void onSuccess(MutableLiveData<LoginUserResponse> loginMutableLiveData);
-    void onFailure();
+    void onSuccess(LoginUserResponse loginUserResponse);
+    void onFailure(String Error);
 }

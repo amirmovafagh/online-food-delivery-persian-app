@@ -12,6 +12,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -41,8 +42,9 @@ public class UserRepository {
         userApiInterface = RetrofitService.getService().create(UserApiInterface.class);
     }
 
-    public MutableLiveData<LoginUserResponse> loginUser(@NonNull String phoneNumber, String password) {
-        userApiInterface.loginUser(phoneNumber, password).enqueue(new Callback<LoginUserResponse>() {
+    public Observable<LoginUserResponse> loginUser(@NonNull String phoneNumber, String password) {
+        return userApiInterface.loginUser(phoneNumber, password);
+    /*.enqueue(new Callback<LoginUserResponse>() {
             @Override
             public void onResponse(Call<LoginUserResponse> call, Response<LoginUserResponse> response) {
                 if (response.isSuccessful())
@@ -50,10 +52,10 @@ public class UserRepository {
                         loginData.setValue(response.body());
 
 
-                 /*else {
+                 *//*else {
                          loginData.setValue(response.errorBody().);
 
-                }*/
+                }*//*
             }
 
             @Override
@@ -61,7 +63,7 @@ public class UserRepository {
                 loginData.setValue(null);
             }
         });
-        return loginData;
+        return loginData;*/
     }
 
     public MutableLiveData<RegisterUserResponse> registerUser(@NonNull String phoneNumber) {

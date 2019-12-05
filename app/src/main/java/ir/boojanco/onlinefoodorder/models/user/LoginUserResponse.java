@@ -5,8 +5,6 @@ import com.google.gson.annotations.SerializedName;
 public class LoginUserResponse {
     @SerializedName("mobile")
     private String mobile;
-    @SerializedName("password")
-    private String password;
     @SerializedName("name")
     private String name;
     @SerializedName("email")
@@ -30,13 +28,6 @@ public class LoginUserResponse {
         this.mobile = mobile;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getName() {
         return name;

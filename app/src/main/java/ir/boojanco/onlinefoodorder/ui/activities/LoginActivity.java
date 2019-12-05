@@ -43,21 +43,19 @@ public class LoginActivity extends AppCompatActivity implements LoginAuth {
     }
 
 
-
     @Override
     public void onStarted() {
         Toast.makeText(this, "AAA", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onSuccess(MutableLiveData<LoginUserResponse> loginMutableLiveData) {
-        if(loginMutableLiveData!= null) {
-            loginMutableLiveData.observe(this, loginUserResponse -> Toast.makeText(LoginActivity.this, "" + loginUserResponse.getId(), Toast.LENGTH_SHORT).show());
-        }else Toast.makeText(LoginActivity.this, "deghattttt" , Toast.LENGTH_SHORT).show();
+    public void onSuccess(LoginUserResponse loginUserResponse) {
+        if (loginUserResponse != null)
+            Toast.makeText(LoginActivity.this, "" + loginUserResponse.getId(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onFailure() {
-
+    public void onFailure(String error) {
+        Toast.makeText(LoginActivity.this, "" + error, Toast.LENGTH_SHORT).show();
     }
 }

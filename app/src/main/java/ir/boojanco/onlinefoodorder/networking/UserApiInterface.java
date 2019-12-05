@@ -10,6 +10,7 @@ import ir.boojanco.onlinefoodorder.models.user.RegisterUserResponse;
 import ir.boojanco.onlinefoodorder.models.user.VerifyEmailResponse;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -33,7 +34,7 @@ public interface UserApiInterface {
 
     @POST("/api/v1/auth/login")
     @FormUrlEncoded
-    Call<LoginUserResponse> loginUser(@Field("mobile") String phoneNumber, @Field("password") String password);
+    Observable<LoginUserResponse> loginUser(@Field("mobile") String phoneNumber, @Field("password") String password);
 
     @POST("user/verify_Email")
     Call<VerifyEmailResponse> verifyEmail(@Body VerifyEmailResponse verifyEmailResponse);

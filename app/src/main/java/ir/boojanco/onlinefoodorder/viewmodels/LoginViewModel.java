@@ -5,11 +5,20 @@ import android.util.Patterns;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import java.io.IOException;
+
 import ir.boojanco.onlinefoodorder.LoginAuth;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
 import ir.boojanco.onlinefoodorder.networking.UserRepository;
 import ir.boojanco.onlinefoodorder.ui.base.BaseViewModel;
 import ir.boojanco.onlinefoodorder.ui.navigator.LoginNavigator;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class LoginViewModel extends BaseViewModel<LoginNavigator> {
     private static final String TAG = LoginViewModel.class.getSimpleName();
@@ -35,10 +44,25 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
 
         if (isValidPhoneNumber(phoneNumber.getValue()) && isPasswordNull(password.getValue())) {
             loginAuth.onStarted();
+            Observable<LoginUserResponse> observable = userRepository.loginUser(phoneNumber.getValue(), password.getValue());
+            if(observable != null ){
+                observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<LoginUserResponse>() {
+                    @Override
+                    public void onCompleted() {
 
-            loginMutableLiveData = userRepository.loginUser(phoneNumber.getValue(), password.getValue());
-            if(loginMutableLiveData != null)
-                loginAuth.onSuccess(loginMutableLiveData);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        loginAuth.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(LoginUserResponse loginUserResponse) {
+                        loginAuth.onSuccess(loginUserResponse);
+                    }
+                });
+            }
 
         }
     }

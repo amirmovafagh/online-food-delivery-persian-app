@@ -17,18 +17,22 @@ import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.databinding.ActivityLoginBinding;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
 import ir.boojanco.onlinefoodorder.viewmodels.LoginViewModel;
+import ir.boojanco.onlinefoodorder.viewmodels.LoginViewModelFactory;
 
 public class LoginActivity extends AppCompatActivity implements LoginAuth {
     private LoginViewModel loginViewModel;
     ActivityLoginBinding binding;
     EditText password;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        LoginViewModelFactory factory =
+                new LoginViewModelFactory(getApplication());
         // get view model
-        loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
+        loginViewModel = ViewModelProviders.of(this,factory).get(LoginViewModel.class);
         // Inflate view and obtain an instance of the binding class.
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         binding.setUserLogin(loginViewModel); // connect activity_Main variable to ViewModel class

@@ -1,31 +1,18 @@
 package ir.boojanco.onlinefoodorder.viewmodels;
 
-import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 import android.util.Patterns;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.lang.annotation.Annotation;
-
 import ir.boojanco.onlinefoodorder.LoginAuth;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
 import ir.boojanco.onlinefoodorder.networking.UserRepository;
-import ir.boojanco.onlinefoodorder.ui.base.BaseViewModel;
-import ir.boojanco.onlinefoodorder.ui.navigator.LoginNavigator;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Converter;
+import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
 import retrofit2.HttpException;
 import retrofit2.Response;
 import rx.Observable;
@@ -51,11 +38,11 @@ public class LoginViewModel extends ViewModel {
     public void init() {
         if (userRepository != null)
             return;
-        userRepository = UserRepository.getInstance();
+        userRepository = UserRepository.getInstance(context);
     }
 
     public void onLoginClick() {
-        Toast.makeText(context, "Test Factory Class", Toast.LENGTH_SHORT).show();
+
         if (isValidPhoneNumber(phoneNumber.getValue()) && isPasswordNull(password.getValue())) {
             loginAuth.onStarted();
             Observable<LoginUserResponse> observable = userRepository.loginUser(phoneNumber.getValue(), password.getValue());
@@ -63,7 +50,6 @@ public class LoginViewModel extends ViewModel {
                 observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<LoginUserResponse>() {
                     @Override
                     public void onCompleted() {
-
                     }
 
                     @Override
@@ -78,6 +64,8 @@ public class LoginViewModel extends ViewModel {
                                 loginAuth.onFailure(jObjError.getString("message"));
 
 
+                            } catch (NoNetworkConnectionException noInternet){
+                                loginAuth.onFailure(noInternet.getMessage());
                             } catch (Exception d) {
                                 loginAuth.onFailure(d.getMessage());
                             }

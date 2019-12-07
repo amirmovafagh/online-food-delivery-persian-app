@@ -1,5 +1,7 @@
 package ir.boojanco.onlinefoodorder.networking;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -25,21 +27,21 @@ public class UserRepository {
     private static MutableLiveData<ChangeUserPasswordResponse> changeUserPasswordData;
 
 
-    public static UserRepository getInstance() {
+    public static UserRepository getInstance(Context context) {
         registerData = new MutableLiveData<>();//must define here if get instance every time we open the app old data return from observer
         loginData = new MutableLiveData<>();
         addAddressData = new MutableLiveData<>();
         changeUserPasswordData = new MutableLiveData<>();
         if (userRepository == null) {
-            userRepository = new UserRepository();
+            userRepository = new UserRepository(context);
         }
         return userRepository;
     }
 
     private UserApiInterface userApiInterface;
 
-    public UserRepository() {
-        userApiInterface = RetrofitService.getService().create(UserApiInterface.class);
+    public UserRepository(Context context) {
+        userApiInterface = RetrofitService.getService(context).create(UserApiInterface.class);
     }
 
     public Observable<LoginUserResponse> loginUser(@NonNull String phoneNumber, String password) {

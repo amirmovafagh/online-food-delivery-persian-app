@@ -1,5 +1,7 @@
 package ir.boojanco.onlinefoodorder.viewmodels;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -15,12 +17,16 @@ public class RegisterViewModel extends BaseViewModel<MainNavigator> {
     public MutableLiveData<String> enterVerificationCode = new MutableLiveData<>();
     private MutableLiveData<RegisterUserResponse> mutableLiveData;
     private UserRepository userRepository;
+    private Context context;
 
+    public RegisterViewModel(Context context){
+        this.context = context;
+    }
 
     public void init() {
         if (mutableLiveData != null)
             return;
-        userRepository = UserRepository.getInstance();
+        userRepository = UserRepository.getInstance(context);
     }
 
     public void onRegisterClicked() {

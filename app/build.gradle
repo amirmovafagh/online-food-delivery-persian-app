@@ -33,6 +33,7 @@ android {
 def lifecycle_version = "2.2.0"
 def retrofit_version = "2.4.0"
 def nav_version = "2.1.0"
+def dagger_version = "2.23.2"
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -58,8 +59,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0-rc01'
     implementation "androidx.lifecycle:lifecycle-common-java8:2.0.0"
     //dagger
-    implementation 'com.google.dagger:dagger:2.23.2'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.23.2'
+    implementation "com.google.dagger:dagger:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
 
     //for verification code view
     implementation 'com.github.mukeshsolanki:android-otpview-pinview:2.1.0'

@@ -6,14 +6,18 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.Application;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import javax.inject.Inject;
+
 import ir.boojanco.onlinefoodorder.LoginAuth;
 import ir.boojanco.onlinefoodorder.R;
+import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.databinding.ActivityLoginBinding;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
 import ir.boojanco.onlinefoodorder.viewmodels.LoginViewModel;
@@ -24,13 +28,21 @@ public class LoginActivity extends AppCompatActivity implements LoginAuth {
     ActivityLoginBinding binding;
     EditText password;
 
+    @Inject
+    Application application;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // assign singleton instances to fields
+        // We need to cast to `App` in order to get the right method
+        ((App) getApplicationContext()).getComponent().inject(this);
+
+
         LoginViewModelFactory factory =
-                new LoginViewModelFactory(getApplication());
+                new LoginViewModelFactory(application);
         // get view model
         loginViewModel = ViewModelProviders.of(this,factory).get(LoginViewModel.class);
         // Inflate view and obtain an instance of the binding class.

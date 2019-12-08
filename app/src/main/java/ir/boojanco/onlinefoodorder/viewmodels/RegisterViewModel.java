@@ -23,11 +23,11 @@ public class RegisterViewModel extends BaseViewModel<MainNavigator> {
         this.context = context;
     }
 
-    public void init() {
+   /* public void init() {
         if (mutableLiveData != null)
             return;
         userRepository = UserRepository.getInstance(context);
-    }
+    }*/
 
     public void onRegisterClicked() {
         if (isValidPhoneNumber()) {

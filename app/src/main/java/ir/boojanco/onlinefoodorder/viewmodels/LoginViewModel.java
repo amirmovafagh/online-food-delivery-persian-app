@@ -31,15 +31,12 @@ public class LoginViewModel extends ViewModel {
     private UserRepository userRepository;
     private Context context;
 
-    public LoginViewModel(Context context) {
+    public LoginViewModel(Context context, UserRepository userRepository) {
         this.context = context;
+        this.userRepository = userRepository;
     }
 
-    public void init() {
-        if (userRepository != null)
-            return;
-        userRepository = UserRepository.getInstance(context);
-    }
+
 
     public void onLoginClick() {
 

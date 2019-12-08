@@ -20,8 +20,10 @@ import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.databinding.ActivityLoginBinding;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
+import ir.boojanco.onlinefoodorder.networking.UserRepository;
 import ir.boojanco.onlinefoodorder.viewmodels.LoginViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.LoginViewModelFactory;
+import retrofit2.Retrofit;
 
 public class LoginActivity extends AppCompatActivity implements LoginAuth {
     private LoginViewModel loginViewModel;
@@ -30,19 +32,19 @@ public class LoginActivity extends AppCompatActivity implements LoginAuth {
 
     @Inject
     Application application;
+    @Inject
+    LoginViewModelFactory factory;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // assign singleton instances to fields
         // We need to cast to `App` in order to get the right method
         ((App) getApplicationContext()).getComponent().inject(this);
 
 
-        LoginViewModelFactory factory =
-                new LoginViewModelFactory(application);
+
         // get view model
         loginViewModel = ViewModelProviders.of(this,factory).get(LoginViewModel.class);
         // Inflate view and obtain an instance of the binding class.
@@ -52,7 +54,7 @@ public class LoginActivity extends AppCompatActivity implements LoginAuth {
         binding.setLifecycleOwner(this);
         loginViewModel.loginAuth = this;
 
-        loginViewModel.init();
+
         password = findViewById(R.id.loginPasswordEdtText);
         password.setTypeface(Typeface.DEFAULT);
         password.setTransformationMethod(new PasswordTransformationMethod());

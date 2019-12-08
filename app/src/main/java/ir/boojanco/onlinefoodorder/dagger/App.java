@@ -13,7 +13,7 @@ public class App extends Application {
         component = DaggerAppComponent.builder()
                 // list of modules that are part of this component need to be created here too
                 .appModule(new AppModule(this)) //This also corresponds to the name of your module: %component_name%Module
-                .sharedPreferencesModule(new SharedPreferencesModule())
+                .netModule(new NetModule("http://198.143.180.86:8080"))
                 .build();
 
         // If a Dagger 2 component does not have any constructor arguments for any of its modules,

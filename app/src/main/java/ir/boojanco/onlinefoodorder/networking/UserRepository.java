@@ -14,6 +14,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -25,23 +26,17 @@ public class UserRepository {
     private static MutableLiveData<LoginUserResponse> loginData;
     private static MutableLiveData<AddUserAddressResponse> addAddressData;
     private static MutableLiveData<ChangeUserPasswordResponse> changeUserPasswordData;
+    
 
+    private UserApiInterface userApiInterface;
 
-    public static UserRepository getInstance(Context context) {
+    public UserRepository(Retrofit retrofit) {
+        userApiInterface = retrofit.create(UserApiInterface.class);
         registerData = new MutableLiveData<>();//must define here if get instance every time we open the app old data return from observer
         loginData = new MutableLiveData<>();
         addAddressData = new MutableLiveData<>();
         changeUserPasswordData = new MutableLiveData<>();
-        if (userRepository == null) {
-            userRepository = new UserRepository(context);
-        }
-        return userRepository;
-    }
 
-    private UserApiInterface userApiInterface;
-
-    public UserRepository(Context context) {
-        userApiInterface = RetrofitService.getService(context).create(UserApiInterface.class);
     }
 
     public Observable<LoginUserResponse> loginUser(@NonNull String phoneNumber, String password) {

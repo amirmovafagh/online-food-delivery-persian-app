@@ -1,4 +1,4 @@
-package ir.boojanco.onlinefoodorder;
+package ir.boojanco.onlinefoodorder.viewmodels.interfaces;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

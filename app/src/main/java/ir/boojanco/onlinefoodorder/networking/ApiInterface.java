@@ -18,9 +18,9 @@ import retrofit2.http.POST;
 import rx.Observable;
 
 
-public interface UserApiInterface {
+public interface ApiInterface {
 
-    @POST("user/register")
+    @POST("api/v1/auth/register")
     //@Headers("Content-Type: application/x-www-form-urlencoded")
     @FormUrlEncoded
     Observable<RegisterUserResponse> registerUser(@Field("mobile") String phoneNumber/*@Body RegisterUserResponse registerResponse*/);

@@ -5,13 +5,15 @@ import javax.inject.Singleton;
 import dagger.Component;
 import ir.boojanco.onlinefoodorder.ui.activities.LoginActivity;
 import ir.boojanco.onlinefoodorder.ui.activities.MainActivity;
+import ir.boojanco.onlinefoodorder.ui.activities.RegisterActivity;
 
 @Singleton
 @Component(modules = {AppModule.class, NetModule.class})
 public interface AppComponent {
-    void inject(LoginActivity mainActivity);
+    void inject(LoginActivity loginActivity);
 
-    void inject(MainActivity usbService);
+    void inject(MainActivity mainActivity);
+    void inject(RegisterActivity registerActivity);
 
 }
 

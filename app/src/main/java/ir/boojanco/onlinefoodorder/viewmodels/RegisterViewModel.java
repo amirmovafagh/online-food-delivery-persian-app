@@ -1,26 +1,32 @@
 package ir.boojanco.onlinefoodorder.viewmodels;
 
 import android.content.Context;
+import android.content.Intent;
+import android.view.View;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import ir.boojanco.onlinefoodorder.models.user.RegisterUserResponse;
 import ir.boojanco.onlinefoodorder.networking.UserRepository;
+import ir.boojanco.onlinefoodorder.ui.activities.LoginActivity;
 import ir.boojanco.onlinefoodorder.ui.base.BaseViewModel;
 import ir.boojanco.onlinefoodorder.ui.navigator.MainNavigator;
+import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RegisterAuth;
 
 public class RegisterViewModel extends BaseViewModel<MainNavigator> {
     private final static String TAG = RegisterViewModel.class.getSimpleName();
-
+    public RegisterAuth registerAuth;
     public MutableLiveData<String> phoneNumber = new MutableLiveData<>();
+    public MutableLiveData<String> phoneNumberError = new MutableLiveData<>();
     public MutableLiveData<String> enterVerificationCode = new MutableLiveData<>();
     private MutableLiveData<RegisterUserResponse> mutableLiveData;
     private UserRepository userRepository;
     private Context context;
 
-    public RegisterViewModel(Context context){
+    public RegisterViewModel(Context context, UserRepository userRepository){
         this.context = context;
+        this.userRepository = userRepository;
     }
 
    /* public void init() {
@@ -29,7 +35,7 @@ public class RegisterViewModel extends BaseViewModel<MainNavigator> {
         userRepository = UserRepository.getInstance(context);
     }*/
 
-    public void onRegisterClicked() {
+    public void onRegisterClick(View view) {
         if (isValidPhoneNumber()) {
             if (mutableLiveData == null) {
                 mutableLiveData = userRepository.registerUser(phoneNumber.getValue());
@@ -42,6 +48,11 @@ public class RegisterViewModel extends BaseViewModel<MainNavigator> {
         }
 
 
+    }
+
+    public  void goToLoginActivity (View view){
+        Intent i = new Intent(view.getContext(), LoginActivity.class);
+        view.getContext().startActivity(i);
     }
 
     @Override

@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel;
 
 import org.json.JSONObject;
 
-import ir.boojanco.onlinefoodorder.LoginAuth;
+import ir.boojanco.onlinefoodorder.viewmodels.interfaces.LoginAuth;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
 import ir.boojanco.onlinefoodorder.networking.UserRepository;
 import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;

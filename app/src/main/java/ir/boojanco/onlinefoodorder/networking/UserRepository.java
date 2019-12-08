@@ -1,19 +1,12 @@
 package ir.boojanco.onlinefoodorder.networking;
 
-import android.content.Context;
-
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import ir.boojanco.onlinefoodorder.models.user.AddUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.ChangeUserPasswordResponse;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
 import ir.boojanco.onlinefoodorder.models.user.RegisterUserResponse;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Observable;
 import rx.Subscriber;
@@ -28,10 +21,10 @@ public class UserRepository {
     private static MutableLiveData<ChangeUserPasswordResponse> changeUserPasswordData;
     
 
-    private UserApiInterface userApiInterface;
+    private ApiInterface apiInterface;
 
     public UserRepository(Retrofit retrofit) {
-        userApiInterface = retrofit.create(UserApiInterface.class);
+        apiInterface = retrofit.create(ApiInterface.class);
         registerData = new MutableLiveData<>();//must define here if get instance every time we open the app old data return from observer
         loginData = new MutableLiveData<>();
         addAddressData = new MutableLiveData<>();
@@ -40,7 +33,7 @@ public class UserRepository {
     }
 
     public Observable<LoginUserResponse> loginUser(@NonNull String phoneNumber, String password) {
-        return userApiInterface.loginUser(phoneNumber, password);
+        return apiInterface.loginUser(phoneNumber, password);
     /*.enqueue(new Callback<LoginUserResponse>() {
             @Override
             public void onResponse(Call<LoginUserResponse> call, Response<LoginUserResponse> response) {
@@ -66,7 +59,7 @@ public class UserRepository {
     public MutableLiveData<RegisterUserResponse> registerUser(@NonNull String phoneNumber) {
 
 
-        /*userApiInterface.registerUser(phoneNumber).enqueue(new Callback<RegisterUserResponse>() {
+        /*apiInterface.registerUser(phoneNumber).enqueue(new Callback<RegisterUserResponse>() {
             @Override
             public void onResponse(Call<RegisterUserResponse> call, Response<RegisterUserResponse> response) {
                 if (response.isSuccessful())
@@ -82,7 +75,7 @@ public class UserRepository {
             }
         });*/
 
-        userApiInterface.registerUser(phoneNumber).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        apiInterface.registerUser(phoneNumber).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<RegisterUserResponse>() {
                     @Override
                     public void onCompleted() {
@@ -104,7 +97,7 @@ public class UserRepository {
 
     public MutableLiveData<AddUserAddressResponse> addUserAddress(long id, String address, String zipCode, long regionId) {
 
-        userApiInterface.addUserAddress(id, address, zipCode, regionId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        apiInterface.addUserAddress(id, address, zipCode, regionId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<AddUserAddressResponse>() {
                     @Override
                     public void onCompleted() {
@@ -125,7 +118,7 @@ public class UserRepository {
     }
 
     public MutableLiveData<ChangeUserPasswordResponse> changeUserPassword(long id ,String newPassword ,String currentPassword){
-        userApiInterface.changeUserPassword(id, newPassword, currentPassword).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        apiInterface.changeUserPassword(id, newPassword, currentPassword).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ChangeUserPasswordResponse>() {
                     @Override
                     public void onCompleted() {

@@ -2,8 +2,6 @@ package ir.boojanco.onlinefoodorder.ui.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Application;
@@ -15,18 +13,16 @@ import android.widget.Toast;
 
 import javax.inject.Inject;
 
-import ir.boojanco.onlinefoodorder.LoginAuth;
+import ir.boojanco.onlinefoodorder.viewmodels.interfaces.LoginAuth;
 import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.databinding.ActivityLoginBinding;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
-import ir.boojanco.onlinefoodorder.networking.UserRepository;
 import ir.boojanco.onlinefoodorder.viewmodels.LoginViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.LoginViewModelFactory;
-import retrofit2.Retrofit;
 
 public class LoginActivity extends AppCompatActivity implements LoginAuth {
-    private LoginViewModel loginViewModel;
+    LoginViewModel loginViewModel;
     ActivityLoginBinding binding;
     EditText password;
 
@@ -54,7 +50,7 @@ public class LoginActivity extends AppCompatActivity implements LoginAuth {
         binding.setLifecycleOwner(this);
         loginViewModel.loginAuth = this;
 
-
+        //set font on password editText
         password = findViewById(R.id.loginPasswordEdtText);
         password.setTypeface(Typeface.DEFAULT);
         password.setTransformationMethod(new PasswordTransformationMethod());
@@ -63,7 +59,7 @@ public class LoginActivity extends AppCompatActivity implements LoginAuth {
 
     @Override
     public void onStarted() {
-        Toast.makeText(this, "AAA", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override

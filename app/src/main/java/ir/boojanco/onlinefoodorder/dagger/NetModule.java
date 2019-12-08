@@ -15,6 +15,7 @@ import dagger.Provides;
 import ir.boojanco.onlinefoodorder.networking.NetworkConnectionInterceptor;
 import ir.boojanco.onlinefoodorder.networking.UserRepository;
 import ir.boojanco.onlinefoodorder.viewmodels.LoginViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.RegisterViewModelFactory;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -35,6 +36,14 @@ public class NetModule {
     LoginViewModelFactory provideLoginViewModelFactory(Application application, UserRepository userRepository){
         LoginViewModelFactory factory =
                 new LoginViewModelFactory(application, userRepository);
+        return factory;
+    }
+
+    @Provides
+    @Singleton
+    RegisterViewModelFactory provideRegisterViewModelFactory(Application application, UserRepository userRepository){
+        RegisterViewModelFactory factory =
+                new RegisterViewModelFactory(application, userRepository);
         return factory;
     }
 

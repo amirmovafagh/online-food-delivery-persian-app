@@ -97,7 +97,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@={userRegister.phoneNumber}"
+                android:textAlignment="center"
                 android:textSize="@dimen/edit_text_font_size"
+                android:maxLength="11"
                 android:inputType="phone" />
 
         </com.google.android.material.textfield.TextInputLayout>

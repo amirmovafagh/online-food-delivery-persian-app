@@ -51,19 +51,18 @@ public class LoginViewModel extends ViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        loginAuth.onFailure(e.getMessage());
+                        if(e instanceof NoNetworkConnectionException)
+                            loginAuth.onFailure(e.getMessage());
                         if (e instanceof HttpException) {
                             Response response = ((HttpException) e).response();
 
                             try {
-                                JSONObject jObjError = new JSONObject(response.errorBody().string());
-                                Log.i(TAG,""+jObjError.getString("message"));
-                                loginAuth.onFailure(jObjError.getString("message"));
+                                JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                                Log.i(TAG,""+jsonObject.getString("message"));
+                                loginAuth.onFailure(jsonObject.getString("message"));
 
 
-                            } catch (NoNetworkConnectionException noInternet){
-                                loginAuth.onFailure(noInternet.getMessage());
-                            } catch (Exception d) {
+                            }  catch (Exception d) {
                                 loginAuth.onFailure(d.getMessage());
                             }
                         }

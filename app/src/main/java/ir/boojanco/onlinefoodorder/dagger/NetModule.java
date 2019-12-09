@@ -73,10 +73,10 @@ public class NetModule {
 
     @Provides
     @Singleton
-    OkHttpClient provideOkHttpClient(Cache cache, Application application) {
+    OkHttpClient provideOkHttpClient(Cache cache, NetworkConnectionInterceptor networkConnectionInterceptor) {
         OkHttpClient.Builder client = new OkHttpClient.Builder()
-                .addInterceptor(new NetworkConnectionInterceptor(application));
-        client.cache(cache);
+                .addInterceptor(networkConnectionInterceptor);
+        //client.cache(cache);
         return client.build();
     }
 
@@ -97,5 +97,12 @@ public class NetModule {
     UserRepository provideUserRepository(Retrofit retrofit) {
         UserRepository userRepository = new UserRepository(retrofit);
         return userRepository;
+    }
+
+    @Provides
+    @Singleton
+    NetworkConnectionInterceptor provideNetworkConnectionInterceptor( Application application) {
+        NetworkConnectionInterceptor networkConnectionInterceptor = new NetworkConnectionInterceptor(application);
+        return networkConnectionInterceptor;
     }
 }

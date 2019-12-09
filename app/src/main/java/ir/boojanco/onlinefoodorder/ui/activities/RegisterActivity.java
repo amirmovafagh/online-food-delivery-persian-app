@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Application;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 
@@ -52,11 +53,11 @@ public class RegisterActivity extends AppCompatActivity implements RegisterAuth 
 
     @Override
     public void onSuccess(RegisterUserResponse registerUserResponse) {
-
+        Toast.makeText(application, ""+registerUserResponse.getRegCode()+"__"+registerUserResponse.getCreationTime()+"__"+registerUserResponse.getSendCodeCunt(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onFailure(String Error) {
-
+        Toast.makeText(application, ""+Error, Toast.LENGTH_SHORT).show();
     }
 }

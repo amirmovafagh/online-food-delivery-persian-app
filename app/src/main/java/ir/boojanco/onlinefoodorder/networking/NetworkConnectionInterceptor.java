@@ -29,10 +29,8 @@ public class NetworkConnectionInterceptor implements Interceptor {
 
     private boolean isInternetAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivityManager != null) {
-            NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
-            return (netInfo != null && netInfo.isConnected());
-        }
-        return false;
+        NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
+        return (netInfo != null && netInfo.isConnected());
+
     }
 }

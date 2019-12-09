@@ -3,76 +3,29 @@ package ir.boojanco.onlinefoodorder.models.user;
 import com.google.gson.annotations.SerializedName;
 
 public class RegisterUserResponse {
-    @SerializedName("code")
-    private String code;
-    @SerializedName("mobile")
-    private String mobile;
-    @SerializedName("message")
-    private String message;
-    @SerializedName("verificationCode")
-    private String verificationCode;
-    @SerializedName("reason")
-    private String reason;
-    @SerializedName("state")
-    private String state;
+    @SerializedName("creationTime")
+    private long creationTime;
+    @SerializedName("sendCodeCunt")
+    private int sendCodeCunt;
+    @SerializedName("verifyCunt")
+    private int verifyCunt;
 
-    //required fields
-    /*public RegisterUserResponse(String mobile) {
-        this.mobile = mobile;
+    @SerializedName("regCode")
+    private String regCode;
 
-    }*/
-    /*public RegisterUserResponse(){}*/
-
-    public String getState() {
-        return state;
+    public String getRegCode() {
+        return regCode;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public long getCreationTime() {
+        return creationTime;
     }
 
-    public String getReason() {
-        return reason;
+    public int getSendCodeCunt() {
+        return sendCodeCunt;
     }
 
-    public void setReason(String reason) {
-        this.reason = reason;
+    public int getVerifyCunt() {
+        return verifyCunt;
     }
-
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getVerificationCode() {
-        return verificationCode;
-    }
-
-    public void setVerificationCode(String verificationCode) {
-        this.verificationCode = verificationCode;
-    }
-
-    /*//public Boolean isValidate (){
-        return
-    }*/
 }

@@ -34,65 +34,11 @@ public class UserRepository {
 
     public Observable<LoginUserResponse> loginUser(@NonNull String phoneNumber, String password) {
         return apiInterface.loginUser(phoneNumber, password);
-    /*.enqueue(new Callback<LoginUserResponse>() {
-            @Override
-            public void onResponse(Call<LoginUserResponse> call, Response<LoginUserResponse> response) {
-                if (response.isSuccessful())
-
-                        loginData.setValue(response.body());
-
-
-                 *//*else {
-                         loginData.setValue(response.errorBody().);
-
-                }*//*
-            }
-
-            @Override
-            public void onFailure(Call<LoginUserResponse> call, Throwable t) {
-                loginData.setValue(null);
-            }
-        });
-        return loginData;*/
     }
 
-    public MutableLiveData<RegisterUserResponse> registerUser(@NonNull String phoneNumber) {
+    public Observable<RegisterUserResponse> registerUser(@NonNull String phoneNumber) {
 
-
-        /*apiInterface.registerUser(phoneNumber).enqueue(new Callback<RegisterUserResponse>() {
-            @Override
-            public void onResponse(Call<RegisterUserResponse> call, Response<RegisterUserResponse> response) {
-                if (response.isSuccessful())
-
-                    registerData.setValue(response.body());
-
-            }
-
-            @Override
-            public void onFailure(Call<RegisterUserResponse> call, Throwable t) {
-                Log.e("amir", t.getMessage());
-                registerData.setValue(null);
-            }
-        });*/
-
-        apiInterface.registerUser(phoneNumber).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<RegisterUserResponse>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(RegisterUserResponse registerUserResponse) {
-                        registerData.setValue(registerUserResponse);
-                    }
-                });
-        return registerData;
+        return apiInterface.registerUser(phoneNumber);
     }
 
     public MutableLiveData<AddUserAddressResponse> addUserAddress(long id, String address, String zipCode, long regionId) {

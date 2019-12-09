@@ -5,6 +5,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Application;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import javax.inject.Inject;
 
+import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.LoginAuth;
 import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.dagger.App;
@@ -30,6 +32,8 @@ public class LoginActivity extends AppCompatActivity implements LoginAuth {
     Application application;
     @Inject
     LoginViewModelFactory factory;
+    @Inject
+    MySharedPreferences sharedPreferences;
 
 
     @Override
@@ -64,8 +68,14 @@ public class LoginActivity extends AppCompatActivity implements LoginAuth {
 
     @Override
     public void onSuccess(LoginUserResponse loginUserResponse) {
-        if (loginUserResponse != null)
-            Toast.makeText(LoginActivity.this, "" + loginUserResponse.getId(), Toast.LENGTH_SHORT).show();
+        if (loginUserResponse != null){
+            sharedPreferences.setUserAuthTokenKey(loginUserResponse.getId());
+            Intent i = new Intent(this,MainActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
+        }
+
     }
 
     @Override

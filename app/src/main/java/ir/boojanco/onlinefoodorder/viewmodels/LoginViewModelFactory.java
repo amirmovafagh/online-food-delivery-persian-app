@@ -2,12 +2,10 @@ package ir.boojanco.onlinefoodorder.viewmodels;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import ir.boojanco.onlinefoodorder.networking.UserRepository;
-import retrofit2.Retrofit;
+import ir.boojanco.onlinefoodorder.data.repositories.UserRepository;
 
 public class LoginViewModelFactory implements ViewModelProvider.Factory {
     private final Context context;

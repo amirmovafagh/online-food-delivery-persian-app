@@ -1,4 +1,4 @@
-package ir.boojanco.onlinefoodorder.networking;
+package ir.boojanco.onlinefoodorder.data.networking;
 
 import ir.boojanco.onlinefoodorder.models.user.AddUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.ChangeUserPasswordResponse;
@@ -8,9 +8,7 @@ import ir.boojanco.onlinefoodorder.models.user.FillUserInfoResponse;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
 import ir.boojanco.onlinefoodorder.models.user.RegisterUserResponse;
 import ir.boojanco.onlinefoodorder.models.user.VerifyEmailResponse;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;

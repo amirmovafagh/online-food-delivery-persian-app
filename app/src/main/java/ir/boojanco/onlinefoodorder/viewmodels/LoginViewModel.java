@@ -11,7 +11,7 @@ import org.json.JSONObject;
 
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.LoginAuth;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
-import ir.boojanco.onlinefoodorder.networking.UserRepository;
+import ir.boojanco.onlinefoodorder.data.repositories.UserRepository;
 import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
 import retrofit2.HttpException;
 import retrofit2.Response;

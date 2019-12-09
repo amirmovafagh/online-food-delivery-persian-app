@@ -1,8 +1,9 @@
-package ir.boojanco.onlinefoodorder.networking;
+package ir.boojanco.onlinefoodorder.data.repositories;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import ir.boojanco.onlinefoodorder.data.networking.ApiInterface;
 import ir.boojanco.onlinefoodorder.models.user.AddUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.ChangeUserPasswordResponse;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;

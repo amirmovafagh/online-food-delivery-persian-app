@@ -3,6 +3,7 @@ package ir.boojanco.onlinefoodorder.ui.activities;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,8 +19,12 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationMenu;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import javax.inject.Inject;
+
 import ir.boojanco.onlinefoodorder.R;
 
+import ir.boojanco.onlinefoodorder.dagger.App;
+import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.ActivityMainBinding;
 import ir.boojanco.onlinefoodorder.models.user.RegisterUserResponse;
 import ir.boojanco.onlinefoodorder.ui.base.BaseActivity;
@@ -44,10 +49,13 @@ public class MainActivity extends AppCompatActivity  {
     BottomNavigationView bottomNavigationView ;
     Toolbar myToolbar;
 
+    @Inject
+    MySharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        ((App) getApplicationContext()).getComponent().inject(this);
         // get view model
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         // Inflate view and obtain an instance of the binding class.
@@ -64,6 +72,8 @@ public class MainActivity extends AppCompatActivity  {
 
         myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
+
+        Toast.makeText(this, ""+sharedPreferences.getUserAuthTokenKey(), Toast.LENGTH_SHORT).show();
     }
 
 

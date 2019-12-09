@@ -2,7 +2,6 @@ package ir.boojanco.onlinefoodorder.viewmodels;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 
@@ -12,8 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 import org.json.JSONObject;
 
 import ir.boojanco.onlinefoodorder.models.user.RegisterUserResponse;
-import ir.boojanco.onlinefoodorder.networking.NetworkConnectionInterceptor;
-import ir.boojanco.onlinefoodorder.networking.UserRepository;
+import ir.boojanco.onlinefoodorder.data.repositories.UserRepository;
 import ir.boojanco.onlinefoodorder.ui.activities.LoginActivity;
 import ir.boojanco.onlinefoodorder.ui.base.BaseViewModel;
 import ir.boojanco.onlinefoodorder.ui.navigator.MainNavigator;
@@ -22,7 +20,6 @@ import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RegisterAuth;
 import retrofit2.HttpException;
 import retrofit2.Response;
 import rx.Observable;
-import rx.Scheduler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;

@@ -1,4 +1,4 @@
-package ir.boojanco.onlinefoodorder.networking;
+package ir.boojanco.onlinefoodorder.data.networking;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

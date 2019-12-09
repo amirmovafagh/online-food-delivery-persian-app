@@ -12,8 +12,9 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import ir.boojanco.onlinefoodorder.networking.NetworkConnectionInterceptor;
-import ir.boojanco.onlinefoodorder.networking.UserRepository;
+import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
+import ir.boojanco.onlinefoodorder.data.networking.NetworkConnectionInterceptor;
+import ir.boojanco.onlinefoodorder.data.repositories.UserRepository;
 import ir.boojanco.onlinefoodorder.viewmodels.LoginViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.RegisterViewModelFactory;
 import okhttp3.Cache;
@@ -51,8 +52,10 @@ public class NetModule {
     @Provides
     @Singleton
     // Application reference must come from AppModule.class
-    SharedPreferences providesSharedPreferences(Application application) {
-        return PreferenceManager.getDefaultSharedPreferences(application);
+    MySharedPreferences providesMySharedPreferences(Application application) {
+        MySharedPreferences mySharedPreferences =
+                new MySharedPreferences(application);
+        return mySharedPreferences;
     }
 
     @Provides

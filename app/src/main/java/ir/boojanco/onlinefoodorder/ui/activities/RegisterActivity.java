@@ -5,6 +5,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Application;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -54,6 +55,11 @@ public class RegisterActivity extends AppCompatActivity implements RegisterAuth 
     @Override
     public void onSuccess(RegisterUserResponse registerUserResponse) {
         Toast.makeText(application, ""+registerUserResponse.getRegCode()+"__"+registerUserResponse.getCreationTime()+"__"+registerUserResponse.getSendCodeCunt(), Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this,MainActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
+
     }
 
     @Override

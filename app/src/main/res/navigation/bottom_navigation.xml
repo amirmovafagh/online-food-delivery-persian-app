@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="ir.boojanco.onlinefoodorder.ui.fragments.HomeFragment"
-        android:label="home_fragment"
+        android:label="خانه"
         tools:layout="@layout/home_fragment" />
     <fragment
         android:id="@+id/cartFragment"

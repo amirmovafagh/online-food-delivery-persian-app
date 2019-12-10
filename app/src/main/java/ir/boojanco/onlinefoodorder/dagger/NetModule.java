@@ -15,6 +15,7 @@ import dagger.Provides;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.data.networking.NetworkConnectionInterceptor;
 import ir.boojanco.onlinefoodorder.data.repositories.UserRepository;
+import ir.boojanco.onlinefoodorder.viewmodels.HomeViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.LoginViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.RegisterViewModelFactory;
 import okhttp3.Cache;
@@ -45,6 +46,14 @@ public class NetModule {
     RegisterViewModelFactory provideRegisterViewModelFactory(Application application, UserRepository userRepository){
         RegisterViewModelFactory factory =
                 new RegisterViewModelFactory(application, userRepository);
+        return factory;
+    }
+
+    @Provides
+    @Singleton
+    HomeViewModelFactory provideHomeViewModelFactory(Application application){
+        HomeViewModelFactory factory =
+                new HomeViewModelFactory(application);
         return factory;
     }
 

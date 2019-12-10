@@ -1,8 +1,10 @@
 package ir.boojanco.onlinefoodorder.ui.fragments;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,28 +15,53 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import javax.inject.Inject;
+
 import ir.boojanco.onlinefoodorder.R;
+import ir.boojanco.onlinefoodorder.dagger.App;
+import ir.boojanco.onlinefoodorder.databinding.HomeFragmentBinding;
 import ir.boojanco.onlinefoodorder.viewmodels.HomeViewModel;
+import ir.boojanco.onlinefoodorder.viewmodels.HomeViewModelFactory;
 
 public class HomeFragment extends Fragment {
+    @Inject
+    HomeViewModelFactory factory;
 
-    private HomeViewModel mViewModel;
+    private HomeViewModel homeViewModel;
+    private HomeFragmentBinding binding;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.home_fragment, container, false);
+
+        binding = DataBindingUtil.inflate(inflater, R.layout.home_fragment, container, false);
+        homeViewModel = ViewModelProviders.of(this,factory).get(HomeViewModel.class);
+        binding.setHomeViewModel(homeViewModel);
+        binding.setLifecycleOwner(this);
+        return binding.getRoot();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         // TODO: Use the ViewModel
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        ((App) getActivity().getApplication()).getComponent().inject(this);
+
     }
 
     @Override

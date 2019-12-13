@@ -15,6 +15,7 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import rx.Observable;
 
@@ -30,8 +31,9 @@ public interface ApiInterface {
      * Update the APIService registerUser(...) method from Call to become an Observable for using Rx java.
      */
 
+    /*@Headers("Authorization: 9900a9720d31dfd5fdb4352700c...")*/
     @GET("/api/v1/restaurant/last")
-    Observable<LastRestaurantResponse> getLastRestaurant();
+    Observable<LastRestaurantResponse> getLastRestaurant(@Header("Authorization") String authToken);
 
     @POST("/api/v1/auth/login")
     @FormUrlEncoded

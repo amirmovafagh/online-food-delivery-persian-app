@@ -12,7 +12,7 @@ public class RestaurantRepository {
         this.apiInterface = retrofit.create(ApiInterface.class);
     }
 
-    public Observable<LastRestaurantResponse> getLastRestaurant(){
-        return apiInterface.getLastRestaurant();
+    public Observable<LastRestaurantResponse> getLastRestaurant(String authToken){
+        return apiInterface.getLastRestaurant(authToken);
     }
 }

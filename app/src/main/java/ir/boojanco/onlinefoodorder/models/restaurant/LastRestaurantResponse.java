@@ -6,7 +6,7 @@ import java.util.List;
 
 
 
-public class lastRestaurantResponse {
+public class LastRestaurantResponse {
     @SerializedName("hits")
     private List<LastRestaurantList> restaurantsList= null;
     @SerializedName("total")

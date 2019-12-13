@@ -14,10 +14,12 @@ import dagger.Module;
 import dagger.Provides;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.data.networking.NetworkConnectionInterceptor;
+import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
 import ir.boojanco.onlinefoodorder.data.repositories.UserRepository;
 import ir.boojanco.onlinefoodorder.viewmodels.HomeViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.LoginViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.RegisterViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.RestaurantViewModelFactory;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -54,6 +56,21 @@ public class NetModule {
     HomeViewModelFactory provideHomeViewModelFactory(Application application){
         HomeViewModelFactory factory =
                 new HomeViewModelFactory(application);
+        return factory;
+    }
+
+    @Provides
+    @Singleton
+    RestaurantRepository provideRestaurantRepository(Retrofit retrofit) {
+        RestaurantRepository restaurantRepository = new RestaurantRepository(retrofit);
+        return restaurantRepository;
+    }
+
+    @Provides
+    @Singleton
+    RestaurantViewModelFactory provideRestaurntViewModelFactory(Application application ,RestaurantRepository restaurantRepository){
+        RestaurantViewModelFactory factory =
+                new RestaurantViewModelFactory(application, restaurantRepository);
         return factory;
     }
 
@@ -110,6 +127,7 @@ public class NetModule {
         UserRepository userRepository = new UserRepository(retrofit);
         return userRepository;
     }
+
 
     @Provides
     @Singleton

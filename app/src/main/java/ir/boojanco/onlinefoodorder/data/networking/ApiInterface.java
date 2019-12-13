@@ -1,5 +1,7 @@
 package ir.boojanco.onlinefoodorder.data.networking;
 
+import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantList;
+import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantResponse;
 import ir.boojanco.onlinefoodorder.models.user.AddUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.ChangeUserPasswordResponse;
 import ir.boojanco.onlinefoodorder.models.user.EditUserAaddressResponse;
@@ -12,6 +14,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 import rx.Observable;
 
@@ -21,14 +24,14 @@ public interface ApiInterface {
     @POST("api/v1/auth/register")
     //@Headers("Content-Type: application/x-www-form-urlencoded")
     @FormUrlEncoded
-    Observable<RegisterUserResponse> registerUser(@Field("mobile") String phoneNumber/*@Body RegisterUserResponse registerResponse*/);
+    Observable<Long> registerUser(@Field("mobile") String phoneNumber/*@Body RegisterUserResponse registerResponse*/);
 
     /**
      * Update the APIService registerUser(...) method from Call to become an Observable for using Rx java.
      */
 
-    @POST("user/fill_info")
-    Call<FillUserInfoResponse> fillUserInfo(@Body FillUserInfoResponse fillUserInfoResponse);
+    @GET("/api/v1/restaurant/last")
+    Observable<LastRestaurantResponse> getLastRestaurant();
 
     @POST("/api/v1/auth/login")
     @FormUrlEncoded

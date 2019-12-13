@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ import ir.boojanco.onlinefoodorder.viewmodels.HomeViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.HomeViewModelFactory;
 
 public class HomeFragment extends Fragment {
+    private static final String TAG = HomeFragment.class.getSimpleName();
+
     @Inject
     HomeViewModelFactory factory;
 
@@ -43,7 +46,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
+        ((App) getActivity().getApplication()).getComponent().inject(this);
         binding = DataBindingUtil.inflate(inflater, R.layout.home_fragment, container, false);
         homeViewModel = ViewModelProviders.of(this,factory).get(HomeViewModel.class);
         binding.setHomeViewModel(homeViewModel);
@@ -60,7 +63,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        ((App) getActivity().getApplication()).getComponent().inject(this);
 
     }
 

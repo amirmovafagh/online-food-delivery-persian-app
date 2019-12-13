@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProviders;
 import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import javax.inject.Inject;
@@ -20,6 +21,7 @@ import ir.boojanco.onlinefoodorder.viewmodels.RegisterViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RegisterAuth;
 
 public class RegisterActivity extends AppCompatActivity implements RegisterAuth {
+    private static final String TAG = RegisterActivity.class.getSimpleName();
     RegisterViewModel registerViewModel;
     ActivityRegisterBinding binding;
 
@@ -49,12 +51,13 @@ public class RegisterActivity extends AppCompatActivity implements RegisterAuth 
 
     @Override
     public void onStarted() {
-
+        Log.i(TAG,"onStart");
     }
 
     @Override
-    public void onSuccess(RegisterUserResponse registerUserResponse) {
-        Toast.makeText(application, ""+registerUserResponse.getRegCode()+"__"+registerUserResponse.getCreationTime()+"__"+registerUserResponse.getSendCodeCunt(), Toast.LENGTH_SHORT).show();
+    public void onSuccess(Long time) {
+        Log.i(TAG,"onSucc");
+        Toast.makeText(application, ""+time, Toast.LENGTH_SHORT).show();
         Intent i = new Intent(this,MainActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -64,6 +67,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterAuth 
 
     @Override
     public void onFailure(String Error) {
+        Log.i(TAG,"onFail");
         Toast.makeText(application, ""+Error, Toast.LENGTH_SHORT).show();
     }
 }

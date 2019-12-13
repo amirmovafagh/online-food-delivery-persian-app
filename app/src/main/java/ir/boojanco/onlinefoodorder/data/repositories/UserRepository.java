@@ -15,21 +15,11 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class UserRepository {
-    private static UserRepository userRepository;
-    private static MutableLiveData<RegisterUserResponse> registerData;
-    private static MutableLiveData<LoginUserResponse> loginData;
-    private static MutableLiveData<AddUserAddressResponse> addAddressData;
-    private static MutableLiveData<ChangeUserPasswordResponse> changeUserPasswordData;
-    
 
     private ApiInterface apiInterface;
 
     public UserRepository(Retrofit retrofit) {
         apiInterface = retrofit.create(ApiInterface.class);
-        registerData = new MutableLiveData<>();//must define here if get instance every time we open the app old data return from observer
-        loginData = new MutableLiveData<>();
-        addAddressData = new MutableLiveData<>();
-        changeUserPasswordData = new MutableLiveData<>();
 
     }
 
@@ -37,11 +27,12 @@ public class UserRepository {
         return apiInterface.loginUser(phoneNumber, password);
     }
 
-    public Observable<RegisterUserResponse> registerUser(@NonNull String phoneNumber) {
+    public Observable<Long> registerUser(@NonNull String phoneNumber) {
 
         return apiInterface.registerUser(phoneNumber);
     }
 
+/*
     public MutableLiveData<AddUserAddressResponse> addUserAddress(long id, String address, String zipCode, long regionId) {
 
         apiInterface.addUserAddress(id, address, zipCode, regionId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
@@ -63,7 +54,9 @@ public class UserRepository {
                 });
         return addAddressData;
     }
+*/
 
+/*
     public MutableLiveData<ChangeUserPasswordResponse> changeUserPassword(long id ,String newPassword ,String currentPassword){
         apiInterface.changeUserPassword(id, newPassword, currentPassword).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ChangeUserPasswordResponse>() {
@@ -84,6 +77,7 @@ public class UserRepository {
                 });
         return changeUserPasswordData;
     }
+*/
 
 
 }

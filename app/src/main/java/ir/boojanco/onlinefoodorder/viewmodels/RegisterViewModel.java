@@ -48,9 +48,9 @@ public class RegisterViewModel extends BaseViewModel<MainNavigator> {
     public void onRegisterClick(View view) {
         if (isValidPhoneNumber(phoneNumber.getValue())) {
             registerAuth.onStarted();
-            Observable<RegisterUserResponse> observable = userRepository.registerUser(phoneNumber.getValue());
+            Observable<Long> observable = userRepository.registerUser(phoneNumber.getValue());
             if(observable != null){
-                observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<RegisterUserResponse>() {
+                observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Long>() {
                     @Override
                     public void onCompleted() {
 
@@ -72,8 +72,8 @@ public class RegisterViewModel extends BaseViewModel<MainNavigator> {
                     }
 
                     @Override
-                    public void onNext(RegisterUserResponse registerUserResponse) {
-                        registerAuth.onSuccess(registerUserResponse);
+                    public void onNext(Long time) {
+                        registerAuth.onSuccess(time);
                     }
                 });
             }

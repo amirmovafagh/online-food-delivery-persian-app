@@ -11,7 +11,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        vectorDrawables.useSupportLibrary = true
+    //    vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -34,6 +34,7 @@ def lifecycle_version = "2.2.0"
 def retrofit_version = "2.4.0"
 def nav_version = "2.1.0"
 def dagger_version = "2.23.2"
+def fragment_version = "1.1.0"
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -68,9 +69,16 @@ dependencies {
     // Java language implementation
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
+    // Java language implementation
+    implementation "androidx.fragment:fragment:$fragment_version"
+    // Testing Fragments in Isolation
+    implementation "androidx.fragment:fragment-testing:$fragment_version"
 
     //GLIDE
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
+
+    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
+    implementation 'androidx.vectordrawable:vectordrawable-animated:1.1.0'
 
 }

@@ -28,6 +28,7 @@
                 android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/ivPic"
+                    bind:image="@{restaurant.logo}"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginBottom="8dp"

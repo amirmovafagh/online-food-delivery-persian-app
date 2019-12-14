@@ -35,7 +35,7 @@ public class LastRestaurantList {
     }
 
     public String getLogo() {
-        return logo;
+        return "http://198.143.180.86:8080/api/v1/media/download/"+logo;
     }
 
     public int getAverageScore() {
@@ -43,13 +43,13 @@ public class LastRestaurantList {
     }
 
     // important code for loading image here
-    /*@BindingAdapter({ "logo" })
+    @BindingAdapter({ "image" })
     public static void loadImage(ImageView imageView, String imageURL) {
         Glide.with(imageView.getContext())
                 .setDefaultRequestOptions(new RequestOptions()
                         .circleCrop())
                 .load(imageURL)
-                .placeholder(R.drawable.arrow_next_48dp)
+                .placeholder(R.drawable.ic_account_box_black_24dp)
                 .into(imageView);
-    }*/
+    }
 }

@@ -25,6 +25,7 @@ import javax.inject.Inject;
 
 import ir.boojanco.onlinefoodorder.R;
 
+import ir.boojanco.onlinefoodorder.RecyclerViewRestaurantClickListener;
 import ir.boojanco.onlinefoodorder.RestaurantAdapter;
 import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
@@ -35,7 +36,7 @@ import ir.boojanco.onlinefoodorder.viewmodels.RestaurantViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.RestaurantViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantFragmentInterface;
 
-public class RestaurantFragment extends Fragment implements RestaurantFragmentInterface {
+public class RestaurantFragment extends Fragment implements RestaurantFragmentInterface, RecyclerViewRestaurantClickListener {
     private static final String TAG = RestaurantFragment.class.getSimpleName();
     @Inject
     RestaurantViewModelFactory factory;
@@ -60,7 +61,7 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         RecyclerView recyclerView = binding.recyclerViewAllRestaurant;
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplication()));
         recyclerView.setHasFixedSize(true);
-        restaurantAdapter = new RestaurantAdapter();
+        restaurantAdapter = new RestaurantAdapter(this);
         recyclerView.setAdapter(restaurantAdapter);
         restaurantViewModel.getAllRestaurant(sharedPreferences.getUserAuthTokenKey());
         return binding.getRoot();
@@ -101,4 +102,15 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         Toast.makeText(getActivity(), ""+error, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onRecyclerViewItemClick(View v, LastRestaurantList restaurantList) {
+        switch (v.getId()){
+            case R.id.ivPic:
+                Toast.makeText(getActivity(), "imageViewOnclick: "+ restaurantList.getName(), Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.layout_linear:
+                Toast.makeText(getActivity(), "layout_linearOnclick: "+restaurantList.getId(), Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package ir.boojanco.onlinefoodorder;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,11 @@ import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantList;
 
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder> {
     private List<LastRestaurantList> restaurants;
+    public RecyclerViewRestaurantClickListener clickListener;
+
+    public RestaurantAdapter(RecyclerViewRestaurantClickListener clickListener){
+        this.clickListener = clickListener;
+    }
 
     @NonNull
     @Override
@@ -28,6 +34,12 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
     public void onBindViewHolder(@NonNull RestaurantViewHolder holder, int position) {
         LastRestaurantList currentRestaurant = restaurants.get(position);
         holder.recyclerviewRestaurantBinding.setRestaurant(currentRestaurant);
+        holder.recyclerviewRestaurantBinding.layoutLinear.setOnClickListener(v -> {
+            clickListener.onRecyclerViewItemClick(holder.recyclerviewRestaurantBinding.layoutLinear, restaurants.get(position));
+        });
+        holder.recyclerviewRestaurantBinding.ivPic.setOnClickListener(v ->{
+            clickListener.onRecyclerViewItemClick(holder.recyclerviewRestaurantBinding.ivPic, restaurants.get(position));
+        });
 
     }
 

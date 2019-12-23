@@ -14,17 +14,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.activities.RegisterActivity">
+        <activity android:name=".ui.activities.restaurantFood.RestaurantFoodActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.VerificationActivity" />
-        <activity android:name=".ui.activities.LoginActivity">
+        <activity android:name=".ui.activities.RegisterActivity">
+
         </activity>
-        <activity android:name=".ui.activities.MainActivity"></activity>
+        <activity android:name=".ui.activities.VerificationActivity" />
+        <activity android:name=".ui.activities.LoginActivity"></activity>
+        <activity android:name=".ui.activities.MainActivity" />
     </application>
 
 </manifest>

@@ -2,10 +2,8 @@ package ir.boojanco.onlinefoodorder.ui.activities;
 
 
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
@@ -16,7 +14,6 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.material.bottomnavigation.BottomNavigationMenu;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import javax.inject.Inject;
@@ -26,13 +23,10 @@ import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.ActivityMainBinding;
-import ir.boojanco.onlinefoodorder.models.user.RegisterUserResponse;
-import ir.boojanco.onlinefoodorder.ui.base.BaseActivity;
 import ir.boojanco.onlinefoodorder.ui.fragments.CartFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.HomeFragment;
-import ir.boojanco.onlinefoodorder.ui.fragments.RestaurantFragment;
+import ir.boojanco.onlinefoodorder.ui.fragments.restaurants.RestaurantFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.UserProfileFragment;
-import ir.boojanco.onlinefoodorder.ui.navigator.MainNavigator;
 import ir.boojanco.onlinefoodorder.viewmodels.MainViewModel;
 
 

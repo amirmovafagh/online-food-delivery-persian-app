@@ -1,5 +1,6 @@
 package ir.boojanco.onlinefoodorder.data.networking;
 
+import ir.boojanco.onlinefoodorder.models.food.getAllFood.GetAllFoodResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantList;
 import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantResponse;
 import ir.boojanco.onlinefoodorder.models.user.AddUserAddressResponse;
@@ -17,6 +18,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import rx.Observable;
 
 
@@ -31,14 +33,16 @@ public interface ApiInterface {
      * Update the APIService registerUser(...) method from Call to become an Observable for using Rx java.
      */
 
-    /*@Headers("Authorization: 9900a9720d31dfd5fdb4352700c...")*/
-    @GET("/api/v1/restaurant/last")
-    Observable<LastRestaurantResponse> getLastRestaurant(@Header("Authorization") String authToken);
-
     @POST("/api/v1/auth/login")
     @FormUrlEncoded
     Observable<LoginUserResponse> loginUser(@Field("mobile") String phoneNumber, @Field("password") String password);
 
+    /*@Headers("Authorization: 9900a9720d31dfd5fdb4352700c...")*/
+    @GET("/api/v1/restaurant/last")
+    Observable<LastRestaurantResponse> getLastRestaurant(@Header("Authorization") String authToken);
+
+    @GET("/api/v1/food/restaurant/{restaurantId}")
+    Observable<GetAllFoodResponse> getAllFood(@Header("Authorization") String authToken, @Path("restaurantId") int restaurantId);
     @POST("user/verify_Email")
     Call<VerifyEmailResponse> verifyEmail(@Body VerifyEmailResponse verifyEmailResponse);
 

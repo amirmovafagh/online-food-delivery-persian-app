@@ -15,4 +15,8 @@
     <string name="cart">سفارشات</string>
     <string name="restaurants">رستوران ها</string>
     <string name="home">خانه</string>
+
+    <string name="tab_berger">برگر</string>
+    <string name="tab_hotdog">هات داگ</string>
+    <string name="tab_text_3">پیتزا</string>
 </resources>

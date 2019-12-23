@@ -5,10 +5,12 @@
     <dimen name="subtitle1_font_size">16sp</dimen>
     <dimen name="subtitle2_font_size">14sp</dimen>
     <dimen name="body1_paragraph_font_size">16sp</dimen>
+    <dimen name="margin_start_end">16dp</dimen>
     <dimen name="body2_paragraph_font_size">14sp</dimen>
     <dimen name="button_font_size">14sp</dimen>
     <dimen name="edit_text_font_size">16sp</dimen>
     <dimen name="edit_text_error_font_size">12sp</dimen>
     <dimen name="caption_font_size">12sp</dimen>
     <dimen name="overline_font_size">10sp</dimen>
+    <dimen name="appbar_padding">16dp</dimen>
 </resources>

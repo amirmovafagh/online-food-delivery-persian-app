@@ -46,10 +46,9 @@ public class LastRestaurantList {
     @BindingAdapter({ "image" })
     public static void loadImage(ImageView imageView, String imageURL) {
         Glide.with(imageView.getContext())
-                .setDefaultRequestOptions(new RequestOptions()
-                        .circleCrop())
+                .setDefaultRequestOptions(new RequestOptions())
                 .load(imageURL)
-                .placeholder(R.drawable.ic_account_box_black_24dp)
+                .placeholder(R.drawable.restaurant_vector_recycler_view)
                 .into(imageView);
     }
 }

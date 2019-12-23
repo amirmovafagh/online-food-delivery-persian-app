@@ -1,8 +1,6 @@
-package ir.boojanco.onlinefoodorder;
+package ir.boojanco.onlinefoodorder.ui.fragments.restaurants;
 
-import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -11,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.databinding.RecyclerviewRestaurantBinding;
 import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantList;
 
@@ -26,7 +25,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
     @Override
     public RestaurantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RecyclerviewRestaurantBinding recyclerviewRestaurantBinding =
-                DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),R.layout.recyclerview_restaurant, parent, false);
+                DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.recyclerview_restaurant, parent, false);
         return new RestaurantViewHolder(recyclerviewRestaurantBinding);
     }
 

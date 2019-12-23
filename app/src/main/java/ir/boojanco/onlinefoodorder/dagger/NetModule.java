@@ -1,8 +1,6 @@
 package ir.boojanco.onlinefoodorder.dagger;
 
 import android.app.Application;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -16,10 +14,11 @@ import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.data.networking.NetworkConnectionInterceptor;
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
 import ir.boojanco.onlinefoodorder.data.repositories.UserRepository;
-import ir.boojanco.onlinefoodorder.viewmodels.HomeViewModelFactory;
-import ir.boojanco.onlinefoodorder.viewmodels.LoginViewModelFactory;
-import ir.boojanco.onlinefoodorder.viewmodels.RegisterViewModelFactory;
-import ir.boojanco.onlinefoodorder.viewmodels.RestaurantViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.factories.HomeViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.factories.LoginViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.factories.RegisterViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantFoodViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantViewModelFactory;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -61,18 +60,28 @@ public class NetModule {
 
     @Provides
     @Singleton
-    RestaurantRepository provideRestaurantRepository(Retrofit retrofit) {
-        RestaurantRepository restaurantRepository = new RestaurantRepository(retrofit);
-        return restaurantRepository;
-    }
-
-    @Provides
-    @Singleton
     RestaurantViewModelFactory provideRestaurntViewModelFactory(Application application ,RestaurantRepository restaurantRepository){
         RestaurantViewModelFactory factory =
                 new RestaurantViewModelFactory(application, restaurantRepository);
         return factory;
     }
+
+    @Provides
+    @Singleton
+    RestaurantFoodViewModelFactory provideRestaurantFoodViewModelFactory(Application application , RestaurantRepository restaurantRepository){
+        RestaurantFoodViewModelFactory factory =
+                new RestaurantFoodViewModelFactory(application, restaurantRepository);
+        return factory;
+    }
+
+    @Provides
+    @Singleton
+    RestaurantRepository provideRestaurantRepository(Retrofit retrofit) {
+        RestaurantRepository restaurantRepository = new RestaurantRepository(retrofit);
+        return restaurantRepository;
+    }
+
+
 
     // Dagger will only look for methods annotated with @Provides
     @Provides

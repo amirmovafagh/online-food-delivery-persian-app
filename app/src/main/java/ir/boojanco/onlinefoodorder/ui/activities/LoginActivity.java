@@ -21,7 +21,7 @@ import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.databinding.ActivityLoginBinding;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
 import ir.boojanco.onlinefoodorder.viewmodels.LoginViewModel;
-import ir.boojanco.onlinefoodorder.viewmodels.LoginViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.factories.LoginViewModelFactory;
 
 public class LoginActivity extends AppCompatActivity implements LoginAuth {
     LoginViewModel loginViewModel;

@@ -15,9 +15,8 @@ import javax.inject.Inject;
 import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.databinding.ActivityRegisterBinding;
-import ir.boojanco.onlinefoodorder.models.user.RegisterUserResponse;
 import ir.boojanco.onlinefoodorder.viewmodels.RegisterViewModel;
-import ir.boojanco.onlinefoodorder.viewmodels.RegisterViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.factories.RegisterViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RegisterAuth;
 
 public class RegisterActivity extends AppCompatActivity implements RegisterAuth {

@@ -1,4 +1,4 @@
-package ir.boojanco.onlinefoodorder;
+package ir.boojanco.onlinefoodorder.ui.fragments.restaurants;
 
 import android.view.View;
 

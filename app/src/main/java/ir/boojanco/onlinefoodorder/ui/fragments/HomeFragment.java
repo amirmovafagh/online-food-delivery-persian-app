@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,7 @@ import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.databinding.HomeFragmentBinding;
 import ir.boojanco.onlinefoodorder.viewmodels.HomeViewModel;
-import ir.boojanco.onlinefoodorder.viewmodels.HomeViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.factories.HomeViewModelFactory;
 
 public class HomeFragment extends Fragment {
     private static final String TAG = HomeFragment.class.getSimpleName();

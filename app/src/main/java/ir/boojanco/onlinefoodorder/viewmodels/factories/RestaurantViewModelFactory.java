@@ -1,4 +1,4 @@
-package ir.boojanco.onlinefoodorder.viewmodels;
+package ir.boojanco.onlinefoodorder.viewmodels.factories;
 
 import android.content.Context;
 
@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
+import ir.boojanco.onlinefoodorder.viewmodels.RestaurantViewModel;
 
 public class RestaurantViewModelFactory implements ViewModelProvider.Factory {
 

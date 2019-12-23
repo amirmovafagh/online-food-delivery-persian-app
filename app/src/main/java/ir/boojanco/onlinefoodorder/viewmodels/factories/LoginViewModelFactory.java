@@ -1,4 +1,4 @@
-package ir.boojanco.onlinefoodorder.viewmodels;
+package ir.boojanco.onlinefoodorder.viewmodels.factories;
 
 import android.content.Context;
 
@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import ir.boojanco.onlinefoodorder.data.repositories.UserRepository;
+import ir.boojanco.onlinefoodorder.viewmodels.LoginViewModel;
 
 public class LoginViewModelFactory implements ViewModelProvider.Factory {
     private final Context context;

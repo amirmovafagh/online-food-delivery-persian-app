@@ -7,11 +7,16 @@
             name="foodViewModel"
             type="ir.boojanco.onlinefoodorder.viewmodels.RestaurantFoodViewModel" />
     </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
 
         android:id="@+id/main_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="335dp">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
@@ -79,5 +84,21 @@
             app:fabSize="mini"
             app:borderWidth="0dp" />
 
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_restauran_food"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/main_content"
+            app:layout_constraintVertical_bias="0.0">
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

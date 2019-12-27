@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="allFood"
+            type="ir.boojanco.onlinefoodorder.models.food.getAllFood.AllFoodList"/>
+    </data>
+    <RelativeLayout
+        android:id="@+id/relative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:layoutDirection="rtl">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            card_view:cardCornerRadius="10dp"
+            tools:targetApi="lollipop">
+
+            <RelativeLayout
+                android:id="@+id/layout_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+
+                <ImageView
+                    android:id="@+id/ivPic"
+                    android:layout_width="match_parent"
+                    android:layout_height="170dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/restaurant_vector_recycler_view"
+                    bind:image="@{allFood.logo}"
+                    android:adjustViewBounds="true"
+                    android:scaleType="matrix"/>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_restauran_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentBottom="true"
+                    card_view:cardCornerRadius="10dp"
+                    tools:targetApi="lollipop">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="0.4"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:text="@{allFood.name}"
+                                android:textStyle="bold"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/body1_paragraph_font_size"
+                                android:layout_marginStart="@dimen/margin_start_end"
+                                android:layout_weight="0.9"
+                                tools:ignore="NestedWeights" />
+                            <ToggleButton
+                                android:layout_width="0dp"
+                                android:layout_height="25dp"
+                                android:background="@drawable/fav_toggle_selector"
+                                android:textOff=""
+                                android:textOn=""
+                                android:layout_marginStart="@dimen/margin_start_end"
+                                android:layout_marginEnd="@dimen/margin_start_end"
+                                android:layout_weight="0.09"/>
+                        </LinearLayout>
+                        <View
+                            android:id="@+id/divider2"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="0.01"
+                            android:background="?android:attr/listDivider" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.6"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:textSize="@dimen/body2_paragraph_font_size"
+                            android:layout_marginStart="@dimen/margin_start_end"
+                            android:layout_weight="0.9"
+                            tools:ignore="NestedWeights" />
+
+                    </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+</layout>

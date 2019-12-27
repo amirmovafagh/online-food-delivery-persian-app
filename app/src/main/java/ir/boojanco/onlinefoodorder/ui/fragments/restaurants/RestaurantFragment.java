@@ -5,6 +5,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -28,6 +29,7 @@ import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.RestaurantFragmentBinding;
 import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantList;
 import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantResponse;
+import ir.boojanco.onlinefoodorder.ui.activities.restaurantFood.RestaurantFoodActivity;
 import ir.boojanco.onlinefoodorder.viewmodels.RestaurantViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantFragmentInterface;
@@ -87,7 +89,6 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         Log.i(TAG, "AA onSuccess");
         data.observe(this, lastRestaurantResponse -> {
             Log.i(TAG, "AA onSuccess in observer");
-            Toast.makeText(getActivity(), ""+lastRestaurantResponse.getRestaurantsList(), Toast.LENGTH_SHORT).show();
             restaurantAdapter.setRestaurantsList(lastRestaurantResponse.getRestaurantsList());
         });
     }
@@ -105,7 +106,11 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
                 Toast.makeText(getActivity(), "imageViewOnclick: "+ restaurantList.getName(), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.layout_linear:
-                Toast.makeText(getActivity(), "layout_linearOnclick: "+restaurantList.getId(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getContext(), RestaurantFoodActivity.class);
+                intent.putExtra("RESTAURANT_ID",restaurantList.getId());
+                intent.putExtra("RESTAURANT_COVER", restaurantList.getCover());
+                intent.putExtra("RESTTAURANT_LOGO", restaurantList.getLogo());
+                startActivity(intent);
                 break;
         }
     }

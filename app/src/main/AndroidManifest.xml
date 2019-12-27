@@ -15,14 +15,14 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".ui.activities.restaurantFood.RestaurantFoodActivity">
+
+        </activity>
+        <activity android:name=".ui.activities.RegisterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".ui.activities.RegisterActivity">
-
         </activity>
         <activity android:name=".ui.activities.VerificationActivity" />
         <activity android:name=".ui.activities.LoginActivity"></activity>

@@ -3,6 +3,7 @@ package ir.boojanco.onlinefoodorder.dagger;
 import android.app.Application;
 
 public class App extends Application {
+    public final static String webServerMediaRoute = "http://198.143.180.86:8080/api/v1/media/download/";
     private AppComponent component;
     //Instantiating the component
     @Override

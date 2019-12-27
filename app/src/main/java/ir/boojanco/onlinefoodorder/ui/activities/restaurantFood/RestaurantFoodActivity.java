@@ -75,11 +75,30 @@ public class RestaurantFoodActivity extends AppCompatActivity implements Restaur
         });
         TabLayout.Tab tab1 = tabLayout.newTab();
         tab1.setText("TAb1");
-
         TabLayout.Tab tab2 = tabLayout.newTab();
         tab2.setText("TAb2");
+        TabLayout.Tab tab3 = tabLayout.newTab();
+        tab3.setText("TAb1");
+        TabLayout.Tab tab4 = tabLayout.newTab();
+        tab4.setText("TAb2");
+        TabLayout.Tab tab5 = tabLayout.newTab();
+        tab5.setText("TAb1");
+        TabLayout.Tab tab6 = tabLayout.newTab();
+        tab6.setText("TAb");
+        TabLayout.Tab tab7 = tabLayout.newTab();
+        tab7.setText("TAb1");
+        TabLayout.Tab tab8 = tabLayout.newTab();
+        tab8.setText("TAb2");
+
         tabLayout.addTab(tab1);
         tabLayout.addTab(tab2);
+        tabLayout.addTab(tab3);
+        tabLayout.addTab(tab4);
+        tabLayout.addTab(tab5);
+        tabLayout.addTab(tab6);
+        tabLayout.addTab(tab7);
+        tabLayout.addTab(tab8);
+
         Bundle extras = getIntent().getExtras();
         if(extras != null){
             int extraRestauranId = extras.getInt("RESTAURANT_ID",0);
@@ -90,6 +109,7 @@ public class RestaurantFoodActivity extends AppCompatActivity implements Restaur
             recyclerView.setAdapter(adapter);
             restaurantFoodViewModel.getAllFood(sharedPreferences.getUserAuthTokenKey(),extraRestauranId);
         }
+
 
     }
 

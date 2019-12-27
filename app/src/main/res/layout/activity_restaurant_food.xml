@@ -7,44 +7,31 @@
             name="foodViewModel"
             type="ir.boojanco.onlinefoodorder.viewmodels.RestaurantFoodViewModel" />
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
 
         android:id="@+id/main_content"
         android:layout_width="match_parent"
-        android:layout_height="335dp">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
-            android:layout_height="335dp"
+            android:layout_height="wrap_content"
             android:background="@android:color/transparent"
+            android:fitsSystemWindows="true"
 
             >
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="#0B2031"
+                android:layout_height="350dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                android:fitsSystemWindows="true"
+                app:titleEnabled="false">
 
-                    app:layout_collapseMode="parallax" >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="amir"
-                        android:textColor="@color/colorAccent"
-                        />
-                </androidx.appcompat.widget.Toolbar>
                 <ImageView
                     android:id="@+id/backdrop"
                     android:layout_width="match_parent"
@@ -57,6 +44,21 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"></androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_gravity="top"
+                    android:background="#0B2031"
+                    app:layout_collapseMode="parallax" >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="amir"
+                        android:textColor="@color/colorAccent"
+                        />
+                </androidx.appcompat.widget.Toolbar>
 
 
                 <com.google.android.material.tabs.TabLayout
@@ -84,21 +86,16 @@
             app:fabSize="mini"
             app:borderWidth="0dp" />
 
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_restauran_food"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/main_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:layout_constraintVertical_bias="0.0">
 
         </androidx.recyclerview.widget.RecyclerView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
 </layout>

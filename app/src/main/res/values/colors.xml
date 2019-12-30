@@ -9,4 +9,5 @@
     <color name="colorBotomNavigationNotSelected">#808080</color>
     <color name="overlapCardBackgroundColor">#EDFFFFFF</color>
     <color name="detailsTextColor">#939393</color>
+    <color name="backgroundGrayLight">#F0F6F7</color>
 </resources>

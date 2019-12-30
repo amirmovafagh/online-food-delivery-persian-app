@@ -3,6 +3,7 @@ package ir.boojanco.onlinefoodorder.models.restaurant;
 import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -62,10 +63,14 @@ public class LastRestaurantList {
     // important code for loading image here
     @BindingAdapter({ "image" })
     public static void loadImage(ImageView imageView, String imageURL) {
+        CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(imageView.getContext());
+        circularProgressDrawable.setStrokeWidth(5f);
+        circularProgressDrawable.setCenterRadius(30f);
+        circularProgressDrawable.start();
         Glide.with(imageView.getContext())
                 .setDefaultRequestOptions(new RequestOptions())
                 .load(imageURL)
-                .placeholder(R.drawable.restaurant_vector_recycler_view)
+                .placeholder(circularProgressDrawable)
                 .into(imageView);
     }
 }

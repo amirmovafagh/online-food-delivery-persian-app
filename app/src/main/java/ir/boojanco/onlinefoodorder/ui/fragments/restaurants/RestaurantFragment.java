@@ -18,6 +18,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.Toast;
 
 import javax.inject.Inject;
@@ -44,6 +46,7 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
     private RestaurantViewModel restaurantViewModel;
     private RestaurantFragmentBinding binding;
     private RestaurantAdapter restaurantAdapter;
+    private RecyclerView recyclerView;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -56,11 +59,12 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         binding.setRestaurantViewModel(restaurantViewModel);
         binding.setLifecycleOwner(this);
 
-        RecyclerView recyclerView = binding.recyclerViewAllRestaurant;
+        recyclerView = binding.recyclerViewAllRestaurant;
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplication()));
         recyclerView.setHasFixedSize(true);
         restaurantAdapter = new RestaurantAdapter(this);
         recyclerView.setAdapter(restaurantAdapter);
+
         restaurantViewModel.getAllRestaurant(sharedPreferences.getUserAuthTokenKey());
         return binding.getRoot();
 
@@ -90,6 +94,8 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         data.observe(this, lastRestaurantResponse -> {
             Log.i(TAG, "AA onSuccess in observer");
             restaurantAdapter.setRestaurantsList(lastRestaurantResponse.getRestaurantsList());
+            recyclerView.scheduleLayoutAnimation();
+
         });
     }
 

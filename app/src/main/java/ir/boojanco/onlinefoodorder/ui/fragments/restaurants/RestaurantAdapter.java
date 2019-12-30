@@ -33,11 +33,11 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
     public void onBindViewHolder(@NonNull RestaurantViewHolder holder, int position) {
         LastRestaurantList currentRestaurant = restaurants.get(position);
         holder.recyclerviewRestaurantBinding.setRestaurant(currentRestaurant);
-        holder.recyclerviewRestaurantBinding.layoutLinear.setOnClickListener(v -> {
-            clickListener.onRecyclerViewItemClick(holder.recyclerviewRestaurantBinding.layoutLinear, restaurants.get(position));
+        holder.recyclerviewRestaurantBinding.toggleBookmark.setOnClickListener(v -> {
+            clickListener.onRecyclerViewItemClick(holder.recyclerviewRestaurantBinding.toggleBookmark, restaurants.get(position));
         });
-        holder.recyclerviewRestaurantBinding.ivPic.setOnClickListener(v ->{
-            clickListener.onRecyclerViewItemClick(holder.recyclerviewRestaurantBinding.ivPic, restaurants.get(position));
+        holder.recyclerviewRestaurantBinding.layoutLinear.setOnClickListener(v ->{
+            clickListener.onRecyclerViewItemClick(holder.recyclerviewRestaurantBinding.layoutLinear, restaurants.get(position));
         });
 
     }

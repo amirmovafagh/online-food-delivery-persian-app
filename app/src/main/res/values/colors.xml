@@ -7,4 +7,6 @@
 
     <color name="colorEdtTextHalfRounded">#B2FF6659</color>
     <color name="colorBotomNavigationNotSelected">#808080</color>
+    <color name="overlapCardBackgroundColor">#EDFFFFFF</color>
+    <color name="detailsTextColor">#939393</color>
 </resources>

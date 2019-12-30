@@ -7,11 +7,11 @@ import java.util.List;
 
 public class GetAllFoodResponse {
     @SerializedName("mainList")
-    private List<MainList> mainList;
+    private MainList mainList;
     @SerializedName("secondaryList")
     private List<String> secondaryList;
 
-    public List<MainList> getMainList() {
+    public MainList getMainList() {
         return mainList;
     }
 

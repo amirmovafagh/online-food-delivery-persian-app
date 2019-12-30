@@ -101,10 +101,9 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
 
     @Override
     public void onRecyclerViewItemClick(View v, LastRestaurantList restaurantList) {
-        Toast.makeText(getActivity(), ""+v.getId(), Toast.LENGTH_SHORT).show();
         switch (v.getId()){
             case R.id.toggle_bookmark:
-                Toast.makeText(getActivity(), "imageViewOnclick: "+ restaurantList.getName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "bookmark: "+ restaurantList.getName(), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.layout_linear:
                 Intent intent = new Intent(getContext(), RestaurantFoodActivity.class);

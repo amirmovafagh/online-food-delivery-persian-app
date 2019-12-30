@@ -121,7 +121,7 @@ public class RestaurantFoodActivity extends AppCompatActivity implements Restaur
     @Override
     public void onSuccess(MutableLiveData<GetAllFoodResponse> liveData) {
         liveData.observe(this, getAllFoodResponse -> {
-            adapter.setFoodLists(getAllFoodResponse.getAllFoodList());
+            adapter.setFoodLists(getAllFoodResponse.getMainList().getAllFoodList());
         });
     }
 

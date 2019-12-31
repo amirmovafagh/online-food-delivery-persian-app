@@ -111,7 +111,7 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
             case R.id.toggle_bookmark:
                 Toast.makeText(getActivity(), "bookmark: "+ restaurantList.getName(), Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.layout_linear:
+            case R.id.ccons_layout:
                 Intent intent = new Intent(getContext(), RestaurantFoodActivity.class);
                 intent.putExtra("RESTAURANT_ID",restaurantList.getId());
                 intent.putExtra("RESTAURANT_COVER", restaurantList.getCover());

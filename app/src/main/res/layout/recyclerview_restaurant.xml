@@ -8,195 +8,168 @@
             name="restaurant"
             type="ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantList"/>
     </data>
-    <RelativeLayout
-        android:id="@+id/relative"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp"
-        android:layoutDirection="rtl">
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_view"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        bind:layout_constraintBottom_toBottomOf="parent"
+        bind:layout_constraintEnd_toEndOf="parent"
+        bind:layout_constraintStart_toStartOf="parent"
+        bind:layout_constraintTop_toTopOf="parent"
+        card_view:cardCornerRadius="10dp"
+        tools:targetApi="lollipop">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ccons_layout"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_gravity="center"
-            android:layout_margin="5dp"
-            card_view:cardCornerRadius="10dp"
-            tools:targetApi="lollipop">
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:layoutDirection="rtl">
 
-            <RelativeLayout
-                android:id="@+id/layout_linear"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
-                <ImageView
-                    android:id="@+id/ivPic"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:src="@drawable/restaurant_vector_recycler_view"
-                    bind:image="@{restaurant.cover}"
-                    android:adjustViewBounds="true"
-                    android:scaleType="matrix">
-                </ImageView>
+            <ImageView
+                android:id="@+id/ivPic"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:adjustViewBounds="true"
+                android:scaleType="matrix"
+                bind:image="@{restaurant.cover}"
+                bind:layout_constraintBottom_toBottomOf="parent"
+                bind:layout_constraintLeft_toLeftOf="parent"
+                bind:layout_constraintRight_toRightOf="parent"
+                bind:layout_constraintTop_toTopOf="parent" />
 
-                <ToggleButton
-                    android:id="@+id/toggle_bookmark"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="false"
-                    android:background="@drawable/fav_toggle_selector"
+            <ToggleButton
+                android:id="@+id/toggle_bookmark"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/fav_toggle_selector"
+                android:textOff=""
+                android:textOn=""
+                bind:layout_constraintHorizontal_bias="0.978"
+                bind:layout_constraintBottom_toBottomOf="parent"
+                bind:layout_constraintLeft_toLeftOf="parent"
+                bind:layout_constraintRight_toRightOf="parent"
+                bind:layout_constraintTop_toTopOf="parent"
+                bind:layout_constraintVertical_bias="0.0" />
 
-                    android:textOff=""
-                    android:textOn=""
-                    />
-
-                <androidx.cardview.widget.CardView
+            <androidx.cardview.widget.CardView
                     android:id="@+id/cv_restauran_details"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="100dp"
                     android:layout_margin="8dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignBottom="@id/ivPic"
-                    card_view:cardCornerRadius="10dp"
                     bind:cardBackgroundColor="@color/overlapCardBackgroundColor"
+                    bind:layout_constraintBottom_toBottomOf="parent"
+                    bind:layout_constraintRight_toRightOf="@id/ivPic"
+                    bind:layout_constraintLeft_toLeftOf="@id/ivPic"
+                    bind:layout_constraintTop_toBottomOf="@id/toggle_bookmark"
+                    bind:layout_constraintVertical_bias="1"
+                    card_view:cardCornerRadius="10dp"
                     tools:targetApi="lollipop">
-                    <LinearLayout
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        >
 
-                        <LinearLayout
+                        <TextView
+                            android:id="@+id/textViewName"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0.7"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:maxLines="1"
+                            android:text="@{restaurant.name, default=رستوران}"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/body2_paragraph_font_size"
+                            android:textStyle="bold"
+                            bind:layout_constraintBottom_toBottomOf="parent"
+                            bind:layout_constraintHorizontal_bias="1.0"
+                            bind:layout_constraintLeft_toRightOf="@id/textViewComment"
+                            bind:layout_constraintRight_toRightOf="parent"
+                            bind:layout_constraintTop_toTopOf="parent"
+                            bind:layout_constraintVertical_bias="0.0" />
 
-                            android:orientation="vertical">
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="0dp"
-                                android:layout_weight="0.4"
-                                android:orientation="horizontal">
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:text="@{restaurant.name, default=رستوران}"
-                                    android:maxLines="1"
-                                    android:textStyle="bold"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="@dimen/body2_paragraph_font_size"
-                                    android:layout_marginStart="@dimen/margin_start_end"
-                                    android:layout_marginTop="@dimen/margin_top"
-                                    android:layout_weight="0.8"
-                                    tools:ignore="NestedWeights" />
-                                <LinearLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="0.2"
-                                    android:layout_marginTop="4dp"
-                                    android:layout_marginEnd="4dp"
-                                    android:orientation="vertical">
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="0dp"
-                                        android:layout_weight="0.5"
-                                        android:textAlignment="textEnd"
-                                        android:text="@{Integer.toString(restaurant.averageScore), default=20}"
-                                        android:textSize="@dimen/body4_paragraph_font_size"
-                                        android:drawableEnd="@drawable/ic_comment"
-                                        android:drawablePadding="5dp"
-                                        />
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="0dp"
-                                        android:layout_weight="0.5"
-                                        android:textAlignment="textEnd"
-                                        android:text="@{Integer.toString(restaurant.averageScore), default=0}"
-                                        android:textSize="@dimen/body4_paragraph_font_size"
-                                        android:drawableEnd="@drawable/ic_star"
-                                        android:drawablePadding="5dp"
-
-                                        />
-                                </LinearLayout>
-
-                                <!--<TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="0.15"
-                                    android:layout_marginStart="8dp"
-                                    android:textAlignment="center"
-                                    android:layout_marginTop="13dp"
-                                    android:text="@{Integer.toString(restaurant.averageScore), default=0}"
-                                    android:drawableStart="@drawable/ic_comment_black_24dp"
-
-                                    />
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="0.15"
-                                    android:layout_marginStart="@dimen/margin_start_end"
-                                    android:textAlignment="center"
-                                    android:layout_marginTop="13dp"
-                                    android:textStyle="bold"
-                                    android:text="@{Integer.toString(restaurant.averageScore), default=0}"
-                                    android:drawableStart="@drawable/ic_star_black_24dp"
-                                    android:drawablePadding="1dp"
-                                    />-->
-                            </LinearLayout>
-                            <View
-                                android:id="@+id/divider2"
-                                android:layout_width="match_parent"
-                                android:layout_height="0dp"
-                                android:layout_weight="0.01"
-
-                                android:background="?android:attr/listDivider" />
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="0dp"
-                                android:layout_weight="0.6"
-                                android:orientation="horizontal">
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:text="@{restaurant.address, default=آدرس}"
-                                    android:maxLines="1"
-                                    android:drawableStart="@drawable/ic_location"
-                                    android:textSize="@dimen/body3_paragraph_font_size"
-                                    android:ellipsize="end"
-
-                                    android:layout_margin="@dimen/margin_start_end"
-                                    android:layout_weight="0.9"
-                                    tools:ignore="NestedWeights" />
-                            </LinearLayout>
-                        </LinearLayout>
-                        <!---->
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.3"
-                        android:orientation="horizontal">
                         <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:id="@+id/ivLogo"
+                            android:layout_width="100dp"
+                            android:layout_height="0dp"
+                            android:scaleType="matrix"
+
                             bind:image="@{restaurant.logo}"
-                            android:scaleType="matrix"/>
+                            bind:layout_constraintBottom_toBottomOf="parent"
+                            bind:layout_constraintHorizontal_bias="0"
+                            bind:layout_constraintLeft_toLeftOf="parent"
+                            bind:layout_constraintRight_toLeftOf="@+id/textViewName"
+                            bind:layout_constraintTop_toTopOf="parent" />
 
-                    </LinearLayout>
+                        <TextView
+                            android:id="@+id/textViewComment"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            bind:layout_constrainedWidth="false"
+                            android:drawableEnd="@drawable/ic_comment"
+                            android:drawablePadding="5dp"
+                            android:maxLines="1"
+                            android:maxLength="5"
+                            android:text="@{Integer.toString(restaurant.averageScore), default=5}"
+                            android:textAlignment="textEnd"
+                            android:textSize="@dimen/body4_paragraph_font_size"
+                            bind:layout_constraintBottom_toBottomOf="parent"
+                            bind:layout_constraintHorizontal_bias="0.0"
+                            bind:layout_constraintLeft_toRightOf="@+id/ivLogo"
+                            bind:layout_constraintTop_toTopOf="parent"
+                            bind:layout_constraintVertical_bias="0.0" />
+                        <TextView
+                            android:id="@+id/textViewScore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:drawableEnd="@drawable/ic_star"
+                            android:drawablePadding="5dp"
+                            android:text="@{Integer.toString(restaurant.averageScore), default=0}"
+                            android:maxLines="1"
+                            android:maxLength="5"
+                            android:textAlignment="textEnd"
+                            android:textSize="@dimen/body4_paragraph_font_size"
+                            bind:layout_constraintHorizontal_bias="0.0"
+                            bind:layout_constraintLeft_toRightOf="@+id/ivLogo"
+                            bind:layout_constraintRight_toLeftOf="@+id/textViewName"
+                            bind:layout_constraintTop_toBottomOf="@+id/textViewComment"
+                            bind:layout_constraintVertical_bias="0.0"
+                            />
 
-                    </LinearLayout>
+                        <View
+                            android:id="@+id/divider"
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="4dp"
+                            android:background="?android:attr/listDivider"
+                            bind:layout_constraintLeft_toRightOf="@+id/ivLogo"
+                            bind:layout_constraintRight_toRightOf="parent"
+                            bind:layout_constraintTop_toBottomOf="@+id/textViewScore"
+                            />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_start_end"
+                            android:drawableStart="@drawable/ic_location"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="@{restaurant.address, default=آدرس}"
+                            android:textSize="@dimen/body3_paragraph_font_size"
+                            bind:layout_constraintBottom_toBottomOf="parent"
+                            bind:layout_constraintHorizontal_bias="1.0"
+                            bind:layout_constraintLeft_toRightOf="@+id/ivLogo"
+                            bind:layout_constraintRight_toRightOf="parent"
+                            bind:layout_constraintTop_toBottomOf="@+id/divider"
+                            bind:layout_constraintVertical_bias="0.0" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.cardview.widget.CardView>
 
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
-    </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
 </layout>

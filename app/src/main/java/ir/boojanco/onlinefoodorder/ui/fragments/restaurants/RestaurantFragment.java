@@ -85,14 +85,14 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
 
     @Override
     public void onStarted() {
-        Log.i(TAG, "AA OnStart");
+        Log.e(TAG, "AA OnStart");
     }
 
     @Override
     public void onSuccess(MutableLiveData<LastRestaurantResponse> data) {
         Log.i(TAG, "AA onSuccess");
         data.observe(this, lastRestaurantResponse -> {
-            Log.i(TAG, "AA onSuccess in observer");
+            Log.e(TAG, "AA onSuccess in observer");
             restaurantAdapter.setRestaurantsList(lastRestaurantResponse.getRestaurantsList());
             recyclerView.scheduleLayoutAnimation();
 
@@ -101,7 +101,7 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
 
     @Override
     public void onFailure(String error) {
-        Log.i(TAG, "onFailure: "+error);
+        Log.e(TAG, "onFailure: "+error);
         Toast.makeText(getActivity(), ""+error, Toast.LENGTH_SHORT).show();
     }
 
@@ -111,7 +111,8 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
             case R.id.toggle_bookmark:
                 Toast.makeText(getActivity(), "bookmark: "+ restaurantList.getName(), Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.ccons_layout:
+            case R.id.cons_layout:
+
                 Intent intent = new Intent(getContext(), RestaurantFoodActivity.class);
                 intent.putExtra("RESTAURANT_ID",restaurantList.getId());
                 intent.putExtra("RESTAURANT_COVER", restaurantList.getCover());

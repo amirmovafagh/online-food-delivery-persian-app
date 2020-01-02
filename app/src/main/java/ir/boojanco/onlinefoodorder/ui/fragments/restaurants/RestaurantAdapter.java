@@ -36,8 +36,8 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         holder.recyclerviewRestaurantBinding.toggleBookmark.setOnClickListener(v -> {
             clickListener.onRecyclerViewItemClick(holder.recyclerviewRestaurantBinding.toggleBookmark, restaurants.get(position));
         });
-        holder.recyclerviewRestaurantBinding.cconsLayout.setOnClickListener(v ->{
-            clickListener.onRecyclerViewItemClick(holder.recyclerviewRestaurantBinding.cconsLayout, restaurants.get(position));
+        holder.recyclerviewRestaurantBinding.consLayout.setOnClickListener(v ->{
+            clickListener.onRecyclerViewItemClick(holder.recyclerviewRestaurantBinding.consLayout, restaurants.get(position));
         });
 
     }

@@ -28,7 +28,7 @@ public class LastRestaurantList {
     @SerializedName("cover")
     private String cover;
     @SerializedName("averageScore")
-    private int averageScore;
+    private float averageScore;
     @SerializedName("tagList")
     private List<String> tagList;
 
@@ -48,7 +48,7 @@ public class LastRestaurantList {
         return webServerMediaRoute+logo;
     }
 
-    public int getAverageScore() {
+    public float getAverageScore() {
         return averageScore;
     }
 
@@ -56,8 +56,14 @@ public class LastRestaurantList {
         return webServerMediaRoute+cover;
     }
 
-    public List<String> getTagList() {
-        return tagList;
+    public String getTagList() {
+        StringBuilder tagListString= new StringBuilder();
+        tagListString.append(" ");
+        if(tagList != null)
+            for(String t : tagList){
+                tagListString.append("(").append(t).append(")").append(" ");
+            }
+        return tagListString.toString();
     }
 
     // important code for loading image here

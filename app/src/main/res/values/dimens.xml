@@ -8,6 +8,7 @@
     <dimen name="body2_paragraph_font_size">14sp</dimen>
     <dimen name="body3_paragraph_font_size">12sp</dimen>
     <dimen name="body4_paragraph_font_size">10sp</dimen>
+    <dimen name="body5_paragraph_font_size">8sp</dimen>
     <dimen name="subtitle5_font_size">10sp</dimen>
     <dimen name="button_font_size">14sp</dimen>
     <dimen name="edit_text_font_size">16sp</dimen>

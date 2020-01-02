@@ -1,4 +1,4 @@
-package ir.boojanco.onlinefoodorder.ui.activities.restaurantFood.fragments;
+package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments;
 
 import androidx.lifecycle.ViewModelProviders;
 

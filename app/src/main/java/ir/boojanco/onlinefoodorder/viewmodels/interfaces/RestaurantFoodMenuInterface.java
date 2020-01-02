@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import ir.boojanco.onlinefoodorder.models.food.getAllFood.GetAllFoodResponse;
 
-public interface RestaurantFoodInterface {
+public interface RestaurantFoodMenuInterface {
     void onStarted();
     void onSuccess(MutableLiveData<GetAllFoodResponse> liveData);
     void onFailure(String error);

@@ -1,9 +1,9 @@
-package ir.boojanco.onlinefoodorder.ui.activities.restaurantFood;
+package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails;
 
 import android.view.View;
 
 import ir.boojanco.onlinefoodorder.models.food.getAllFood.AllFoodList;
 
-public interface RecyclerViewRestaurantFoodClickListener {
+public interface RecyclerViewRestaurantFoodMenuClickListener {
     void onRecyclerViewItemClick(View v, AllFoodList allFoodList);
 }

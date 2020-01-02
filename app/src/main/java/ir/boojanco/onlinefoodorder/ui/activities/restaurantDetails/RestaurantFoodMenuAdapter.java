@@ -1,4 +1,4 @@
-package ir.boojanco.onlinefoodorder.ui.activities.restaurantFood;
+package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -13,11 +13,11 @@ import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.databinding.RecyclerviewRestaurantFoodBinding;
 import ir.boojanco.onlinefoodorder.models.food.getAllFood.AllFoodList;
 
-public class RestaurantFoodAdapter extends RecyclerView.Adapter<RestaurantFoodAdapter.RestaurantFoodViewHolder> {
+public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RestaurantFoodMenuAdapter.RestaurantFoodViewHolder> {
     private List<AllFoodList> foodLists;
-    public RecyclerViewRestaurantFoodClickListener clickListener;
+    public RecyclerViewRestaurantFoodMenuClickListener clickListener;
 
-    public RestaurantFoodAdapter(RecyclerViewRestaurantFoodClickListener clickListener){
+    public RestaurantFoodMenuAdapter(RecyclerViewRestaurantFoodMenuClickListener clickListener){
         this.clickListener = clickListener;
     }
 

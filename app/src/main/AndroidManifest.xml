@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.activities.restaurantFood.RestaurantFoodActivity">
+        <activity android:name=".ui.activities.restaurantDetails.RestaurantDetailsActivity">
 
         </activity>
         <activity android:name=".ui.activities.RegisterActivity">

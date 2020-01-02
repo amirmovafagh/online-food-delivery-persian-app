@@ -17,6 +17,7 @@ import ir.boojanco.onlinefoodorder.data.repositories.UserRepository;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.HomeViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.LoginViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RegisterViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantFoodMenuViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantFoodViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantViewModelFactory;
 import okhttp3.Cache;
@@ -71,6 +72,14 @@ public class NetModule {
     RestaurantFoodViewModelFactory provideRestaurantFoodViewModelFactory(Application application , RestaurantRepository restaurantRepository){
         RestaurantFoodViewModelFactory factory =
                 new RestaurantFoodViewModelFactory(application, restaurantRepository);
+        return factory;
+    }
+
+    @Provides
+    @Singleton
+    RestaurantFoodMenuViewModelFactory provideRestaurantFoodMenuViewModelFactory(Application application , RestaurantRepository restaurantRepository){
+        RestaurantFoodMenuViewModelFactory factory =
+                new RestaurantFoodMenuViewModelFactory(application, restaurantRepository);
         return factory;
     }
 

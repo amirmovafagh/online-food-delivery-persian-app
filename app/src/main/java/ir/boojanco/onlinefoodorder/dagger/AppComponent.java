@@ -6,7 +6,8 @@ import dagger.Component;
 import ir.boojanco.onlinefoodorder.ui.activities.LoginActivity;
 import ir.boojanco.onlinefoodorder.ui.activities.MainActivity;
 import ir.boojanco.onlinefoodorder.ui.activities.RegisterActivity;
-import ir.boojanco.onlinefoodorder.ui.activities.restaurantFood.RestaurantFoodActivity;
+import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.RestaurantDetailsActivity;
+import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.RestaurantFoodMenuFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.HomeFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurants.RestaurantFragment;
 
@@ -19,7 +20,8 @@ public interface AppComponent {
     void inject(RegisterActivity registerActivity);
     void inject(HomeFragment homeFragment);
     void inject(RestaurantFragment restaurantFragment);
-    void inject(RestaurantFoodActivity restaurantFoodActivity);
+    void inject(RestaurantDetailsActivity restaurantFoodActivity);
+    void inject(RestaurantFoodMenuFragment restaurantFoodMenuFragment);
 
 }
 

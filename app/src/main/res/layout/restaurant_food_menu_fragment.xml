@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="foodMenu"
+            type="ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.RestaurantFoodMenuViewModel" />
+    </data>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.activities.restaurantDetails.fragments.RestaurantFoodMenuFragment"
+        android:background="@color/backgroundGrayLight">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_restauran_food"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layoutAnimation="@anim/layout_animation_fall_down"
+
+            />
+
+    </FrameLayout>
+
+</layout>

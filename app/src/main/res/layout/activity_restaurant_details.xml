@@ -4,8 +4,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="foodViewModel"
-            type="ir.boojanco.onlinefoodorder.viewmodels.RestaurantFoodViewModel" />
+            name="detailsViewModel"
+            type="ir.boojanco.onlinefoodorder.viewmodels.RestaurantDetailsViewModel" />
+        <import type="android.view.View" />
+
+        <variable
+            name="handler"
+            type="ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.RestaurantDetailsActivity" />
+
+        <variable
+            name="manager"
+            type="androidx.fragment.app.FragmentManager" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -66,9 +75,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:layout_gravity="bottom"
-                    app:tabMode="scrollable"
-                    
-                    app:tabContentStart="72dp" />
+                    app:tabGravity="center"
+                    android:textAlignment="center"
+
+                    app:pager="@{pager}"/>
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -86,14 +96,12 @@
             app:fabSize="mini"
             app:borderWidth="0dp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_restauran_food"
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:layout_constraintVertical_bias="0.0">
-
-        </androidx.recyclerview.widget.RecyclerView>
+            app:handler="@{handler}" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

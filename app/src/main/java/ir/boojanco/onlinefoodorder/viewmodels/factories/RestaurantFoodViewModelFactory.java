@@ -6,9 +6,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
-import ir.boojanco.onlinefoodorder.data.repositories.UserRepository;
-import ir.boojanco.onlinefoodorder.viewmodels.LoginViewModel;
-import ir.boojanco.onlinefoodorder.viewmodels.RestaurantFoodViewModel;
+import ir.boojanco.onlinefoodorder.viewmodels.RestaurantDetailsViewModel;
 
 public class RestaurantFoodViewModelFactory implements ViewModelProvider.Factory {
     private final Context context;
@@ -20,8 +18,8 @@ public class RestaurantFoodViewModelFactory implements ViewModelProvider.Factory
     }
 
     public <T extends ViewModel> T create(Class<T> modelClass) {
-        if (modelClass.isAssignableFrom(RestaurantFoodViewModel.class)) {
-            return (T) new RestaurantFoodViewModel(context, restaurantRepository);
+        if (modelClass.isAssignableFrom(RestaurantDetailsViewModel.class)) {
+            return (T) new RestaurantDetailsViewModel(context, restaurantRepository);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

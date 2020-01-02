@@ -18,8 +18,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.Toast;
 
 import javax.inject.Inject;
@@ -31,7 +29,7 @@ import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.RestaurantFragmentBinding;
 import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantList;
 import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantResponse;
-import ir.boojanco.onlinefoodorder.ui.activities.restaurantFood.RestaurantFoodActivity;
+import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.RestaurantDetailsActivity;
 import ir.boojanco.onlinefoodorder.viewmodels.RestaurantViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantFragmentInterface;
@@ -113,7 +111,7 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
                 break;
             case R.id.cons_layout:
 
-                Intent intent = new Intent(getContext(), RestaurantFoodActivity.class);
+                Intent intent = new Intent(getContext(), RestaurantDetailsActivity.class);
                 intent.putExtra("RESTAURANT_ID",restaurantList.getId());
                 intent.putExtra("RESTAURANT_COVER", restaurantList.getCover());
                 intent.putExtra("RESTTAURANT_LOGO", restaurantList.getLogo());

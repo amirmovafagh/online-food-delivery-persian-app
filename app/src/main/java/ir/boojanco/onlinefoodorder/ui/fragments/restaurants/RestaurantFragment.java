@@ -62,7 +62,6 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         recyclerView.setHasFixedSize(true);
         restaurantAdapter = new RestaurantAdapter(this);
         recyclerView.setAdapter(restaurantAdapter);
-
         restaurantViewModel.getAllRestaurant(sharedPreferences.getUserAuthTokenKey());
         return binding.getRoot();
 

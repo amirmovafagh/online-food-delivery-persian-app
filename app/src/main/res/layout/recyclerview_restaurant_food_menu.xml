@@ -6,8 +6,8 @@
     >
     <data>
         <variable
-            name="allFood"
-            type="ir.boojanco.onlinefoodorder.models.food.getAllFood.AllFoodList"/>
+            name="foodItem"
+            type="ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.FoodItem"/>
     </data>
 
     <androidx.cardview.widget.CardView
@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:maxLines="1"
-                android:text="@{allFood.name, default=رستوران}"
+                android:text="@{foodItem.name, default=رستوران}"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/body2_paragraph_font_size"
                 android:textStyle="bold"
@@ -49,7 +49,7 @@
                 android:layout_height="0dp"
                 android:scaleType="matrix"
 
-                bind:image="@{allFood.logo}"
+                bind:image="@{foodItem.logo}"
                 bind:layout_constraintBottom_toBottomOf="parent"
                 bind:layout_constraintHorizontal_bias="0"
                 bind:layout_constraintLeft_toLeftOf="parent"
@@ -66,7 +66,7 @@
                 android:drawablePadding="5dp"
                 android:maxLines="1"
                 android:maxLength="5"
-                android:text="@{Integer.toString(allFood.point), default=5}"
+                android:text="@{Integer.toString(foodItem.point), default=5}"
                 android:textAlignment="textEnd"
                 android:textSize="@dimen/body4_paragraph_font_size"
                 bind:layout_constraintBottom_toBottomOf="parent"
@@ -81,7 +81,7 @@
                 android:layout_margin="8dp"
                 android:drawableEnd="@drawable/ic_star"
                 android:drawablePadding="5dp"
-                android:text="@{Integer.toString(allFood.discount), default=0}"
+                android:text="@{Integer.toString(foodItem.discount), default=0}"
                 android:maxLines="1"
                 android:maxLength="5"
                 android:textAlignment="textEnd"
@@ -111,7 +111,7 @@
                 android:drawableStart="@drawable/ic_location"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{allFood.details, default=آدرس}"
+                android:text="@{foodItem.details, default=آدرس}"
                 android:textSize="@dimen/body3_paragraph_font_size"
                 bind:layout_constraintBottom_toBottomOf="parent"
                 bind:layout_constraintHorizontal_bias="1.0"

@@ -1,11 +1,10 @@
 package ir.boojanco.onlinefoodorder.viewmodels.interfaces;
 
-import androidx.lifecycle.MutableLiveData;
-
-import ir.boojanco.onlinefoodorder.models.food.getAllFood.GetAllFoodResponse;
+import java.util.ArrayList;
+import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.ListItemType;
 
 public interface RestaurantFoodMenuInterface {
     void onStarted();
-    void onSuccess(MutableLiveData<GetAllFoodResponse> liveData);
+    void onSuccess(ArrayList<ListItemType> items);
     void onFailure(String error);
 }

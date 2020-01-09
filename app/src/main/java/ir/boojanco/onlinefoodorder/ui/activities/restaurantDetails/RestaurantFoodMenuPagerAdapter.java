@@ -56,4 +56,5 @@ public class RestaurantFoodMenuPagerAdapter extends FragmentPagerAdapter {
         }
         return null;
     }
+
 }

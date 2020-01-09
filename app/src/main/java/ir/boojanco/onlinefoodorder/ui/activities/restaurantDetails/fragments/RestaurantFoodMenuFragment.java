@@ -2,6 +2,7 @@ package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Application;
@@ -32,11 +33,13 @@ import ir.boojanco.onlinefoodorder.models.food.getAllFood.GetAllFoodResponse;
 import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.FoodTypeHeader;
 import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.ListItemType;
 import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.RecyclerViewRestaurantFoodMenuClickListener;
+import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.RecyclerViewRestaurantFoodTypeClickListener;
 import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.RestaurantFoodMenuAdapter;
+import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.RestaurantFoodTypeAdapter;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantFoodMenuViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantFoodMenuInterface;
 
-public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFoodMenuInterface , RecyclerViewRestaurantFoodMenuClickListener {
+public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFoodMenuInterface , RecyclerViewRestaurantFoodMenuClickListener, RecyclerViewRestaurantFoodTypeClickListener {
     @Inject
     RestaurantFoodMenuViewModelFactory factory;
     @Inject
@@ -46,8 +49,9 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
 
     private RestaurantFoodMenuViewModel restaurantFoodMenuViewModel;
     private RestaurantFoodMenuFragmentBinding binding;
-    private RecyclerView recyclerView;
-    private RestaurantFoodMenuAdapter adapter;
+    private RecyclerView recyclerViewFoodMenu, recyclerViewFoodType;
+    private RestaurantFoodMenuAdapter adapterMenu;
+    private RestaurantFoodTypeAdapter adapterFoodType;
 
     public static RestaurantFoodMenuFragment newInstance() {
         return new RestaurantFoodMenuFragment();
@@ -66,11 +70,19 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
         Bundle extras = getActivity().getIntent().getExtras();
         if(extras != null){
             int extraRestauranId = extras.getInt("RESTAURANT_ID",0);
-            recyclerView = binding.recyclerViewRestauranFood;
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplication()));
-            recyclerView.setHasFixedSize(true);
-            adapter = new RestaurantFoodMenuAdapter(this);
-            recyclerView.setAdapter(adapter);
+            recyclerViewFoodType = binding.recyclerViewFoodType;
+
+            recyclerViewFoodType.setLayoutManager(new LinearLayoutManager(getActivity().getApplication(),LinearLayoutManager.HORIZONTAL,true));
+            recyclerViewFoodType.canScrollHorizontally(0);
+            recyclerViewFoodType.setHasFixedSize(true);
+            adapterFoodType = new RestaurantFoodTypeAdapter(this);
+            recyclerViewFoodType.setAdapter(adapterFoodType);
+
+            recyclerViewFoodMenu = binding.recyclerViewRestauranFood;
+            recyclerViewFoodMenu.setLayoutManager(new LinearLayoutManager(getActivity().getApplication()));
+            recyclerViewFoodMenu.setHasFixedSize(true);
+            adapterMenu = new RestaurantFoodMenuAdapter(this);
+            recyclerViewFoodMenu.setAdapter(adapterMenu);
 
             restaurantFoodMenuViewModel.getAllFood(sharedPreferences.getUserAuthTokenKey(),extraRestauranId);
 
@@ -89,9 +101,13 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     }
 
     @Override
-    public void onSuccess(ArrayList<ListItemType> items) {
-            recyclerView.scheduleLayoutAnimation();
-            adapter.setFoodLists(items);
+    public void onSuccess(ArrayList<ListItemType> items, MutableLiveData<GetAllFoodResponse> foodTypeMutableLiveData) {
+        foodTypeMutableLiveData.observe(this, getAllFoodResponse -> {
+            recyclerViewFoodType.scheduleLayoutAnimation();
+            adapterFoodType.setFoodTypeLists(getAllFoodResponse.secondaryList());
+        });
+        recyclerViewFoodMenu.scheduleLayoutAnimation();
+        adapterMenu.setFoodLists(items);
     }
 
     @Override
@@ -100,7 +116,24 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     }
 
     @Override
-    public void onRecyclerViewItemClick(View v, ListItemType items) {
+    public void onRecyclerViewItemClick(View v, FoodItem items) {
+        switch (v.getId()){
+            case R.id.cv_food_details:
+                Toast.makeText(getActivity() , "food: "+ items.getDetails() , Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.ivLogo:
 
+                break;
+        }
+    }
+
+    @Override
+    public void onRecyclerViewTypeItemClick(View v, String foodTypeName) {
+        switch (v.getId()){
+            case R.id.tvNameType:
+                Toast.makeText(getActivity() , "type: "+ foodTypeName , Toast.LENGTH_SHORT).show();
+                break;
+
+        }
     }
 }

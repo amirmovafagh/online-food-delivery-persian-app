@@ -6,22 +6,24 @@
     >
     <data>
         <variable
-            name="header"
-            type="ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.FoodTypeHeader"/>
+            name="foodType"
+            type="String"/>
     </data>
 <LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:gravity="center"
+    android:layoutDirection="rtl"
     >
 
     <TextView
-        android:id="@+id/tvName"
+        android:id="@+id/tvNameType"
         android:textSize="16sp"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:text="@{header.foodTypeName}"
+        android:text="@{foodType}"
         android:padding="8dp"/>
 
 </LinearLayout>

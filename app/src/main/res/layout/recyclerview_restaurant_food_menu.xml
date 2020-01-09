@@ -11,11 +11,10 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cv_restauran_food_details"
+        android:id="@+id/cv_food_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        bind:cardBackgroundColor="@color/overlapCardBackgroundColor"
 
         card_view:cardCornerRadius="10dp"
         tools:targetApi="lollipop"

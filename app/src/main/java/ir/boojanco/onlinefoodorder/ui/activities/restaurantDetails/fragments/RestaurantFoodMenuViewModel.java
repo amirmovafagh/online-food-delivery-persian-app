@@ -70,9 +70,8 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
                 @Override
                 public void onNext(GetAllFoodResponse getAllFoodResponse) {
                     foodInterface.onStarted();
-
-                    //allFoodMutableLiveData.setValue(getAllFoodResponse);
-                    foodInterface.onSuccess(makeFoodAndHeaderList(getAllFoodResponse));
+                    allFoodMutableLiveData.setValue(getAllFoodResponse);
+                    foodInterface.onSuccess(makeFoodAndHeaderList(getAllFoodResponse), allFoodMutableLiveData);
                 }
             });
         }

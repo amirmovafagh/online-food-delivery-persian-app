@@ -1,7 +1,6 @@
 package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -9,12 +8,10 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.databinding.RecyclerviewFoodTypeHeaderBinding;
 import ir.boojanco.onlinefoodorder.databinding.RecyclerviewRestaurantFoodMenuBinding;
-import ir.boojanco.onlinefoodorder.models.food.getAllFood.AllFoodList;
 import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.FoodItem;
 
 public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -49,8 +46,8 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
         }else if(holder instanceof RestaurantFoodViewHolder){
             FoodItem foodItem = (FoodItem) items.get(position);
             ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.setFoodItem(foodItem);
-            ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.cvRestauranFoodDetails.setOnClickListener(v -> {
-                clickListener.onRecyclerViewItemClick(((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.cvRestauranFoodDetails, items.get(position));
+            ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.cvFoodDetails.setOnClickListener(v -> {
+                clickListener.onRecyclerViewItemClick(((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.cvFoodDetails, foodItem);
             });
         }
 

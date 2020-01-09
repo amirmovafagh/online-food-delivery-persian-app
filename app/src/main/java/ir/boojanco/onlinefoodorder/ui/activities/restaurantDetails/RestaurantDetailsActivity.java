@@ -6,8 +6,11 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -67,6 +70,8 @@ public class RestaurantDetailsActivity extends AppCompatActivity  {
     {
         view.setupWithViewPager(pagerView, true);
         pagerView.setCurrentItem(1);
+
+
     }
 
 

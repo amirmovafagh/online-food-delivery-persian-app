@@ -9,6 +9,6 @@ import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.ListItemType;
 
 public interface RestaurantFoodMenuInterface {
     void onStarted();
-    void onSuccess(ArrayList<ListItemType> items, MutableLiveData<GetAllFoodResponse> allFoodMutableLiveData);
+    void onSuccess(ArrayList<ListItemType> items, MutableLiveData<GetAllFoodResponse> allFoodMutableLiveData, ArrayList<String> foodTypeIndex);
     void onFailure(String error);
 }

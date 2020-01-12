@@ -32,11 +32,13 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
     private FoodItem foodItem;
     private FoodTypeHeader foodTypeHeader;
     private ArrayList<ListItemType> items ;
+    private ArrayList<String> foodTypeIndex ;
     public MutableLiveData<GetAllFoodResponse> allFoodMutableLiveData;
 
     public RestaurantFoodMenuViewModel(Context context, RestaurantRepository restaurantRepository) {
         allFoodMutableLiveData = new MutableLiveData<>();
         items =  new ArrayList<>();
+        foodTypeIndex =  new ArrayList<>();
         this.context = context;
         this.restaurantRepository = restaurantRepository;
     }
@@ -71,7 +73,7 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
                 public void onNext(GetAllFoodResponse getAllFoodResponse) {
                     foodInterface.onStarted();
                     allFoodMutableLiveData.setValue(getAllFoodResponse);
-                    foodInterface.onSuccess(makeFoodAndHeaderList(getAllFoodResponse), allFoodMutableLiveData);
+                    foodInterface.onSuccess(makeFoodAndHeaderList(getAllFoodResponse), allFoodMutableLiveData, foodTypeIndex);
                 }
             });
         }
@@ -83,6 +85,7 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
                 String foodType = getAllFoodResponse.secondaryList().get(i);
                 Log.e(TAG, ""+foodType);
                 foodTypeHeader = new FoodTypeHeader(foodType);
+                foodTypeIndex.add(foodType);
                 items.add(foodTypeHeader);
                 if(getAllFoodResponse.getMainList()!= null)
                 for (int j = 0; j < getAllFoodResponse.getMainList().getAllFoodList().size(); j++){
@@ -102,6 +105,7 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
                                     foodItem.setName(allFoodList.getName());
                                     foodItem.setPoint(allFoodList.getPoint());
                                     items.add(foodItem);
+                                    foodTypeIndex.add(" ");
                             }
                         }
                     }

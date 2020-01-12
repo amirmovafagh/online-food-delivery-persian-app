@@ -47,11 +47,14 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     @Inject
     MySharedPreferences sharedPreferences;
 
+    private ArrayList<String> foodTypeIndex;
+
     private RestaurantFoodMenuViewModel restaurantFoodMenuViewModel;
     private RestaurantFoodMenuFragmentBinding binding;
     private RecyclerView recyclerViewFoodMenu, recyclerViewFoodType;
     private RestaurantFoodMenuAdapter adapterMenu;
     private RestaurantFoodTypeAdapter adapterFoodType;
+    private LinearLayoutManager linearLayoutManagerFoodMenu;
 
     public static RestaurantFoodMenuFragment newInstance() {
         return new RestaurantFoodMenuFragment();
@@ -78,8 +81,9 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
             adapterFoodType = new RestaurantFoodTypeAdapter(this);
             recyclerViewFoodType.setAdapter(adapterFoodType);
 
+            linearLayoutManagerFoodMenu = new LinearLayoutManager(getActivity().getApplication());
             recyclerViewFoodMenu = binding.recyclerViewRestauranFood;
-            recyclerViewFoodMenu.setLayoutManager(new LinearLayoutManager(getActivity().getApplication()));
+            recyclerViewFoodMenu.setLayoutManager(linearLayoutManagerFoodMenu);
             recyclerViewFoodMenu.setHasFixedSize(true);
             adapterMenu = new RestaurantFoodMenuAdapter(this);
             recyclerViewFoodMenu.setAdapter(adapterMenu);
@@ -101,11 +105,12 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     }
 
     @Override
-    public void onSuccess(ArrayList<ListItemType> items, MutableLiveData<GetAllFoodResponse> foodTypeMutableLiveData) {
+    public void onSuccess(ArrayList<ListItemType> items, MutableLiveData<GetAllFoodResponse> foodTypeMutableLiveData, ArrayList<String> foodTypeIndex) {
         foodTypeMutableLiveData.observe(this, getAllFoodResponse -> {
             recyclerViewFoodType.scheduleLayoutAnimation();
             adapterFoodType.setFoodTypeLists(getAllFoodResponse.secondaryList());
         });
+        this.foodTypeIndex = foodTypeIndex;
         recyclerViewFoodMenu.scheduleLayoutAnimation();
         adapterMenu.setFoodLists(items);
     }
@@ -116,10 +121,11 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     }
 
     @Override
-    public void onRecyclerViewItemClick(View v, FoodItem items) {
+    public void onRecyclerViewItemClick(int position,View v, FoodItem items) {
         switch (v.getId()){
             case R.id.cv_food_details:
-                Toast.makeText(getActivity() , "food: "+ items.getDetails() , Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity() , "food: "+ items.getDetails()+position, Toast.LENGTH_SHORT).show();
+
                 break;
             case R.id.ivLogo:
 
@@ -131,7 +137,14 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     public void onRecyclerViewTypeItemClick(View v, String foodTypeName) {
         switch (v.getId()){
             case R.id.tvNameType:
-                Toast.makeText(getActivity() , "type: "+ foodTypeName , Toast.LENGTH_SHORT).show();
+                
+                for (int i = 0; i < foodTypeIndex.size(); i++) {
+                    if (foodTypeIndex.get(i).equals(foodTypeName)) {
+                        linearLayoutManagerFoodMenu.scrollToPositionWithOffset(i,linearLayoutManagerFoodMenu.getPaddingTop());
+                    }
+                }
+
+                //recyclerViewFoodMenu.getLayoutManager().smoothScrollToPosition(recyclerViewFoodMenu,null,8);
                 break;
 
         }

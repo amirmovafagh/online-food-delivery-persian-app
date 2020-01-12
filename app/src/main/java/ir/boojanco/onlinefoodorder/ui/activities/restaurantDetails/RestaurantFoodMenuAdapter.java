@@ -17,6 +17,7 @@ import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.Foo
 public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     //private List<AllFoodList> foodLists;
     private ArrayList<ListItemType> items;
+    private FoodTypeHeader header;
     public RecyclerViewRestaurantFoodMenuClickListener clickListener;
 
     public RestaurantFoodMenuAdapter(RecyclerViewRestaurantFoodMenuClickListener clickListener){
@@ -40,14 +41,15 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
         if(holder instanceof RestaurantFoodHeaderViewHolder){
-            FoodTypeHeader header = (FoodTypeHeader) items.get(position);
+            header = (FoodTypeHeader) items.get(position);
             ((RestaurantFoodHeaderViewHolder) holder).recyclerviewFoodTypeHeaderBinding.setHeader(header);
         }else if(holder instanceof RestaurantFoodViewHolder){
             FoodItem foodItem = (FoodItem) items.get(position);
             ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.setFoodItem(foodItem);
             ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.cvFoodDetails.setOnClickListener(v -> {
-                clickListener.onRecyclerViewItemClick(((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.cvFoodDetails, foodItem);
+                clickListener.onRecyclerViewItemClick(position,((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.cvFoodDetails, foodItem);
             });
         }
 
@@ -60,6 +62,7 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
         return items.get(position).getItemType();
     }
 
+
     @Override
     public int getItemCount() {
         if (items != null) {
@@ -68,6 +71,7 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
             return 0;
         }
     }
+
 
     public void setFoodLists(ArrayList<ListItemType> items) {
         this.items = items;

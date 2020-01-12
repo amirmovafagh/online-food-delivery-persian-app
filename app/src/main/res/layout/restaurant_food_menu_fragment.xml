@@ -17,7 +17,7 @@
             android:id="@+id/recycler_view_food_type"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.05"
+            android:layout_weight="0.1"
             android:layout_gravity="top"
             android:orientation="horizontal"
             android:layoutAnimation="@anim/layout_animation_fall_down"
@@ -26,7 +26,7 @@
             android:id="@+id/recycler_view_restauran_food"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.95"
+            android:layout_weight="0.9"
             android:layoutAnimation="@anim/layout_animation_fall_down" />
 
 

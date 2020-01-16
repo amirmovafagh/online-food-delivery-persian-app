@@ -12,6 +12,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -107,7 +108,7 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     @Override
     public void onSuccess(ArrayList<ListItemType> items, MutableLiveData<GetAllFoodResponse> foodTypeMutableLiveData, ArrayList<String> foodTypeIndex) {
         foodTypeMutableLiveData.observe(this, getAllFoodResponse -> {
-            recyclerViewFoodType.scheduleLayoutAnimation();
+            //recyclerViewFoodType.scheduleLayoutAnimation();
             adapterFoodType.setFoodTypeLists(getAllFoodResponse.secondaryList());
         });
         this.foodTypeIndex = foodTypeIndex;
@@ -143,8 +144,6 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
                         linearLayoutManagerFoodMenu.scrollToPositionWithOffset(i,linearLayoutManagerFoodMenu.getPaddingTop());
                     }
                 }
-
-                //recyclerViewFoodMenu.getLayoutManager().smoothScrollToPosition(recyclerViewFoodMenu,null,8);
                 break;
 
         }

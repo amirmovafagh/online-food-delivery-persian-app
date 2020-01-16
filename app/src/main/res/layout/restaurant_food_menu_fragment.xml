@@ -20,7 +20,6 @@
             android:layout_weight="0.1"
             android:layout_gravity="top"
             android:orientation="horizontal"
-            android:layoutAnimation="@anim/layout_animation_fall_down"
             />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_restauran_food"

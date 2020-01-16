@@ -34,13 +34,19 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
     private ArrayList<ListItemType> items ;
     private ArrayList<String> foodTypeIndex ;
     public MutableLiveData<GetAllFoodResponse> allFoodMutableLiveData;
+    public MutableLiveData<Boolean> checkedPosition;
 
     public RestaurantFoodMenuViewModel(Context context, RestaurantRepository restaurantRepository) {
         allFoodMutableLiveData = new MutableLiveData<>();
+        checkedPosition = new MutableLiveData<>();
         items =  new ArrayList<>();
         foodTypeIndex =  new ArrayList<>();
         this.context = context;
         this.restaurantRepository = restaurantRepository;
+    }
+
+    public void setPosition(boolean position){
+        checkedPosition.setValue(position);
     }
 
     public void getAllFood(String authToken, int restaurantId){

@@ -8,6 +8,9 @@
         <variable
             name="foodType"
             type="String"/>
+        <variable
+            name="viewModel"
+            type="ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.RestaurantFoodMenuViewModel" />
     </data>
 <LinearLayout
     android:orientation="horizontal"
@@ -25,6 +28,12 @@
         android:textStyle="bold"
         android:text="@{foodType}"
         android:padding="8dp"/>
+    <RadioButton
+        android:id="@+id/radioBt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        />
 
 </LinearLayout>
 </layout>

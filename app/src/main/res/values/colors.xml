@@ -10,4 +10,5 @@
     <color name="overlapCardBackgroundColor">#EDFFFFFF</color>
     <color name="detailsTextColor">#939393</color>
     <color name="backgroundGrayLight">#F0F6F7</color>
+    <color name="greenTest">#69CC1F</color>
 </resources>

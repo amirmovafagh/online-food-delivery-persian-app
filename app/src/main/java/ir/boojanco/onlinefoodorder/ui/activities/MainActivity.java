@@ -1,10 +1,15 @@
 package ir.boojanco.onlinefoodorder.ui.activities;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 
@@ -42,6 +47,9 @@ public class MainActivity extends AppCompatActivity  {
     Fragment active = homeFragment;
     BottomNavigationView bottomNavigationView ;
     Toolbar myToolbar;
+    SearchView searchView;
+    EditText searchEditText;
+
 
     @Inject
     MySharedPreferences sharedPreferences;
@@ -63,12 +71,18 @@ public class MainActivity extends AppCompatActivity  {
         assert navHostFragment != null;
         NavigationUI.setupWithNavController(bottomNavigationView,
                 navHostFragment.getNavController());
-
-        myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        myToolbar = binding.myToolbar;
+        searchView=binding.search;
         setSupportActionBar(myToolbar);
+
 
         Toast.makeText(this, ""+sharedPreferences.getUserAuthTokenKey(), Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
 
+
+        return super.onCreateOptionsMenu(menu);
+    }
 }

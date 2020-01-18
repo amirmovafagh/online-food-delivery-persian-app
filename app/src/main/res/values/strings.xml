@@ -15,6 +15,7 @@
     <string name="cart">سفارشات</string>
     <string name="restaurants">رستوران ها</string>
     <string name="home">خانه</string>
+    <string name="search_title">یافتن رستوران…</string>
 
     <string name="tab_berger">برگر</string>
     <string name="tab_hotdog">هات داگ</string>

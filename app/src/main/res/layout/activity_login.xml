@@ -163,9 +163,14 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintGuide_begin="390dp" />
 
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_waiting_response"
+            android:layout_width="230dp"
+            android:layout_height="350dp"
+            app:cardBackgroundColor="@color/waitingResponseBackgroundColor"
+            android:elevation="4dp"
+            app:cardCornerRadius="25dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -174,10 +179,11 @@
                 android:id="@+id/animation_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:lottie_rawRes="@raw/waitin_animate"
+                android:layout_margin="15dp"
+                app:lottie_rawRes="@raw/waiting_animate_burger"
                 app:lottie_loop="true"
                 app:lottie_autoPlay="true" />
-        </FrameLayout>
+        </androidx.cardview.widget.CardView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

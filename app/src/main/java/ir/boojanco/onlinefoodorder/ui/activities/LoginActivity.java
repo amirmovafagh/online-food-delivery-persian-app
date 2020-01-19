@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -63,7 +64,7 @@ public class LoginActivity extends AppCompatActivity implements LoginAuth {
 
     @Override
     public void onStarted() {
-
+        binding.cvWaitingResponse.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -73,6 +74,7 @@ public class LoginActivity extends AppCompatActivity implements LoginAuth {
             Intent i = new Intent(this,MainActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            binding.cvWaitingResponse.setVisibility(View.GONE);
             startActivity(i);
         }
 
@@ -81,5 +83,7 @@ public class LoginActivity extends AppCompatActivity implements LoginAuth {
     @Override
     public void onFailure(String error) {
         Toast.makeText(LoginActivity.this, "" + error, Toast.LENGTH_SHORT).show();
+        binding.cvWaitingResponse.setVisibility(View.VISIBLE);
+
     }
 }

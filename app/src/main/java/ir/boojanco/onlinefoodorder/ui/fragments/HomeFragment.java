@@ -15,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.smarteist.autoimageslider.SliderView;
+
 import javax.inject.Inject;
 
 import ir.boojanco.onlinefoodorder.R;
@@ -31,6 +33,7 @@ public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     private HomeFragmentBinding binding;
+    private SliderView sliderView;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -50,12 +53,14 @@ public class HomeFragment extends Fragment {
         homeViewModel = ViewModelProviders.of(this,factory).get(HomeViewModel.class);
         binding.setHomeViewModel(homeViewModel);
         binding.setLifecycleOwner(this);
+        sliderView = binding.imageSlider;
         return binding.getRoot();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        sliderView.setSliderAdapter(new SliderAdapterHome());
         // TODO: Use the ViewModel
     }
 

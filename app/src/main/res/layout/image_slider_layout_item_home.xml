@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:bind="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="imageUrl"
+            type="String" />
+        <variable
+            name="text"
+            type="String" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layoutDirection="rtl">
+
+        <ImageView
+            android:id="@+id/imageViewSliderHome"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            bind:image="@{imageUrl}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewSliderHome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textSize="@dimen/body1_paragraph_font_size"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:text="@{text}"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/imageViewSliderHome"
+            app:layout_constraintEnd_toEndOf="@+id/imageViewSliderHome"
+            app:layout_constraintHorizontal_bias="0.494"
+            app:layout_constraintStart_toStartOf="@+id/imageViewSliderHome"
+            app:layout_constraintTop_toTopOf="@+id/imageViewSliderHome"
+            app:layout_constraintVertical_bias="0.722" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

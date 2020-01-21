@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -7,23 +9,128 @@
             type="ir.boojanco.onlinefoodorder.viewmodels.HomeViewModel" />
     </data>
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragments.HomeFragment">
+    tools:context=".ui.fragments.HomeFragment"
+    android:layoutDirection="rtl">
 
-    <ImageView
-        android:id="@+id/imageView"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewImageSlider"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-
-        android:scaleType="fitXY"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        bind:cardCornerRadius="6dp"
         bind:layout_constraintEnd_toEndOf="parent"
         bind:layout_constraintStart_toStartOf="parent"
-        bind:layout_constraintTop_toTopOf="parent"
-        bind:srcCompat="@drawable/header_background_small" />
+        bind:layout_constraintTop_toTopOf="parent">
 
+        <com.smarteist.autoimageslider.SliderView
+            android:id="@+id/imageSlider"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            bind:sliderAnimationDuration="600"
+            bind:sliderAutoCycleDirection="back_and_forth"
+            bind:sliderAutoCycleEnabled="true"
+            bind:sliderCircularHandlerEnabled="true"
+            bind:sliderIndicatorAnimationDuration="600"
+            bind:sliderIndicatorGravity="center_horizontal|bottom"
+            bind:sliderIndicatorMargin="35dp"
+            bind:sliderIndicatorOrientation="horizontal"
+            bind:sliderIndicatorPadding="3dp"
+            bind:sliderIndicatorRadius="2dp"
+            bind:sliderIndicatorSelectedColor="@color/colorAccent"
+            bind:sliderIndicatorUnselectedColor="#FFF"
+            bind:sliderScrollTimeInSec="5"
+            bind:sliderStartAutoCycle="true" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_search_layout"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        bind:cardCornerRadius="6dp"
+        bind:layout_constraintBottom_toBottomOf="@id/cardViewImageSlider"
+        bind:layout_constraintEnd_toEndOf="parent"
+        bind:layout_constraintStart_toStartOf="parent"
+        bind:layout_constraintTop_toTopOf="@id/cardViewImageSlider"
+        bind:layout_constraintVertical_bias="1.21">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:baselineAligned="false"
+            android:weightSum="100.0">
+
+            <LinearLayout
+                android:layout_width="0.0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="70.0"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="100.0">
+
+                <EditText
+                    android:layout_width="0.0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8.0dp"
+                    android:layout_weight="90.0"
+                    android:ellipsize="end"
+                    android:background="@android:color/white"
+                    android:drawableStart="@drawable/ic_action_search"
+                    android:hint="@string/search_title"
+                    android:maxLines="1"
+                    android:textSize="@dimen/edit_text_font_size" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_search"
+                android:layout_width="0.0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="30.0"
+                android:background="@color/colorPrimary"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:src="@drawable/ic_location" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/street"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5.0dp"
+                        android:text="مجدالعلما"
+                        android:ellipsize="end"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/caption_font_size" />
+
+                    <TextView
+                        android:id="@+id/city"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5.0dp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:text="یزد"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/button_font_size"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

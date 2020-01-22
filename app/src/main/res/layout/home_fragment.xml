@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -12,15 +13,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.HomeFragment"
+    tools:context=".ui.fragments.home.HomeFragment"
     android:layoutDirection="rtl">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewImageSlider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        bind:cardCornerRadius="@dimen/card_view_corner_radius"
         bind:layout_constraintEnd_toEndOf="parent"
         bind:layout_constraintStart_toStartOf="parent"
         bind:layout_constraintTop_toTopOf="parent">
@@ -94,40 +93,60 @@
                 android:layout_weight="30.0"
                 android:background="@color/colorPrimary"
                 android:gravity="center_vertical">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:src="@drawable/ic_location" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/street"
-                        android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cons_layout_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/lottie_location_animate"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="5.0dp"
-                        android:text="مجدالعلما"
-                        android:ellipsize="end"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/caption_font_size" />
-
-                    <TextView
-                        android:id="@+id/city"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5.0dp"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:text="یزد"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/button_font_size"
+                        android:layout_marginBottom="8dp"
+                        android:scaleType="centerCrop"
+                        app:lottie_rawRes="@raw/location_animate_icon"
+                        app:lottie_loop="true"
+                        app:lottie_autoPlay="true"
+                        app:layout_constraintRight_toRightOf="@id/cons_layout_location"
+                        app:layout_constraintTop_toTopOf="@id/cons_layout_location"
+                        app:layout_constraintBottom_toBottomOf="@id/cons_layout_location"
+                        app:layout_constraintLeft_toRightOf="@id/lin_location"
+                        app:layout_constraintHorizontal_weight="2.5"
                         />
-                </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lin_location"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="@id/cons_layout_location"
+                        app:layout_constraintLeft_toLeftOf="@id/cons_layout_location"
+                        app:layout_constraintTop_toTopOf="@id/cons_layout_location"
+                        app:layout_constraintRight_toLeftOf="@+id/lottie_location_animate"
+                        app:layout_constraintHorizontal_weight="7.5">
+                        <TextView
+                            android:id="@+id/street"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="مجدالعلما"
+                            android:ellipsize="end"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/caption_font_size" />
+
+                        <TextView
+                            android:id="@+id/city"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:text="یزد"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/button_font_size"
+                            />
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
             </LinearLayout>
 

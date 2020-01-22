@@ -179,7 +179,7 @@
                 android:id="@+id/animation_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
+                android:layout_margin="5dp"
                 app:lottie_rawRes="@raw/waiting_animate_burger"
                 app:lottie_loop="true"
                 app:lottie_autoPlay="true" />

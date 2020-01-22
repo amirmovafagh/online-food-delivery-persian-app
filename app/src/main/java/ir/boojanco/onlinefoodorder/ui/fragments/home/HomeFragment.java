@@ -1,4 +1,4 @@
-package ir.boojanco.onlinefoodorder.ui.fragments;
+package ir.boojanco.onlinefoodorder.ui.fragments.home;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -76,7 +76,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        sliderView.setSliderAdapter(new SliderAdapterHome());
+        sliderView.setSliderAdapter(new SliderAdapterHome(getContext()));
         foodTypeFilterItems = new ArrayList<>();
         foodTypeFilterItems.add(new FoodTypeFilterItem("برگر", getResources().getIdentifier("@drawable/burger", "drawable", getActivity().getPackageName())));
         foodTypeFilterItems.add(new FoodTypeFilterItem("چینی", getResources().getIdentifier("@drawable/chinese", "drawable", getActivity().getPackageName())));

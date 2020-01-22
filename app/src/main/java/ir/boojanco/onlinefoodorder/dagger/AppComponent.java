@@ -8,7 +8,7 @@ import ir.boojanco.onlinefoodorder.ui.activities.MainActivity;
 import ir.boojanco.onlinefoodorder.ui.activities.RegisterActivity;
 import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.RestaurantDetailsActivity;
 import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.RestaurantFoodMenuFragment;
-import ir.boojanco.onlinefoodorder.ui.fragments.HomeFragment;
+import ir.boojanco.onlinefoodorder.ui.fragments.home.HomeFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurants.RestaurantFragment;
 
 @Singleton

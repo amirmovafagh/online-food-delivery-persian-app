@@ -1,5 +1,6 @@
-package ir.boojanco.onlinefoodorder.ui.fragments;
+package ir.boojanco.onlinefoodorder.ui.fragments.home;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import androidx.databinding.DataBindingUtil;
@@ -9,6 +10,10 @@ import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.databinding.ImageSliderLayoutItemHomeBinding;
 
 public class SliderAdapterHome extends SliderViewAdapter<SliderAdapterHome.SliderAdapterVH> {
+    private Context context;
+    public SliderAdapterHome(Context ccntext) {
+        this.context = ccntext;
+    }
 
     @Override
     public SliderAdapterVH onCreateViewHolder(ViewGroup parent) {
@@ -23,16 +28,20 @@ public class SliderAdapterHome extends SliderViewAdapter<SliderAdapterHome.Slide
 
         switch (position) {
             case 0:
-                viewHolder.imageSliderLayoutItemHomeBinding.setImageUrl("https://wallpapergram.ir/wp-img/WallpaperGram.IR_1563054964_z11217.jpg?auto=compress&cs=tinysrgb&h=750&w=1260");
+                viewHolder.imageSliderLayoutItemHomeBinding.imageViewSliderHome.setImageDrawable(context.getResources().getDrawable(R.drawable.test_pic1));
+                //viewHolder.imageSliderLayoutItemHomeBinding.setImageUrl("https://wallpapergram.ir/wp-img/WallpaperGram.IR_1563054964_z11217.jpg?auto=compress&cs=tinysrgb&h=750&w=1260");
                 break;
             case 1:
-                viewHolder.imageSliderLayoutItemHomeBinding.setImageUrl("https://wallpapergram.ir/wp-img/WallpaperGram.IR_1563054124_z62270.jpg");
+                viewHolder.imageSliderLayoutItemHomeBinding.imageViewSliderHome.setImageDrawable(context.getResources().getDrawable(R.drawable.test_pic2));
+                //viewHolder.imageSliderLayoutItemHomeBinding.setImageUrl("https://wallpapergram.ir/wp-img/WallpaperGram.IR_1563054124_z62270.jpg");
                 break;
             case 2:
-                viewHolder.imageSliderLayoutItemHomeBinding.setImageUrl("https://wallpapergram.ir/wp-img/WallpaperGram.IR_1563053281_z73216.jpg");
+                viewHolder.imageSliderLayoutItemHomeBinding.imageViewSliderHome.setImageDrawable(context.getResources().getDrawable(R.drawable.test_pic3));
+                //viewHolder.imageSliderLayoutItemHomeBinding.setImageUrl("https://wallpapergram.ir/wp-img/WallpaperGram.IR_1563053281_z73216.jpg");
                 break;
             default:
-                viewHolder.imageSliderLayoutItemHomeBinding.setImageUrl("https://wallpapergram.ir/wp-img/WallpaperGram.IR_1558274303_85250.jpg");
+                viewHolder.imageSliderLayoutItemHomeBinding.imageViewSliderHome.setImageDrawable(context.getResources().getDrawable(R.drawable.test_pic4));
+                //viewHolder.imageSliderLayoutItemHomeBinding.setImageUrl("https://wallpapergram.ir/wp-img/WallpaperGram.IR_1558274303_85250.jpg");
 
                 break;
 

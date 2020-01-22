@@ -1,4 +1,4 @@
-package ir.boojanco.onlinefoodorder.ui.fragments;
+package ir.boojanco.onlinefoodorder.ui.fragments.home;
 
 public class FoodTypeFilterItem {
     private String name;

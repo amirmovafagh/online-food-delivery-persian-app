@@ -21,6 +21,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -42,14 +43,17 @@
         <activity android:name=".ui.activities.RegisterActivity"></activity>
         <activity android:name=".ui.activities.VerificationActivity" />
         <activity android:name=".ui.activities.LoginActivity">
+
+        </activity>
+        <activity android:name=".ui.activities.MainActivity"
+            android:windowSoftInputMode="adjustPan">
+
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".ui.activities.MainActivity">
-
         </activity>
     </application>
 

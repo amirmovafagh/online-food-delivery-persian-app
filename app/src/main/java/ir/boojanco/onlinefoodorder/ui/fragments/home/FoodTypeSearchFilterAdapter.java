@@ -1,7 +1,6 @@
-package ir.boojanco.onlinefoodorder.ui.fragments;
+package ir.boojanco.onlinefoodorder.ui.fragments.home;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -9,7 +8,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.databinding.RecyclerviewFoodTypeSearchFilterItemBinding;

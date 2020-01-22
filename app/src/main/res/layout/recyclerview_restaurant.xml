@@ -18,7 +18,7 @@
         bind:layout_constraintEnd_toEndOf="parent"
         bind:layout_constraintStart_toStartOf="parent"
         bind:layout_constraintTop_toTopOf="parent"
-        card_view:cardCornerRadius="10dp"
+        card_view:cardCornerRadius="@dimen/card_view_corner_radius"
         tools:targetApi="lollipop">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cons_layout"
@@ -95,7 +95,6 @@
                             android:layout_width="100dp"
                             android:layout_height="0dp"
                             android:scaleType="matrix"
-
                             bind:image="@{restaurant.logo}"
                             bind:layout_constraintBottom_toBottomOf="parent"
                             bind:layout_constraintHorizontal_bias="0"

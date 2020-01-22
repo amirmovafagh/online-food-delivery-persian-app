@@ -165,8 +165,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_waiting_response"
-            android:layout_width="230dp"
-            android:layout_height="350dp"
+            android:layout_width="150dp"
+            android:layout_height="250dp"
             app:cardBackgroundColor="@color/waitingResponseBackgroundColor"
             android:elevation="4dp"
             app:cardCornerRadius="25dp"

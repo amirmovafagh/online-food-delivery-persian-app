@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity  {
         binding.setMain(mainViewModel); // connect activity_Main variable to ViewModel class
         // Specify the current activity as the lifecycle owner.
         binding.setLifecycleOwner(this);
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView = binding.bottomNavigation;
         NavHostFragment navHostFragment = (NavHostFragment)getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment);
         assert navHostFragment != null;

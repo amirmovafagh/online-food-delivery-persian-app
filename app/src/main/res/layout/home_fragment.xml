@@ -14,7 +14,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.fragments.home.HomeFragment"
-    android:layoutDirection="rtl">
+    android:layoutDirection="rtl"
+    android:background="@color/backgroundGrayLight">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewImageSlider"
@@ -48,15 +49,15 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_search_layout"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="52dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        bind:cardCornerRadius="@dimen/card_view_corner_radius"
+        bind:cardCornerRadius="30dp"
         bind:layout_constraintBottom_toBottomOf="@id/cardViewImageSlider"
         bind:layout_constraintEnd_toEndOf="parent"
         bind:layout_constraintStart_toStartOf="parent"
         bind:layout_constraintTop_toTopOf="@id/cardViewImageSlider"
-        bind:layout_constraintVertical_bias="1.2">
+        bind:layout_constraintVertical_bias="1.18">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -153,16 +154,31 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+    <!--<TextView
+        android:id="@+id/textViewCategoryTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:maxLines="1"
+        android:textColor="@android:color/black"
+        android:textAlignment="textStart"
+        android:textSize="@dimen/body1_paragraph_font_size"
+        android:text="@string/popular_categories"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cv_search_layout"/>-->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_food_type_search_filter_home"
         android:layout_width="match_parent"
-        android:layout_height="98.0dp"
+        android:layout_height="98dp"
         android:orientation="horizontal"
         bind:layout_constraintBottom_toBottomOf="parent"
         bind:layout_constraintEnd_toEndOf="parent"
         bind:layout_constraintStart_toStartOf="parent"
         bind:layout_constraintTop_toBottomOf="@+id/cv_search_layout"
-        bind:layout_constraintVertical_bias="0"/>
+        bind:layout_constraintVertical_bias="0.0"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

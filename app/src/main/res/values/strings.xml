@@ -23,4 +23,6 @@
     <string name="tab_text_3">پیتزا</string>
     <string name="title_activity_maps">Map</string>
     <string name="popular_categories">دسته بندی های پرطرفدار</string>
+    <string name="delicious">خوشمزه ها</string>
+    <string name="new_restaurants">جدید ترین رستوران ها</string>
 </resources>

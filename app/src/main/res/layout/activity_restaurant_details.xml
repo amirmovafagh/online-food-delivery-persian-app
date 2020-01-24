@@ -40,19 +40,17 @@
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 android:fitsSystemWindows="true"
                 app:titleEnabled="false">
-
-                <ImageView
-                    android:id="@+id/backdrop"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="?attr/actionBarSize"
-                    android:src="@drawable/header_background_small"
-                    android:scaleType="fitXY"
-                    android:fitsSystemWindows="true"
-                    app:layout_collapseMode="parallax" />
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="?actionBarSize"
+                    android:padding="26dp"
+                    android:fitsSystemWindows="true"
+                    android:background="@drawable/curve_background"
+                    app:layout_collapseMode="parallax">
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"

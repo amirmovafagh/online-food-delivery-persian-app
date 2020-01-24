@@ -28,11 +28,11 @@
         <com.smarteist.autoimageslider.SliderView
             android:id="@+id/imageSlider"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="210dp"
             bind:sliderAnimationDuration="600"
             bind:sliderAutoCycleDirection="back_and_forth"
             bind:sliderAutoCycleEnabled="true"
-            bind:sliderCircularHandlerEnabled="true"
+            bind:sliderCircularHandlerEnabled="false"
             bind:sliderIndicatorAnimationDuration="600"
             bind:sliderIndicatorRtlMode="on"
             bind:sliderIndicatorGravity="center_horizontal|bottom"
@@ -52,12 +52,12 @@
         android:layout_height="52dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        bind:cardCornerRadius="30dp"
+        bind:cardCornerRadius="25dp"
         bind:layout_constraintBottom_toBottomOf="@id/cardViewImageSlider"
         bind:layout_constraintEnd_toEndOf="parent"
         bind:layout_constraintStart_toStartOf="parent"
         bind:layout_constraintTop_toTopOf="@id/cardViewImageSlider"
-        bind:layout_constraintVertical_bias="1.18">
+        bind:layout_constraintVertical_bias="1.17">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -97,7 +97,10 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cons_layout_location"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackground">
                     <com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/lottie_location_animate"
                         android:layout_width="0dp"
@@ -169,16 +172,130 @@
         app:layout_constraintVertical_bias="0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cv_search_layout"/>-->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_food_type_search_filter_home"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="98dp"
-        android:orientation="horizontal"
-        bind:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         bind:layout_constraintEnd_toEndOf="parent"
         bind:layout_constraintStart_toStartOf="parent"
-        bind:layout_constraintTop_toBottomOf="@+id/cv_search_layout"
-        bind:layout_constraintVertical_bias="0.0"/>
+        bind:layout_constraintTop_toBottomOf="@+id/cv_search_layout">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_food_type_search_filter_home"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="0.4"
+            />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cv_sugest"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingBottom="?actionBarSize"
+            android:layout_weight="0.6"
+            >
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_new_restaurants"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="16dp"
+                app:cardCornerRadius="25dp"
+                app:layout_constraintHorizontal_weight="5"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/cv_popular_foods"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/new_restaurants_image"
+                    android:scaleType="centerCrop"/>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/new_rstaurant_cardview_gradient"
+                    />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/textview_shape_white_rounded"
+                        android:padding="5dp"
+                        android:elevation="1dp"
+                        android:textColor="@color/colorPrimary"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/body4_paragraph_font_size"
+                        android:text="@string/new_restaurants"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintVertical_bias="0.15"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_popular_foods"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="16dp"
+                app:cardCornerRadius="25dp"
+                app:layout_constraintHorizontal_weight="5"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/cv_new_restaurants"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/delicious_image"
+                    android:scaleType="centerCrop"/>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/popuular_food_cardview_gradient"
+                    />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/textview_shape_white_rounded"
+                        android:padding="5dp"
+                        android:elevation="1dp"
+                        android:textColor="@color/colorPrimary"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/body4_paragraph_font_size"
+                        android:text="@string/delicious"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintVertical_bias="0.15"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

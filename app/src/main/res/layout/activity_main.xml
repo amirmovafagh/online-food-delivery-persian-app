@@ -68,6 +68,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 app:fabAlignmentMode="center"
+                app:fabCradleMargin="4dp"
+                app:fabCradleRoundedCornerRadius="15dp"
                 style="@style/Widget.MaterialComponents.BottomAppBar"
                 app:hideOnScroll="true"/>
             <com.google.android.material.bottomnavigation.BottomNavigationView

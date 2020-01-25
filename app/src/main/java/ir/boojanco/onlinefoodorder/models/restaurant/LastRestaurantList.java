@@ -27,6 +27,8 @@ public class LastRestaurantList {
     private String logo;
     @SerializedName("cover")
     private String cover;
+    @SerializedName("deliveryTime")
+    private String deliveryTime;
     @SerializedName("averageScore")
     private float averageScore;
     @SerializedName("tagList")
@@ -54,6 +56,10 @@ public class LastRestaurantList {
 
     public String getCover() {
         return webServerMediaRoute+cover;
+    }
+
+    public String getDeliveryTime() {
+        return deliveryTime;
     }
 
     public String getTagList() {

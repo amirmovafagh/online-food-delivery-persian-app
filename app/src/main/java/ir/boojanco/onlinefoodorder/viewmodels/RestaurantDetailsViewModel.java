@@ -15,6 +15,9 @@ public class RestaurantDetailsViewModel extends ViewModel {
     public RestaurantFoodInterface foodInterface;
     public MutableLiveData<String> restaurantCover;
     public MutableLiveData<String> restaurantLogo;
+    public MutableLiveData<Float> restaurantAverageScore;
+    public MutableLiveData<String> restaurantName;
+    public MutableLiveData<String> restaurantTagList;
     private Context context;
     private RestaurantRepository restaurantRepository;
 
@@ -23,6 +26,9 @@ public class RestaurantDetailsViewModel extends ViewModel {
         this.restaurantRepository = restaurantRepository;
         restaurantCover = new MutableLiveData<>();
         restaurantLogo = new MutableLiveData<>();
+        restaurantAverageScore = new MutableLiveData<>();
+        restaurantName = new MutableLiveData<>();
+        restaurantTagList = new MutableLiveData<>();
     }
 
 }

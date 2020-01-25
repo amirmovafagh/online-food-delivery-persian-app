@@ -114,6 +114,9 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
                 intent.putExtra("RESTAURANT_ID",restaurantList.getId());
                 intent.putExtra("RESTAURANT_COVER", restaurantList.getCover());
                 intent.putExtra("RESTAURANT_LOGO", restaurantList.getLogo());
+                intent.putExtra("RESTAURANT_NAME", restaurantList.getName());
+                intent.putExtra("RESTAURANT_AVERAGE_SCORE", restaurantList.getAverageScore());
+                intent.putExtra("RESTAURANT_TAG_LIST", restaurantList.getTagList());
                 startActivity(intent);
                 break;
         }

@@ -53,8 +53,14 @@ public class RestaurantDetailsActivity extends AppCompatActivity  {
         if(extras != null){
             String extraRestauranCover = extras.getString("RESTAURANT_COVER"," ");
             String extraRestauranLogo = extras.getString("RESTAURANT_LOGO"," ");
+            String extraRestauranName = extras.getString("RESTAURANT_NAME"," ");
+            String extraRestauranTagList = extras.getString("RESTAURANT_TAG_LIST"," ");
+            Float extraRestauranAverageScore = extras.getFloat("RESTAURANT_AVERAGE_SCORE",0);
             restaurantDetailsViewModel.restaurantCover.setValue(extraRestauranCover);
             restaurantDetailsViewModel.restaurantLogo.setValue(extraRestauranLogo);
+            restaurantDetailsViewModel.restaurantAverageScore.setValue(extraRestauranAverageScore);
+            restaurantDetailsViewModel.restaurantName.setValue(extraRestauranName);
+            restaurantDetailsViewModel.restaurantTagList.setValue(extraRestauranTagList);
         }
 
     }

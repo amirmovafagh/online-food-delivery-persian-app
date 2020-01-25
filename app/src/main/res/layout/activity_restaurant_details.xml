@@ -22,7 +22,8 @@
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        android:layoutDirection="rtl">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
@@ -68,8 +69,8 @@
                         android:id="@+id/cv_restaurant_toolbar_details"
                         android:layout_width="match_parent"
                         android:layout_height="180dp"
-                        android:layout_marginLeft="60dp"
-                        android:layout_marginRight="60dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
                         app:cardBackgroundColor="@color/restaurantDetailsCardViewBackground"
                         app:cardCornerRadius="@dimen/card_view_corner_radius"
                         app:cardElevation="0dp"
@@ -80,7 +81,51 @@
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="@drawable/curve_background"></androidx.constraintlayout.widget.ConstraintLayout>
+                            android:background="@drawable/curve_background">
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="18dp"
+                                app:cardCornerRadius="@dimen/card_view_corner_radius"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintVertical_bias="0.2"
+                                app:layout_constraintHorizontal_bias="0"
+                                android:layoutDirection="ltr">
+                                <androidx.appcompat.widget.AppCompatRatingBar
+                                    android:layout_width="80dp"
+                                    android:layout_height="20dp"
+                                    style="@style/Widget.AppCompat.RatingBar.Small"
+                                    android:layout_gravity="center"
+                                    android:rating="@{detailsViewModel.restaurantAverageScore}"
+                                    android:numStars="5"
+                                    android:stepSize="0.1"
+                                    android:isIndicator="true"
+                                    />
+                            </androidx.cardview.widget.CardView>
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="18dp"
+                                app:cardCornerRadius="@dimen/card_view_corner_radius"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintVertical_bias="0.2"
+                                app:layout_constraintHorizontal_bias="1"
+                                android:layoutDirection="rtl">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@{detailsViewModel.restaurantTagList}"
+                                    android:textSize="@dimen/body4_paragraph_font_size"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"/>
+                            </androidx.cardview.widget.CardView>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
                     </androidx.cardview.widget.CardView>
                     <androidx.cardview.widget.CardView
                         android:layout_width="100dp"

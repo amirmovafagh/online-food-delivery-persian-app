@@ -76,7 +76,7 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
             int extraRestauranId = extras.getInt("RESTAURANT_ID",0);
             recyclerViewFoodType = binding.recyclerViewFoodType;
 
-            recyclerViewFoodType.setLayoutManager(new LinearLayoutManager(getActivity().getApplication(),LinearLayoutManager.HORIZONTAL,true));
+            recyclerViewFoodType.setLayoutManager(new LinearLayoutManager(getActivity().getApplication(),LinearLayoutManager.HORIZONTAL,false));
             recyclerViewFoodType.canScrollHorizontally(0);
             recyclerViewFoodType.setHasFixedSize(true);
             adapterFoodType = new RestaurantFoodTypeAdapter(this);

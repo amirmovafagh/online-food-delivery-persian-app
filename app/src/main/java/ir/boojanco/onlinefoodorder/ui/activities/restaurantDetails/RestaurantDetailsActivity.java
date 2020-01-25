@@ -6,11 +6,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.View;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -52,9 +49,13 @@ public class RestaurantDetailsActivity extends AppCompatActivity  {
         binding.setHandler(this);
         binding.setManager(getSupportFragmentManager());
 
-
-       /* */
-
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+            String extraRestauranCover = extras.getString("RESTAURANT_COVER"," ");
+            String extraRestauranLogo = extras.getString("RESTAURANT_LOGO"," ");
+            restaurantDetailsViewModel.restaurantCover.setValue(extraRestauranCover);
+            restaurantDetailsViewModel.restaurantLogo.setValue(extraRestauranLogo);
+        }
 
     }
 

@@ -13,4 +13,6 @@
     <color name="backgroundGrayLight">#F0F6F7</color>
     <color name="greenTest">#69CC1F</color>
     <color name="waitingResponseBackgroundColor">#FFFFFF</color>
+    <color name="restaurantCoverDarkShadowBackground">#7E5A5A5A</color>
+    <color name="restaurantDetailsCardViewBackground">#E6FFFFFF</color>
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
     <data>
         <variable
             name="detailsViewModel"
@@ -41,15 +41,64 @@
                 android:fitsSystemWindows="true"
                 app:titleEnabled="false">
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="?actionBarSize"
-                    android:padding="26dp"
-                    android:fitsSystemWindows="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="?actionBarSize"
                     android:background="@drawable/curve_background"
                     app:layout_collapseMode="parallax">
-
-
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        bind:image="@{detailsViewModel.restaurantCover}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"/>
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/restaurant_details_cardview_gradient"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent">
+                    </FrameLayout>
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cv_restaurant_toolbar_details"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:layout_marginLeft="60dp"
+                        android:layout_marginRight="60dp"
+                        app:cardBackgroundColor="@color/restaurantDetailsCardViewBackground"
+                        app:cardCornerRadius="@dimen/card_view_corner_radius"
+                        app:cardElevation="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent">
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/curve_background"></androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        app:cardCornerRadius="@dimen/card_view_corner_radius"
+                        app:layout_constraintBottom_toBottomOf="@id/cv_restaurant_toolbar_details"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.25"
+                        >
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:cropToPadding="true"
+                            bind:image="@{detailsViewModel.restaurantLogo}"/>
+                    </androidx.cardview.widget.CardView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.appcompat.widget.Toolbar
@@ -57,14 +106,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:layout_gravity="top"
-                    android:background="#0B2031"
+                    android:background="@android:color/transparent"
+                    style="@style/Theme.MaterialComponents.NoActionBar"
                     app:layout_collapseMode="parallax" >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="amir"
-                        android:textColor="@color/colorAccent"
-                        />
+
                 </androidx.appcompat.widget.Toolbar>
 
 

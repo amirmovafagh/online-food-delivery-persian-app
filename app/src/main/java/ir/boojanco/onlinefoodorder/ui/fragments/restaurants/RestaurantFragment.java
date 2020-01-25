@@ -113,7 +113,7 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
                 Intent intent = new Intent(getContext(), RestaurantDetailsActivity.class);
                 intent.putExtra("RESTAURANT_ID",restaurantList.getId());
                 intent.putExtra("RESTAURANT_COVER", restaurantList.getCover());
-                intent.putExtra("RESTTAURANT_LOGO", restaurantList.getLogo());
+                intent.putExtra("RESTAURANT_LOGO", restaurantList.getLogo());
                 startActivity(intent);
                 break;
         }

@@ -15,8 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-
-        card_view:cardCornerRadius="10dp"
+        card_view:cardCornerRadius="@dimen/card_view_corner_radius"
         tools:targetApi="lollipop"
         android:layoutDirection="rtl">
 

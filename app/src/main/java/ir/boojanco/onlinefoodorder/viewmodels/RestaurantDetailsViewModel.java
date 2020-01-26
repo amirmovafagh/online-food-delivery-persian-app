@@ -43,7 +43,7 @@ public class RestaurantDetailsViewModel extends ViewModel {
     public MutableLiveData<Integer> restaurantShippingCostOutRegion;
     public MutableLiveData<String>  restaurantPhoneNumber;
     public MutableLiveData<String>  restaurantRegion;
-    public MutableLiveData<List>    restaurantTagList;
+    public MutableLiveData<String>    restaurantTagList;
 
     private Context context;
     private RestaurantRepository restaurantRepository;

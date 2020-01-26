@@ -25,4 +25,6 @@
     <string name="popular_categories">دسته بندی های پرطرفدار</string>
     <string name="delicious">خوشمزه ها</string>
     <string name="new_restaurants">جدید ترین رستوران ها</string>
+    <string name="delivery_time">پیک (60 دقیقه)</string>
+    <string name="region">منطقه</string>
 </resources>

@@ -102,8 +102,14 @@ public class RestaurantInfoResponse {
         return region;
     }
 
-    public List<String> getTagList() {
-        return tagList;
+    public String getTagList() {
+        StringBuilder tagListString= new StringBuilder();
+        tagListString.append(" ");
+        if(tagList != null)
+            for(String t : tagList){
+                tagListString.append("(").append(t).append(")").append(" ");
+            }
+        return tagListString.toString();
     }
 
     public String getAddress() {

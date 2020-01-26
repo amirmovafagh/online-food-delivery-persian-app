@@ -81,28 +81,129 @@
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
-                            <androidx.cardview.widget.CardView
-                                android:layout_width="100dp"
+                            <TextView
+                                android:id="@+id/text_view_restaurant_name"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="18dp"
-                                app:cardCornerRadius="@dimen/card_view_corner_radius"
-                                app:layout_constraintTop_toTopOf="parent"
+                                android:maxLines="1"
+                                android:textAlignment="textStart"
+                                android:ellipsize="end"
+                                android:textSize="@dimen/body1_paragraph_font_size"
+                                android:textColor="@android:color/black"
+                                android:textStyle="bold"
+                                android:text="@{detailsViewModel.restaurantName}"
+                                android:layout_marginTop="8dp"
+                                android:paddingEnd="8dp"
+                                android:paddingStart="115dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintRight_toRightOf="parent"
                                 app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintVertical_bias="0"/>
+                            <TextView
+                                android:id="@+id/text_view_restaurant_tag_list"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@{detailsViewModel.restaurantTagList}"
+                                android:textSize="@dimen/body4_paragraph_font_size"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:textAlignment="textStart"
+                                android:textColor="@color/colorPrimaryLight"
+                                android:layout_marginTop="4dp"
+                                android:paddingEnd="8dp"
+                                android:paddingStart="115dp"
+                                app:layout_constraintTop_toBottomOf="@id/text_view_restaurant_name"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintVertical_bias="0"/>
+
+                            <com.airbnb.lottie.LottieAnimationView
+                                android:id="@+id/animation_view_delivery_time"
+                                android:layout_width="0dp"
+                                android:layout_height="45dp"
+                                android:layout_marginTop="4dp"
+                                android:scaleX="-1"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintHorizontal_weight="1.5"
+                                app:layout_constraintLeft_toRightOf="@id/text_view_delivery_time"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/text_view_restaurant_tag_list"
+                                app:layout_constraintVertical_bias="0"
+                                app:lottie_autoPlay="true"
+                                app:lottie_loop="true"
+
+                                app:lottie_rawRes="@raw/delivery_riding_animate" />
+                            <TextView
+                                android:id="@+id/text_view_delivery_time"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:paddingEnd="16dp"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                android:textSize="@dimen/body2_paragraph_font_size"
+                                android:textStyle="bold"
+                                android:textColor="@android:color/black"
+                                android:text="@{detailsViewModel.restaurantName, default=@string/delivery_time}"
+                                app:layout_constraintTop_toBottomOf="@id/text_view_restaurant_tag_list"
+                                app:layout_constraintRight_toLeftOf="@id/animation_view_delivery_time"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintHorizontal_weight="8.5"
+                                />
+                            <TextView
+                                android:id="@+id/text_view_region"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:maxLines="2"
+                                android:paddingStart="16dp"
+                                android:paddingEnd="16dp"
+                                android:textSize="@dimen/body2_paragraph_font_size"
+                                android:drawableStart="@drawable/ic_location"
+                                android:text="@{detailsViewModel.restaurantAddress ,default=@string/region}"
+                                app:layout_constraintTop_toBottomOf="@id/animation_view_delivery_time"
+                                />
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:cardCornerRadius="@dimen/card_view_corner_radius"
+                                android:layout_marginRight="16dp"
+                                app:layout_constraintTop_toBottomOf="@id/text_view_region"
                                 app:layout_constraintRight_toRightOf="parent"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintVertical_bias="0.2"
-                                app:layout_constraintHorizontal_bias="0"
-                                android:layoutDirection="ltr">
-                                <androidx.appcompat.widget.AppCompatRatingBar
-                                    android:layout_width="80dp"
+
+                                >
+                                <LinearLayout
+                                    android:layout_width="match_parent"
                                     android:layout_height="20dp"
-                                    style="@style/Widget.AppCompat.RatingBar.Small"
-                                    android:layout_gravity="center"
-                                    android:rating="@{detailsViewModel.restaurantAverageScore}"
-                                    android:numStars="5"
-                                    android:stepSize="0.1"
-                                    android:isIndicator="true"
-                                    />
+                                    android:layout_margin="4dp"
+                                    android:orientation="horizontal">
+
+                                    <androidx.appcompat.widget.AppCompatRatingBar
+                                        android:layout_width="80dp"
+                                        android:layout_height="match_parent"
+                                        style="@style/Widget.AppCompat.RatingBar.Small"
+                                        android:rating="@{detailsViewModel.restaurantAverageScore}"
+                                        android:numStars="5"
+                                        android:stepSize="0.1"
+                                        android:isIndicator="true"
+                                        />
+                                    <TextView
+                                        android:id="@+id/text_view_person_num_rating"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:maxLines="1"
+                                        android:paddingStart="4dp"
+                                        android:paddingEnd="4dp"
+                                        android:drawableStart="@drawable/ic_account_box_black_24dp"
+                                        android:text="@{detailsViewModel.restaurantRegion }"
+                                        app:layout_constraintTop_toBottomOf="@id/animation_view_delivery_time"
+                                        />
+
+                                </LinearLayout>
+
                             </androidx.cardview.widget.CardView>
                             <!--<androidx.cardview.widget.CardView
                                 android:layout_width="100dp"
@@ -127,8 +228,8 @@
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </androidx.cardview.widget.CardView>
                     <androidx.cardview.widget.CardView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
+                        android:layout_width="85dp"
+                        android:layout_height="85dp"
                         app:cardCornerRadius="@dimen/card_view_corner_radius"
                         app:layout_constraintBottom_toBottomOf="@id/cv_restaurant_toolbar_details"
                         app:layout_constraintLeft_toLeftOf="parent"
@@ -179,6 +280,7 @@
             android:layout_gravity="end|bottom"
             android:layout_margin="8dp"
             android:src="@drawable/like"
+            android:visibility="gone"
             app:layout_anchor="@id/tabs"
             app:layout_anchorGravity="center|left|start"
             app:fabSize="mini"
@@ -190,24 +292,34 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:handler="@{handler}" />
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_waiting_response"
-            android:layout_width="150dp"
-            android:layout_height="250dp"
-            app:cardBackgroundColor="@color/waitingResponseBackgroundColor"
-            android:elevation="4dp"
-            app:cardCornerRadius="25dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cons_layout_waiting_response"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:visibility="gone"
-            android:layout_gravity="center">
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/animation_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                app:lottie_rawRes="@raw/waiting_animate_burger"
-                app:lottie_loop="true"
-                app:lottie_autoPlay="true" />
-        </androidx.cardview.widget.CardView>
+            android:background="@color/detailsTextColor">
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_waiting_response"
+                android:layout_width="150dp"
+                android:layout_height="250dp"
+                app:cardBackgroundColor="@color/waitingResponseBackgroundColor"
+                android:elevation="4dp"
+                app:cardCornerRadius="25dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent">
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/animation_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    app:lottie_rawRes="@raw/waiting_animate_burger"
+                    app:lottie_loop="true"
+                    app:lottie_autoPlay="true" />
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.Bundle;
 import android.view.View;
@@ -88,19 +89,25 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
     }
 
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void onStarted() {
         binding.cvWaitingResponse.setVisibility(View.VISIBLE);
+        binding.fab.setVisibility(View.GONE);
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void onSuccess(MutableLiveData<RestaurantInfoResponse> liveData) {
         binding.cvWaitingResponse.setVisibility(View.GONE);
+        binding.fab.setVisibility(View.VISIBLE);
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void onFailure(String error) {
         binding.cvWaitingResponse.setVisibility(View.GONE);
+        binding.fab.setVisibility(View.VISIBLE);
         Toast.makeText(application, ""+error, Toast.LENGTH_LONG).show();
     }
 }

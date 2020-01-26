@@ -43,10 +43,10 @@ public interface ApiInterface {
     Observable<LastRestaurantResponse> getLastRestaurant(@Header("Authorization") String authToken);
 
     @GET("/api/v1/food/restaurant/{restaurantId}")
-    Observable<GetAllFoodResponse> getAllFood(@Header("Authorization") String authToken, @Path("restaurantId") int restaurantId);
+    Observable<GetAllFoodResponse> getAllFood(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
 
-    @GET("/api/v1/food/restaurant/{restaurantId}/info")
-    Observable<RestaurantInfoResponse> getRestaurantInfo(@Header("Authorization") String authToken, @Path("restaurantId") int restaurantId);
+    @GET("/api/v1/restaurant/{restaurantId}/info")
+    Observable<RestaurantInfoResponse> getRestaurantInfo(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
 
     @POST("user/verify_Email")
     Call<VerifyEmailResponse> verifyEmail(@Body VerifyEmailResponse verifyEmailResponse);

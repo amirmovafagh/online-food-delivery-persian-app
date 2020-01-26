@@ -18,7 +18,7 @@ import static ir.boojanco.onlinefoodorder.dagger.App.webServerMediaRoute;
 public class LastRestaurantList {
 
     @SerializedName("id")
-    private int id;
+    private long id;
     @SerializedName("name")
     private String name;
     @SerializedName("address")
@@ -34,7 +34,7 @@ public class LastRestaurantList {
     @SerializedName("tagList")
     private List<String> tagList;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

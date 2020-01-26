@@ -6,7 +6,7 @@ import ir.boojanco.onlinefoodorder.models.food.getAllFood.AllFoodList;
 import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.ListItemType;
 
 public class FoodItem implements ListItemType {
-    private int id;
+    private long id;
     private String name;
     private String details;
     private String logo;
@@ -19,11 +19,11 @@ public class FoodItem implements ListItemType {
 
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

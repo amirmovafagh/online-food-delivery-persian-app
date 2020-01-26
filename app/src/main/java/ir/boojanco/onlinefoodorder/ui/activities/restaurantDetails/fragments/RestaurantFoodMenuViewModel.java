@@ -49,7 +49,7 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
         checkedPosition.setValue(position);
     }
 
-    public void getAllFood(String authToken, int restaurantId){
+    public void getAllFood(String authToken, long restaurantId){
         Observable<GetAllFoodResponse> observable = restaurantRepository.getAllFood(authToken, restaurantId);
         if(observable != null){
             observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetAllFoodResponse>() {

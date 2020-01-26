@@ -166,7 +166,6 @@
                     android:layout_gravity="bottom"
                     app:tabGravity="center"
                     android:textAlignment="center"
-
                     app:pager="@{pager}"/>
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -191,6 +190,24 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:handler="@{handler}" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_waiting_response"
+            android:layout_width="150dp"
+            android:layout_height="250dp"
+            app:cardBackgroundColor="@color/waitingResponseBackgroundColor"
+            android:elevation="4dp"
+            app:cardCornerRadius="25dp"
+            android:visibility="gone"
+            android:layout_gravity="center">
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animation_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                app:lottie_rawRes="@raw/waiting_animate_burger"
+                app:lottie_loop="true"
+                app:lottie_autoPlay="true" />
+        </androidx.cardview.widget.CardView>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

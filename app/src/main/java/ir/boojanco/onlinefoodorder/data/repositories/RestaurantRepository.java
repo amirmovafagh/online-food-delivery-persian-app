@@ -3,6 +3,7 @@ package ir.boojanco.onlinefoodorder.data.repositories;
 import ir.boojanco.onlinefoodorder.data.networking.ApiInterface;
 import ir.boojanco.onlinefoodorder.models.food.getAllFood.GetAllFoodResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantResponse;
+import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import retrofit2.Retrofit;
 import rx.Observable;
 
@@ -16,8 +17,11 @@ public class RestaurantRepository {
     public Observable<LastRestaurantResponse> getLastRestaurant(String authToken){
         return apiInterface.getLastRestaurant(authToken);
     }
+    public Observable<RestaurantInfoResponse> getRestaurantInfo(String authToken, long restaurantId){
+        return apiInterface.getRestaurantInfo(authToken, restaurantId);
+    }
 
-    public Observable<GetAllFoodResponse> getAllFood(String authToken,int restaurantId){
+    public Observable<GetAllFoodResponse> getAllFood(String authToken, long restaurantId){
         return apiInterface.getAllFood(authToken, restaurantId);
     }
 }

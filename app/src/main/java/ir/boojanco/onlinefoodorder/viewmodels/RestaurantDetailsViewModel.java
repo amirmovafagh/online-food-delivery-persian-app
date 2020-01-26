@@ -1,34 +1,132 @@
 package ir.boojanco.onlinefoodorder.viewmodels;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 
+import org.json.JSONObject;
+
+import java.util.List;
+
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
+import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
+import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
+import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantDetailsInterface;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantFoodInterface;
+import retrofit2.HttpException;
+import retrofit2.Response;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 public class RestaurantDetailsViewModel extends ViewModel {
     private static final String TAG = RestaurantDetailsViewModel.class.getSimpleName();
-    public RestaurantFoodInterface foodInterface;
-    public MutableLiveData<String> restaurantCover;
-    public MutableLiveData<String> restaurantLogo;
-    public MutableLiveData<Float> restaurantAverageScore;
-    public MutableLiveData<String> restaurantName;
-    public MutableLiveData<String> restaurantTagList;
+    public RestaurantDetailsInterface detailsInterface;
+    public MutableLiveData<RestaurantInfoResponse> infoMutableLiveData;
+    public MutableLiveData<String>  restaurantCover;
+    public MutableLiveData<String>  restaurantLogo;
+    public MutableLiveData<Float>   restaurantAverageScore;
+    public MutableLiveData<String>  restaurantName;
+    public MutableLiveData<String>  restaurantAddress;
+    public MutableLiveData<String>  restaurantBranch;
+    public MutableLiveData<Boolean> restaurantDelivery;
+    public MutableLiveData<String>  restaurantDeliveryTime;
+    public MutableLiveData<Boolean> restaurantGetInPlace;
+    public MutableLiveData<Integer> restaurantMinimumOrder;
+    public MutableLiveData<Integer> restaurantPackingCost;
+    public MutableLiveData<Integer> restaurantShippingCostInRegion;
+    public MutableLiveData<Integer> restaurantShippingCostOutRegion;
+    public MutableLiveData<String>  restaurantPhoneNumber;
+    public MutableLiveData<String>  restaurantRegion;
+    public MutableLiveData<List>    restaurantTagList;
+
     private Context context;
     private RestaurantRepository restaurantRepository;
 
     public RestaurantDetailsViewModel(Context context, RestaurantRepository restaurantRepository) {
         this.context = context;
         this.restaurantRepository = restaurantRepository;
+        infoMutableLiveData = new MutableLiveData<>();
         restaurantCover = new MutableLiveData<>();
         restaurantLogo = new MutableLiveData<>();
         restaurantAverageScore = new MutableLiveData<>();
         restaurantName = new MutableLiveData<>();
         restaurantTagList = new MutableLiveData<>();
+        restaurantAddress = new MutableLiveData<>();
+        restaurantBranch = new MutableLiveData<>();
+        restaurantDelivery = new MutableLiveData<>();
+        restaurantDeliveryTime = new MutableLiveData<>();
+        restaurantGetInPlace = new MutableLiveData<>();
+        restaurantMinimumOrder = new MutableLiveData<>();
+        restaurantPackingCost = new MutableLiveData<>();
+        restaurantShippingCostInRegion = new MutableLiveData<>();
+        restaurantShippingCostOutRegion = new MutableLiveData<>();
+        restaurantPhoneNumber = new MutableLiveData<>();
+        restaurantRegion = new MutableLiveData<>();
     }
+
+    public void getRestaurantInfo(String authToken, long restaurantId){
+        Observable<RestaurantInfoResponse> observable = restaurantRepository.getRestaurantInfo(authToken, restaurantId);
+        Log.e(TAG,""+observable);
+        if(observable != null){
+            observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<RestaurantInfoResponse>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    Log.e(TAG,""+e.toString());
+                    if(e instanceof NoNetworkConnectionException)
+                        detailsInterface.onFailure(e.getMessage());
+                    if (e instanceof HttpException) {
+                        Response response = ((HttpException) e).response();
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
+
+                            detailsInterface.onFailure(jsonObject.getString("message"));
+
+
+                        }  catch (Exception d) {
+                            detailsInterface.onFailure(d.getMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onNext(RestaurantInfoResponse restaurantInfo) {
+                    detailsInterface.onStarted();
+                    infoMutableLiveData.setValue(restaurantInfo);
+
+                    restaurantCover.setValue(restaurantInfo.getCover());
+                    restaurantLogo.setValue(restaurantInfo.getLogo());
+                    restaurantAverageScore.setValue(restaurantInfo.getAverageScore());
+                    restaurantName.setValue(restaurantInfo.getName());
+                    restaurantAddress.setValue(restaurantInfo.getAddress());
+                    restaurantBranch.setValue(restaurantInfo.getBranch());
+                    restaurantDelivery.setValue(restaurantInfo.isDelivery());
+                    restaurantDeliveryTime.setValue(restaurantInfo.getDeliveryTime());
+                    restaurantGetInPlace.setValue(restaurantInfo.isGetInPlace());
+                    restaurantMinimumOrder.setValue(restaurantInfo.getMinimumOrder());
+                    restaurantPackingCost.setValue(restaurantInfo.getPackingCost());
+                    restaurantShippingCostInRegion.setValue(restaurantInfo.getShippingCostInRegion());
+                    restaurantShippingCostOutRegion.setValue(restaurantInfo.getShippingCostOutRegion());
+                    restaurantPhoneNumber.setValue(restaurantInfo.getPhoneNumber());
+                    restaurantRegion.setValue(restaurantInfo.getRegion());
+                    restaurantTagList.setValue(restaurantInfo.getTagList());
+
+                    detailsInterface.onSuccess(infoMutableLiveData);
+                }
+            });
+        }
+    }
+
 
 }

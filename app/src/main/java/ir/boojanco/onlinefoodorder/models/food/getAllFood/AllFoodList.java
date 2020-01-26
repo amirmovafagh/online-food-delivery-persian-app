@@ -1,22 +1,14 @@
 package ir.boojanco.onlinefoodorder.models.food.getAllFood;
 
-import android.widget.ImageView;
-
-import androidx.databinding.BindingAdapter;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
-
-import ir.boojanco.onlinefoodorder.R;
 
 import static ir.boojanco.onlinefoodorder.dagger.App.webServerMediaRoute;
 
 public class AllFoodList {
     @SerializedName("id")
-    private int id;
+    private long id;
     @SerializedName("name")
     private String name;
     @SerializedName("details")
@@ -32,7 +24,7 @@ public class AllFoodList {
     @SerializedName("foodTypeList")
     private List<String> foodTypeList;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

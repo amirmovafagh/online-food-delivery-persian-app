@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import static ir.boojanco.onlinefoodorder.dagger.App.webServerMediaRoute;
+
 public class RestaurantInfoResponse {
     @SerializedName("averageScore")
     private Float averageScore;
@@ -49,7 +51,7 @@ public class RestaurantInfoResponse {
     }
 
     public String getCover() {
-        return cover;
+        return webServerMediaRoute+cover;
     }
 
     public boolean isDelivery() {
@@ -69,7 +71,7 @@ public class RestaurantInfoResponse {
     }
 
     public String getLogo() {
-        return logo;
+        return webServerMediaRoute+logo;
     }
 
     public int getMinimumOrder() {

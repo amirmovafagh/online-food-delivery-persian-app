@@ -73,7 +73,7 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
 
         Bundle extras = getActivity().getIntent().getExtras();
         if(extras != null){
-            int extraRestauranId = extras.getInt("RESTAURANT_ID",0);
+            long extraRestauranId = extras.getLong("RESTAURANT_ID",0);
             recyclerViewFoodType = binding.recyclerViewFoodType;
 
             recyclerViewFoodType.setLayoutManager(new LinearLayoutManager(getActivity().getApplication(),LinearLayoutManager.HORIZONTAL,false));

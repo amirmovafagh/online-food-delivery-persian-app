@@ -3,11 +3,14 @@ package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.Application;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -17,10 +20,12 @@ import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.ActivityRestaurantDetailsBinding;
+import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.viewmodels.RestaurantDetailsViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantFoodViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantDetailsInterface;
 
-public class RestaurantDetailsActivity extends AppCompatActivity  {
+public class RestaurantDetailsActivity extends AppCompatActivity implements RestaurantDetailsInterface {
     private static final String TAG = RestaurantDetailsActivity.class.getSimpleName();
 
     RestaurantDetailsViewModel restaurantDetailsViewModel;
@@ -48,19 +53,20 @@ public class RestaurantDetailsActivity extends AppCompatActivity  {
         binding.setLifecycleOwner(this);
         binding.setHandler(this);
         binding.setManager(getSupportFragmentManager());
+        restaurantDetailsViewModel.detailsInterface = this;
 
         Bundle extras = getIntent().getExtras();
         if(extras != null){
-            String extraRestauranCover = extras.getString("RESTAURANT_COVER"," ");
-            String extraRestauranLogo = extras.getString("RESTAURANT_LOGO"," ");
+            long extraRestauranId = extras.getLong("RESTAURANT_ID",0);
+            /*String extraRestauranLogo = extras.getString("RESTAURANT_LOGO"," ");
             String extraRestauranName = extras.getString("RESTAURANT_NAME"," ");
             String extraRestauranTagList = extras.getString("RESTAURANT_TAG_LIST"," ");
             Float extraRestauranAverageScore = extras.getFloat("RESTAURANT_AVERAGE_SCORE",0);
             restaurantDetailsViewModel.restaurantCover.setValue(extraRestauranCover);
             restaurantDetailsViewModel.restaurantLogo.setValue(extraRestauranLogo);
             restaurantDetailsViewModel.restaurantAverageScore.setValue(extraRestauranAverageScore);
-            restaurantDetailsViewModel.restaurantName.setValue(extraRestauranName);
-            restaurantDetailsViewModel.restaurantTagList.setValue(extraRestauranTagList);
+            restaurantDetailsViewModel.restaurantName.setValue(extraRestauranName);*/
+            restaurantDetailsViewModel.getRestaurantInfo(sharedPreferences.getUserAuthTokenKey(), extraRestauranId);
         }
 
     }
@@ -82,6 +88,19 @@ public class RestaurantDetailsActivity extends AppCompatActivity  {
     }
 
 
+    @Override
+    public void onStarted() {
+        binding.cvWaitingResponse.setVisibility(View.VISIBLE);
+    }
 
+    @Override
+    public void onSuccess(MutableLiveData<RestaurantInfoResponse> liveData) {
+        binding.cvWaitingResponse.setVisibility(View.GONE);
+    }
 
+    @Override
+    public void onFailure(String error) {
+        binding.cvWaitingResponse.setVisibility(View.GONE);
+        Toast.makeText(application, ""+error, Toast.LENGTH_LONG).show();
+    }
 }

@@ -23,6 +23,7 @@ import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.ActivityRestaurantDetailsBinding;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.viewmodels.RestaurantDetailsViewModel;
+import ir.boojanco.onlinefoodorder.viewmodels.RestaurantInfoSharedViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantFoodViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantDetailsInterface;
 
@@ -30,6 +31,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
     private static final String TAG = RestaurantDetailsActivity.class.getSimpleName();
 
     RestaurantDetailsViewModel restaurantDetailsViewModel;
+    RestaurantInfoSharedViewModel sharedViewModel;
     ActivityRestaurantDetailsBinding binding;
 
     @Inject
@@ -49,6 +51,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
         //get viewModel
         restaurantDetailsViewModel = ViewModelProviders.of(this,factory).get(RestaurantDetailsViewModel.class);
+        sharedViewModel = ViewModelProviders.of(this).get(RestaurantInfoSharedViewModel.class);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_restaurant_details);
         binding.setDetailsViewModel(restaurantDetailsViewModel);
         binding.setLifecycleOwner(this);
@@ -98,9 +101,11 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
     @SuppressLint("RestrictedApi")
     @Override
-    public void onSuccess(MutableLiveData<RestaurantInfoResponse> liveData) {
+    public void onSuccess(RestaurantInfoResponse restaurantInfo) {
+
         binding.cvWaitingResponse.setVisibility(View.GONE);
         binding.fab.setVisibility(View.VISIBLE);
+        sharedViewModel.infoResponseMutableLiveData.postValue(restaurantInfo);
     }
 
     @SuppressLint("RestrictedApi")

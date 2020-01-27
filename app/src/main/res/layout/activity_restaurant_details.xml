@@ -161,7 +161,7 @@
                                 android:paddingEnd="16dp"
                                 android:textSize="@dimen/body2_paragraph_font_size"
                                 android:drawableStart="@drawable/ic_location"
-                                android:text="@{detailsViewModel.restaurantAddress ,default=@string/region}"
+                                android:text="@{detailsViewModel.restaurantRegion ,default=@string/region}"
                                 app:layout_constraintTop_toBottomOf="@id/animation_view_delivery_time"
                                 />
 
@@ -198,7 +198,7 @@
                                         android:paddingStart="4dp"
                                         android:paddingEnd="4dp"
                                         android:drawableStart="@drawable/ic_account_box_black_24dp"
-                                        android:text="@{detailsViewModel.restaurantRegion }"
+                                        android:text="@{Float.toString(detailsViewModel.restaurantAverageScore)}"
                                         app:layout_constraintTop_toBottomOf="@id/animation_view_delivery_time"
                                         />
 

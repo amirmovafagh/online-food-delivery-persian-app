@@ -1,6 +1,7 @@
 package ir.boojanco.onlinefoodorder.viewmodels;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
@@ -27,7 +28,7 @@ import rx.schedulers.Schedulers;
 public class RestaurantDetailsViewModel extends ViewModel {
     private static final String TAG = RestaurantDetailsViewModel.class.getSimpleName();
     public RestaurantDetailsInterface detailsInterface;
-    public MutableLiveData<RestaurantInfoResponse> infoMutableLiveData;
+
     public MutableLiveData<String>  restaurantCover;
     public MutableLiveData<String>  restaurantLogo;
     public MutableLiveData<Float>   restaurantAverageScore;
@@ -51,7 +52,7 @@ public class RestaurantDetailsViewModel extends ViewModel {
     public RestaurantDetailsViewModel(Context context, RestaurantRepository restaurantRepository) {
         this.context = context;
         this.restaurantRepository = restaurantRepository;
-        infoMutableLiveData = new MutableLiveData<>();
+
         restaurantCover = new MutableLiveData<>();
         restaurantLogo = new MutableLiveData<>();
         restaurantAverageScore = new MutableLiveData<>();
@@ -103,7 +104,7 @@ public class RestaurantDetailsViewModel extends ViewModel {
                 @Override
                 public void onNext(RestaurantInfoResponse restaurantInfo) {
                     detailsInterface.onStarted();
-                    infoMutableLiveData.setValue(restaurantInfo);
+
 
                     restaurantCover.setValue(restaurantInfo.getCover());
                     restaurantLogo.setValue(restaurantInfo.getLogo());
@@ -122,7 +123,7 @@ public class RestaurantDetailsViewModel extends ViewModel {
                     restaurantRegion.setValue(restaurantInfo.getRegion());
                     restaurantTagList.setValue(restaurantInfo.getTagList());
 
-                    detailsInterface.onSuccess(infoMutableLiveData);
+                    detailsInterface.onSuccess(restaurantInfo);
                 }
             });
         }

@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.activities.restaurantDetails.fragments.RestaurantInfoFragment">
-
-    <TextView
+<layout>
+    <data>
+        <variable
+            name="infoViewModel"
+            type="ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.RestaurantInfoViewModel" />
+    </data>
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello"
-        android:background="@color/cardview_dark_background"/>
+        tools:context=".ui.activities.restaurantDetails.fragments.RestaurantInfoFragment">
 
-</FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@{infoViewModel.restaurantName, default=123}"
+            android:background="@color/cardview_dark_background"/>
+
+    </FrameLayout>
+</layout>

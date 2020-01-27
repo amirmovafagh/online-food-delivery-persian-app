@@ -23,6 +23,7 @@ import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.RestaurantInfoFragmentBinding;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
+import ir.boojanco.onlinefoodorder.viewmodels.RestaurantInfoSharedViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantInfoFragmentViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantInfoFragmentInterface;
 
@@ -38,6 +39,9 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantInfoFr
 
 
     RestaurantInfoViewModel viewModel;
+    RestaurantInfoSharedViewModel sharedViewModel;
+
+
 
     public static RestaurantInfoFragment newInstance() {
         return new RestaurantInfoFragment();
@@ -50,13 +54,15 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantInfoFr
         binding = DataBindingUtil.inflate(inflater, R.layout.restaurant_info_fragment, container, false);
         viewModel = ViewModelProviders.of(this, factory).get(RestaurantInfoViewModel.class);
         viewModel.infoFragmentInterface = this;
+        binding.setInfoViewModel(viewModel);
         binding.setLifecycleOwner(this);
 
-        Bundle extras = getActivity().getIntent().getExtras();
-        if(extras != null) {
-            long extraRestauranId = extras.getLong("RESTAURANT_ID", 0);
-            viewModel.getRestaurantInfo(sharedPreferences.getUserAuthTokenKey(), extraRestauranId);
-        }
+        sharedViewModel = ViewModelProviders.of(getActivity()).get(RestaurantInfoSharedViewModel.class);
+        binding.setLifecycleOwner(this);
+        sharedViewModel.infoResponseMutableLiveData.observe(this, restaurantInfoResponse -> {
+            viewModel.setRestaurantInfo(restaurantInfoResponse);
+        });
+
         return binding.getRoot();
     }
 

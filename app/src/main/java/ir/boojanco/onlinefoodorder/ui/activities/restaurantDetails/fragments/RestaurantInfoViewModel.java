@@ -64,6 +64,25 @@ public class RestaurantInfoViewModel extends ViewModel {
         restaurantRegion = new MutableLiveData<>();
     }
 
+    public void setRestaurantInfo(RestaurantInfoResponse restaurantInfo){
+        Log.i("amir",restaurantInfo.getName());
+        restaurantCover.setValue(restaurantInfo.getCover());
+        restaurantLogo.setValue(restaurantInfo.getLogo());
+        restaurantAverageScore.setValue(restaurantInfo.getAverageScore());
+        restaurantName.setValue(restaurantInfo.getName());
+        restaurantAddress.setValue(restaurantInfo.getAddress());
+        restaurantBranch.setValue(restaurantInfo.getBranch());
+        restaurantDelivery.setValue(restaurantInfo.isDelivery());
+        restaurantDeliveryTime.setValue(restaurantInfo.getDeliveryTime());
+        restaurantGetInPlace.setValue(restaurantInfo.isGetInPlace());
+        restaurantMinimumOrder.setValue(restaurantInfo.getMinimumOrder());
+        restaurantPackingCost.setValue(restaurantInfo.getPackingCost());
+        restaurantShippingCostInRegion.setValue(restaurantInfo.getShippingCostInRegion());
+        restaurantShippingCostOutRegion.setValue(restaurantInfo.getShippingCostOutRegion());
+        restaurantPhoneNumber.setValue(restaurantInfo.getPhoneNumber());
+        restaurantRegion.setValue(restaurantInfo.getRegion());
+        restaurantTagList.setValue(restaurantInfo.getTagList());
+    }
     public void getRestaurantInfo(String authToken, long restaurantId){
         infoFragmentInterface.onStarted();
         Observable<RestaurantInfoResponse> observable = restaurantRepository.getRestaurantInfo(authToken, restaurantId);

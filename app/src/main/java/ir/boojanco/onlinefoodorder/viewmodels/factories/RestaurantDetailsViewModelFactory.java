@@ -8,11 +8,11 @@ import androidx.lifecycle.ViewModelProvider;
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
 import ir.boojanco.onlinefoodorder.viewmodels.RestaurantDetailsViewModel;
 
-public class RestaurantFoodViewModelFactory implements ViewModelProvider.Factory {
+public class RestaurantDetailsViewModelFactory implements ViewModelProvider.Factory {
     private final Context context;
     private RestaurantRepository restaurantRepository;
 
-    public RestaurantFoodViewModelFactory(Context context, RestaurantRepository restaurantRepository) {
+    public RestaurantDetailsViewModelFactory(Context context, RestaurantRepository restaurantRepository) {
         this.context = context;
         this.restaurantRepository = restaurantRepository;
     }

@@ -6,6 +6,8 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -17,8 +19,9 @@ import ir.boojanco.onlinefoodorder.data.repositories.UserRepository;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.HomeViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.LoginViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RegisterViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantDetailsViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantFoodMenuViewModelFactory;
-import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantFoodViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantInfoFragmentViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantViewModelFactory;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
@@ -66,12 +69,19 @@ public class NetModule {
                 new RestaurantViewModelFactory(application, restaurantRepository);
         return factory;
     }
+    @Provides
+    @Singleton
+    RestaurantInfoFragmentViewModelFactory provideRestaurantInfoFragmentViewModelFactory(Application application , RestaurantRepository restaurantRepository){
+        RestaurantInfoFragmentViewModelFactory factory =
+                new RestaurantInfoFragmentViewModelFactory(application, restaurantRepository);
+        return factory;
+    }
 
     @Provides
     @Singleton
-    RestaurantFoodViewModelFactory provideRestaurantFoodViewModelFactory(Application application , RestaurantRepository restaurantRepository){
-        RestaurantFoodViewModelFactory factory =
-                new RestaurantFoodViewModelFactory(application, restaurantRepository);
+    RestaurantDetailsViewModelFactory provideRestaurantFoodViewModelFactory(Application application , RestaurantRepository restaurantRepository){
+        RestaurantDetailsViewModelFactory factory =
+                new RestaurantDetailsViewModelFactory(application, restaurantRepository);
         return factory;
     }
 
@@ -122,8 +132,10 @@ public class NetModule {
     @Singleton
     OkHttpClient provideOkHttpClient(Cache cache, NetworkConnectionInterceptor networkConnectionInterceptor) {
         OkHttpClient.Builder client = new OkHttpClient.Builder()
+                .connectTimeout(100, TimeUnit.SECONDS)
+                .readTimeout(100, TimeUnit.SECONDS)
                 .addInterceptor(networkConnectionInterceptor);
-        //client.cache(cache);
+        client.cache(cache);
         return client.build();
     }
 

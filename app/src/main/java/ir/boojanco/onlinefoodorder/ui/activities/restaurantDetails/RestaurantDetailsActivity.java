@@ -3,7 +3,6 @@ package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
@@ -23,21 +22,20 @@ import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.ActivityRestaurantDetailsBinding;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.viewmodels.RestaurantDetailsViewModel;
-import ir.boojanco.onlinefoodorder.viewmodels.RestaurantInfoSharedViewModel;
-import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantFoodViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantDetailsViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantDetailsInterface;
 
 public class RestaurantDetailsActivity extends AppCompatActivity implements RestaurantDetailsInterface {
     private static final String TAG = RestaurantDetailsActivity.class.getSimpleName();
 
     RestaurantDetailsViewModel restaurantDetailsViewModel;
-    RestaurantInfoSharedViewModel sharedViewModel;
+
     ActivityRestaurantDetailsBinding binding;
 
     @Inject
     Application application;
     @Inject
-    RestaurantFoodViewModelFactory factory;
+    RestaurantDetailsViewModelFactory factory;
     @Inject
     MySharedPreferences sharedPreferences;
 
@@ -51,7 +49,6 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
         //get viewModel
         restaurantDetailsViewModel = ViewModelProviders.of(this,factory).get(RestaurantDetailsViewModel.class);
-        sharedViewModel = ViewModelProviders.of(this).get(RestaurantInfoSharedViewModel.class);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_restaurant_details);
         binding.setDetailsViewModel(restaurantDetailsViewModel);
         binding.setLifecycleOwner(this);
@@ -105,7 +102,6 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
         binding.cvWaitingResponse.setVisibility(View.GONE);
         binding.fab.setVisibility(View.VISIBLE);
-        sharedViewModel.infoResponseMutableLiveData.postValue(restaurantInfo);
     }
 
     @SuppressLint("RestrictedApi")

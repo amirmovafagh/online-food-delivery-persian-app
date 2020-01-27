@@ -82,16 +82,16 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
 
     @Override
     public void onStarted() {
-        Log.e(TAG, "AA OnStart");
+        binding.cvWaitingResponse.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onSuccess(MutableLiveData<LastRestaurantResponse> data) {
-        Log.i(TAG, "AA onSuccess");
         data.observe(this, lastRestaurantResponse -> {
             Log.e(TAG, "AA onSuccess in observer");
             restaurantAdapter.setRestaurantsList(lastRestaurantResponse.getRestaurantsList());
             recyclerView.scheduleLayoutAnimation();
+            binding.cvWaitingResponse.setVisibility(View.GONE);
 
         });
     }

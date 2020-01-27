@@ -28,6 +28,25 @@
         android:layout_margin="15dp"
         android:layout_gravity="bottom|center_horizontal" />-->
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_waiting_response"
+        android:layout_width="150dp"
+        android:layout_height="250dp"
+        app:cardBackgroundColor="@color/waitingResponseBackgroundColor"
+        android:elevation="4dp"
+        app:cardCornerRadius="25dp"
+        android:visibility="visible"
+        android:layout_gravity="center"
+        >
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            app:lottie_rawRes="@raw/waiting_animate_burger"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true" />
+    </androidx.cardview.widget.CardView>
 
 </FrameLayout>
 </layout>

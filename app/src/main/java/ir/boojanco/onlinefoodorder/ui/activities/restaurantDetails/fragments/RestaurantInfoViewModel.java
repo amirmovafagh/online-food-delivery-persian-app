@@ -1,13 +1,29 @@
 package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import org.json.JSONObject;
+
+import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
+import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
+import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantInfoFragmentInterface;
+import retrofit2.HttpException;
+import retrofit2.Response;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class RestaurantInfoViewModel extends ViewModel {
+    private static final String TAG = RestaurantInfoViewModel.class.getSimpleName();
+    private Context context;
+    private RestaurantRepository restaurantRepository;
+
     public MutableLiveData<String>  restaurantCover;
     public MutableLiveData<String>  restaurantLogo;
     public MutableLiveData<Float>   restaurantAverageScore;
@@ -24,8 +40,12 @@ public class RestaurantInfoViewModel extends ViewModel {
     public MutableLiveData<String>  restaurantPhoneNumber;
     public MutableLiveData<String>  restaurantRegion;
     public MutableLiveData<String>    restaurantTagList;
+    public RestaurantInfoFragmentInterface infoFragmentInterface;
+    public RestaurantInfoViewModel(Context context, RestaurantRepository restaurantRepository) {
+        this.context = context;
+        this.restaurantRepository = restaurantRepository;
 
-    public RestaurantInfoViewModel() {
+
         restaurantCover = new MutableLiveData<>();
         restaurantLogo = new MutableLiveData<>();
         restaurantAverageScore = new MutableLiveData<>();
@@ -44,25 +64,63 @@ public class RestaurantInfoViewModel extends ViewModel {
         restaurantRegion = new MutableLiveData<>();
     }
 
-    public void setRestaurantInfo(RestaurantInfoResponse restaurantInfo){
+    public void getRestaurantInfo(String authToken, long restaurantId){
+        infoFragmentInterface.onStarted();
+        Observable<RestaurantInfoResponse> observable = restaurantRepository.getRestaurantInfo(authToken, restaurantId);
+        Log.e(TAG,""+observable);
+        if(observable != null){
+            observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<RestaurantInfoResponse>() {
+                @Override
+                public void onCompleted() {
 
-            restaurantCover.setValue(restaurantInfo.getCover());
-            restaurantLogo.setValue(restaurantInfo.getLogo());
-            restaurantAverageScore.setValue(restaurantInfo.getAverageScore());
-            restaurantName.setValue(restaurantInfo.getName());
-            restaurantAddress.setValue(restaurantInfo.getAddress());
-            restaurantBranch.setValue(restaurantInfo.getBranch());
-            restaurantDelivery.setValue(restaurantInfo.isDelivery());
-            restaurantDeliveryTime.setValue(restaurantInfo.getDeliveryTime());
-            restaurantGetInPlace.setValue(restaurantInfo.isGetInPlace());
-            restaurantMinimumOrder.setValue(restaurantInfo.getMinimumOrder());
-            restaurantPackingCost.setValue(restaurantInfo.getPackingCost());
-            restaurantShippingCostInRegion.setValue(restaurantInfo.getShippingCostInRegion());
-            restaurantShippingCostOutRegion.setValue(restaurantInfo.getShippingCostOutRegion());
-            restaurantPhoneNumber.setValue(restaurantInfo.getPhoneNumber());
-            restaurantRegion.setValue(restaurantInfo.getRegion());
-            restaurantTagList.setValue(restaurantInfo.getTagList());
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    Log.e(TAG,""+e.toString());
+                    if(e instanceof NoNetworkConnectionException)
+                        infoFragmentInterface.onFailure(e.getMessage());
+                    if (e instanceof HttpException) {
+                        Response response = ((HttpException) e).response();
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
+
+                            infoFragmentInterface.onFailure(jsonObject.getString("message"));
 
 
+                        }  catch (Exception d) {
+                            infoFragmentInterface.onFailure(d.getMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onNext(RestaurantInfoResponse restaurantInfo) {
+
+
+                    Log.i("amir",restaurantInfo.getName());
+                    restaurantCover.setValue(restaurantInfo.getCover());
+                    restaurantLogo.setValue(restaurantInfo.getLogo());
+                    restaurantAverageScore.setValue(restaurantInfo.getAverageScore());
+                    restaurantName.setValue(restaurantInfo.getName());
+                    restaurantAddress.setValue(restaurantInfo.getAddress());
+                    restaurantBranch.setValue(restaurantInfo.getBranch());
+                    restaurantDelivery.setValue(restaurantInfo.isDelivery());
+                    restaurantDeliveryTime.setValue(restaurantInfo.getDeliveryTime());
+                    restaurantGetInPlace.setValue(restaurantInfo.isGetInPlace());
+                    restaurantMinimumOrder.setValue(restaurantInfo.getMinimumOrder());
+                    restaurantPackingCost.setValue(restaurantInfo.getPackingCost());
+                    restaurantShippingCostInRegion.setValue(restaurantInfo.getShippingCostInRegion());
+                    restaurantShippingCostOutRegion.setValue(restaurantInfo.getShippingCostOutRegion());
+                    restaurantPhoneNumber.setValue(restaurantInfo.getPhoneNumber());
+                    restaurantRegion.setValue(restaurantInfo.getRegion());
+                    restaurantTagList.setValue(restaurantInfo.getTagList());
+
+                    infoFragmentInterface.onSuccess();
+                }
+            });
+        }
     }
+
 }

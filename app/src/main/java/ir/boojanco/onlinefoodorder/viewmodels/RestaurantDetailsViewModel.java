@@ -38,10 +38,10 @@ public class RestaurantDetailsViewModel extends ViewModel {
     public MutableLiveData<Boolean> restaurantDelivery;
     public MutableLiveData<String>  restaurantDeliveryTime;
     public MutableLiveData<Boolean> restaurantGetInPlace;
-    public MutableLiveData<Integer> restaurantMinimumOrder;
-    public MutableLiveData<Integer> restaurantPackingCost;
-    public MutableLiveData<Integer> restaurantShippingCostInRegion;
-    public MutableLiveData<Integer> restaurantShippingCostOutRegion;
+    public MutableLiveData<String> restaurantMinimumOrder;
+    public MutableLiveData<String> restaurantPackingCost;
+    public MutableLiveData<String> restaurantShippingCostInRegion;
+    public MutableLiveData<String> restaurantShippingCostOutRegion;
     public MutableLiveData<String>  restaurantPhoneNumber;
     public MutableLiveData<String>  restaurantRegion;
     public MutableLiveData<String>    restaurantTagList;

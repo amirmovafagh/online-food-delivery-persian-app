@@ -27,4 +27,8 @@
     <string name="new_restaurants">جدید ترین رستوران ها</string>
     <string name="delivery_time">پیک (60 دقیقه)</string>
     <string name="region">منطقه</string>
+    <string name="minimum_order">حداقل سفارش</string>
+    <string name="food_packing">هزینه بسته بندی</string>
+    <string name="free">رایگان</string>
+    <string name="shipping_cost_on_location">هزینه پیک بر اساس موقعیت</string>
 </resources>

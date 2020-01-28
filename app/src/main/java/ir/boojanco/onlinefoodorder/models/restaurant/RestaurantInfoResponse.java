@@ -2,6 +2,8 @@ package ir.boojanco.onlinefoodorder.models.restaurant;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 import static ir.boojanco.onlinefoodorder.dagger.App.webServerMediaRoute;
@@ -74,24 +76,36 @@ public class RestaurantInfoResponse {
         return webServerMediaRoute+logo;
     }
 
-    public int getMinimumOrder() {
-        return minimumOrder;
+    public String getMinimumOrder() {
+
+        NumberFormat formatter = new DecimalFormat("#,###");
+        String formattedNumber = formatter.format(minimumOrder);
+        return " تومان "+formattedNumber;
     }
 
     public String getName() {
         return name;
     }
 
-    public int getPackingCost() {
-        return packingCost;
+    public String getPackingCost() {
+        NumberFormat formatter = new DecimalFormat("#,###");
+        String formattedNumber = formatter.format(packingCost);
+        return " تومان "+formattedNumber;
+
     }
 
-    public int getShippingCostInRegion() {
-        return shippingCostInRegion;
+    public String getShippingCostInRegion() {
+
+        NumberFormat formatter = new DecimalFormat("#,###");
+        String formattedNumber = formatter.format(shippingCostInRegion);
+        return "داخل محدوده "+formattedNumber+" تومان";
+
     }
 
-    public int getShippingCostOutRegion() {
-        return shippingCostOutRegion;
+    public String getShippingCostOutRegion() {
+        NumberFormat formatter = new DecimalFormat("#,###");
+        String formattedNumber = formatter.format(shippingCostOutRegion);
+        return "خارج از محدوده "+formattedNumber+" تومان";
     }
 
     public String getPhoneNumber() {
@@ -99,7 +113,7 @@ public class RestaurantInfoResponse {
     }
 
     public String getRegion() {
-        return region;
+        return region+" ";
     }
 
     public String getTagList() {

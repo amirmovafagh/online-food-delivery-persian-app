@@ -77,7 +77,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
     @BindingAdapter({"handler"})
     public static void bindViewPagerAdapter(final ViewPager view, final RestaurantDetailsActivity activity)
     {
-        final RestaurantFoodMenuPagerAdapter adapter = new RestaurantFoodMenuPagerAdapter( activity.getSupportFragmentManager(),0);
+        final RestaurantDetailsPagerAdapter adapter = new RestaurantDetailsPagerAdapter( activity.getSupportFragmentManager(),0);
         view.setAdapter(adapter);
     }
 

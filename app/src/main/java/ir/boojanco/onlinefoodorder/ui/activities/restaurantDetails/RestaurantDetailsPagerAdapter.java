@@ -11,14 +11,14 @@ import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.Res
 import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.RestaurantFoodMenuFragment;
 import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.RestaurantInfoFragment;
 
-public class RestaurantFoodMenuPagerAdapter extends FragmentPagerAdapter {
+public class RestaurantDetailsPagerAdapter extends FragmentPagerAdapter {
     private static final int COMMENTS = 0;
     private static final int MENU = 1;
     private static final int INFO = 2;
     private static final int[] TABS = new int[]{COMMENTS, MENU, INFO};
 
     private Context context;
-    public RestaurantFoodMenuPagerAdapter(@NonNull FragmentManager fm, int behavior) {
+    public RestaurantDetailsPagerAdapter(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
     }
 

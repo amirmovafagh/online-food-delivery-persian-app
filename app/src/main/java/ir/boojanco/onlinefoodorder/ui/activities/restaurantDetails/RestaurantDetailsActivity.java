@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 
+
 import javax.inject.Inject;
 
 import ir.boojanco.onlinefoodorder.R;
@@ -47,6 +48,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((App) getApplicationContext()).getComponent().inject(this);
+
 
         //get viewModel
         restaurantDetailsViewModel = ViewModelProviders.of(this,factory).get(RestaurantDetailsViewModel.class);

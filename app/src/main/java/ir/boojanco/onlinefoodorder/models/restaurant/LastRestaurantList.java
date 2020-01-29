@@ -1,17 +1,18 @@
 package ir.boojanco.onlinefoodorder.models.restaurant;
 
+
 import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import ir.boojanco.onlinefoodorder.R;
+import ir.boojanco.onlinefoodorder.util.GlideApp;
+import ir.boojanco.onlinefoodorder.util.MyAppGlideModule;
 
 import static ir.boojanco.onlinefoodorder.dagger.App.webServerMediaRoute;
 
@@ -79,10 +80,11 @@ public class LastRestaurantList {
         circularProgressDrawable.setStrokeWidth(5f);
         circularProgressDrawable.setCenterRadius(30f);
         circularProgressDrawable.start();
-        Glide.with(imageView.getContext())
+        GlideApp.with(imageView.getContext())
                 .setDefaultRequestOptions(new RequestOptions())
                 .load(imageURL)
                 .placeholder(circularProgressDrawable)
                 .into(imageView);
     }
+
 }

@@ -17,10 +17,12 @@ public class AllFoodList {
     private String logo;
     @SerializedName("point")
     private int point;
-    @SerializedName("discount")
-    private int discount;
+    @SerializedName("discountPercent")
+    private int discountPercent;
     @SerializedName("cost")
     private int cost;
+    @SerializedName("active")
+    private boolean active;
     @SerializedName("foodTypeList")
     private List<String> foodTypeList;
 
@@ -44,8 +46,12 @@ public class AllFoodList {
         return point;
     }
 
-    public int getDiscount() {
-        return discount;
+    public int getDiscountPercent() {
+        return discountPercent;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 
     public int getCost() {

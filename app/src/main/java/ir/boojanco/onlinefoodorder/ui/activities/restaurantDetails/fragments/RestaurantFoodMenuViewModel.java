@@ -105,7 +105,7 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
                                     foodItem = new FoodItem();
                                     foodItem.setId(allFoodList.getId());
                                     foodItem.setCost(allFoodList.getCost());
-                                    foodItem.setDiscount(allFoodList.getDiscount());
+                                    foodItem.setDiscount(allFoodList.getDiscountPercent());
                                     foodItem.setDetails(allFoodList.getDetails());
                                     foodItem.setLogo(allFoodList.getLogo());
                                     foodItem.setName(allFoodList.getName());

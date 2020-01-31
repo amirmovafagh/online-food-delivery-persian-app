@@ -3,6 +3,7 @@ package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Application;
@@ -66,7 +67,7 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
                              @Nullable Bundle savedInstanceState) {
         ((App) getActivity().getApplication()).getComponent().inject(this);
         binding = DataBindingUtil.inflate(inflater, R.layout.restaurant_food_menu_fragment, container,false);
-        restaurantFoodMenuViewModel = ViewModelProviders.of(this, factory).get(RestaurantFoodMenuViewModel.class);
+        restaurantFoodMenuViewModel = new ViewModelProvider(this, factory).get(RestaurantFoodMenuViewModel.class);
         restaurantFoodMenuViewModel.foodInterface = this;
         binding.setFoodMenu(restaurantFoodMenuViewModel);
         binding.setLifecycleOwner(this);

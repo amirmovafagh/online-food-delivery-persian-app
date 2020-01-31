@@ -1,7 +1,9 @@
 package ir.boojanco.onlinefoodorder.ui.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Application;
@@ -47,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements LoginAuth {
 
 
         // get view model
-        loginViewModel = ViewModelProviders.of(this,factory).get(LoginViewModel.class);
+        loginViewModel = new ViewModelProvider(this,factory).get(LoginViewModel.class);
         // Inflate view and obtain an instance of the binding class.
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         binding.setUserLogin(loginViewModel); // connect activity_Main variable to ViewModel class
@@ -76,6 +78,7 @@ public class LoginActivity extends AppCompatActivity implements LoginAuth {
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             binding.cvWaitingResponse.setVisibility(View.GONE);
             startActivity(i);
+
         }
 
     }

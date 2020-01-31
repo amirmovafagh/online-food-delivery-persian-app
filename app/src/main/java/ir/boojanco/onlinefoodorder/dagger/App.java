@@ -2,10 +2,6 @@ package ir.boojanco.onlinefoodorder.dagger;
 
 import android.app.Application;
 
-import com.mapbox.mapboxsdk.Mapbox;
-
-import ir.boojanco.onlinefoodorder.R;
-
 public class App extends Application {
     public final static String webServerMediaRoute = "http://198.143.180.86:8080/api/v1/media/download/";
     private AppComponent component;
@@ -13,7 +9,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Mapbox.getInstance(this, getString(R.string.mapbox_access_token));
+
         // Dagger%COMPONENT_NAME%
         component = DaggerAppComponent.builder()
                 // list of modules that are part of this component need to be created here too

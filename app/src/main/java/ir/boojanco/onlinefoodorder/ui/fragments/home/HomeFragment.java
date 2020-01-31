@@ -2,6 +2,7 @@ package ir.boojanco.onlinefoodorder.ui.fragments.home;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Context;
@@ -57,7 +58,7 @@ public class HomeFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         ((App) getActivity().getApplication()).getComponent().inject(this);
         binding = DataBindingUtil.inflate(inflater, R.layout.home_fragment, container, false);
-        homeViewModel = ViewModelProviders.of(this,factory).get(HomeViewModel.class);
+        homeViewModel = new ViewModelProvider(this,factory).get(HomeViewModel.class);
         binding.setHomeViewModel(homeViewModel);
         binding.setLifecycleOwner(this);
         sliderView = binding.imageSlider;

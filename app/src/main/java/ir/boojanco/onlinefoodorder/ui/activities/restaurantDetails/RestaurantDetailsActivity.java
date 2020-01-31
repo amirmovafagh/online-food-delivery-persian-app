@@ -3,6 +3,7 @@ package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
@@ -51,8 +52,8 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
 
         //get viewModel
-        restaurantDetailsViewModel = ViewModelProviders.of(this,factory).get(RestaurantDetailsViewModel.class);
-        sharedViewModel = ViewModelProviders.of(this).get(RestaurantInfoSharedViewModel.class);
+        restaurantDetailsViewModel = new ViewModelProvider(this,factory).get(RestaurantDetailsViewModel.class);
+        sharedViewModel = new ViewModelProvider(this).get(RestaurantInfoSharedViewModel.class);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_restaurant_details);
         binding.setDetailsViewModel(restaurantDetailsViewModel);
         binding.setLifecycleOwner(this);

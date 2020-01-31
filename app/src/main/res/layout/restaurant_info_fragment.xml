@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.activities.restaurantDetails.fragments.RestaurantInfoFragment"
-        android:layoutDirection="rtl">
+        android:layoutDirection="rtl"
+        android:background="@drawable/wallpaper_restaurant_info">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -207,11 +208,10 @@
                             android:drawablePadding="8dp"
                             android:textSize="@dimen/body2_paragraph_font_size"
                             android:text="@{infoViewModel.restaurantPhoneNumber,default=تماس}"/>
-                        <FrameLayout
-                            android:id="@+id/container_map"
+                        <com.google.android.gms.maps.MapView
+                            android:id="@+id/map_view_restaurant_location"
                             android:layout_width="match_parent"
-                            android:layout_height="200dp"
-                            android:clickable="false"/>
+                            android:layout_height="180dp"/>
 
                     </LinearLayout>
 

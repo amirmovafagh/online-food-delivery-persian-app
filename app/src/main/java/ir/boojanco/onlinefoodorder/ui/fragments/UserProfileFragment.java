@@ -1,5 +1,6 @@
 package ir.boojanco.onlinefoodorder.ui.fragments;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -32,7 +33,7 @@ public class UserProfileFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(UserProfileViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(UserProfileViewModel.class);
         // TODO: Use the ViewModel
     }
 

@@ -1,5 +1,6 @@
 package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -31,7 +32,7 @@ public class RestaurantCommentFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(RestaurantCommentViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(RestaurantCommentViewModel.class);
         // TODO: Use the ViewModel
     }
 

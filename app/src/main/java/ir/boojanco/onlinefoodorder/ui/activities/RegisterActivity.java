@@ -2,6 +2,7 @@ package ir.boojanco.onlinefoodorder.ui.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Application;
@@ -38,7 +39,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterAuth 
         ((App) getApplicationContext()).getComponent().inject(this);
 
         // get view model
-        registerViewModel = ViewModelProviders.of(this,factory).get(RegisterViewModel.class);
+        registerViewModel = new ViewModelProvider(this,factory).get(RegisterViewModel.class);
         // Inflate view and obtain an instance of the binding class.
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register);
         binding.setUserRegister(registerViewModel); // connect activity_Main variable to ViewModel class

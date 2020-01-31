@@ -17,6 +17,7 @@ import androidx.databinding.DataBindingUtil;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity  {
 
 
         // get view model
-        mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         // Inflate view and obtain an instance of the binding class.
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setMain(mainViewModel); // connect activity_Main variable to ViewModel class

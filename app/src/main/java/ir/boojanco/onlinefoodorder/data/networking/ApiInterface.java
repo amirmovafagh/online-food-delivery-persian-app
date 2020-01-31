@@ -1,6 +1,7 @@
 package ir.boojanco.onlinefoodorder.data.networking;
 
 import ir.boojanco.onlinefoodorder.models.food.getAllFood.GetAllFoodResponse;
+import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantList;
 import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
@@ -47,6 +48,10 @@ public interface ApiInterface {
 
     @GET("/api/v1/restaurant/{restaurantId}/info")
     Observable<RestaurantInfoResponse> getRestaurantInfo(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
+
+
+    @GET("https://pm1.parsimap.com/comapi.svc/areaInfo/{latitude}/{longitude}/18/1/ccc1a4bc-ade4-460d-b799-82885ab21d6d/1") /*get Reverse Address from LatLng with parsiMap API*/
+    Observable<ReverseFindAddressResponse> getReverseAddresse(@Path("latitude") Double latitude, @Path("longitude") Double longitude );
 
     @POST("user/verify_Email")
     Call<VerifyEmailResponse> verifyEmail(@Body VerifyEmailResponse verifyEmailResponse);

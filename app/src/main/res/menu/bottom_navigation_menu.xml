@@ -17,7 +17,7 @@
         app:showAsAction="always"
         android:enabled="false"/>
     <item android:id="@+id/cartFragment"
-        android:title="@string/cart"
+        android:title="@string/cartItem"
         android:icon="@drawable/ic_shopping_cart_black_24dp"
        />
     <item android:id="@+id/userProfileFragment"

@@ -1,6 +1,5 @@
 package ir.boojanco.onlinefoodorder.data.DB;
 
-import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -13,32 +12,21 @@ import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 
-@Dao
-public interface CartDAO {
-
-    @Query("SELECT * FROM cart_table WHERE restaurantId=:restaurantId")
+public interface CartDataSource {
     Flowable<List<CartItem>> getAllCart(long restaurantId);
 
-    @Query("SELECT COUNT(*) FROM cart_table WHERE restaurantId=:restaurantId")
     Single<Integer> countItemInCart(long restaurantId);
 
-    @Query("SELECT SUM(foodPrice*foodQuantity)-(foodQuantity*((discountPercent/100)*foodPrice)) FROM cart_table WHERE restaurantId=:restaurantId")
     Single<Long> sumPrice(long restaurantId);
 
-    @Query("SELECT * FROM cart_table WHERE foodId=:foodId AND restaurantId=:restaurantId")
     Single<CartItem> getItemInCart(long foodId, long restaurantId);
 
-
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE) //if conflict foodId, we will updae information
     Completable insertOrReplaceAll(CartItem...cartItems);
 
-    @Update(onConflict = OnConflictStrategy.REPLACE) //if conflict foodId, we will updae information
     Single<Integer> updateCart(CartItem cart);
 
-    @Delete
     Single<Integer> deleteCart(CartItem cart);
 
-    @Query("DELETE FROM cart_table WHERE restaurantId=:restaurantId")
     Single<Integer> cleanCart(long restaurantId);
+
 }

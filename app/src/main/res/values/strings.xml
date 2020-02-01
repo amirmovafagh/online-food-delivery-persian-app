@@ -13,7 +13,7 @@
     <string name="already_have_account">قبلا ثبت نام کرده اید ؟\nهم اکنون وارد شوید.</string>
     <string name="send_again_verification_code">ارسال مجدد کد (60)</string>
     <string name="userProfile">پروفایل</string>
-    <string name="cart">سفارشات</string>
+    <string name="cartItem">سفارشات</string>
     <string name="restaurants">رستوران ها</string>
     <string name="home">خانه</string>
     <string name="search_title">یافتن رستوران…</string>

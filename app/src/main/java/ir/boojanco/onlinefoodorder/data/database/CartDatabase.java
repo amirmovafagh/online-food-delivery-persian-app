@@ -1,4 +1,4 @@
-package ir.boojanco.onlinefoodorder.data.DB;
+package ir.boojanco.onlinefoodorder.data.database;
 
 import android.content.Context;
 

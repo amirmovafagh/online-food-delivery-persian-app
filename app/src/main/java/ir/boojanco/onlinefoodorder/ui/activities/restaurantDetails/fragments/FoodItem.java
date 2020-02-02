@@ -1,5 +1,9 @@
 package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments;
 
+import android.util.Log;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 import ir.boojanco.onlinefoodorder.models.food.getAllFood.AllFoodList;
@@ -70,9 +74,24 @@ public class FoodItem implements ListItemType {
     public int getCost() {
         return cost;
     }
+    public String getStringCost() {
+        return moneyFormat(cost);
+    }
 
     public void setCost(int cost) {
         this.cost = cost;
+    }
+
+    public String getDiscountedPrice(){
+        if(discount > 0){
+            double i= 100-discount;
+            double percent = (i/100);
+            i = cost; //convert int to double
+            i = i * percent;
+            int disPrice = (int)i;
+            return moneyFormat(disPrice);
+        }
+        return " ";
     }
 
     public List<String> getFoodTypeList() {
@@ -86,5 +105,11 @@ public class FoodItem implements ListItemType {
     @Override
     public int getItemType() {
         return ListItemType.TYPE_ITEM;
+    }
+
+    private String moneyFormat(int cost){
+        NumberFormat formatter = new DecimalFormat("#,###");
+        String formattedNumber = formatter.format(cost);
+        return formattedNumber+" تومان";
     }
 }

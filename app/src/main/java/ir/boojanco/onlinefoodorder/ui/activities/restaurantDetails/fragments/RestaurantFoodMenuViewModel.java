@@ -2,6 +2,7 @@ package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -10,6 +11,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+
+import io.reactivex.SingleObserver;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import ir.boojanco.onlinefoodorder.data.database.CartDataSource;
+import ir.boojanco.onlinefoodorder.data.database.CartItem;
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
 import ir.boojanco.onlinefoodorder.models.food.getAllFood.AllFoodList;
 import ir.boojanco.onlinefoodorder.models.food.getAllFood.GetAllFoodResponse;
@@ -24,29 +31,78 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+
 public class RestaurantFoodMenuViewModel extends ViewModel {
     private static final String TAG = RestaurantFoodMenuViewModel.class.getSimpleName();
     public RestaurantFoodMenuInterface foodInterface;
     RestaurantRepository restaurantRepository;
     Context context;
+    private CompositeDisposable compositeDisposable;
+    private CartDataSource cartDataSource;
     private FoodItem foodItem;
     private FoodTypeHeader foodTypeHeader;
     private ArrayList<ListItemType> items ;
     private ArrayList<String> foodTypeIndex ;
+    public Long extraRestaurantId;
     public MutableLiveData<GetAllFoodResponse> allFoodMutableLiveData;
-    public MutableLiveData<Boolean> checkedPosition;
+    public MutableLiveData<Integer> cartItemCount;
 
-    public RestaurantFoodMenuViewModel(Context context, RestaurantRepository restaurantRepository) {
+
+    public RestaurantFoodMenuViewModel(Context context, RestaurantRepository restaurantRepository, CartDataSource cartDataSource) {
         allFoodMutableLiveData = new MutableLiveData<>();
-        checkedPosition = new MutableLiveData<>();
+        cartItemCount = new MutableLiveData<>();
+
         items =  new ArrayList<>();
         foodTypeIndex =  new ArrayList<>();
+        compositeDisposable = new CompositeDisposable();
+        this.cartDataSource = cartDataSource;
         this.context = context;
         this.restaurantRepository = restaurantRepository;
     }
 
-    public void setPosition(boolean position){
-        checkedPosition.setValue(position);
+    public void onStop(){
+        compositeDisposable.clear();
+    }
+    public void setCartItemDB(FoodItem item, Long restaurantId){
+        CartItem cartItem = new CartItem();
+        cartItem.setFoodId(item.getId());
+        cartItem.setFoodName(item.getName());
+        cartItem.setFoodImage(item.getLogo());
+        cartItem.setFoodPrice(item.getCost());
+        cartItem.setFoodQuantity(1);
+        cartItem.setRestaurantId(restaurantId);
+
+        compositeDisposable.add((Disposable) cartDataSource.insertOrReplaceAll(cartItem)
+        .subscribeOn(io.reactivex.schedulers.Schedulers.io())
+                .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                .subscribe(()->{
+                    Toast.makeText(context, "added Cart item", Toast.LENGTH_LONG).show();
+                    getCartCountItem(extraRestaurantId);
+
+                },throwable -> {
+                    Toast.makeText(context, "{add Cart throwable}->"+throwable.getMessage(), Toast.LENGTH_LONG).show();
+                })
+        );
+    }
+
+    public void getCartCountItem(Long restaurantId){
+        cartDataSource.countItemInCart(restaurantId).subscribeOn(io.reactivex.schedulers.Schedulers.io())
+                .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new SingleObserver<Integer>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(Integer integer) {
+                cartItemCount.setValue(integer);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Toast.makeText(context, "{count cart}"+e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void getAllFood(String authToken, long restaurantId){
@@ -120,4 +176,5 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
             }
         return items;
     }
+
 }

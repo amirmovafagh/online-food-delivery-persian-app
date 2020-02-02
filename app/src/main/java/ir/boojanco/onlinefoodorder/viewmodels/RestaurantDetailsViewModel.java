@@ -1,7 +1,6 @@
 package ir.boojanco.onlinefoodorder.viewmodels;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
@@ -10,13 +9,11 @@ import androidx.lifecycle.ViewModel;
 
 import org.json.JSONObject;
 
-import java.util.List;
-
+import ir.boojanco.onlinefoodorder.data.database.CartDataSource;
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantDetailsInterface;
-import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantFoodInterface;
 import retrofit2.HttpException;
 import retrofit2.Response;
 import rx.Observable;
@@ -45,14 +42,18 @@ public class RestaurantDetailsViewModel extends ViewModel {
     public MutableLiveData<String>  restaurantPhoneNumber;
     public MutableLiveData<String>  restaurantRegion;
     public MutableLiveData<String>    restaurantTagList;
+    public MutableLiveData<Integer> cartItemCount;
 
     private Context context;
     private RestaurantRepository restaurantRepository;
+    private CartDataSource cartDataSource;
 
-    public RestaurantDetailsViewModel(Context context, RestaurantRepository restaurantRepository) {
+    public RestaurantDetailsViewModel(Context context, RestaurantRepository restaurantRepository, CartDataSource cartDataSource) {
         this.context = context;
         this.restaurantRepository = restaurantRepository;
+        this.cartDataSource = cartDataSource;
 
+        cartItemCount = new MutableLiveData<>();
         restaurantCover = new MutableLiveData<>();
         restaurantLogo = new MutableLiveData<>();
         restaurantAverageScore = new MutableLiveData<>();
@@ -70,6 +71,7 @@ public class RestaurantDetailsViewModel extends ViewModel {
         restaurantPhoneNumber = new MutableLiveData<>();
         restaurantRegion = new MutableLiveData<>();
     }
+
 
     public void getRestaurantInfo(String authToken, long restaurantId){
         Observable<RestaurantInfoResponse> observable = restaurantRepository.getRestaurantInfo(authToken, restaurantId);

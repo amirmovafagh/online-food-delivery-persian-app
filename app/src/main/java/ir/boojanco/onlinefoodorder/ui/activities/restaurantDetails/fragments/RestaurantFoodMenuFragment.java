@@ -4,16 +4,14 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Application;
-import android.app.LauncherActivity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,14 +28,15 @@ import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.RestaurantFoodMenuFragmentBinding;
-import ir.boojanco.onlinefoodorder.models.food.getAllFood.AllFoodList;
 import ir.boojanco.onlinefoodorder.models.food.getAllFood.GetAllFoodResponse;
-import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.FoodTypeHeader;
+import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
+import ir.boojanco.onlinefoodorder.ui.activities.cart.CartActivity;
 import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.ListItemType;
 import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.RecyclerViewRestaurantFoodMenuClickListener;
 import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.RecyclerViewRestaurantFoodTypeClickListener;
 import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.RestaurantFoodMenuAdapter;
 import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.RestaurantFoodTypeAdapter;
+import ir.boojanco.onlinefoodorder.viewmodels.RestaurantInfoSharedViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantFoodMenuViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantFoodMenuInterface;
 
@@ -49,14 +48,18 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     @Inject
     MySharedPreferences sharedPreferences;
 
+
     private ArrayList<String> foodTypeIndex;
 
     private RestaurantFoodMenuViewModel restaurantFoodMenuViewModel;
+    private RestaurantInfoSharedViewModel sharedViewModel;
     private RestaurantFoodMenuFragmentBinding binding;
     private RecyclerView recyclerViewFoodMenu, recyclerViewFoodType;
     private RestaurantFoodMenuAdapter adapterMenu;
     private RestaurantFoodTypeAdapter adapterFoodType;
     private LinearLayoutManager linearLayoutManagerFoodMenu;
+
+    private long extraRestauranId=0;
 
     public static RestaurantFoodMenuFragment newInstance() {
         return new RestaurantFoodMenuFragment();
@@ -68,13 +71,15 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
         ((App) getActivity().getApplication()).getComponent().inject(this);
         binding = DataBindingUtil.inflate(inflater, R.layout.restaurant_food_menu_fragment, container,false);
         restaurantFoodMenuViewModel = new ViewModelProvider(this, factory).get(RestaurantFoodMenuViewModel.class);
+        sharedViewModel = new ViewModelProvider(getActivity()).get(RestaurantInfoSharedViewModel.class);
         restaurantFoodMenuViewModel.foodInterface = this;
         binding.setFoodMenu(restaurantFoodMenuViewModel);
         binding.setLifecycleOwner(this);
 
         Bundle extras = getActivity().getIntent().getExtras();
         if(extras != null){
-            long extraRestauranId = extras.getLong("RESTAURANT_ID",0);
+            extraRestauranId = extras.getLong("RESTAURANT_ID",0);
+            restaurantFoodMenuViewModel.extraRestaurantId = extraRestauranId;
             recyclerViewFoodType = binding.recyclerViewFoodType;
 
             recyclerViewFoodType.setLayoutManager(new LinearLayoutManager(getActivity().getApplication(),LinearLayoutManager.HORIZONTAL,false));
@@ -91,7 +96,14 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
             recyclerViewFoodMenu.setAdapter(adapterMenu);
 
             restaurantFoodMenuViewModel.getAllFood(sharedPreferences.getUserAuthTokenKey(),extraRestauranId);
+            restaurantFoodMenuViewModel.getCartCountItem(extraRestauranId);
 
+            sharedViewModel.infoResponseMutableLiveData.observe(getViewLifecycleOwner(), new Observer<RestaurantInfoResponse>() {
+                @Override
+                public void onChanged(RestaurantInfoResponse restaurantInfoResponse) {
+
+                }
+            });
         }
         return binding.getRoot();
     }
@@ -99,6 +111,20 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        binding.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), CartActivity.class);
+                intent.putExtra("RESTAURANT_ID",extraRestauranId);
+                /*intent.putExtra("RESTAURANT_COVER", restaurantList.getCover());
+                intent.putExtra("RESTAURANT_LOGO", restaurantList.getLogo());
+                intent.putExtra("RESTAURANT_NAME", restaurantList.getName());
+                intent.putExtra("RESTAURANT_AVERAGE_SCORE", restaurantList.getAverageScore());
+                intent.putExtra("RESTAURANT_TAG_LIST", restaurantList.getTagList());*/
+                startActivity(intent);
+
+            }
+        });
     }
 
     @Override
@@ -123,10 +149,18 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(adapterFoodType != null)
+            restaurantFoodMenuViewModel.onStop();
+    }
+
+    @Override
     public void onRecyclerViewItemClick(int position,View v, FoodItem items) {
         switch (v.getId()){
             case R.id.cv_food_details:
-                Toast.makeText(getActivity() , "food: "+ items.getDetails()+position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(application, ""+extraRestauranId, Toast.LENGTH_SHORT).show();
+                restaurantFoodMenuViewModel.setCartItemDB(items,extraRestauranId);
 
                 break;
             case R.id.ivLogo:

@@ -10,6 +10,8 @@ import androidx.room.RoomDatabase;
 @Database(entities = {CartItem.class}, version = 1, exportSchema = false)
 public abstract class CartDatabase extends RoomDatabase {
 
+    public abstract CartDAO cartDAO();
+
     private static CartDatabase instance;
 
     public static CartDatabase getInstance(Context context){

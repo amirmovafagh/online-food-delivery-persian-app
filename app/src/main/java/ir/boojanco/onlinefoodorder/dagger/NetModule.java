@@ -12,10 +12,14 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import ir.boojanco.onlinefoodorder.data.database.CartDataSource;
+import ir.boojanco.onlinefoodorder.data.database.CartDatabase;
+import ir.boojanco.onlinefoodorder.data.database.LocalCartDataSource;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.data.networking.NetworkConnectionInterceptor;
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
 import ir.boojanco.onlinefoodorder.data.repositories.UserRepository;
+import ir.boojanco.onlinefoodorder.viewmodels.factories.CartViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.HomeViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.LoginViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RegisterViewModelFactory;
@@ -44,6 +48,14 @@ public class NetModule {
         LoginViewModelFactory factory =
                 new LoginViewModelFactory(application, userRepository);
         return factory;
+    }
+
+    @Provides
+    @Singleton
+    CartDataSource provideCartDataSource(Application application) {
+        CartDataSource cartDataSource =
+                new LocalCartDataSource(CartDatabase.getInstance(application).cartDAO());
+        return cartDataSource;
     }
 
     @Provides
@@ -79,17 +91,25 @@ public class NetModule {
 
     @Provides
     @Singleton
-    RestaurantDetailsViewModelFactory provideRestaurantFoodViewModelFactory(Application application , RestaurantRepository restaurantRepository){
+    RestaurantDetailsViewModelFactory provideRestaurantDetailsViewModelFactory(Application application , RestaurantRepository restaurantRepository, CartDataSource cartDataSource){
         RestaurantDetailsViewModelFactory factory =
-                new RestaurantDetailsViewModelFactory(application, restaurantRepository);
+                new RestaurantDetailsViewModelFactory(application, restaurantRepository, cartDataSource);
         return factory;
     }
 
     @Provides
     @Singleton
-    RestaurantFoodMenuViewModelFactory provideRestaurantFoodMenuViewModelFactory(Application application , RestaurantRepository restaurantRepository){
+    RestaurantFoodMenuViewModelFactory provideRestaurantFoodMenuViewModelFactory(Application application , RestaurantRepository restaurantRepository, CartDataSource cartDataSource){
         RestaurantFoodMenuViewModelFactory factory =
-                new RestaurantFoodMenuViewModelFactory(application, restaurantRepository);
+                new RestaurantFoodMenuViewModelFactory(application, restaurantRepository, cartDataSource);
+        return factory;
+    }
+
+    @Provides
+    @Singleton
+    CartViewModelFactory provideCartViewModelFactory(Application application , CartDataSource cartDataSource){
+        CartViewModelFactory factory =
+                new CartViewModelFactory(application, cartDataSource);
         return factory;
     }
 

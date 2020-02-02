@@ -1,10 +1,4 @@
-package ir.boojanco.onlinefoodorder.data.DB;
-
-import androidx.room.Delete;
-import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
-import androidx.room.Query;
-import androidx.room.Update;
+package ir.boojanco.onlinefoodorder.data.database;
 
 import java.util.List;
 

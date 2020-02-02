@@ -3,6 +3,7 @@ package ir.boojanco.onlinefoodorder.dagger;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import ir.boojanco.onlinefoodorder.ui.activities.cart.CartActivity;
 import ir.boojanco.onlinefoodorder.ui.activities.LoginActivity;
 import ir.boojanco.onlinefoodorder.ui.activities.MainActivity;
 import ir.boojanco.onlinefoodorder.ui.activities.RegisterActivity;
@@ -24,6 +25,7 @@ public interface AppComponent {
     void inject(RestaurantDetailsActivity restaurantFoodActivity);
     void inject(RestaurantFoodMenuFragment restaurantFoodMenuFragment);
     void inject(RestaurantInfoFragment restaurantInfoFragment);
+    void inject(CartActivity cartActivity);
 
 }
 

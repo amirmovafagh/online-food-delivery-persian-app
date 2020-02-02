@@ -1,4 +1,4 @@
-package ir.boojanco.onlinefoodorder.data.DB;
+package ir.boojanco.onlinefoodorder.data.database;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -22,31 +22,13 @@ public class CartItem {
     @ColumnInfo(name = "foodImage")
     private String foodImage;
 
-    @ColumnInfo(name = "discountPercent")
-    private int discountPercent;
-
     @ColumnInfo(name = "foodPrice")
     private int foodPrice;
-
-    @ColumnInfo(name = "foodExtraPrice")
-    private int foodExtraPrice;
-
-    @ColumnInfo(name = "foodDiscountedPrice")
-    private int foodDiscountedPrice;
 
     @ColumnInfo(name = "foodQuantity")
     private int foodQuantity ;
 
-    public CartItem(long foodId, long restaurantId, String foodName, String foodImage, int discounttPercent, int foodPrice, int foodDiscountedPrice, int foodQuantity) {
-        this.foodId = foodId;
-        this.restaurantId = restaurantId;
-        this.foodName = foodName;
-        this.foodImage = foodImage;
-        this.discountPercent = discounttPercent;
-        this.foodPrice = foodPrice;
-        this.foodDiscountedPrice = foodDiscountedPrice;
-        this.foodQuantity = foodQuantity;
-    }
+    public CartItem() {}
 
     public long getFoodId() {
         return foodId;
@@ -80,36 +62,12 @@ public class CartItem {
         this.foodImage = foodImage;
     }
 
-    public int getDiscountPercent() {
-        return discountPercent;
-    }
-
-    public void setDiscountPercent(int discountPercent) {
-        this.discountPercent = discountPercent;
-    }
-
     public int getFoodPrice() {
         return foodPrice;
     }
 
     public void setFoodPrice(int foodPrice) {
         this.foodPrice = foodPrice;
-    }
-
-    public int getFoodExtraPrice() {
-        return foodExtraPrice;
-    }
-
-    public void setFoodExtraPrice(int foodExtraPrice) {
-        this.foodExtraPrice = foodExtraPrice;
-    }
-
-    public int getFoodDiscountedPrice() {
-        return foodDiscountedPrice;
-    }
-
-    public void setFoodDiscountedPrice(int foodDiscountedPrice) {
-        this.foodDiscountedPrice = foodDiscountedPrice;
     }
 
     public int getFoodQuantity() {

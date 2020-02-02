@@ -11,4 +11,5 @@ public interface RestaurantFoodMenuInterface {
     void onStarted();
     void onSuccess(ArrayList<ListItemType> items, MutableLiveData<GetAllFoodResponse> allFoodMutableLiveData, ArrayList<String> foodTypeIndex);
     void onFailure(String error);
+
 }

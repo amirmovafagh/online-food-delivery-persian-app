@@ -24,6 +24,7 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         android:layoutDirection="rtl">
+        
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
@@ -158,6 +159,7 @@
                                 />
 
                             <androidx.cardview.widget.CardView
+                                android:id="@+id/cv_rate"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="16dp"
@@ -196,6 +198,8 @@
                                         app:layout_constraintTop_toBottomOf="@id/animation_view_delivery_time" />
 
                                 </LinearLayout>
+
+
 
                             </androidx.cardview.widget.CardView>
 
@@ -269,18 +273,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:layout_margin="8dp"
-            android:src="@drawable/like"
-            android:visibility="gone"
-            app:layout_anchor="@id/tabs"
-            app:layout_anchorGravity="center|left|start"
-            app:fabSize="mini"
-            app:borderWidth="0dp" />
+
 
         <ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.CustomViewPager
             android:id="@+id/pager"

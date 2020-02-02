@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="foodMenu"
             type="ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.RestaurantFoodMenuViewModel" />
     </data>
+
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -13,6 +14,39 @@
         android:orientation="vertical"
         tools:context=".ui.activities.restaurantDetails.fragments.RestaurantFoodMenuFragment"
         android:background="@color/backgroundGrayLight">
+        <RelativeLayout
+            android:id="@+id/relative_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_anchor="@id/tabs"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="8dp"
+            app:layout_anchorGravity="center|left|start"
+            >
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                app:srcCompat="@drawable/ic_shopping_cart_black_24dp"
+                android:visibility="visible"
+                app:layout_anchorGravity="center|left|start"
+                app:fabSize="mini"
+                app:borderWidth="0dp" />
+            <TextView
+                android:id="@+id/text_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="1dp"
+                android:elevation="7dp"
+                android:gravity="center"
+                android:visibility="@{foodMenu.cartItemCount > 0 ? 0 : 8}"
+                android:text="@{String.valueOf(foodMenu.cartItemCount)}"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/body4_paragraph_font_size"
+                android:background="@drawable/textview_bg_fab"
+                />
+        </RelativeLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_food_type"
             android:layout_width="match_parent"

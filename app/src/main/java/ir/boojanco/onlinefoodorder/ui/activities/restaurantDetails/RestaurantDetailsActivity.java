@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
@@ -20,6 +19,7 @@ import javax.inject.Inject;
 
 import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.dagger.App;
+import ir.boojanco.onlinefoodorder.data.database.CartDataSource;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.ActivityRestaurantDetailsBinding;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
@@ -41,6 +41,8 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
     RestaurantDetailsViewModelFactory factory;
     @Inject
     MySharedPreferences sharedPreferences;
+    @Inject
+    CartDataSource cartDataSource;
 
     RestaurantInfoSharedViewModel sharedViewModel;
 
@@ -73,6 +75,8 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
             restaurantDetailsViewModel.restaurantAverageScore.setValue(extraRestauranAverageScore);
             restaurantDetailsViewModel.restaurantName.setValue(extraRestauranName);*/
             restaurantDetailsViewModel.getRestaurantInfo(sharedPreferences.getUserAuthTokenKey(), extraRestauranId);
+
+
         }
 
     }
@@ -98,7 +102,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
     @Override
     public void onStarted() {
         binding.cvWaitingResponse.setVisibility(View.VISIBLE);
-        binding.fab.setVisibility(View.GONE);
+
     }
 
     @SuppressLint("RestrictedApi")
@@ -106,7 +110,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
     public void onSuccess(RestaurantInfoResponse restaurantInfo) {
 
         binding.cvWaitingResponse.setVisibility(View.GONE);
-        binding.fab.setVisibility(View.VISIBLE);
+
         sharedViewModel.infoResponseMutableLiveData.postValue(restaurantInfo);
 
     }
@@ -115,7 +119,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
     @Override
     public void onFailure(String error) {
         binding.cvWaitingResponse.setVisibility(View.GONE);
-        binding.fab.setVisibility(View.VISIBLE);
+
         Toast.makeText(application, ""+error, Toast.LENGTH_LONG).show();
     }
 }

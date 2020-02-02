@@ -1,7 +1,9 @@
 package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails;
 
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -49,8 +51,14 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
             FoodItem foodItem = (FoodItem) items.get(position);
             ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.setFoodItem(foodItem);
             ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.cvFoodDetails.setOnClickListener(v -> {
+
                 clickListener.onRecyclerViewItemClick(position,((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.cvFoodDetails, foodItem);
             });
+
+            if(foodItem.getDiscount()>0){
+                TextView textViewCostStrikeThrough  = ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.textViewPrice;
+                textViewCostStrikeThrough.setPaintFlags(textViewCostStrikeThrough.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            }
         }
 
     }

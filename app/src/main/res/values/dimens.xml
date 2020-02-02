@@ -18,5 +18,5 @@
     <dimen name="appbar_padding">16dp</dimen>
     <dimen name="margin_start_end">8dp</dimen>
     <dimen name="margin_top">8dp</dimen>
-    <dimen name="card_view_corner_radius">10dp</dimen>
+    <dimen name="card_view_corner_radius">16dp</dimen>
 </resources>

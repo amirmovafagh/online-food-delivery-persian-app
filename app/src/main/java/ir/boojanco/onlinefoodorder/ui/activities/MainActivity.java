@@ -5,12 +5,9 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
@@ -18,9 +15,10 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
+
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
+
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -29,6 +27,7 @@ import javax.inject.Inject;
 import ir.boojanco.onlinefoodorder.R;
 
 import ir.boojanco.onlinefoodorder.dagger.App;
+import ir.boojanco.onlinefoodorder.data.database.CartDataSource;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.ActivityMainBinding;
 import ir.boojanco.onlinefoodorder.ui.fragments.CartFragment;
@@ -48,13 +47,15 @@ public class MainActivity extends AppCompatActivity  {
     final Fragment userProfileFragment = new UserProfileFragment();
     final FragmentManager fm = getSupportFragmentManager();
     Fragment active = homeFragment;
-    BottomNavigationView bottomNavigationView ;
+    BottomNavigationView bottomNavigationView;
     Toolbar myToolbar;
 
 
 
     @Inject
     MySharedPreferences sharedPreferences;
+    @Inject
+    CartDataSource cartDataSource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity  {
         binding.setMain(mainViewModel); // connect activity_Main variable to ViewModel class
         // Specify the current activity as the lifecycle owner.
         binding.setLifecycleOwner(this);
+
         bottomNavigationView = binding.bottomNavigation;
         NavHostFragment navHostFragment = (NavHostFragment)getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment);
@@ -82,7 +84,6 @@ public class MainActivity extends AppCompatActivity  {
         myToolbar = binding.myToolbar;
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(null);
-
         Toast.makeText(this, ""+sharedPreferences.getUserAuthTokenKey(), Toast.LENGTH_SHORT).show();
     }
 

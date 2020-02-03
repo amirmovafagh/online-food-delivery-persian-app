@@ -90,10 +90,11 @@
                                 android:textSize="@dimen/body2_paragraph_font_size"
                                 android:text="@string/total_items_price"/>
                             <TextView
-                                android:id="@+id/text_view_minimum_order_price"
+                                android:id="@+id/text_view_total_items_price"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:maxLines="1"
+                                android:text="@{String.valueOf(viewModel.totalItemsPriceLiveData)}"
                                 android:textDirection="ltr"
                                 android:textSize="@dimen/body3_paragraph_font_size"
                                 />

@@ -63,7 +63,7 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
     public void onStop(){
         compositeDisposable.clear();
     }
-    public void setCartItemDB(FoodItem item, Long restaurantId){
+    public void addToCartItemDB(FoodItem item, Long restaurantId){
         CartItem cartItem = new CartItem();
         cartItem.setFoodId(item.getId());
         cartItem.setFoodName(item.getName());
@@ -76,7 +76,6 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
         .subscribeOn(io.reactivex.schedulers.Schedulers.io())
                 .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
                 .subscribe(()->{
-                    Toast.makeText(context, "added Cart item", Toast.LENGTH_LONG).show();
                     getCartCountItem(extraRestaurantId);
 
                 },throwable -> {

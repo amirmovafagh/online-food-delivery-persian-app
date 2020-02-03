@@ -90,4 +90,11 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
     public void onRecyclerViewItemClick(View v, CartItem cartItem) {
 
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(cartViewModel!=null)
+        cartViewModel.onStop();
+    }
 }

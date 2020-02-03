@@ -31,7 +31,7 @@ public interface CartDAO {
 
 
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE) //if conflict foodId, we will updae information
+    @Insert(onConflict = OnConflictStrategy.REPLACE) //if conflict foodId, we will update information
     Completable insertOrReplaceAll(CartItem...cartItems);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)

@@ -65,6 +65,7 @@ dependencies {
 
     //room+rxjava
     annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-migration:$room_version"
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-rxjava2:$room_version"
 

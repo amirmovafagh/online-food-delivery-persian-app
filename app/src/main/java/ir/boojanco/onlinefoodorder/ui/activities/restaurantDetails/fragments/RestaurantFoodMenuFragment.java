@@ -27,6 +27,7 @@ import javax.inject.Inject;
 import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
+import ir.boojanco.onlinefoodorder.data.database.CartDataSource;
 import ir.boojanco.onlinefoodorder.databinding.RestaurantFoodMenuFragmentBinding;
 import ir.boojanco.onlinefoodorder.models.food.getAllFood.GetAllFoodResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
@@ -47,6 +48,8 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     Application application;
     @Inject
     MySharedPreferences sharedPreferences;
+    @Inject
+    CartDataSource cartDataSource;
 
 
     private ArrayList<String> foodTypeIndex;
@@ -92,11 +95,11 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
             recyclerViewFoodMenu = binding.recyclerViewRestauranFood;
             recyclerViewFoodMenu.setLayoutManager(linearLayoutManagerFoodMenu);
             recyclerViewFoodMenu.setHasFixedSize(true);
-            adapterMenu = new RestaurantFoodMenuAdapter(this);
+            adapterMenu = new RestaurantFoodMenuAdapter(this, cartDataSource, extraRestauranId);
             recyclerViewFoodMenu.setAdapter(adapterMenu);
 
             restaurantFoodMenuViewModel.getAllFood(sharedPreferences.getUserAuthTokenKey(),extraRestauranId);
-            restaurantFoodMenuViewModel.getCartCountItem(extraRestauranId);
+
 
             sharedViewModel.infoResponseMutableLiveData.observe(getViewLifecycleOwner(), new Observer<RestaurantInfoResponse>() {
                 @Override
@@ -149,6 +152,13 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        if(restaurantFoodMenuViewModel!= null)
+            restaurantFoodMenuViewModel.onStop();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         if(adapterFoodType != null)
@@ -158,9 +168,9 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     @Override
     public void onRecyclerViewItemClick(int position,View v, FoodItem items) {
         switch (v.getId()){
-            case R.id.cv_food_details:
+            case R.id.img_btn_increase:
                 Toast.makeText(application, ""+extraRestauranId, Toast.LENGTH_SHORT).show();
-                restaurantFoodMenuViewModel.setCartItemDB(items,extraRestauranId);
+                restaurantFoodMenuViewModel.addToCartItemDB(items,extraRestauranId);
 
                 break;
             case R.id.ivLogo:
@@ -182,5 +192,11 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
                 break;
 
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        restaurantFoodMenuViewModel.getCartCountItem(extraRestauranId);
     }
 }

@@ -5,6 +5,9 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 @Entity(tableName = "cart_table")
 public class CartItem {
 
@@ -64,6 +67,16 @@ public class CartItem {
 
     public int getFoodPrice() {
         return foodPrice;
+    }
+
+    public String getFoodPriceMoneyFormat(){
+        int i =foodPrice*foodQuantity;
+        return moneyFormat(i);
+    }
+    private String moneyFormat(int cost){
+        NumberFormat formatter = new DecimalFormat("#,###");
+        String formattedNumber = formatter.format(cost);
+        return formattedNumber+" تومان";
     }
 
     public void setFoodPrice(int foodPrice) {

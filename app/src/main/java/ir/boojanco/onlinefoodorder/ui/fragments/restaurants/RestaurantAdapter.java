@@ -51,6 +51,11 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         }
     }
 
+    @Override
+    public long getItemId(int position) {
+        return restaurants.get(position).getId();
+    }
+
     public void setRestaurantsList(List<LastRestaurantList> restaurants) {
         this.restaurants = restaurants;
         notifyDataSetChanged();

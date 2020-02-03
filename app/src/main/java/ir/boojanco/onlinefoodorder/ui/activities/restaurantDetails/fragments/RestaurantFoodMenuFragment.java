@@ -1,5 +1,7 @@
 package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments;
 
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -13,11 +15,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
+import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
+import androidx.transition.AutoTransition;
+import androidx.transition.TransitionManager;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -58,12 +67,16 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     private RestaurantInfoSharedViewModel sharedViewModel;
     private RestaurantFoodMenuFragmentBinding binding;
     private RecyclerView recyclerViewFoodMenu, recyclerViewFoodType;
+    private SnapHelper snapHelper;
     private RestaurantFoodMenuAdapter adapterMenu;
     private RestaurantFoodTypeAdapter adapterFoodType;
     private LinearLayoutManager linearLayoutManagerFoodMenu;
 
     private long extraRestauranId=0;
 
+    ConstraintLayout expandableView;
+    ImageButton arrowBtn;
+    ConstraintLayout mainLayout;
     public static RestaurantFoodMenuFragment newInstance() {
         return new RestaurantFoodMenuFragment();
     }
@@ -79,6 +92,10 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
         binding.setFoodMenu(restaurantFoodMenuViewModel);
         binding.setLifecycleOwner(this);
 
+        expandableView = binding.expandableView;
+        arrowBtn = binding.arrowBtn;
+        mainLayout = binding.consLayoutMainFoodMenu;
+
         Bundle extras = getActivity().getIntent().getExtras();
         if(extras != null){
             extraRestauranId = extras.getLong("RESTAURANT_ID",0);
@@ -88,14 +105,21 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
             recyclerViewFoodType.setLayoutManager(new LinearLayoutManager(getActivity().getApplication(),LinearLayoutManager.HORIZONTAL,false));
             recyclerViewFoodType.canScrollHorizontally(0);
             recyclerViewFoodType.setHasFixedSize(true);
-            adapterFoodType = new RestaurantFoodTypeAdapter(this);
+            adapterFoodType = new RestaurantFoodTypeAdapter(this, application);
+            snapHelper = new PagerSnapHelper(); //for stay on center
+            snapHelper.attachToRecyclerView(recyclerViewFoodType);
+
             recyclerViewFoodType.setAdapter(adapterFoodType);
+            recyclerViewFoodType.setItemViewCacheSize(20);
+
+
 
             linearLayoutManagerFoodMenu = new LinearLayoutManager(getActivity().getApplication());
             recyclerViewFoodMenu = binding.recyclerViewRestauranFood;
             recyclerViewFoodMenu.setLayoutManager(linearLayoutManagerFoodMenu);
             recyclerViewFoodMenu.setHasFixedSize(true);
-            adapterMenu = new RestaurantFoodMenuAdapter(this, cartDataSource, extraRestauranId);
+            recyclerViewFoodMenu.setItemViewCacheSize(20);
+            adapterMenu = new RestaurantFoodMenuAdapter(this,cartDataSource, extraRestauranId);
             recyclerViewFoodMenu.setAdapter(adapterMenu);
 
             restaurantFoodMenuViewModel.getAllFood(sharedPreferences.getUserAuthTokenKey(),extraRestauranId);
@@ -125,7 +149,21 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
                 intent.putExtra("RESTAURANT_AVERAGE_SCORE", restaurantList.getAverageScore());
                 intent.putExtra("RESTAURANT_TAG_LIST", restaurantList.getTagList());*/
                 startActivity(intent);
+            }
+        });
 
+        arrowBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(expandableView.getVisibility()==View.GONE){
+                    TransitionManager.beginDelayedTransition(mainLayout, new AutoTransition());
+                    expandableView.setVisibility(View.VISIBLE);
+                    arrowBtn.setBackgroundResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+                }else {
+                    TransitionManager.beginDelayedTransition(mainLayout, new AutoTransition());
+                    expandableView.setVisibility(View.GONE);
+                    arrowBtn.setBackgroundResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+                }
             }
         });
     }
@@ -154,9 +192,13 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     @Override
     public void onPause() {
         super.onPause();
-        if(restaurantFoodMenuViewModel!= null)
+        if(restaurantFoodMenuViewModel!= null) {
             restaurantFoodMenuViewModel.onStop();
+
+        }
     }
+
+
 
     @Override
     public void onDestroy() {
@@ -166,7 +208,7 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     }
 
     @Override
-    public void onRecyclerViewItemClick(int position,View v, FoodItem items) {
+    public void onRecyclerViewItemClick(View v, FoodItem items) {
         switch (v.getId()){
             case R.id.img_btn_increase:
                 Toast.makeText(application, ""+extraRestauranId, Toast.LENGTH_SHORT).show();
@@ -177,6 +219,11 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
 
                 break;
         }
+    }
+
+    @Override
+    public void onCartItemCountUpdate() {
+        restaurantFoodMenuViewModel.getCartCountItem(extraRestauranId);
     }
 
     @Override
@@ -198,5 +245,6 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     public void onResume() {
         super.onResume();
         restaurantFoodMenuViewModel.getCartCountItem(extraRestauranId);
+        adapterMenu.notifyDataSetChanged();
     }
 }

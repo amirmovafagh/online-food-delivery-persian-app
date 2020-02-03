@@ -2,12 +2,9 @@
 <shape android:shape="rectangle"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <solid android:color="@color/detailsTextColor"/>
+    <solid android:color="@color/colorAccent"/>
 
-    <corners android:bottomLeftRadius="10dp"
-        android:bottomRightRadius="10dp"
-        android:topLeftRadius="10dp"
-        android:topRightRadius="10dp"
+    <corners android:radius="@dimen/card_view_corner_radius"
         />
 
 </shape>

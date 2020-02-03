@@ -16,24 +16,33 @@
     android:orientation="horizontal"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:gravity="center"
+    android:layout_marginTop="8dp"
+android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
     android:layoutDirection="rtl"
     >
-
-    <TextView
-        android:id="@+id/tvNameType"
-        android:textSize="16sp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_food_type_text_background"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:text="@{foodType}"
-        android:padding="8dp"/>
-    <RadioButton
-        android:id="@+id/radioBt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        bind:cardCornerRadius="@dimen/card_view_corner_radius"
+        android:layout_gravity="center"
+        bind:cardElevation="0dp"
+        bind:cardBackgroundColor="@android:color/transparent">
+        <TextView
+            android:id="@+id/tvNameType"
+            android:textSize="@dimen/body3_paragraph_font_size"
+            android:layout_width="wrap_content"
+            android:minWidth="60dp"
+            android:padding="4dp"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:text="@{foodType}"
+            />
+    </androidx.cardview.widget.CardView>
 
-        />
 
 </LinearLayout>
 </layout>

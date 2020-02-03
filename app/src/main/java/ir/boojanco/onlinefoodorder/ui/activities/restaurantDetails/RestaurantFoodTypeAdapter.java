@@ -1,5 +1,6 @@
 package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.Res
 public class RestaurantFoodTypeAdapter extends RecyclerView.Adapter<RestaurantFoodTypeAdapter.FoodTypeViewHolder> {
     private static final String TAG = RestaurantFoodTypeAdapter.class.getSimpleName();
     private List<String> foodTypeLists;
+    private Context context;
     public RecyclerViewRestaurantFoodTypeClickListener clickListener;
 
     // if checkedPosition = -1, there is no default selection
@@ -26,8 +28,9 @@ public class RestaurantFoodTypeAdapter extends RecyclerView.Adapter<RestaurantFo
     private int selectedPosition = 0;
 
 
-    public RestaurantFoodTypeAdapter(RecyclerViewRestaurantFoodTypeClickListener clickListener) {
+    public RestaurantFoodTypeAdapter(RecyclerViewRestaurantFoodTypeClickListener clickListener, Context context) {
         this.clickListener = clickListener;
+        this.context =context;
     }
 
 
@@ -43,11 +46,19 @@ public class RestaurantFoodTypeAdapter extends RecyclerView.Adapter<RestaurantFo
     @Override
     public void onBindViewHolder(@NonNull FoodTypeViewHolder holder, int position) {
         holder.recyclerviewFoodTypeBinding.setFoodType(foodTypeLists.get(position));
-
-        holder.recyclerviewFoodTypeBinding.radioBt.setChecked(selectedPosition == position);
+        if(selectedPosition == position){// is selected
+            holder.recyclerviewFoodTypeBinding.cvFoodTypeTextBackground.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
+            holder.recyclerviewFoodTypeBinding.tvNameType.setTextColor(context.getResources().getColor(R.color.white));
+        }
+        else {//remove selected
+            holder.recyclerviewFoodTypeBinding.cvFoodTypeTextBackground.setCardBackgroundColor(context.getResources().getColor(R.color.transparent));
+            holder.recyclerviewFoodTypeBinding.tvNameType.setTextColor(context.getResources().getColor(R.color.gray));
+        }
         Log.i(TAG,"position: "+position);
         holder.recyclerviewFoodTypeBinding.tvNameType.setOnClickListener(v -> {
-            holder.recyclerviewFoodTypeBinding.radioBt.setChecked(true);
+            //is select
+            holder.recyclerviewFoodTypeBinding.cvFoodTypeTextBackground.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
+            holder.recyclerviewFoodTypeBinding.tvNameType.setTextColor(context.getResources().getColor(R.color.white));
             clickListener.onRecyclerViewTypeItemClick(holder.recyclerviewFoodTypeBinding.tvNameType, foodTypeLists.get(position));
             selectedPosition=position;
             notifyDataSetChanged();

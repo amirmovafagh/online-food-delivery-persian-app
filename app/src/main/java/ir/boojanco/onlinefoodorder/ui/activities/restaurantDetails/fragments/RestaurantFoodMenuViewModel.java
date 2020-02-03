@@ -48,9 +48,11 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
     public MutableLiveData<Integer> cartItemCount;
 
 
+
     public RestaurantFoodMenuViewModel(Context context, RestaurantRepository restaurantRepository, CartDataSource cartDataSource) {
         allFoodMutableLiveData = new MutableLiveData<>();
         cartItemCount = new MutableLiveData<>();
+
 
         items =  new ArrayList<>();
         foodTypeIndex =  new ArrayList<>();
@@ -69,13 +71,14 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
         cartItem.setFoodName(item.getName());
         cartItem.setFoodImage(item.getLogo());
         cartItem.setFoodPrice(item.getCost());
-        cartItem.setFoodQuantity(1);
+        cartItem.setFoodQuantity(item.getCount());
         cartItem.setRestaurantId(restaurantId);
 
         compositeDisposable.add((Disposable) cartDataSource.insertOrReplaceAll(cartItem)
         .subscribeOn(io.reactivex.schedulers.Schedulers.io())
                 .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
                 .subscribe(()->{
+
                     getCartCountItem(extraRestaurantId);
 
                 },throwable -> {

@@ -24,6 +24,7 @@ import ir.boojanco.onlinefoodorder.data.database.CartItem;
 import ir.boojanco.onlinefoodorder.databinding.RecyclerviewFoodTypeHeaderBinding;
 import ir.boojanco.onlinefoodorder.databinding.RecyclerviewRestaurantFoodMenuBinding;
 import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.FoodItem;
+import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.RestaurantFoodMenuViewModel;
 
 public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private String TAG = this.getClass().getSimpleName();
@@ -32,6 +33,7 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
     private FoodTypeHeader header;
     private CartDataSource cartDataSource;
 
+
     private Long extraRestaurantId;
     public RecyclerViewRestaurantFoodMenuClickListener clickListener;
 
@@ -39,6 +41,7 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
         this.clickListener = clickListener;
         this.cartDataSource =cartDataSource;
         this.extraRestaurantId = extraRestaurantId;
+
 
     }
 
@@ -65,28 +68,20 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
             ((RestaurantFoodHeaderViewHolder) holder).recyclerviewFoodTypeHeaderBinding.setHeader(header);
         }else if(holder instanceof RestaurantFoodViewHolder){
             FoodItem foodItem = (FoodItem) items.get(position);
-
             ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.setFoodItem(foodItem);
             getFoodByIdFromDB(foodItem,extraRestaurantId, (RestaurantFoodViewHolder) holder,false,false);
             ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.imgBtnIncrease.setOnClickListener(v -> {
-                TextView textViewItems = ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.textViewItemCount;
-                int countItem = Integer.parseInt(textViewItems.getText().toString());
+                TextView textView = ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.textViewItemCount;
+                int count = Integer.parseInt(textView.getText().toString());
+                if(count == 0){
+                    foodItem.setCount(1);
+                    clickListener.onRecyclerViewItemClick(((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.imgBtnIncrease, foodItem);
+                    textView.setText("1");
+                }else getFoodByIdFromDB(foodItem,extraRestaurantId, (RestaurantFoodViewHolder) holder,true,false);
 
-                if(countItem == 0){
-                    Log.i(TAG,"AA");
-                    clickListener.onRecyclerViewItemClick(position,((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.imgBtnIncrease, foodItem);
-                    getFoodByIdFromDB(foodItem,extraRestaurantId, (RestaurantFoodViewHolder) holder,false,false); //just for update counter
-                }else if(Integer.parseInt(textViewItems.getText().toString()) < 99){ //increase
-                    getFoodByIdFromDB(foodItem,extraRestaurantId, (RestaurantFoodViewHolder) holder,true,false); //update DB and Counter
-                }
             });
             ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.imgBtnDecrease.setOnClickListener(v -> {
-                TextView textViewItems = ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.textViewItemCount;
-                int countItem = Integer.parseInt(textViewItems.getText().toString());
-                if(countItem == 1){
-                    getFoodByIdFromDB(foodItem, extraRestaurantId, (RestaurantFoodViewHolder) holder,false,true);
-                }else if(countItem > 1)
-                    getFoodByIdFromDB(foodItem, extraRestaurantId, (RestaurantFoodViewHolder) holder,false,true);
+                getFoodByIdFromDB(foodItem, extraRestaurantId, (RestaurantFoodViewHolder) holder,false,true);
             });
 
             if(foodItem.getDiscount()>0){
@@ -110,45 +105,32 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
 
                     @Override
                     public void onSuccess(CartItem cartItem) {
-                        if(cartItem.getFoodQuantity() == 1)
+
+                        if(!isDecrease && !isIncrease)
                             holder.recyclerviewRestaurantFoodMenuBinding.textViewItemCount.setText(String.valueOf((cartItem.getFoodQuantity())));
+
                         if(isIncrease && cartItem.getFoodQuantity() < 99) {
-                            cartItem.setFoodQuantity(cartItem.getFoodQuantity() + 1);
-                            updateCartItemDatabase(cartItem,holder);
+                            currentFood.setCount(cartItem.getFoodQuantity() + 1);
+                            clickListener.onRecyclerViewItemClick(holder.recyclerviewRestaurantFoodMenuBinding.imgBtnIncrease, currentFood);
+                            holder.recyclerviewRestaurantFoodMenuBinding.textViewItemCount.setText(String.valueOf(currentFood.getCount()));
+
                         }
                         if(isDecrease && cartItem.getFoodQuantity() == 1){
                             deleteCartItemDatabase(cartItem,holder,0);
                         }
-                        else if(isDecrease && cartItem.getFoodQuantity() > 1 )
-                            cartItem.setFoodQuantity(cartItem.getFoodQuantity() - 1);
-                            updateCartItemDatabase(cartItem,holder);
+                        else if(isDecrease && cartItem.getFoodQuantity() > 1 ){
+                            currentFood.setCount(cartItem.getFoodQuantity() - 1);
+                            clickListener.onRecyclerViewItemClick(holder.recyclerviewRestaurantFoodMenuBinding.imgBtnIncrease, currentFood);
+                            holder.recyclerviewRestaurantFoodMenuBinding.textViewItemCount.setText(String.valueOf(currentFood.getCount()));
+                            clickListener.onCartItemCountUpdate();
+                        }
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         holder.recyclerviewRestaurantFoodMenuBinding.textViewItemCount.setText("0");
                         Log.e(TAG,"{add Cart throwable}->"+e.getMessage());
-                    }
-                });
-    }
-    private void updateCartItemDatabase(CartItem cartItem,RestaurantFoodViewHolder holder){
-        cartDataSource.updateCart(cartItem)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<Integer>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onSuccess(Integer integer) {
-                        holder.recyclerviewRestaurantFoodMenuBinding.textViewItemCount.setText(String.valueOf(cartItem.getFoodQuantity()));
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG,"{UPDATE CART ITEM}-> "+e.getMessage());
                     }
                 });
     }
@@ -166,7 +148,7 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
                     @Override
                     public void onSuccess(Integer integer) {
                         holder.recyclerviewRestaurantFoodMenuBinding.textViewItemCount.setText(String.valueOf(num));
-
+                        clickListener.onCartItemCountUpdate();
                     }
 
                     @Override
@@ -192,6 +174,10 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
         }
     }
 
+    @Override
+    public long getItemId(int position) {
+        return items.get(position).getItemType();
+    }
 
     public void setFoodLists(ArrayList<ListItemType> items) {
         this.items = items;

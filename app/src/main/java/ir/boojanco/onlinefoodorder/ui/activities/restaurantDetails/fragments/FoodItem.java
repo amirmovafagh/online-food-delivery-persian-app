@@ -17,6 +17,7 @@ public class FoodItem implements ListItemType {
     private int point;
     private int discount;
     private int cost;
+    private int count;
     private List<String> foodTypeList;
 
     public FoodItem( ) {
@@ -25,6 +26,14 @@ public class FoodItem implements ListItemType {
 
     public long getId() {
         return id;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 
     public void setId(long id) {

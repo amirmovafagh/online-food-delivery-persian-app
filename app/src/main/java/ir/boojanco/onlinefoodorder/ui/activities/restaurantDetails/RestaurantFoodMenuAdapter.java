@@ -3,7 +3,6 @@ package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -15,16 +14,14 @@ import java.util.ArrayList;
 
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.data.database.CartDataSource;
 import ir.boojanco.onlinefoodorder.data.database.CartItem;
-import ir.boojanco.onlinefoodorder.databinding.RecyclerviewFoodTypeHeaderBinding;
-import ir.boojanco.onlinefoodorder.databinding.RecyclerviewRestaurantFoodMenuBinding;
+import ir.boojanco.onlinefoodorder.databinding.RecyclerviewFoodTypeHeaderItemBinding;
+import ir.boojanco.onlinefoodorder.databinding.RecyclerviewRestaurantFoodMenuItemBinding;
 import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.FoodItem;
-import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.RestaurantFoodMenuViewModel;
 
 public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private String TAG = this.getClass().getSimpleName();
@@ -49,12 +46,12 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if(viewType == ListItemType.TYPE_HEADER){
-            RecyclerviewFoodTypeHeaderBinding recyclerviewFoodTypeHeaderBinding =
-                    DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.recyclerview_food_type_header, parent, false);
+            RecyclerviewFoodTypeHeaderItemBinding recyclerviewFoodTypeHeaderBinding =
+                    DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.recyclerview_food_type_header_item, parent, false);
             return new RestaurantFoodHeaderViewHolder(recyclerviewFoodTypeHeaderBinding);
         }else if(viewType == ListItemType.TYPE_ITEM){
-            RecyclerviewRestaurantFoodMenuBinding recyclerviewRestaurantFoodMenuBinding =
-                    DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.recyclerview_restaurant_food_menu, parent, false);
+            RecyclerviewRestaurantFoodMenuItemBinding recyclerviewRestaurantFoodMenuBinding =
+                    DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.recyclerview_restaurant_food_menu_item, parent, false);
             return new RestaurantFoodViewHolder(recyclerviewRestaurantFoodMenuBinding);
         }
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
@@ -185,15 +182,15 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     class RestaurantFoodViewHolder extends RecyclerView.ViewHolder{
-        private RecyclerviewRestaurantFoodMenuBinding recyclerviewRestaurantFoodMenuBinding; //this variable is from XML recyclerview_restauran_food
-        public RestaurantFoodViewHolder(@NonNull RecyclerviewRestaurantFoodMenuBinding recyclerviewRestaurantFoodBinding) {
+        private RecyclerviewRestaurantFoodMenuItemBinding recyclerviewRestaurantFoodMenuBinding; //this variable is from XML recyclerview_restauran_food
+        public RestaurantFoodViewHolder(@NonNull RecyclerviewRestaurantFoodMenuItemBinding recyclerviewRestaurantFoodBinding) {
             super(recyclerviewRestaurantFoodBinding.getRoot());
             this.recyclerviewRestaurantFoodMenuBinding = recyclerviewRestaurantFoodBinding;
         }
     }
     class RestaurantFoodHeaderViewHolder extends RecyclerView.ViewHolder{
-        private RecyclerviewFoodTypeHeaderBinding recyclerviewFoodTypeHeaderBinding; //this variable is from XML recyclerview_food_type_header
-        public RestaurantFoodHeaderViewHolder(@NonNull RecyclerviewFoodTypeHeaderBinding recyclerviewFoodTypeHeaderBinding) {
+        private RecyclerviewFoodTypeHeaderItemBinding recyclerviewFoodTypeHeaderBinding; //this variable is from XML recyclerview_food_type_header_item
+        public RestaurantFoodHeaderViewHolder(@NonNull RecyclerviewFoodTypeHeaderItemBinding recyclerviewFoodTypeHeaderBinding) {
             super(recyclerviewFoodTypeHeaderBinding.getRoot());
             this.recyclerviewFoodTypeHeaderBinding = recyclerviewFoodTypeHeaderBinding;
         }

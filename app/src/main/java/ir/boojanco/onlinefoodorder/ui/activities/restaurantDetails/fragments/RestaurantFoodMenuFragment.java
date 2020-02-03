@@ -64,19 +64,19 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     private ArrayList<String> foodTypeIndex;
 
     private RestaurantFoodMenuViewModel restaurantFoodMenuViewModel;
-    private RestaurantInfoSharedViewModel sharedViewModel;
     private RestaurantFoodMenuFragmentBinding binding;
-    private RecyclerView recyclerViewFoodMenu, recyclerViewFoodType;
-    private SnapHelper snapHelper;
+    private RecyclerView recyclerViewFoodMenu;
     private RestaurantFoodMenuAdapter adapterMenu;
     private RestaurantFoodTypeAdapter adapterFoodType;
+    private RestaurantPackageAdapter adapterPackage;
     private LinearLayoutManager linearLayoutManagerFoodMenu;
+    private AutoTransition transition;
 
     private long extraRestauranId=0;
 
-    ConstraintLayout expandableView;
-    ImageButton arrowBtn;
-    ConstraintLayout mainLayout;
+    private ConstraintLayout expandableView;
+    private ImageButton arrowBtn;
+    private ConstraintLayout mainLayout;
     public static RestaurantFoodMenuFragment newInstance() {
         return new RestaurantFoodMenuFragment();
     }
@@ -87,11 +87,12 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
         ((App) getActivity().getApplication()).getComponent().inject(this);
         binding = DataBindingUtil.inflate(inflater, R.layout.restaurant_food_menu_fragment, container,false);
         restaurantFoodMenuViewModel = new ViewModelProvider(this, factory).get(RestaurantFoodMenuViewModel.class);
-        sharedViewModel = new ViewModelProvider(getActivity()).get(RestaurantInfoSharedViewModel.class);
+        RestaurantInfoSharedViewModel sharedViewModel = new ViewModelProvider(getActivity()).get(RestaurantInfoSharedViewModel.class);
         restaurantFoodMenuViewModel.foodInterface = this;
         binding.setFoodMenu(restaurantFoodMenuViewModel);
         binding.setLifecycleOwner(this);
-
+        transition = new AutoTransition();
+        TransitionManager.beginDelayedTransition(binding.relativeCart,transition);
         expandableView = binding.expandableView;
         arrowBtn = binding.arrowBtn;
         mainLayout = binding.consLayoutMainFoodMenu;
@@ -100,13 +101,24 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
         if(extras != null){
             extraRestauranId = extras.getLong("RESTAURANT_ID",0);
             restaurantFoodMenuViewModel.extraRestaurantId = extraRestauranId;
-            recyclerViewFoodType = binding.recyclerViewFoodType;
+            RecyclerView recyclerViewFoodType = binding.recyclerViewFoodType;
+            RecyclerView recyclerViewRestaurantPackage= binding.recyclerViewRestaurantPackage;
+            SnapHelper snapHelper = new PagerSnapHelper(); //for stay on center
+
+
+            recyclerViewRestaurantPackage.setLayoutManager(new LinearLayoutManager(getActivity().getApplication(),LinearLayoutManager.HORIZONTAL,false));
+            recyclerViewRestaurantPackage.canScrollHorizontally(0);
+            recyclerViewRestaurantPackage.setHasFixedSize(true);
+            adapterPackage = new RestaurantPackageAdapter();
+            snapHelper.attachToRecyclerView(recyclerViewRestaurantPackage);
+            recyclerViewRestaurantPackage.setAdapter(adapterPackage);
+            recyclerViewRestaurantPackage.setItemViewCacheSize(20);
+
 
             recyclerViewFoodType.setLayoutManager(new LinearLayoutManager(getActivity().getApplication(),LinearLayoutManager.HORIZONTAL,false));
             recyclerViewFoodType.canScrollHorizontally(0);
             recyclerViewFoodType.setHasFixedSize(true);
             adapterFoodType = new RestaurantFoodTypeAdapter(this, application);
-            snapHelper = new PagerSnapHelper(); //for stay on center
             snapHelper.attachToRecyclerView(recyclerViewFoodType);
 
             recyclerViewFoodType.setAdapter(adapterFoodType);
@@ -138,32 +150,26 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), CartActivity.class);
-                intent.putExtra("RESTAURANT_ID",extraRestauranId);
-                /*intent.putExtra("RESTAURANT_COVER", restaurantList.getCover());
-                intent.putExtra("RESTAURANT_LOGO", restaurantList.getLogo());
-                intent.putExtra("RESTAURANT_NAME", restaurantList.getName());
-                intent.putExtra("RESTAURANT_AVERAGE_SCORE", restaurantList.getAverageScore());
-                intent.putExtra("RESTAURANT_TAG_LIST", restaurantList.getTagList());*/
-                startActivity(intent);
-            }
+        binding.fab.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), CartActivity.class);
+            intent.putExtra("RESTAURANT_ID",extraRestauranId);
+            /*intent.putExtra("RESTAURANT_COVER", restaurantList.getCover());
+            intent.putExtra("RESTAURANT_LOGO", restaurantList.getLogo());
+            intent.putExtra("RESTAURANT_NAME", restaurantList.getName());
+            intent.putExtra("RESTAURANT_AVERAGE_SCORE", restaurantList.getAverageScore());
+            intent.putExtra("RESTAURANT_TAG_LIST", restaurantList.getTagList());*/
+            startActivity(intent);
         });
 
-        arrowBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(expandableView.getVisibility()==View.GONE){
-                    TransitionManager.beginDelayedTransition(mainLayout, new AutoTransition());
-                    expandableView.setVisibility(View.VISIBLE);
-                    arrowBtn.setBackgroundResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
-                }else {
-                    TransitionManager.beginDelayedTransition(mainLayout, new AutoTransition());
-                    expandableView.setVisibility(View.GONE);
-                    arrowBtn.setBackgroundResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
-                }
+        arrowBtn.setOnClickListener(v -> {
+            if(expandableView.getVisibility()==View.GONE){
+                TransitionManager.beginDelayedTransition(mainLayout, transition);
+                expandableView.setVisibility(View.VISIBLE);
+                arrowBtn.setBackgroundResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+            }else {
+                TransitionManager.beginDelayedTransition(mainLayout, transition);
+                expandableView.setVisibility(View.GONE);
+                arrowBtn.setBackgroundResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
             }
         });
     }

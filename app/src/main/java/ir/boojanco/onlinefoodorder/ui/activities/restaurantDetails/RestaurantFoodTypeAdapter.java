@@ -3,19 +3,16 @@ package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 import ir.boojanco.onlinefoodorder.R;
-import ir.boojanco.onlinefoodorder.databinding.RecyclerviewFoodTypeBinding;
-import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.RestaurantFoodMenuViewModel;
+import ir.boojanco.onlinefoodorder.databinding.RecyclerviewFoodTypeItemBinding;
 
 public class RestaurantFoodTypeAdapter extends RecyclerView.Adapter<RestaurantFoodTypeAdapter.FoodTypeViewHolder> {
     private static final String TAG = RestaurantFoodTypeAdapter.class.getSimpleName();
@@ -37,29 +34,29 @@ public class RestaurantFoodTypeAdapter extends RecyclerView.Adapter<RestaurantFo
     @NonNull
     @Override
     public FoodTypeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        RecyclerviewFoodTypeBinding recyclerviewFoodTypeBinding =
-                DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.recyclerview_food_type, parent, false);
-        return new FoodTypeViewHolder(recyclerviewFoodTypeBinding);
+        RecyclerviewFoodTypeItemBinding binding =
+                DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.recyclerview_food_type_item, parent, false);
+        return new FoodTypeViewHolder(binding);
     }
 
 
     @Override
     public void onBindViewHolder(@NonNull FoodTypeViewHolder holder, int position) {
-        holder.recyclerviewFoodTypeBinding.setFoodType(foodTypeLists.get(position));
+        holder.binding.setFoodType(foodTypeLists.get(position));
         if(selectedPosition == position){// is selected
-            holder.recyclerviewFoodTypeBinding.cvFoodTypeTextBackground.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
-            holder.recyclerviewFoodTypeBinding.tvNameType.setTextColor(context.getResources().getColor(R.color.white));
+            holder.binding.cvFoodTypeTextBackground.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
+            holder.binding.tvNameType.setTextColor(context.getResources().getColor(R.color.white));
         }
         else {//remove selected
-            holder.recyclerviewFoodTypeBinding.cvFoodTypeTextBackground.setCardBackgroundColor(context.getResources().getColor(R.color.transparent));
-            holder.recyclerviewFoodTypeBinding.tvNameType.setTextColor(context.getResources().getColor(R.color.gray));
+            holder.binding.cvFoodTypeTextBackground.setCardBackgroundColor(context.getResources().getColor(R.color.transparent));
+            holder.binding.tvNameType.setTextColor(context.getResources().getColor(R.color.gray));
         }
         Log.i(TAG,"position: "+position);
-        holder.recyclerviewFoodTypeBinding.tvNameType.setOnClickListener(v -> {
+        holder.binding.tvNameType.setOnClickListener(v -> {
             //is select
-            holder.recyclerviewFoodTypeBinding.cvFoodTypeTextBackground.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
-            holder.recyclerviewFoodTypeBinding.tvNameType.setTextColor(context.getResources().getColor(R.color.white));
-            clickListener.onRecyclerViewTypeItemClick(holder.recyclerviewFoodTypeBinding.tvNameType, foodTypeLists.get(position));
+            holder.binding.cvFoodTypeTextBackground.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
+            holder.binding.tvNameType.setTextColor(context.getResources().getColor(R.color.white));
+            clickListener.onRecyclerViewTypeItemClick(holder.binding.tvNameType, foodTypeLists.get(position));
             selectedPosition=position;
             notifyDataSetChanged();
         });
@@ -83,11 +80,11 @@ public class RestaurantFoodTypeAdapter extends RecyclerView.Adapter<RestaurantFo
     }
 
     class FoodTypeViewHolder extends RecyclerView.ViewHolder {
-        private RecyclerviewFoodTypeBinding recyclerviewFoodTypeBinding;
+        private RecyclerviewFoodTypeItemBinding binding;
 
-        public FoodTypeViewHolder(@NonNull RecyclerviewFoodTypeBinding recyclerviewFoodTypeBinding) {
-            super(recyclerviewFoodTypeBinding.getRoot());
-            this.recyclerviewFoodTypeBinding = recyclerviewFoodTypeBinding;
+        public FoodTypeViewHolder(@NonNull RecyclerviewFoodTypeItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
     }
 }

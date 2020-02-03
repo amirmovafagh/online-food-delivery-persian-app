@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import ir.boojanco.onlinefoodorder.R;
-import ir.boojanco.onlinefoodorder.databinding.RecyclerviewRestaurantBinding;
+import ir.boojanco.onlinefoodorder.databinding.RecyclerviewRestaurantItemBinding;
 import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantList;
 
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder> {
@@ -24,20 +24,20 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
     @NonNull
     @Override
     public RestaurantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        RecyclerviewRestaurantBinding recyclerviewRestaurantBinding =
-                DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.recyclerview_restaurant, parent, false);
-        return new RestaurantViewHolder(recyclerviewRestaurantBinding);
+        RecyclerviewRestaurantItemBinding binding =
+                DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.recyclerview_restaurant_item, parent, false);
+        return new RestaurantViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RestaurantViewHolder holder, int position) {
         LastRestaurantList currentRestaurant = restaurants.get(position);
-        holder.recyclerviewRestaurantBinding.setRestaurant(currentRestaurant);
-        holder.recyclerviewRestaurantBinding.toggleBookmark.setOnClickListener(v -> {
-            clickListener.onRecyclerViewItemClick(holder.recyclerviewRestaurantBinding.toggleBookmark, restaurants.get(position));
+        holder.binding.setRestaurant(currentRestaurant);
+        holder.binding.toggleBookmark.setOnClickListener(v -> {
+            clickListener.onRecyclerViewItemClick(holder.binding.toggleBookmark, restaurants.get(position));
         });
-        holder.recyclerviewRestaurantBinding.consLayout.setOnClickListener(v ->{
-            clickListener.onRecyclerViewItemClick(holder.recyclerviewRestaurantBinding.consLayout, restaurants.get(position));
+        holder.binding.consLayout.setOnClickListener(v ->{
+            clickListener.onRecyclerViewItemClick(holder.binding.consLayout, restaurants.get(position));
         });
 
     }
@@ -63,10 +63,10 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
     }
 
     class RestaurantViewHolder extends RecyclerView.ViewHolder{
-        private RecyclerviewRestaurantBinding recyclerviewRestaurantBinding; //this variable is from XML recyclerview_restauran
-        public RestaurantViewHolder(@NonNull RecyclerviewRestaurantBinding recyclerviewRestaurantBinding) {
-            super(recyclerviewRestaurantBinding.getRoot());
-            this.recyclerviewRestaurantBinding = recyclerviewRestaurantBinding;
+        private RecyclerviewRestaurantItemBinding binding; //this variable is from XML recyclerview_restauran
+        public RestaurantViewHolder(@NonNull RecyclerviewRestaurantItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
     }
 }

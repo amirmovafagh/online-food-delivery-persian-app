@@ -36,7 +36,6 @@ public class RestaurantViewModel extends ViewModel {
 
     public void getAllRestaurant(String authToken){
         Observable<LastRestaurantResponse> observable = restaurantRepository.getLastRestaurant(authToken);
-        Log.e(TAG,""+observable);
         if(observable != null){
             observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<LastRestaurantResponse>() {
                 @Override
@@ -46,7 +45,6 @@ public class RestaurantViewModel extends ViewModel {
 
                 @Override
                 public void onError(Throwable e) {
-                    Log.e(TAG,""+e.toString());
                     if(e instanceof NoNetworkConnectionException)
                         restaurantInterface.onFailure(e.getMessage());
                     if (e instanceof HttpException) {
@@ -66,7 +64,6 @@ public class RestaurantViewModel extends ViewModel {
 
                 @Override
                 public void onNext(LastRestaurantResponse lastRestaurantResponse) {
-                    Log.e(TAG,""+lastRestaurantResponse.getRestaurantsList().get(0));
                     restaurantInterface.onStarted();
                     responseMutableLiveData.setValue(lastRestaurantResponse);
                     restaurantInterface.onSuccess(responseMutableLiveData);

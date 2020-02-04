@@ -2,7 +2,6 @@ package ir.boojanco.onlinefoodorder.data.networking;
 
 import ir.boojanco.onlinefoodorder.models.food.getAllFood.GetAllFoodResponse;
 import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
-import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantList;
 import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.AllPackagesResponse;
@@ -10,9 +9,7 @@ import ir.boojanco.onlinefoodorder.models.user.AddUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.ChangeUserPasswordResponse;
 import ir.boojanco.onlinefoodorder.models.user.EditUserAaddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.EditUserInfoResponse;
-import ir.boojanco.onlinefoodorder.models.user.FillUserInfoResponse;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
-import ir.boojanco.onlinefoodorder.models.user.RegisterUserResponse;
 import ir.boojanco.onlinefoodorder.models.user.VerifyEmailResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;

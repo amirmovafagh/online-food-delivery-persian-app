@@ -51,12 +51,11 @@ public class RegisterActivity extends AppCompatActivity implements RegisterAuth 
 
     @Override
     public void onStarted() {
-        Log.i(TAG,"onStart");
     }
 
     @Override
     public void onSuccess(Long time) {
-        Log.i(TAG,"onSucc");
+
         Toast.makeText(application, ""+time, Toast.LENGTH_SHORT).show();
         Intent i = new Intent(this,MainActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -67,7 +66,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterAuth 
 
     @Override
     public void onFailure(String Error) {
-        Log.i(TAG,"onFail");
+
         Toast.makeText(application, ""+Error, Toast.LENGTH_SHORT).show();
     }
 }

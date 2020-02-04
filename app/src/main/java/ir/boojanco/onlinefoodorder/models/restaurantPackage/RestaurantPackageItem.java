@@ -2,6 +2,8 @@ package ir.boojanco.onlinefoodorder.models.restaurantPackage;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Map;
 
 public class RestaurantPackageItem {
@@ -59,6 +61,10 @@ public class RestaurantPackageItem {
         return requiredPoint;
     }
 
+    public String getRequiredPointString(){
+        return "امتیاز مورد نیاز "+requiredPoint;
+    }
+
     public void setRequiredPoint(int requiredPoint) {
         this.requiredPoint = requiredPoint;
     }
@@ -83,12 +89,20 @@ public class RestaurantPackageItem {
         return minimumOrderCost;
     }
 
+    public String getMinimumOrderCostString(){
+        return "حداقل سفارش "+moneyFormat(minimumOrderCost);
+    }
+
     public void setMinimumOrderCost(int minimumOrderCost) {
         this.minimumOrderCost = minimumOrderCost;
     }
 
     public int getMaximumDiscountAmount() {
         return maximumDiscountAmount;
+    }
+
+    public String getMaximumDiscountAmountString(){
+        return "حداکثر مبلغ تخفیف "+moneyFormat(maximumDiscountAmount);
     }
 
     public void setMaximumDiscountAmount(int maximumDiscountAmount) {
@@ -105,6 +119,10 @@ public class RestaurantPackageItem {
 
     public int getDiscountPercent() {
         return discountPercent;
+    }
+
+    public String getDiscountPercentString(){
+        return "میزان تخفیف "+discountPercent+" درصد";
     }
 
     public void setDiscountPercent(int discountPercent) {
@@ -125,5 +143,11 @@ public class RestaurantPackageItem {
 
     public void setFoodList(Map<Long, String> foodList) {
         this.foodList = foodList;
+    }
+
+    private String moneyFormat(int cost){
+        NumberFormat formatter = new DecimalFormat("#,###");
+        String formattedNumber = formatter.format(cost);
+        return formattedNumber+" تومان";
     }
 }

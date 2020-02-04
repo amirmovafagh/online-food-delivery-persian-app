@@ -38,7 +38,6 @@ public class LoginViewModel extends ViewModel {
     }
 
 
-
     public void onLoginClick() {
 
         if (isValidPhoneNumber(phoneNumber.getValue()) && isPasswordNull(password.getValue())) {
@@ -52,18 +51,17 @@ public class LoginViewModel extends ViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        if(e instanceof NoNetworkConnectionException)
+                        if (e instanceof NoNetworkConnectionException)
                             loginAuth.onFailure(e.getMessage());
                         if (e instanceof HttpException) {
                             Response response = ((HttpException) e).response();
 
                             try {
                                 JSONObject jsonObject = new JSONObject(response.errorBody().string());
-                                Log.i(TAG,""+jsonObject.getString("message"));
                                 loginAuth.onFailure(jsonObject.getString("message"));
 
 
-                            }  catch (Exception d) {
+                            } catch (Exception d) {
                                 loginAuth.onFailure(d.getMessage());
                             }
                         }

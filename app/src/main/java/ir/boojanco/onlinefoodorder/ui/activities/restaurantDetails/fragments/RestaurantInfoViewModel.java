@@ -24,23 +24,24 @@ public class RestaurantInfoViewModel extends ViewModel {
     private Context context;
     private RestaurantRepository restaurantRepository;
 
-    public MutableLiveData<String>  restaurantCover;
-    public MutableLiveData<String>  restaurantLogo;
-    public MutableLiveData<Float>   restaurantAverageScore;
-    public MutableLiveData<String>  restaurantName;
-    public MutableLiveData<String>  restaurantAddress;
-    public MutableLiveData<String>  restaurantBranch;
+    public MutableLiveData<String> restaurantCover;
+    public MutableLiveData<String> restaurantLogo;
+    public MutableLiveData<Float> restaurantAverageScore;
+    public MutableLiveData<String> restaurantName;
+    public MutableLiveData<String> restaurantAddress;
+    public MutableLiveData<String> restaurantBranch;
     public MutableLiveData<Boolean> restaurantDelivery;
-    public MutableLiveData<String>  restaurantDeliveryTime;
+    public MutableLiveData<String> restaurantDeliveryTime;
     public MutableLiveData<Boolean> restaurantGetInPlace;
     public MutableLiveData<String> restaurantMinimumOrder;
     public MutableLiveData<String> restaurantPackingCost;
     public MutableLiveData<String> restaurantShippingCostInRegion;
     public MutableLiveData<String> restaurantShippingCostOutRegion;
-    public MutableLiveData<String>  restaurantPhoneNumber;
-    public MutableLiveData<String>  restaurantRegion;
-    public MutableLiveData<String>    restaurantTagList;
+    public MutableLiveData<String> restaurantPhoneNumber;
+    public MutableLiveData<String> restaurantRegion;
+    public MutableLiveData<String> restaurantTagList;
     public RestaurantInfoFragmentInterface infoFragmentInterface;
+
     public RestaurantInfoViewModel(Context context, RestaurantRepository restaurantRepository) {
         this.context = context;
         this.restaurantRepository = restaurantRepository;
@@ -64,8 +65,7 @@ public class RestaurantInfoViewModel extends ViewModel {
         restaurantRegion = new MutableLiveData<>();
     }
 
-    public void setRestaurantInfo(RestaurantInfoResponse restaurantInfo){
-        Log.i("amir",restaurantInfo.getName());
+    public void setRestaurantInfo(RestaurantInfoResponse restaurantInfo) {
         restaurantCover.setValue(restaurantInfo.getCover());
         restaurantLogo.setValue(restaurantInfo.getLogo());
         restaurantAverageScore.setValue(restaurantInfo.getAverageScore());
@@ -83,11 +83,12 @@ public class RestaurantInfoViewModel extends ViewModel {
         restaurantRegion.setValue(restaurantInfo.getRegion());
         restaurantTagList.setValue(restaurantInfo.getTagList());
     }
-    public void getRestaurantInfo(String authToken, long restaurantId){
+
+    public void getRestaurantInfo(String authToken, long restaurantId) {
         infoFragmentInterface.onStarted();
         Observable<RestaurantInfoResponse> observable = restaurantRepository.getRestaurantInfo(authToken, restaurantId);
-        Log.e(TAG,""+observable);
-        if(observable != null){
+        Log.e(TAG, "" + observable);
+        if (observable != null) {
             observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<RestaurantInfoResponse>() {
                 @Override
                 public void onCompleted() {
@@ -96,8 +97,8 @@ public class RestaurantInfoViewModel extends ViewModel {
 
                 @Override
                 public void onError(Throwable e) {
-                    Log.e(TAG,""+e.toString());
-                    if(e instanceof NoNetworkConnectionException)
+                    Log.e(TAG, "" + e.toString());
+                    if (e instanceof NoNetworkConnectionException)
                         infoFragmentInterface.onFailure(e.getMessage());
                     if (e instanceof HttpException) {
                         Response response = ((HttpException) e).response();
@@ -108,7 +109,7 @@ public class RestaurantInfoViewModel extends ViewModel {
                             infoFragmentInterface.onFailure(jsonObject.getString("message"));
 
 
-                        }  catch (Exception d) {
+                        } catch (Exception d) {
                             infoFragmentInterface.onFailure(d.getMessage());
                         }
                     }
@@ -116,9 +117,6 @@ public class RestaurantInfoViewModel extends ViewModel {
 
                 @Override
                 public void onNext(RestaurantInfoResponse restaurantInfo) {
-
-
-                    Log.i("amir",restaurantInfo.getName());
                     restaurantCover.setValue(restaurantInfo.getCover());
                     restaurantLogo.setValue(restaurantInfo.getLogo());
                     restaurantAverageScore.setValue(restaurantInfo.getAverageScore());

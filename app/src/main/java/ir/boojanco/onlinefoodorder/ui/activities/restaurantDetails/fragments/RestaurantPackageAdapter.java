@@ -1,7 +1,6 @@
 package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -38,6 +37,11 @@ class RestaurantPackageAdapter extends RecyclerView.Adapter<RestaurantPackageAda
         } else {
             return 0;
         }
+    }
+
+    public void setPackageItems(List<RestaurantPackageItem> packageItems) {
+        this.packageItems = packageItems;
+        notifyDataSetChanged();
     }
 
     class PackageViewHolder extends RecyclerView.ViewHolder{

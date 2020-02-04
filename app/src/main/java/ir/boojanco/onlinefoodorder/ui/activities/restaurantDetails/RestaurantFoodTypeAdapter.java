@@ -27,7 +27,7 @@ public class RestaurantFoodTypeAdapter extends RecyclerView.Adapter<RestaurantFo
 
     public RestaurantFoodTypeAdapter(RecyclerViewRestaurantFoodTypeClickListener clickListener, Context context) {
         this.clickListener = clickListener;
-        this.context =context;
+        this.context = context;
     }
 
 
@@ -43,21 +43,20 @@ public class RestaurantFoodTypeAdapter extends RecyclerView.Adapter<RestaurantFo
     @Override
     public void onBindViewHolder(@NonNull FoodTypeViewHolder holder, int position) {
         holder.binding.setFoodType(foodTypeLists.get(position));
-        if(selectedPosition == position){// is selected
+        if (selectedPosition == position) {// is selected
             holder.binding.cvFoodTypeTextBackground.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
             holder.binding.tvNameType.setTextColor(context.getResources().getColor(R.color.white));
-        }
-        else {//remove selected
+        } else {//remove selected
             holder.binding.cvFoodTypeTextBackground.setCardBackgroundColor(context.getResources().getColor(R.color.transparent));
             holder.binding.tvNameType.setTextColor(context.getResources().getColor(R.color.gray));
         }
-        Log.i(TAG,"position: "+position);
+
         holder.binding.tvNameType.setOnClickListener(v -> {
             //is select
             holder.binding.cvFoodTypeTextBackground.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
             holder.binding.tvNameType.setTextColor(context.getResources().getColor(R.color.white));
             clickListener.onRecyclerViewTypeItemClick(holder.binding.tvNameType, foodTypeLists.get(position));
-            selectedPosition=position;
+            selectedPosition = position;
             notifyDataSetChanged();
         });
 

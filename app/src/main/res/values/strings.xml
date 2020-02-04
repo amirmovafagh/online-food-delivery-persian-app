@@ -38,4 +38,6 @@
     <string name="percent">%</string>
     <string name="empty_cart">سبد خرید خالس است.</string>
     <string name="order">سفارش</string>
+    <string name="freeShipping">ارسال رایگان</string>
+    <string name="notFreeShipping">ارسال رایگان ندارد</string>
 </resources>

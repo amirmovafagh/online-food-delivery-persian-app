@@ -47,7 +47,7 @@ public interface ApiInterface {
     @GET("/api/v1/restaurant/{restaurantId}/info")
     Observable<RestaurantInfoResponse> getRestaurantInfo(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
 
-    @GET("/api/v1/package/{restaurantId}/all")
+    @GET("/api/v1/package/{restaurantId}/valid")
     Observable<AllPackagesResponse> getAllPackagesResponseObsercable(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId) ;
 
     @GET("https://pm1.parsimap.com/comapi.svc/areaInfo/{latitude}/{longitude}/18/1/ccc1a4bc-ade4-460d-b799-82885ab21d6d/1") /*get Reverse Address from LatLng with parsiMap API*/

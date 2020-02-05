@@ -11,7 +11,7 @@
     <color name="overlapCardBackgroundColor">#D9FFFFFF</color>
     <color name="detailsTextColor">#939393</color>
     <color name="backgroundGrayLight">#F0F6F7</color>
-    <color name="backgroundGrayLight_lowAlpha">#99F0F6F7</color>
+    <color name="backgroundGrayLight_lowAlpha">#80F0F6F7</color>
     <color name="greenTest">#69CC1F</color>
     <color name="waitingResponseBackgroundColor">#FFFFFF</color>
     <color name="restaurantCoverDarkShadowBackground">#7E5A5A5A</color>

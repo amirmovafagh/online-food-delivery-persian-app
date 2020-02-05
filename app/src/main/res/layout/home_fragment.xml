@@ -191,6 +191,26 @@
             app:layout_constraintRight_toRightOf="@id/cardViewImageSlider"
 
             />
+    <ImageView
+        android:id="@+id/img_half_pizza"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/table_half_right"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recyclerview_food_type_search_filter_home"
+        app:layout_constraintBottom_toTopOf="@id/cv_sugest"
+        app:layout_constraintVertical_bias="0.0"
+
+        />
+    <ImageView
+        android:id="@+id/img_half_burger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/table_half_left"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/img_half_pizza"
+        app:layout_constraintBottom_toBottomOf="@id/img_half_pizza"
+        />
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cv_sugest"
             android:layout_width="match_parent"

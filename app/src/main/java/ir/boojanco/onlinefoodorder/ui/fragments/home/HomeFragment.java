@@ -12,7 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,14 +64,16 @@ public class HomeFragment extends Fragment {
         binding.setHomeViewModel(homeViewModel);
         binding.setLifecycleOwner(this);
         sliderView = binding.imageSlider;
-
+        SnapHelper snapHelper = new PagerSnapHelper(); //for stay on center
         recyclerViewFoodTypeSearchFilter = binding.recyclerviewFoodTypeSearchFilterHome;
 
         recyclerViewFoodTypeSearchFilter.setLayoutManager(new LinearLayoutManager(getActivity().getApplication(), LinearLayoutManager.HORIZONTAL,false));
         recyclerViewFoodTypeSearchFilter.canScrollHorizontally(0);
         recyclerViewFoodTypeSearchFilter.setHasFixedSize(true);
+        snapHelper.attachToRecyclerView(recyclerViewFoodTypeSearchFilter);
         adapter = new FoodTypeSearchFilterAdapter();
         recyclerViewFoodTypeSearchFilter.setAdapter(adapter);
+        recyclerViewFoodTypeSearchFilter.setItemViewCacheSize(20);
 
         return binding.getRoot();
     }

@@ -27,7 +27,7 @@
     <string name="delicious">خوشمزه ها</string>
     <string name="new_restaurants">جدید ترین رستوران ها</string>
     <string name="delivery_time">پیک (60 دقیقه)</string>
-    <string name="region">منطقه</string>
+    <string name="region">محله</string>
     <string name="minimum_order">حداقل سفارش</string>
     <string name="total_items_price">جمع سفارشات</string>
     <string name="food_packing">بسته بندی</string>
@@ -40,4 +40,15 @@
     <string name="order">سفارش</string>
     <string name="freeShipping">ارسال رایگان</string>
     <string name="notFreeShipping">ارسال رایگان ندارد</string>
+    <string name="determineDeliveryType">نحوه دریافت سفارش</string>
+    <string name="deliverInRestaurant">تحویل در رستوران</string>
+    <string name="deliverInMyAddress">دریافت در آدرس من</string>
+    <string name="add_new_address">افزودن آدرس جدید</string>
+    <string name="address">آدرس</string>
+    <string name="exactAddress">آدرس دقیق</string>
+    <string name="city">شهر</string>
+    <string name="state">استان</string>
+    <string name="addressTag">عنوان آدرس</string>
+    <string name="select_state_and_city">لطفا شهر خود را انتخاب کنید</string>
+    <string name="select_specific_location_on_map">لطفا محل دقیق خود را روی نقشه انتخاب کنید</string>
 </resources>

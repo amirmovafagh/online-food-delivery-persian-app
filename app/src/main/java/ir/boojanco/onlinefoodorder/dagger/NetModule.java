@@ -107,9 +107,9 @@ public class NetModule {
 
     @Provides
     @Singleton
-    CartViewModelFactory provideCartViewModelFactory(Application application , CartDataSource cartDataSource){
+    CartViewModelFactory provideCartViewModelFactory(Application application , CartDataSource cartDataSource, UserRepository userRepository){
         CartViewModelFactory factory =
-                new CartViewModelFactory(application, cartDataSource);
+                new CartViewModelFactory(application, cartDataSource, userRepository);
         return factory;
     }
 

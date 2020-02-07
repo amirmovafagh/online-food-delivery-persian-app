@@ -5,10 +5,12 @@ import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.AllPackagesResponse;
+import ir.boojanco.onlinefoodorder.models.state.GetAllStatesResponse;
 import ir.boojanco.onlinefoodorder.models.user.AddUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.ChangeUserPasswordResponse;
 import ir.boojanco.onlinefoodorder.models.user.EditUserAaddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.EditUserInfoResponse;
+import ir.boojanco.onlinefoodorder.models.user.GetUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
 import ir.boojanco.onlinefoodorder.models.user.VerifyEmailResponse;
 import retrofit2.Call;
@@ -49,6 +51,12 @@ public interface ApiInterface {
 
     @GET("/api/v1/package/{restaurantId}/valid")
     Observable<AllPackagesResponse> getAllPackagesResponseObsercable(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId) ;
+
+    @GET("/api/v1/address/user/all")
+    Observable<GetUserAddressResponse> getUserAddressResponseObsercable(@Header("Authorization") String authToken) ;
+
+    @GET("/api/v1/state/state/all")
+    Observable<GetAllStatesResponse> getAllStatesResponseObsercable(@Header("Authorization") String authToken) ;
 
     @GET("https://pm1.parsimap.com/comapi.svc/areaInfo/{latitude}/{longitude}/18/1/ccc1a4bc-ade4-460d-b799-82885ab21d6d/1") /*get Reverse Address from LatLng with parsiMap API*/
     Observable<ReverseFindAddressResponse> getReverseAddresse(@Path("latitude") Double latitude, @Path("longitude") Double longitude );

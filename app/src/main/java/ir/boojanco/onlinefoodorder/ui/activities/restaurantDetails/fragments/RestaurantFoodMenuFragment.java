@@ -95,7 +95,6 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
         binding.setFoodMenu(restaurantFoodMenuViewModel);
         binding.setLifecycleOwner(this);
         transition = new AutoTransition();
-        TransitionManager.beginDelayedTransition(binding.relativeCart, transition);
         expandableView = binding.expandableView;
         arrowBtn = binding.arrowBtn;
         mainLayout = binding.linearLayoutMainFoodMenu;

@@ -58,8 +58,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp">
+
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cv_cart_items"
+                    android:id="@+id/cv_delivery_property"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
@@ -70,153 +71,248 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     >
-                    <LinearLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <!--details layout-->
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        >
+                        <TextView
+                            android:id="@+id/text_view_delivery_type"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="@string/determineDeliveryType"
                             android:paddingTop="8dp"
                             android:layout_margin="16dp"
-                            android:orientation="horizontal">
-                            <TextView
-                                android:id="@+id/text_view_total_items"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:maxLines="1"
-                                android:textColor="@android:color/black"
-                                android:textSize="@dimen/body2_paragraph_font_size"
-                                android:text="@string/total_items_price"/>
-                            <TextView
-                                android:id="@+id/text_view_total_items_price"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:maxLines="1"
-                                android:text="@{String.valueOf(viewModel.totalItemsPriceLiveData)}"
-                                android:textDirection="ltr"
-                                android:textSize="@dimen/body3_paragraph_font_size"
-                                />
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="?android:attr/listDivider"/>
-
-                        <!--discount layout-->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            />
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/toggle_bookmark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:paddingTop="8dp"
                             android:layout_margin="16dp"
-                            android:orientation="horizontal">
-                            <TextView
-                                android:id="@+id/text_view_discount_total"
+                            android:textOff="@string/deliverInMyAddress"
+                            android:textOn="@string/deliverInRestaurant"
+                            app:layout_constraintRight_toLeftOf="@id/text_view_delivery_type"
+                            app:layout_constraintTop_toTopOf="@id/text_view_delivery_type"
+                            app:layout_constraintBottom_toBottomOf="@id/text_view_delivery_type"
+                             />
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/text_view_delivery_type"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent">
+                            <Button
+                                android:id="@+id/btn_add_address"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:maxLines="1"
-                                android:textColor="@android:color/black"
-                                android:textSize="@dimen/body2_paragraph_font_size"
-                                android:text="@string/discount"/>
-                            <TextView
-                                android:id="@+id/text_view_discount_total_price"
+                                android:layout_marginTop="8dp"
+                                android:text="@string/add_new_address"
+                                android:textSize="@dimen/button_font_size"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                />
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recycler_view_user_address_horizontal_items"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:maxLines="1"
-                                android:textDirection="ltr"
-                                android:textSize="@dimen/body3_paragraph_font_size"
-                                />
-                        </LinearLayout>
+                                android:layoutAnimation="@anim/layout_animation_fall_down"
+                                app:layout_constraintTop_toBottomOf="@id/btn_add_address"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintLeft_toLeftOf="parent"/>
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="?android:attr/listDivider"/>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <!--food packaging prooce layout-->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="16dp"
-                            android:orientation="horizontal">
-                            <TextView
-                                android:id="@+id/text_view_food_packing"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:maxLines="1"
-                                android:textColor="@android:color/black"
-                                android:textSize="@dimen/body2_paragraph_font_size"
-                                android:text="@string/food_packing"/>
-                            <TextView
-                                android:id="@+id/text_view_food_packing_price"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:maxLines="1"
-                                android:textDirection="ltr"
-                                android:textSize="@dimen/body3_paragraph_font_size"
-                                />
-                        </LinearLayout>
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="?android:attr/listDivider"/>
-
-                        <!--taxes layout-->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="16dp"
-                            android:orientation="horizontal">
-                            <TextView
-                                android:id="@+id/text_view_taxes"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:maxLines="1"
-                                android:textColor="@android:color/black"
-                                android:textSize="@dimen/body2_paragraph_font_size"
-                                android:text="@string/restaurant_taxes"/>
-                            <TextView
-                                android:id="@+id/text_view_food_taxes_price"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:maxLines="1"
-                                android:textDirection="ltr"
-                                android:textSize="@dimen/body3_paragraph_font_size"
-                                />
-                        </LinearLayout>
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginBottom="16dp"
-                            android:background="?android:attr/listDivider"/>
-
-                        <!--shipping cost on region-->
-                        <TextView
-                            android:id="@+id/text_view_delivery_price"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:textAlignment="center"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/body2_paragraph_font_size"
-                            android:text="@string/shipping_cost_on_location"/>
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="?android:attr/listDivider"/>
-
-                        <!--show food items in recyclerView-->
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recycler_view_restaurant_cart_items"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layoutAnimation="@anim/layout_animation_fall_down" />
-                    </LinearLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cv_food_order_rules_icon"
+                    android:id="@+id/cv_delivery_state_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="@dimen/card_view_corner_radius"
+                    app:layout_constraintTop_toTopOf="@id/cv_delivery_property"
+                    app:layout_constraintBottom_toTopOf="@id/cv_delivery_property"
+                    app:layout_constraintRight_toRightOf="@id/cv_delivery_property"
+                    app:layout_constraintLeft_toLeftOf="@id/cv_delivery_property"
+                    >
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:padding="4dp"
+                        app:srcCompat="@drawable/ic_delivery_situation"/>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_cart_items"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    app:cardBackgroundColor="@color/restaurantDetailsCardViewBackground"
+                    app:cardElevation="0dp"
+                    app:cardCornerRadius="@dimen/card_view_corner_radius"
+                    app:layout_constraintTop_toBottomOf="@id/cv_delivery_property"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    >
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/text_view_total_price"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="جمع کل :"
+                            android:layout_margin="16dp"
+                            android:paddingTop="8dp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            />
+                        <LinearLayout
+                            android:id="@+id/linear_layout_cart_details_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintTop_toBottomOf="@id/text_view_total_price"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent">
+                            <!--details layout-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingTop="8dp"
+                                android:layout_margin="16dp"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:id="@+id/text_view_total_items"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="1"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="@dimen/body2_paragraph_font_size"
+                                    android:text="@string/total_items_price"/>
+                                <TextView
+                                    android:id="@+id/text_view_total_items_price"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="1"
+                                    android:text="@{String.valueOf(viewModel.totalItemsPriceLiveData)}"
+                                    android:textDirection="ltr"
+                                    android:textSize="@dimen/body3_paragraph_font_size"
+                                    />
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="?android:attr/listDivider"/>
+
+                            <!--discount layout-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="16dp"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:id="@+id/text_view_discount_total"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="1"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="@dimen/body2_paragraph_font_size"
+                                    android:text="@string/discount"/>
+                                <TextView
+                                    android:id="@+id/text_view_discount_total_price"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="1"
+                                    android:textDirection="ltr"
+                                    android:textSize="@dimen/body3_paragraph_font_size"
+                                    />
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="?android:attr/listDivider"/>
+
+                            <!--food packaging prooce layout-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="16dp"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:id="@+id/text_view_food_packing"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="1"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="@dimen/body2_paragraph_font_size"
+                                    android:text="@string/food_packing"/>
+                                <TextView
+                                    android:id="@+id/text_view_food_packing_price"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="1"
+                                    android:textDirection="ltr"
+                                    android:textSize="@dimen/body3_paragraph_font_size"
+                                    />
+                            </LinearLayout>
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="?android:attr/listDivider"/>
+
+                            <!--taxes layout-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="16dp"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:id="@+id/text_view_taxes"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="1"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="@dimen/body2_paragraph_font_size"
+                                    android:text="@string/restaurant_taxes"/>
+                                <TextView
+                                    android:id="@+id/text_view_food_taxes_price"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="1"
+                                    android:textDirection="ltr"
+                                    android:textSize="@dimen/body3_paragraph_font_size"
+                                    />
+                            </LinearLayout>
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginBottom="16dp"
+                                android:background="?android:attr/listDivider"/>
+
+                            <!--show food items in recyclerView-->
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recycler_view_restaurant_cart_items"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layoutAnimation="@anim/layout_animation_fall_down" />
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_cart_details_property_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:cardCornerRadius="@dimen/card_view_corner_radius"
@@ -235,6 +331,9 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
+        <include layout="@layout/bottom_sheet_add_user_address"
+            android:id="@+id/bottom_sheet"
+            />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

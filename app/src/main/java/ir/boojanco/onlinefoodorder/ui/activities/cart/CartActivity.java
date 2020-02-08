@@ -107,6 +107,7 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
         dialogFragment = new MapDialogFragment();
         dialogFragment.show(fragmentTransaction, "dualog");
 
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             long extraRestauranId = extras.getLong("RESTAURANT_ID", 0);

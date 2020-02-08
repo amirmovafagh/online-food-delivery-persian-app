@@ -1,11 +1,14 @@
 package ir.boojanco.onlinefoodorder.ui.fragments;
 
 import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -40,6 +43,12 @@ public class MapDialogFragment extends DialogFragment implements OnMapReadyCallb
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        // Set transparent background and no title
+        if (getDialog() != null && getDialog().getWindow() != null) {
+            getDialog().getWindow().setBackgroundDrawableResource(R.drawable.popup_background);
+            getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        }
+
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map_dialog, container,false);
         cartViewModel= new ViewModelProvider(getActivity()).get(CartViewModel.class);
 

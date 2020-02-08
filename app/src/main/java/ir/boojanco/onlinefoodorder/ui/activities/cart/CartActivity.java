@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,7 +30,9 @@ import ir.boojanco.onlinefoodorder.data.database.CartDataSource;
 import ir.boojanco.onlinefoodorder.data.database.CartItem;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.ActivityCartBinding;
+import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.UserAddressList;
+import ir.boojanco.onlinefoodorder.ui.fragments.MapDialogFragment;
 import ir.boojanco.onlinefoodorder.viewmodels.CartViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.CartViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.CartInterface;
@@ -57,6 +62,10 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
 
     private BottomSheetBehavior sheetBehavior;
     private LinearLayout bottom_sheet;
+    private FragmentTransaction fragmentTransaction ;
+    private Fragment fragment;
+    private DialogFragment dialogFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +97,16 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
                 //arrowBtn.setBackgroundResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
             }
         });
+
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragment=getSupportFragmentManager().findFragmentByTag("dialog");
+        if(fragment!=null){
+            fragmentTransaction.remove(fragment);
+        }
+        fragmentTransaction.addToBackStack(null);
+        dialogFragment = new MapDialogFragment();
+        dialogFragment.show(fragmentTransaction, "dualog");
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             long extraRestauranId = extras.getLong("RESTAURANT_ID", 0);
@@ -129,6 +148,11 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
     @Override
     public void onSuccessGetAddress(List<UserAddressList> addressLists) {
         addressAdapter.setAddressLists(addressLists);
+    }
+
+    @Override
+    public void onSuccessGetReverseAddress(ReverseFindAddressResponse reverseFindAddressResponses) {
+
     }
 
     @Override

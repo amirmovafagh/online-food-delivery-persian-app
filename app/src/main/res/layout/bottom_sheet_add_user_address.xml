@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
     <data>
-        <import type="android.view.View"/>
+        <variable
+            name="city"
+            type="String" />
+        <variable
+            name="region"
+            type="String" />
 
     </data>
 
@@ -52,7 +57,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="2dp"
 
                     android:textSize="@dimen/edit_text_font_size"
@@ -75,9 +80,10 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="2dp"
                     android:textSize="@dimen/edit_text_font_size"
+                    android:text="@={city}"
                     android:textDirection="rtl"
                     android:layout_gravity="center"
                     android:maxLines="1"
@@ -90,7 +96,7 @@
             android:id="@+id/text_view_region"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:hint="@string/region"
             >
@@ -99,6 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/edit_text_font_size"
+                android:text="@={region}"
                 android:textDirection="rtl"
                 android:layout_gravity="center"
                 android:maxLines="1"
@@ -111,7 +118,7 @@
             android:id="@+id/text_view_exact_address"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:hint="@string/exactAddress"
             >
@@ -131,7 +138,7 @@
             android:id="@+id/text_view_address_tag"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:hint="@string/addressTag"
             >

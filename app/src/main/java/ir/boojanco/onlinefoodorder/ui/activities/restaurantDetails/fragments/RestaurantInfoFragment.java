@@ -101,6 +101,8 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantInfoFr
             googleMap.addMarker(new MarkerOptions().position(restaurantLatLng).title("Marker in Restaurant"));
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(restaurantLatLng,16));
 
+
+
             /*// Zoom in, animating the camera.
             googleMap.animateCamera(CameraUpdateFactory.zoomIn());
             // Zoom out to zoom level 10, animating with a duration of 2 seconds.

@@ -8,6 +8,8 @@ public class MySharedPreferences {
     private SharedPreferences.Editor editor;
 
     private String userAuthTokenKey = "userAuthTokenKey";
+    private String latitudeKey = "locationLatitude";
+    private String longitudKey = "locationLongitude";
 
     public MySharedPreferences(Application application){
         sharedPreferences = application.getSharedPreferences("boojanPref",0);
@@ -21,5 +23,23 @@ public class MySharedPreferences {
 
     public String getUserAuthTokenKey(){
         return sharedPreferences.getString(userAuthTokenKey,null);
+    }
+
+    public void setLatitude(double latitude){
+        editor.putLong(latitudeKey, Double.doubleToRawLongBits(latitude));
+        editor.commit();
+    }
+
+    public double getLatitude(){
+        return Double.longBitsToDouble(sharedPreferences.getLong(latitudeKey, Double.doubleToLongBits(35.686955)));
+    }
+
+    public void setLongitud(double longitude){
+        editor.putLong(longitudKey, Double.doubleToRawLongBits(longitude));
+        editor.commit();
+    }
+
+    public double getLongitud(){
+        return Double.longBitsToDouble(sharedPreferences.getLong(longitudKey, Double.doubleToLongBits(51.387134)));
     }
 }

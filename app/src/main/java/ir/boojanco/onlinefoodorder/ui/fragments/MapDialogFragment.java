@@ -24,7 +24,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import javax.inject.Inject;
+
 import ir.boojanco.onlinefoodorder.R;
+import ir.boojanco.onlinefoodorder.dagger.App;
+import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.FragmentMapDialogBinding;
 import ir.boojanco.onlinefoodorder.viewmodels.CartViewModel;
 
@@ -34,6 +38,10 @@ public class MapDialogFragment extends DialogFragment implements OnMapReadyCallb
     private GoogleMap googleMap;
     private Marker marker;
     private CartViewModel cartViewModel;
+
+    @Inject
+    MySharedPreferences sharedPreferences;
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -43,6 +51,8 @@ public class MapDialogFragment extends DialogFragment implements OnMapReadyCallb
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        ((App) getActivity().getApplication()).getComponent().inject(this);
+
         // Set transparent background and no title
         if (getDialog() != null && getDialog().getWindow() != null) {
             getDialog().getWindow().setBackgroundDrawableResource(R.drawable.popup_background);
@@ -62,12 +72,16 @@ public class MapDialogFragment extends DialogFragment implements OnMapReadyCallb
         binding.mapView.onCreate(savedInstanceState);
         binding.mapView.onResume();
         binding.mapView.getMapAsync(this);
+
     }
 
     @Override
     public void onMapReady(GoogleMap map) {
         if(map != null){
             this.googleMap = map;
+
+            LatLng restaurantLatLng = new LatLng(sharedPreferences.getLatitude(), sharedPreferences.getLongitud());
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(restaurantLatLng,15));
 
             googleMap.setOnMapClickListener(latLng -> {
                 Log.i(TAG,""+latLng);

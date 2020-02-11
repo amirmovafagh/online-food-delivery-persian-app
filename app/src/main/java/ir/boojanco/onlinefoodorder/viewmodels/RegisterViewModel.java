@@ -7,13 +7,13 @@ import android.view.View;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import org.json.JSONObject;
 
 import ir.boojanco.onlinefoodorder.models.user.RegisterUserResponse;
 import ir.boojanco.onlinefoodorder.data.repositories.UserRepository;
 import ir.boojanco.onlinefoodorder.ui.activities.LoginActivity;
-import ir.boojanco.onlinefoodorder.ui.base.BaseViewModel;
 import ir.boojanco.onlinefoodorder.ui.navigator.MainNavigator;
 import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RegisterAuth;
@@ -25,7 +25,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class RegisterViewModel extends BaseViewModel<MainNavigator> {
+public class RegisterViewModel extends ViewModel {
     private final static String TAG = RegisterViewModel.class.getSimpleName();
     public RegisterAuth registerAuth;
     public MutableLiveData<String> phoneNumber = new MutableLiveData<>();

@@ -28,6 +28,9 @@ public class CartItem {
     @ColumnInfo(name = "foodPrice")
     private int foodPrice;
 
+    @ColumnInfo(name = "foodDiscount")
+    private int foodDiscount= 0;
+
     @ColumnInfo(name = "foodQuantity")
     private int foodQuantity ;
 
@@ -73,6 +76,18 @@ public class CartItem {
         int i =foodPrice*foodQuantity;
         return moneyFormat(i);
     }
+
+    public String getDiscountedPrice(){
+        if(foodDiscount > 0){
+            double i= 100-foodDiscount;
+            double percent = (i/100);
+            i = foodPrice; //convert int to double
+            i = i * percent;
+            int disPrice = (int)i;
+            return moneyFormat(disPrice);
+        }
+        return " ";
+    }
     private String moneyFormat(int cost){
         NumberFormat formatter = new DecimalFormat("#,###");
         String formattedNumber = formatter.format(cost);
@@ -81,6 +96,14 @@ public class CartItem {
 
     public void setFoodPrice(int foodPrice) {
         this.foodPrice = foodPrice;
+    }
+
+    public int getFoodDiscount() {
+        return foodDiscount;
+    }
+
+    public void setFoodDiscount(int foodDiscount) {
+        this.foodDiscount = foodDiscount;
     }
 
     public int getFoodQuantity() {

@@ -1,5 +1,6 @@
 package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -15,6 +16,14 @@ import ir.boojanco.onlinefoodorder.models.restaurantPackage.RestaurantPackageIte
 
 class RestaurantPackageAdapter extends RecyclerView.Adapter<RestaurantPackageAdapter.PackageViewHolder> {
     List<RestaurantPackageItem> packageItems;
+    private int selectedPosition = 1000;
+    private RestaurantPackageInterface packageInterface;
+    private Context context;
+
+    public RestaurantPackageAdapter(RestaurantPackageInterface packageInterface,Context context) {
+        this.context = context;
+        this.packageInterface = packageInterface;
+    }
 
     @NonNull
     @Override
@@ -26,7 +35,28 @@ class RestaurantPackageAdapter extends RecyclerView.Adapter<RestaurantPackageAda
 
     @Override
     public void onBindViewHolder(@NonNull PackageViewHolder holder, int position) {
-        holder.binding.setPackageItem(packageItems.get(position));
+        RestaurantPackageItem currentPackageItem = packageItems.get(position);
+        holder.binding.setPackageItem(currentPackageItem);
+        if (selectedPosition == position) {// is selected
+            holder.binding.cvMainPackageLayout.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
+
+        } else {//remove selected
+            holder.binding.cvMainPackageLayout.setCardBackgroundColor(context.getResources().getColor(R.color.white));
+        }
+
+        holder.binding.cvMainPackageLayout.setOnClickListener(v -> {
+            //is select
+            holder.binding.cvMainPackageLayout.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
+            packageInterface.onPackageItemClick(holder.binding.cvMainPackageLayout,currentPackageItem);
+            selectedPosition = position;
+            notifyDataSetChanged();
+        });
+        holder.binding.cvPackageName.setOnClickListener(v -> {
+            //is select
+            holder.binding.cvMainPackageLayout.setCardBackgroundColor(context.getResources().getColor(R.color.white));
+            packageInterface.onPackageItemClick(holder.binding.cvPackageName,currentPackageItem);
+
+        });
 
     }
 

@@ -17,6 +17,7 @@ import android.app.Application;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
@@ -31,6 +32,7 @@ import ir.boojanco.onlinefoodorder.data.database.CartItem;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.ActivityCartBinding;
 import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
+import ir.boojanco.onlinefoodorder.models.restaurantPackage.RestaurantPackageItem;
 import ir.boojanco.onlinefoodorder.models.user.UserAddressList;
 import ir.boojanco.onlinefoodorder.ui.fragments.MapDialogFragment;
 import ir.boojanco.onlinefoodorder.viewmodels.CartViewModel;
@@ -62,9 +64,11 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
 
     private BottomSheetBehavior sheetBehavior;
     private LinearLayout bottom_sheet;
-    private FragmentTransaction fragmentTransaction ;
+    private FragmentTransaction fragmentTransaction;
     private Fragment fragment;
     private DialogFragment dialogFragment;
+
+    private final String selectedPackageExtraName = "selectedPackage";
 
 
     @Override
@@ -99,18 +103,22 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
         });
 
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragment=getSupportFragmentManager().findFragmentByTag("dialog");
-        if(fragment!=null){
+        fragment = getSupportFragmentManager().findFragmentByTag("dialog");
+        if (fragment != null) {
             fragmentTransaction.remove(fragment);
         }
         fragmentTransaction.addToBackStack(null);
         dialogFragment = new MapDialogFragment();
-        dialogFragment.show(fragmentTransaction, "dualog");
+        //dialogFragment.show(fragmentTransaction, "dialog");
 
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             long extraRestauranId = extras.getLong("RESTAURANT_ID", 0);
+            RestaurantPackageItem packageItem = (RestaurantPackageItem) extras.getSerializable(selectedPackageExtraName);
+
+            if (packageItem != null)
+                cartViewModel.setPackageItem(packageItem);
             /*String extraRestauranLogo = extras.getString("RESTAURANT_LOGO"," ");
             String extraRestauranName = extras.getString("RESTAURANT_NAME"," ");
             String extraRestauranTagList = extras.getString("RESTAURANT_TAG_LIST"," ");
@@ -133,6 +141,7 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
             recyclerViewCart.setAdapter(cartAdapter);
             cartViewModel.getUserAddress(sharedPreferences.getUserAuthTokenKey());
             cartViewModel.getAllItemInCart(extraRestauranId);
+
         }
     }
 

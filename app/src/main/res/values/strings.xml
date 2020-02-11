@@ -51,4 +51,5 @@
     <string name="addressTag">عنوان آدرس</string>
     <string name="select_state_and_city">لطفا شهر خود را انتخاب کنید</string>
     <string name="select_specific_location_on_map">لطفا محل دقیق خود را روی نقشه انتخاب کنید</string>
+    <string name="testPrice">4000 تومان</string>
 </resources>

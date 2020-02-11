@@ -162,26 +162,41 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/text_view_total_price"
+                        <LinearLayout
+                            android:id="@+id/linear_layout_total_price"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="جمع کل :"
                             android:layout_margin="16dp"
                             android:paddingTop="8dp"
-                            android:maxLines="1"
-                            android:ellipsize="end"
+                            android:orientation="horizontal"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent">
+                        <TextView
+                            android:id="@+id/text_view_total_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="جمع کل :"
+                            android:maxLines="1"
+                            android:ellipsize="end"
                             />
+                            <TextView
+                                android:id="@+id/text_view_total_all_price"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:textAlignment="viewEnd"
+                                android:gravity="center"
+                                android:text="@{viewModel.totalAllPriceLiveData }"
+                                android:textSize="@dimen/body3_paragraph_font_size"
+                                bind:ignore="RtlCompat" />
+                        </LinearLayout>
                         <LinearLayout
                             android:id="@+id/linear_layout_cart_details_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            app:layout_constraintTop_toBottomOf="@id/text_view_total_price"
+                            app:layout_constraintTop_toBottomOf="@id/linear_layout_total_price"
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintLeft_toLeftOf="parent">
                             <!--details layout-->
@@ -204,10 +219,11 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:maxLines="1"
+                                    android:textAlignment="viewEnd"
+                                    android:gravity="center"
                                     android:text="@{String.valueOf(viewModel.totalItemsPriceLiveData)}"
-                                    android:textDirection="ltr"
                                     android:textSize="@dimen/body3_paragraph_font_size"
-                                    />
+                                    bind:ignore="RtlCompat" />
                             </LinearLayout>
 
                             <View
@@ -233,10 +249,12 @@
                                     android:id="@+id/text_view_discount_total_price"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:textAlignment="viewEnd"
+                                    android:gravity="center"
+                                    android:text="@{viewModel.totalDiscountLiveData}"
                                     android:maxLines="1"
-                                    android:textDirection="ltr"
                                     android:textSize="@dimen/body3_paragraph_font_size"
-                                    />
+                                    bind:ignore="RtlCompat" />
                             </LinearLayout>
 
                             <View
@@ -263,9 +281,10 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:maxLines="1"
-                                    android:textDirection="ltr"
+                                    android:textAlignment="viewEnd"
+                                    android:gravity="center"
                                     android:textSize="@dimen/body3_paragraph_font_size"
-                                    />
+                                    bind:ignore="RtlCompat" />
                             </LinearLayout>
                             <View
                                 android:layout_width="match_parent"
@@ -290,10 +309,11 @@
                                     android:id="@+id/text_view_food_taxes_price"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:textAlignment="viewEnd"
+                                    android:gravity="center"
                                     android:maxLines="1"
-                                    android:textDirection="ltr"
                                     android:textSize="@dimen/body3_paragraph_font_size"
-                                    />
+                                    bind:ignore="RtlCompat" />
                             </LinearLayout>
                             <View
                                 android:layout_width="match_parent"

@@ -121,6 +121,7 @@
                 android:textAlignment="center"
                 android:gravity="center"
                 android:textSize="@dimen/body3_paragraph_font_size"
+                android:text="@{cartItem.discountedPrice}"
                 android:maxLines="1"
                 bind:layout_constraintLeft_toLeftOf="@id/text_view_price"
                 bind:layout_constraintRight_toRightOf="@id/text_view_price"
@@ -136,7 +137,7 @@
                 android:gravity="center"
                 android:textSize="@dimen/body4_paragraph_font_size"
                 android:background="@drawable/custom_button_add_to_cart"
-
+                android:text="@{String.valueOf(cartItem.foodDiscount)}"
                 bind:layout_constraintTop_toTopOf="@id/divider"
                 bind:layout_constraintLeft_toRightOf="@id/text_view_price"
                 bind:layout_constraintBottom_toBottomOf="parent"

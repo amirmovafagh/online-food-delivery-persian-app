@@ -2,11 +2,12 @@ package ir.boojanco.onlinefoodorder.models.restaurantPackage;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Map;
 
-public class RestaurantPackageItem {
+public class RestaurantPackageItem implements Serializable {
 
     @SerializedName("id")
     private long id;

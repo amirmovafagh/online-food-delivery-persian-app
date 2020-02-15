@@ -1,10 +1,13 @@
 package ir.boojanco.onlinefoodorder.models.restaurantPackage;
 
+import android.util.ArrayMap;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.List;
 import java.util.Map;
 
 public class RestaurantPackageItem implements Serializable {
@@ -40,7 +43,7 @@ public class RestaurantPackageItem implements Serializable {
     private boolean discountForAllFoods;
 
     @SerializedName("foodList")
-    Map<Long ,String> foodList;
+    Map<Long , String> foodList;
 
     public long getId() {
         return id;
@@ -62,8 +65,8 @@ public class RestaurantPackageItem implements Serializable {
         return requiredPoint;
     }
 
-    public String getRequiredPointString(){
-        return "امتیاز مورد نیاز "+requiredPoint;
+    public String getRequiredPointString() {
+        return "امتیاز مورد نیاز " + requiredPoint;
     }
 
     public void setRequiredPoint(int requiredPoint) {
@@ -90,8 +93,8 @@ public class RestaurantPackageItem implements Serializable {
         return minimumOrderCost;
     }
 
-    public String getMinimumOrderCostString(){
-        return "حداقل سفارش "+moneyFormat(minimumOrderCost);
+    public String getMinimumOrderCostString() {
+        return "حداقل سفارش " + moneyFormat(minimumOrderCost);
     }
 
     public void setMinimumOrderCost(int minimumOrderCost) {
@@ -102,8 +105,8 @@ public class RestaurantPackageItem implements Serializable {
         return maximumDiscountAmount;
     }
 
-    public String getMaximumDiscountAmountString(){
-        return "حداکثر مبلغ تخفیف "+moneyFormat(maximumDiscountAmount);
+    public String getMaximumDiscountAmountString() {
+        return "حداکثر مبلغ تخفیف " + moneyFormat(maximumDiscountAmount);
     }
 
     public void setMaximumDiscountAmount(int maximumDiscountAmount) {
@@ -122,8 +125,8 @@ public class RestaurantPackageItem implements Serializable {
         return discountPercent;
     }
 
-    public String getDiscountPercentString(){
-        return "میزان تخفیف "+discountPercent+" درصد";
+    public String getDiscountPercentString() {
+        return "میزان تخفیف " + discountPercent + " درصد";
     }
 
     public void setDiscountPercent(int discountPercent) {
@@ -146,9 +149,9 @@ public class RestaurantPackageItem implements Serializable {
         this.foodList = foodList;
     }
 
-    private String moneyFormat(int cost){
+    private String moneyFormat(int cost) {
         NumberFormat formatter = new DecimalFormat("#,###");
         String formattedNumber = formatter.format(cost);
-        return formattedNumber+" تومان";
+        return formattedNumber + " تومان";
     }
 }

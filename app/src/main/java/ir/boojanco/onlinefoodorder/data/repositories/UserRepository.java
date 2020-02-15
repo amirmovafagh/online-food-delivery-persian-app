@@ -29,7 +29,7 @@ public class UserRepository {
     }
 
     public Observable<GetUserAddressResponse> getUserAddressResponseObservable(String authToken){
-        return apiInterface.getUserAddressResponseObsercable(authToken);
+        return apiInterface.getUserAddressResponseObservable(authToken);
     }
     public Observable<ReverseFindAddressResponse> getReverseFindAddressResponse(Double latitude, Double longitude){
         return apiInterface.getReverseAddresse(latitude, longitude);

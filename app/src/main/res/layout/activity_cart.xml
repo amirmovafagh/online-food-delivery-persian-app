@@ -6,6 +6,7 @@
         <variable
             name="viewModel"
             type="ir.boojanco.onlinefoodorder.viewmodels.CartViewModel" />
+        <import type="android.view.View"/>
     </data>
 
 
@@ -76,34 +77,51 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         >
-                        <TextView
-                            android:id="@+id/text_view_delivery_type"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/determineDeliveryType"
-                            android:paddingTop="8dp"
-                            android:layout_margin="16dp"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintRight_toRightOf="parent"
-                            />
-                        <androidx.appcompat.widget.SwitchCompat
-                            android:id="@+id/toggle_bookmark"
-                            android:layout_width="wrap_content"
-                            android:layout_height="35dp"
-                            android:paddingTop="8dp"
-                            android:layout_margin="16dp"
-                            android:textOff="@string/deliverInMyAddress"
-                            android:textOn="@string/deliverInRestaurant"
-                            app:layout_constraintRight_toLeftOf="@id/text_view_delivery_type"
-                            app:layout_constraintTop_toTopOf="@id/text_view_delivery_type"
-                            app:layout_constraintBottom_toBottomOf="@id/text_view_delivery_type"
-                             />
+
                         <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/cons_layout_restaurant_place"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:layout_constraintTop_toBottomOf="@id/text_view_delivery_type"
+                            android:layout_marginTop="24dp"
+                            android:visibility="@{viewModel.deliveryTypeViewLiveData== 2 ? View.VISIBLE : View.GONE}"
+                            app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintLeft_toLeftOf="parent">
+
+                            <TextView
+                                android:id="@+id/text_view_address"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="16dp"
+                                android:drawableRight="@drawable/ic_location"
+                                android:drawablePadding="8dp"
+                                android:textSize="@dimen/body2_paragraph_font_size"
+                                android:text="@{viewModel.restaurantAddressLiveData,default=آدرس}"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintLeft_toLeftOf="parent"/>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/cons_layout_destination_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="24dp"
+                            android:visibility="@{viewModel.deliveryTypeViewLiveData== 1 ? View.VISIBLE : View.GONE}"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recycler_view_user_address_horizontal_items"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layoutAnimation="@anim/layout_animation_fall_down"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintLeft_toLeftOf="parent"/>
                             <Button
                                 android:id="@+id/btn_add_address"
                                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -112,19 +130,10 @@
                                 android:layout_marginTop="8dp"
                                 android:text="@string/add_new_address"
                                 android:textSize="@dimen/button_font_size"
-                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/recycler_view_user_address_horizontal_items"
                                 app:layout_constraintRight_toRightOf="parent"
                                 app:layout_constraintLeft_toLeftOf="parent"
                                 />
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/recycler_view_user_address_horizontal_items"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layoutAnimation="@anim/layout_animation_fall_down"
-                                app:layout_constraintTop_toBottomOf="@id/btn_add_address"
-                                app:layout_constraintRight_toRightOf="parent"
-                                app:layout_constraintLeft_toLeftOf="parent"/>
-
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -140,11 +149,36 @@
                     app:layout_constraintRight_toRightOf="@id/cv_delivery_property"
                     app:layout_constraintLeft_toLeftOf="@id/cv_delivery_property"
                     >
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
                         android:padding="4dp"
                         app:srcCompat="@drawable/ic_delivery_situation"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:maxLines="1"
+                            android:padding="4dp"
+                            android:gravity="center"
+                            android:text="@{viewModel.deliveryTypeTextLiveData ,default=@string/determineDeliveryType}"
+                            android:textSize="@dimen/body2_paragraph_font_size"
+                            bind:ignore="RtlCompat" />
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/toggle_bookmark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:padding="4dp"
+                            android:visibility="@{viewModel.deliveryTypeSelectLiveData ==1 ? View.VISIBLE : View.GONE}"
+                            android:onCheckedChanged="@{(switch, checked) -> viewModel.onCheckedChanged(checked)}"                            android:layout_gravity="center"
+                            android:textOff="@string/deliverInMyAddress"
+                            android:textOn="@string/deliverInRestaurant"
+
+                            />
+                    </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
@@ -162,48 +196,21 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                        <LinearLayout
-                            android:id="@+id/linear_layout_total_price"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="16dp"
-                            android:paddingTop="8dp"
-                            android:orientation="horizontal"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintLeft_toLeftOf="parent">
-                        <TextView
-                            android:id="@+id/text_view_total_price"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="جمع کل :"
-                            android:maxLines="1"
-                            android:ellipsize="end"
-                            />
-                            <TextView
-                                android:id="@+id/text_view_total_all_price"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:maxLines="1"
-                                android:textAlignment="viewEnd"
-                                android:gravity="center"
-                                android:text="@{viewModel.totalAllPriceLiveData }"
-                                android:textSize="@dimen/body3_paragraph_font_size"
-                                bind:ignore="RtlCompat" />
-                        </LinearLayout>
+
                         <LinearLayout
                             android:id="@+id/linear_layout_cart_details_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            app:layout_constraintTop_toBottomOf="@id/linear_layout_total_price"
+                            android:visibility="gone"
+                            app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintLeft_toLeftOf="parent">
                             <!--details layout-->
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:paddingTop="8dp"
+                                android:paddingTop="16dp"
                                 android:layout_margin="16dp"
                                 android:orientation="horizontal">
                                 <TextView
@@ -221,7 +228,7 @@
                                     android:maxLines="1"
                                     android:textAlignment="viewEnd"
                                     android:gravity="center"
-                                    android:text="@{String.valueOf(viewModel.totalItemsPriceLiveData)}"
+                                    android:text="@{String.valueOf(viewModel.totalRawPriceLiveData)}"
                                     android:textSize="@dimen/body3_paragraph_font_size"
                                     bind:ignore="RtlCompat" />
                             </LinearLayout>
@@ -282,6 +289,7 @@
                                     android:layout_height="wrap_content"
                                     android:maxLines="1"
                                     android:textAlignment="viewEnd"
+                                    android:text="@{String.valueOf(viewModel.packingCost)}"
                                     android:gravity="center"
                                     android:textSize="@dimen/body3_paragraph_font_size"
                                     bind:ignore="RtlCompat" />
@@ -311,6 +319,7 @@
                                     android:layout_height="wrap_content"
                                     android:textAlignment="viewEnd"
                                     android:gravity="center"
+                                    android:text="@{String.valueOf(viewModel.taxAndService)}"
                                     android:maxLines="1"
                                     android:textSize="@dimen/body3_paragraph_font_size"
                                     bind:ignore="RtlCompat" />
@@ -318,17 +327,20 @@
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
-                                android:layout_marginBottom="16dp"
                                 android:background="?android:attr/listDivider"/>
 
-                            <!--show food items in recyclerView-->
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/recycler_view_restaurant_cart_items"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layoutAnimation="@anim/layout_animation_fall_down" />
-                        </LinearLayout>
 
+                        </LinearLayout>
+                        <!--show food items in recyclerView-->
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recycler_view_restaurant_cart_items"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layoutAnimation="@anim/layout_animation_fall_down"
+                            android:layout_marginTop="24dp"
+                            app:layout_constraintTop_toBottomOf="@id/linear_layout_cart_details_view"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.cardview.widget.CardView>
@@ -342,11 +354,65 @@
                     app:layout_constraintRight_toRightOf="@id/cv_cart_items"
                     app:layout_constraintLeft_toLeftOf="@id/cv_cart_items"
                     >
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:padding="4dp"
-                        app:srcCompat="@drawable/ic_shopping_cart_black_24dp"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <ImageButton
+                            android:id="@+id/img_btn_expand_arrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="2dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/ic_keyboard_arrow_down_black_24dp"/>
+                        <ImageView
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:padding="4dp"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/ic_shopping_cart_black_24dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:maxLines="1"
+                            android:layout_marginEnd="16dp"
+                            android:padding="4dp"
+                            android:gravity="center"
+                            android:text="@{viewModel.totalAllPriceLiveData ,default=قیمت}"
+                            android:textSize="@dimen/body2_paragraph_font_size"
+                            bind:ignore="RtlCompat" />
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorPrimary">
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="?attr/selectableItemBackground"/>
+                            <LinearLayout
+                                android:id="@+id/linear_layout_accept_order"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:padding="4dp"
+                                android:text="@string/payment"
+                                android:maxLines="1"
+                                android:textColor="@color/white"
+                                android:gravity="center"
+                                android:textSize="@dimen/body2_paragraph_font_size"
+                                />
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center"
+                                    app:srcCompat="@drawable/ic_left_arrow"/>
+                    </LinearLayout>
+                        </FrameLayout>
+                    </LinearLayout>
+
                 </androidx.cardview.widget.CardView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

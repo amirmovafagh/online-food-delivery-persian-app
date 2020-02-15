@@ -7,7 +7,12 @@ import android.widget.Toast;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+
+import com.airbnb.lottie.L;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.maps.android.PolyUtil;
 
 import org.json.JSONObject;
 
@@ -15,8 +20,8 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import io.reactivex.Observable;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -25,8 +30,10 @@ import io.reactivex.schedulers.Schedulers;
 import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.data.database.CartDataSource;
 import ir.boojanco.onlinefoodorder.data.database.CartItem;
+import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
 import ir.boojanco.onlinefoodorder.data.repositories.UserRepository;
 import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
+import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.RestaurantPackageItem;
 import ir.boojanco.onlinefoodorder.models.user.GetUserAddressResponse;
 import ir.boojanco.onlinefoodorder.ui.activities.cart.FinalPaymentPrice;
@@ -44,32 +51,50 @@ public class CartViewModel extends ViewModel {
     private CartDataSource cartDataSource;
     private CompositeDisposable compositeDisposableGetAllItems;
     private UserRepository userRepository;
+    private RestaurantRepository restaurantRepository;
     private RestaurantPackageItem packageItem;
+    private RestaurantInfoResponse restaurantInfo;
     private List<CartItem> cartItems;
     private ArrayList<FinalPaymentPrice> finalPaymentPrices;
 
-    public MutableLiveData<Long> totalItemsPriceLiveData;
+
+    public MutableLiveData<Long> totalRawPriceLiveData;
     public MutableLiveData<String> cartStateLiveData;
     public MutableLiveData<String> city;
     public MutableLiveData<String> region;
     public MutableLiveData<String> exactAddress;
     public MutableLiveData<String> totalAllPriceLiveData;
     public MutableLiveData<String> totalDiscountLiveData;
+    public MutableLiveData<Integer> packingCost;
+    public MutableLiveData<Integer> taxAndService;
+    public MutableLiveData<String> deliveryTypeTextLiveData;
+    public MutableLiveData<String> restaurantAddressLiveData;
+    public MutableLiveData<Integer> deliveryTypeSelectLiveData;
+    public MutableLiveData<Integer> deliveryTypeViewLiveData;
 
-    private int tempTotalAllPrice = 0;
+    private int totalDiscountedPrice = 0;
+    private int tempTotalRawPrice = 0;
 
-    public CartViewModel(Context context, CartDataSource cartDataSource, UserRepository userRepository) {
+
+    public CartViewModel(Context context, CartDataSource cartDataSource, UserRepository userRepository, RestaurantRepository restaurantRepository) {
         this.context = context;
         this.cartDataSource = cartDataSource;
         this.userRepository = userRepository;
+        this.restaurantRepository = restaurantRepository;
 
         city = new MutableLiveData<>();
         region = new MutableLiveData<>();
         exactAddress = new MutableLiveData<>();
         cartStateLiveData = new MutableLiveData<>();
-        totalItemsPriceLiveData = new MutableLiveData<>();
+        totalRawPriceLiveData = new MutableLiveData<>();
         totalAllPriceLiveData = new MutableLiveData<>();
         totalDiscountLiveData = new MutableLiveData<>();
+        packingCost = new MutableLiveData<>();
+        taxAndService = new MutableLiveData<>();
+        deliveryTypeTextLiveData = new MutableLiveData<>();
+        deliveryTypeSelectLiveData = new MutableLiveData<>();
+        deliveryTypeViewLiveData = new MutableLiveData<>();
+        restaurantAddressLiveData = new MutableLiveData<>();
 
         compositeDisposableGetAllItems = new CompositeDisposable();
     }
@@ -77,6 +102,71 @@ public class CartViewModel extends ViewModel {
     public void setPackageItem(RestaurantPackageItem packageItem) {
         this.packageItem = packageItem;
     }
+
+    public void setRestaurantInfo(RestaurantInfoResponse restaurantInfo) {
+        this.restaurantInfo = restaurantInfo;
+        packingCost.setValue(restaurantInfo.getPackingCostInt());
+        taxAndService.setValue(restaurantInfo.getTaxAndService());
+        restaurantAddressLiveData.setValue(restaurantInfo.getRegion()+restaurantInfo.getAddress());
+
+    }
+
+    public void onCheckedChanged(boolean checked) {
+        if (!checked){
+            deliveryTypeTextLiveData.setValue("ارسال به آدرس شما");
+            deliveryTypeViewLiveData.setValue(1);
+        }else {
+            deliveryTypeTextLiveData.setValue("دریافت در رستوران");
+            deliveryTypeViewLiveData.setValue(2);
+        }
+    }
+
+    private void initDeliveryType() {
+        boolean deliverInPlace = restaurantInfo.isGetInPlace();
+        boolean deliverInDestination = restaurantInfo.isDelivery();
+        if (deliverInDestination && deliverInPlace){
+            deliveryTypeTextLiveData.setValue("نحوه دریافت سفارش");
+            deliveryTypeSelectLiveData.setValue(1); //show switch button
+            deliveryTypeViewLiveData.setValue(1);
+        }else if (deliverInDestination){
+            deliveryTypeTextLiveData.setValue("فقط ارسال به آدرس شما");
+            deliveryTypeSelectLiveData.setValue(0); //hide switch button
+            deliveryTypeViewLiveData.setValue(1);   //just show deliver in address destination
+
+        }else {
+            deliveryTypeTextLiveData.setValue("فقط دریافت در رستوران");
+            deliveryTypeSelectLiveData.setValue(0); //hide switch button
+            deliveryTypeViewLiveData.setValue(2);   //just show deliver in place
+        }
+    }
+
+    public void checkUserAddressForService(Double lat, Double lng){
+        LatLng city = new LatLng(lat, lng);
+        String closeRegionsCoordinates = restaurantInfo.getCloseRegionsCoordinates().substring(2); //substring for remove P:
+        String[] closeRegionsCoordinatesSeperated = closeRegionsCoordinates.split(" ");
+        String serviceAreaCoordinates = restaurantInfo.getServiceAreaCoordinates().substring(2);
+        String[] serviceAreaCoordinatesSeperated = serviceAreaCoordinates.split(" ");
+
+        List<LatLng> closePoints = new ArrayList<>();
+        for (int i = 0; i < closeRegionsCoordinatesSeperated.length ; i++){
+            String[] latLngSeprated = closeRegionsCoordinatesSeperated[i].split(",");
+            LatLng latLng = new LatLng(Double.parseDouble(latLngSeprated[1]),Double.parseDouble(latLngSeprated[0]));
+            closePoints.add(latLng);
+        }
+
+        if(PolyUtil.containsLocation(city.latitude, city.longitude, closePoints, true)){
+            Log.i(TAG,"1");
+        }else {
+            List<LatLng> serviceAreaPoints = new ArrayList<>();
+            for (int i = 0; i < serviceAreaCoordinatesSeperated.length ; i++){
+                String[] latLngSeprated = serviceAreaCoordinatesSeperated[i].split(",");
+                LatLng latLng = new LatLng(Double.parseDouble(latLngSeprated[1]),Double.parseDouble(latLngSeprated[0]));
+                serviceAreaPoints.add(latLng);
+            }
+            Log.i(TAG,""+PolyUtil.containsLocation(city.latitude, city.longitude, serviceAreaPoints, true));
+        }
+    }
+
 
     public void getReverseAddressParsiMap(Double latitude, Double longitude) {
         rx.Observable<ReverseFindAddressResponse> observable = userRepository.getReverseFindAddressResponse(latitude, longitude);
@@ -151,6 +241,7 @@ public class CartViewModel extends ViewModel {
 
 
                     cartInterface.onSuccessGetAddress(getUserAddressResponse.getUserAddressLists());
+                    initDeliveryType();
                 }
             });
         }
@@ -178,43 +269,83 @@ public class CartViewModel extends ViewModel {
 
     public void calculateFinalCartTotalPrice() {
         finalPaymentPrices = new ArrayList<>();
-        int totalPrice = 0;
+        totalDiscountedPrice = 0;
+        tempTotalRawPrice = 0;
         if (cartItems != null)
             for (int i = 0; i < cartItems.size(); i++) {
                 int count = cartItems.get(i).getFoodQuantity();
                 long id = cartItems.get(i).getFoodId();
                 double price = count * cartItems.get(i).getFoodPrice();
+                tempTotalRawPrice += price;
+                Log.i(TAG + " " + cartItems.get(i).getFoodName() + " ", "count: " + count);
 
                 if (packageItem == null) { //not selected any discountRestaurantPackage
                     double discount = 100 - cartItems.get(i).getFoodDiscount();
                     discount = discount / 100;
                     price = price * discount;
-                    totalPrice += price;
-                    tempTotalAllPrice = (int) totalPrice;
-                    totalAllPriceLiveData.setValue(moneyFormat((int) totalPrice));
+                    totalDiscountedPrice += price;
+
+                    totalAllPriceLiveData.setValue(moneyFormat((int) totalDiscountedPrice + packingCost.getValue() + taxAndService.getValue()));
                     FinalPaymentPrice paymentPrice = new FinalPaymentPrice();
                     paymentPrice.setId(id);
                     paymentPrice.setDiscountedPrice((int) price);
                     paymentPrice.setName(cartItems.get(i).getFoodName());
                     finalPaymentPrices.add(paymentPrice);
                 } else { //use discountRestaurantPackage
-                    double pDiscount = 100- packageItem.getDiscountPercent();
+                    double pDiscount = 100 - packageItem.getDiscountPercent();
                     pDiscount = pDiscount / 100;
-                    if(packageItem.isDiscountForAllFoods()){ // discount effect on all items
+                    Log.i(TAG + " pDiscount: ", "" + totalDiscountedPrice);
+                    if (packageItem.isDiscountForAllFoods()) { // discount effect on all items
                         price = price * pDiscount;
-                        totalPrice += price;
-                        if(totalItemsPriceLiveData != null &&  totalItemsPriceLiveData.getValue() - (long)totalPrice >= packageItem.getMaximumDiscountAmount()){
-                            tempTotalAllPrice =(int)(totalItemsPriceLiveData.getValue() -(long)packageItem.getMaximumDiscountAmount());
-                            totalAllPriceLiveData.setValue(moneyFormat((int)(totalItemsPriceLiveData.getValue() -(long)packageItem.getMaximumDiscountAmount())));
-                        }else {
-                        tempTotalAllPrice = (int) totalPrice;
-                        totalAllPriceLiveData.setValue(moneyFormat((int) totalPrice));}
+                        totalDiscountedPrice += price;
+                        if (tempTotalRawPrice - totalDiscountedPrice >= packageItem.getMaximumDiscountAmount()) {
+                            totalDiscountedPrice = tempTotalRawPrice - packageItem.getMaximumDiscountAmount();
+                            totalAllPriceLiveData.setValue(moneyFormat((tempTotalRawPrice - packageItem.getMaximumDiscountAmount()) + packingCost.getValue() + taxAndService.getValue()));
+                        } else {
 
-                    }else {
+                            totalAllPriceLiveData.setValue(moneyFormat((int) totalDiscountedPrice + packingCost.getValue() + taxAndService.getValue()));
+                        }
+
+                    } else { // discount effect on Specific items
+                        if (packageItem.getFoodList() != null) {
+                            Map<Long, String> specificItems = packageItem.getFoodList();
+                            for (Map.Entry<Long, String> entry : specificItems.entrySet()) {
+                                long foodId = entry.getKey();
+                                String foodName = entry.getValue();
+                                Log.i(TAG, foodId + " : " + foodName);
+                                if (foodId == id) {
+
+                                    id = 0; // dont let calculate one food with two tag type for twice
+                                    price = price * pDiscount;
+                                    totalDiscountedPrice += price;
+                                    Log.i(TAG + " have foodId : ", "" + totalDiscountedPrice);
+                                }
+                            }
+                            if (id != 0) {
+                                totalDiscountedPrice += price;
+                                Log.i(TAG + " dontHave foodId : ", "" + totalDiscountedPrice);
+                            }
+                            Log.i(TAG + " totalRawPriceLiveDat: ", "" + tempTotalRawPrice);
+                            Log.i(TAG + " DiscountedPrice: ", "" + totalDiscountedPrice);
+                            Log.i(TAG + " getMaximumDiscount: ", "" + packageItem.getMaximumDiscountAmount());
+                            Log.i(TAG + " 0 : ", "" + (totalRawPriceLiveData.getValue() - (long) totalDiscountedPrice >= packageItem.getMaximumDiscountAmount()));
+                            if (tempTotalRawPrice - totalDiscountedPrice >= packageItem.getMaximumDiscountAmount()) {
+
+                                totalDiscountedPrice = tempTotalRawPrice - packageItem.getMaximumDiscountAmount();
+                                totalAllPriceLiveData.setValue(moneyFormat((tempTotalRawPrice - packageItem.getMaximumDiscountAmount()) + packingCost.getValue() + taxAndService.getValue()));
+                                Log.i(TAG + " 1 : ", "" + totalDiscountedPrice);
+                            } else {
+
+                                totalAllPriceLiveData.setValue(moneyFormat((int) totalDiscountedPrice + packingCost.getValue() + taxAndService.getValue()));
+                                Log.i(TAG + " 2 : ", "" + totalDiscountedPrice);
+                            }
+
+                        }
 
                     }
                 }
             }
+
     }
 
 
@@ -229,20 +360,23 @@ public class CartViewModel extends ViewModel {
 
             @Override
             public void onSuccess(Long aLong) {
-                totalItemsPriceLiveData.setValue(aLong);
+
+                totalRawPriceLiveData.setValue(aLong);
                 calculateFinalCartTotalPrice();
-                totalDiscountLiveData.setValue(String.valueOf(aLong - tempTotalAllPrice));
+                totalDiscountLiveData.setValue(String.valueOf(aLong - totalDiscountedPrice));
+
             }
 
             @Override
             public void onError(Throwable e) {
-                totalItemsPriceLiveData.setValue((long) 0);
+                totalRawPriceLiveData.setValue((long) 0);
                 totalAllPriceLiveData.setValue("سبد خرید خالی است");
                 totalDiscountLiveData.setValue("");
                 Log.e(TAG, "{UPDATE CART ITEM}-> " + e.getMessage());
             }
         });
     }
+
 
     public void onStop() {
         if (compositeDisposableGetAllItems != null)

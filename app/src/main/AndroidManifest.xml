@@ -8,7 +8,7 @@
          location permissions for the 'MyLocation' functionality.
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -23,7 +23,8 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
-        <activity android:name=".ui.activities.cart.CartActivity"></activity>
+        <activity android:name=".ui.activities.payment.PaymentActivity"></activity>
+        <activity android:name=".ui.activities.cart.CartActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -36,13 +37,11 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".MapsActivity"></activity>
+        <activity android:name=".MapsActivity" />
         <activity android:name=".ui.activities.restaurantDetails.RestaurantDetailsActivity" />
         <activity android:name=".ui.activities.RegisterActivity" />
         <activity android:name=".ui.activities.VerificationActivity" />
-        <activity android:name=".ui.activities.LoginActivity">
-
-        </activity>
+        <activity android:name=".ui.activities.LoginActivity"></activity>
         <activity
             android:name=".ui.activities.MainActivity"
             android:windowSoftInputMode="adjustPan">

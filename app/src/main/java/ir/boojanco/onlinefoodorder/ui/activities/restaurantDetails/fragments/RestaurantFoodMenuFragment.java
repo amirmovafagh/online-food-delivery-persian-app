@@ -83,6 +83,8 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     private LinearLayout mainLayout;
 
     private final String selectedPackageExtraName = "selectedPackage";
+    private final String restaurantInfoResponseExtraName = "restaurantInfoResponse";
+
 
     public static RestaurantFoodMenuFragment newInstance() {
         return new RestaurantFoodMenuFragment();
@@ -145,7 +147,8 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
             sharedViewModel.infoResponseMutableLiveData.observe(getViewLifecycleOwner(), new Observer<RestaurantInfoResponse>() {
                 @Override
                 public void onChanged(RestaurantInfoResponse restaurantInfoResponse) {
-
+                    if(restaurantInfoResponse != null){
+                        goToCartActivityIntent.putExtra(restaurantInfoResponseExtraName , restaurantInfoResponse);                    }
                 }
             });
         }
@@ -158,11 +161,7 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
         binding.fab.setOnClickListener(v -> {
 
             goToCartActivityIntent.putExtra("RESTAURANT_ID", extraRestauranId);
-            /*intent.putExtra("RESTAURANT_COVER", restaurantList.getCover());
-            intent.putExtra("RESTAURANT_LOGO", restaurantList.getLogo());
-            intent.putExtra("RESTAURANT_NAME", restaurantList.getName());
-            intent.putExtra("RESTAURANT_AVERAGE_SCORE", restaurantList.getAverageScore());
-            intent.putExtra("RESTAURANT_TAG_LIST", restaurantList.getTagList());*/
+
             startActivity(goToCartActivityIntent);
         });
 

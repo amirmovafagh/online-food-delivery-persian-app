@@ -22,6 +22,7 @@ import ir.boojanco.onlinefoodorder.data.repositories.UserRepository;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.CartViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.HomeViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.LoginViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.factories.PaymentViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RegisterViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantDetailsViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantFoodMenuViewModelFactory;
@@ -107,9 +108,17 @@ public class NetModule {
 
     @Provides
     @Singleton
-    CartViewModelFactory provideCartViewModelFactory(Application application , CartDataSource cartDataSource, UserRepository userRepository){
+    CartViewModelFactory provideCartViewModelFactory(Application application , CartDataSource cartDataSource, UserRepository userRepository, RestaurantRepository restaurantRepository){
         CartViewModelFactory factory =
-                new CartViewModelFactory(application, cartDataSource, userRepository);
+                new CartViewModelFactory(application, cartDataSource, userRepository, restaurantRepository);
+        return factory;
+    }
+
+    @Provides
+    @Singleton
+    PaymentViewModelFactory providePaymentViewModelFactory(Application application , RestaurantRepository restaurantRepository){
+        PaymentViewModelFactory factory =
+                new PaymentViewModelFactory(application, restaurantRepository);
         return factory;
     }
 

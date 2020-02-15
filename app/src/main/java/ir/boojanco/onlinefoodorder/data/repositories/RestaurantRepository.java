@@ -2,6 +2,7 @@ package ir.boojanco.onlinefoodorder.data.repositories;
 
 import ir.boojanco.onlinefoodorder.data.networking.ApiInterface;
 import ir.boojanco.onlinefoodorder.models.food.getAllFood.GetAllFoodResponse;
+import ir.boojanco.onlinefoodorder.models.restaurant.DiscountCodeResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.AllPackagesResponse;
@@ -28,6 +29,12 @@ public class RestaurantRepository {
     }
 
     public Observable<AllPackagesResponse> getAllPackagesResponse(String authToken, long restaurantId) {
-        return apiInterface.getAllPackagesResponseObsercable(authToken, restaurantId);
+        return apiInterface.getAllPackagesResponseObservable(authToken, restaurantId);
     }
+
+    public Observable<DiscountCodeResponse> getDiscountCodeResponse(String authToken, String code) {
+        return apiInterface.getDiscountCodeResponseObservable(authToken, code);
+    }
+
+
 }

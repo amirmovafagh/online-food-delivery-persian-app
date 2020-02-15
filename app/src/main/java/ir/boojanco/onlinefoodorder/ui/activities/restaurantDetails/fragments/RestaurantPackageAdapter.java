@@ -15,7 +15,7 @@ import ir.boojanco.onlinefoodorder.databinding.RecyclerviewRestaurantPackageItem
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.RestaurantPackageItem;
 
 class RestaurantPackageAdapter extends RecyclerView.Adapter<RestaurantPackageAdapter.PackageViewHolder> {
-    List<RestaurantPackageItem> packageItems;
+    private List<RestaurantPackageItem> packageItems;
     private int selectedPosition = 1000;
     private RestaurantPackageInterface packageInterface;
     private Context context;

@@ -2,6 +2,7 @@ package ir.boojanco.onlinefoodorder.data.networking;
 
 import ir.boojanco.onlinefoodorder.models.food.getAllFood.GetAllFoodResponse;
 import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
+import ir.boojanco.onlinefoodorder.models.restaurant.DiscountCodeResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.AllPackagesResponse;
@@ -50,13 +51,16 @@ public interface ApiInterface {
     Observable<RestaurantInfoResponse> getRestaurantInfo(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
 
     @GET("/api/v1/package/{restaurantId}/valid")
-    Observable<AllPackagesResponse> getAllPackagesResponseObsercable(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId) ;
+    Observable<AllPackagesResponse> getAllPackagesResponseObservable(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId) ;
+
+    @GET("/api/v1/discountCode/validate/{code}")
+    Observable<DiscountCodeResponse> getDiscountCodeResponseObservable(@Header("Authorization") String authToken, @Path("code") String code) ;
 
     @GET("/api/v1/address/user/all")
-    Observable<GetUserAddressResponse> getUserAddressResponseObsercable(@Header("Authorization") String authToken) ;
+    Observable<GetUserAddressResponse> getUserAddressResponseObservable(@Header("Authorization") String authToken) ;
 
     @GET("/api/v1/state/state/all")
-    Observable<GetAllStatesResponse> getAllStatesResponseObsercable(@Header("Authorization") String authToken) ;
+    Observable<GetAllStatesResponse> getAllStatesResponseObservable(@Header("Authorization") String authToken) ;
 
     @GET("https://pm1.parsimap.com/comapi.svc/areaInfo/{latitude}/{longitude}/18/1/ccc1a4bc-ade4-460d-b799-82885ab21d6d/1") /*get Reverse Address from LatLng with parsiMap API*/
     Observable<ReverseFindAddressResponse> getReverseAddresse(@Path("latitude") Double latitude, @Path("longitude") Double longitude );

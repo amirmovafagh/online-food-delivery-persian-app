@@ -2,19 +2,22 @@ package ir.boojanco.onlinefoodorder.models.restaurant;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 
 import static ir.boojanco.onlinefoodorder.dagger.App.webServerMediaRoute;
 
-public class RestaurantInfoResponse {
+public class RestaurantInfoResponse implements Serializable {
     @SerializedName("averageScore")
     private Float averageScore;
     @SerializedName("branch")
     private String branch;
     @SerializedName("cover")
     private String cover;
+    @SerializedName("working")
+    private boolean working;
     @SerializedName("delivery")
     private boolean delivery;
     @SerializedName("deliveryTime")
@@ -31,10 +34,12 @@ public class RestaurantInfoResponse {
     private String name;
     @SerializedName("packingCost")
     private int packingCost;
-    @SerializedName("shippingCostInRegion")
-    private int shippingCostInRegion;
-    @SerializedName("shippingCostOutRegion")
-    private int shippingCostOutRegion;
+    @SerializedName("shippingCostInCloseRegions")
+    private int shippingCostInCloseRegions;
+    @SerializedName("shippingCostInServiceArea")
+    private int shippingCostInServiceArea;
+    @SerializedName("taxAndService")
+    private int taxAndService;
     @SerializedName("phoneNumber")
     private String phoneNumber;
     @SerializedName("region")
@@ -43,6 +48,54 @@ public class RestaurantInfoResponse {
     private List<String> tagList;
     @SerializedName("address")
     private String address;
+    @SerializedName("serviceAreaCoordinates")
+    private String serviceAreaCoordinates;
+    @SerializedName("closeRegionsCoordinates")
+    private String closeRegionsCoordinates;
+    @SerializedName("lat")
+    private Double latitude;
+    @SerializedName("lon")
+    private Double longitude;
+
+    public String getServiceAreaCoordinates() {
+        return serviceAreaCoordinates;
+    }
+
+    public void setServiceAreaCoordinates(String serviceAreaCoordinates) {
+        this.serviceAreaCoordinates = serviceAreaCoordinates;
+    }
+
+    public String getCloseRegionsCoordinates() {
+        return closeRegionsCoordinates;
+    }
+
+    public void setCloseRegionsCoordinates(String closeRegionsCoordinates) {
+        this.closeRegionsCoordinates = closeRegionsCoordinates;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public int getTaxAndService() {
+        return taxAndService;
+    }
+
+    public void setTaxAndService(int taxAndService) {
+        this.taxAndService = taxAndService;
+    }
 
     public Float getAverageScore() {
         return averageScore;
@@ -93,18 +146,23 @@ public class RestaurantInfoResponse {
         return " تومان "+formattedNumber;
 
     }
+    public int getPackingCostInt() {
+
+        return packingCost;
+
+    }
 
     public String getShippingCostInRegion() {
 
         NumberFormat formatter = new DecimalFormat("#,###");
-        String formattedNumber = formatter.format(shippingCostInRegion);
+        String formattedNumber = formatter.format(shippingCostInCloseRegions);
         return "داخل محدوده "+formattedNumber+" تومان";
 
     }
 
     public String getShippingCostOutRegion() {
         NumberFormat formatter = new DecimalFormat("#,###");
-        String formattedNumber = formatter.format(shippingCostOutRegion);
+        String formattedNumber = formatter.format(shippingCostInServiceArea);
         return "خارج از محدوده "+formattedNumber+" تومان";
     }
 

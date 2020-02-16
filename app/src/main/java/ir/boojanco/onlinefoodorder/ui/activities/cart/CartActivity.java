@@ -108,7 +108,7 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
         binding.bottomSheet.textViewState.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+
             }
         });
 
@@ -119,7 +119,7 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
         }
         fragmentTransaction.addToBackStack(null);
         mapFragment = new MapDialogFragment();
-        mapFragment.show(fragmentTransaction, "dialog");
+        //mapFragment.show(fragmentTransaction, "dialog");
 
         acceptOrder.setOnClickListener(v -> {
 
@@ -174,6 +174,14 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
     @Override
     public void onSuccessGetAddress(List<UserAddressList> addressLists) {
         addressAdapter.setAddressLists(addressLists);
+    }
+
+    @Override
+    public void onSuccessGetStates(List<AllStatesList> allStatesLists) {
+        StateAdapter stateAdapter = new StateAdapter(this);
+        CustomStateCityDialog stateCityDialog = new CustomStateCityDialog(CartActivity.this,stateAdapter, allStatesLists);
+        stateCityDialog.show();
+        stateCityDialog.setCanceledOnTouchOutside(false);
     }
 
 

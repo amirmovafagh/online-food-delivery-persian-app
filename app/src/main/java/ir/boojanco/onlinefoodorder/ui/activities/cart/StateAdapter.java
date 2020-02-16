@@ -15,6 +15,9 @@ import ir.boojanco.onlinefoodorder.models.state.AllStatesList;
 
 public class StateAdapter extends RecyclerView.Adapter<StateAdapter.StateViewHolder> {
     List<AllStatesList> statesLists;
+
+
+
     private int selectedPosition = 100000;
     public RecyclerViewCartClickListener clickListener;
 
@@ -44,6 +47,10 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.StateViewHol
         } else {
             return 0;
         }
+    }
+    public void setStatesLists(List<AllStatesList> statesLists) {
+        this.statesLists = statesLists;
+        notifyDataSetChanged();
     }
 
     public class StateViewHolder extends RecyclerView.ViewHolder{

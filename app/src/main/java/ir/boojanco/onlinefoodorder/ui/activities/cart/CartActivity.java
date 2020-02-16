@@ -104,6 +104,13 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
                 arrowBtn.setBackgroundResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
             }
         });
+        binding.btnAddAddress.setOnClickListener(v -> sheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED));
+        binding.bottomSheet.textViewState.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
 
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragment = getSupportFragmentManager().findFragmentByTag("dialog");

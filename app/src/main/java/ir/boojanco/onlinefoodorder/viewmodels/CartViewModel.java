@@ -110,15 +110,15 @@ public class CartViewModel extends ViewModel {
         this.restaurantInfo = restaurantInfo;
         packingCost.setValue(restaurantInfo.getPackingCostInt());
         taxAndService.setValue(restaurantInfo.getTaxAndService());
-        restaurantAddressLiveData.setValue(restaurantInfo.getRegion()+restaurantInfo.getAddress());
+        restaurantAddressLiveData.setValue(restaurantInfo.getRegion() + restaurantInfo.getAddress());
 
     }
 
     public void onCheckedChanged(boolean checked) {
-        if (!checked){
+        if (!checked) {
             deliveryTypeTextLiveData.setValue("ارسال به آدرس شما");
             deliveryTypeViewLiveData.setValue(1);
-        }else {
+        } else {
             deliveryTypeTextLiveData.setValue("دریافت در رستوران");
             deliveryTypeViewLiveData.setValue(2);
         }
@@ -127,23 +127,23 @@ public class CartViewModel extends ViewModel {
     private void initDeliveryType() {
         boolean deliverInPlace = restaurantInfo.isGetInPlace();
         boolean deliverInDestination = restaurantInfo.isDelivery();
-        if (deliverInDestination && deliverInPlace){
+        if (deliverInDestination && deliverInPlace) {
             deliveryTypeTextLiveData.setValue("نحوه دریافت سفارش");
             deliveryTypeSelectLiveData.setValue(1); //show switch button
             deliveryTypeViewLiveData.setValue(1);
-        }else if (deliverInDestination){
+        } else if (deliverInDestination) {
             deliveryTypeTextLiveData.setValue("فقط ارسال به آدرس شما");
             deliveryTypeSelectLiveData.setValue(0); //hide switch button
             deliveryTypeViewLiveData.setValue(1);   //just show deliver in address destination
 
-        }else {
+        } else {
             deliveryTypeTextLiveData.setValue("فقط دریافت در رستوران");
             deliveryTypeSelectLiveData.setValue(0); //hide switch button
             deliveryTypeViewLiveData.setValue(2);   //just show deliver in place
         }
     }
 
-    public void checkUserAddressForService(Double lat, Double lng){
+    public void checkUserAddressForService(Double lat, Double lng) {
         LatLng city = new LatLng(lat, lng);
         String closeRegionsCoordinates = restaurantInfo.getCloseRegionsCoordinates().substring(2); //substring for remove P:
         String[] closeRegionsCoordinatesSeperated = closeRegionsCoordinates.split(" ");
@@ -151,22 +151,22 @@ public class CartViewModel extends ViewModel {
         String[] serviceAreaCoordinatesSeperated = serviceAreaCoordinates.split(" ");
 
         List<LatLng> closePoints = new ArrayList<>();
-        for (int i = 0; i < closeRegionsCoordinatesSeperated.length ; i++){
+        for (int i = 0; i < closeRegionsCoordinatesSeperated.length; i++) {
             String[] latLngSeprated = closeRegionsCoordinatesSeperated[i].split(",");
-            LatLng latLng = new LatLng(Double.parseDouble(latLngSeprated[1]),Double.parseDouble(latLngSeprated[0]));
+            LatLng latLng = new LatLng(Double.parseDouble(latLngSeprated[1]), Double.parseDouble(latLngSeprated[0]));
             closePoints.add(latLng);
         }
 
-        if(PolyUtil.containsLocation(city.latitude, city.longitude, closePoints, true)){
-            Log.i(TAG,"1");
-        }else {
+        if (PolyUtil.containsLocation(city.latitude, city.longitude, closePoints, true)) {
+            Log.i(TAG, "1");
+        } else {
             List<LatLng> serviceAreaPoints = new ArrayList<>();
-            for (int i = 0; i < serviceAreaCoordinatesSeperated.length ; i++){
+            for (int i = 0; i < serviceAreaCoordinatesSeperated.length; i++) {
                 String[] latLngSeprated = serviceAreaCoordinatesSeperated[i].split(",");
-                LatLng latLng = new LatLng(Double.parseDouble(latLngSeprated[1]),Double.parseDouble(latLngSeprated[0]));
+                LatLng latLng = new LatLng(Double.parseDouble(latLngSeprated[1]), Double.parseDouble(latLngSeprated[0]));
                 serviceAreaPoints.add(latLng);
             }
-            Log.i(TAG,""+PolyUtil.containsLocation(city.latitude, city.longitude, serviceAreaPoints, true));
+            Log.i(TAG, "" + PolyUtil.containsLocation(city.latitude, city.longitude, serviceAreaPoints, true));
         }
     }
 
@@ -380,7 +380,7 @@ public class CartViewModel extends ViewModel {
         });
     }
 
-    public void getStates(String authToken){
+    public void getStates(String authToken) {
         rx.Observable<GetAllStatesResponse> observable = userRepository.getAllStatesResponseObservable(authToken);
         if (observable != null) {
             observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetAllStatesResponse>() {
@@ -411,14 +411,16 @@ public class CartViewModel extends ViewModel {
                 @Override
                 public void onNext(GetAllStatesResponse getAllStatesResponse) {
 
-
-                    mapDialogInterface.onSuccess(getAllStatesResponse.getAllStatesLists());
+                    cartInterface.onSuccessGetStates(getAllStatesResponse.getAllStatesLists());
+                    if (mapDialogInterface != null)
+                        mapDialogInterface.onSuccess(getAllStatesResponse.getAllStatesLists());
 
                 }
             });
         }
     }
-    public void getCities(){
+
+    public void getCities() {
 
     }
 

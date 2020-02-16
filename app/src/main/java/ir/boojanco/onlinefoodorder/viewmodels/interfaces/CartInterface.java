@@ -11,6 +11,7 @@ public interface CartInterface {
     void onStarted();
     void onSuccess(List<CartItem> cartItems);
     void onSuccessGetAddress(List<UserAddressList> addressLists);
+    void onSuccessGetStates(List<AllStatesList> allStatesLists);
     void onSuccessGetReverseAddress(ReverseFindAddressResponse reverseFindAddressResponses);
     void onFailure(String Error);
 }

@@ -16,6 +16,8 @@
         android:id="@+id/bottom_sheet_add_new_address"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="16dp"
+        android:layout_marginTop="?actionBarSize"
         android:background="@drawable/bg_bottom_sheet"
         app:behavior_hideable="true"
         android:layoutDirection="rtl"
@@ -44,11 +46,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:orientation="horizontal">
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"            android:orientation="horizontal">
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_view_state"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                app:boxBackgroundColor="@color/transparent"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
@@ -71,7 +74,8 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_view_city"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                app:boxBackgroundColor="@color/transparent"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/city"
@@ -94,10 +98,12 @@
         </LinearLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_view_region"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            app:boxBackgroundColor="@color/transparent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
             android:hint="@string/region"
             >
 
@@ -116,10 +122,12 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_view_exact_address"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            app:boxBackgroundColor="@color/transparent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
             android:hint="@string/exactAddress"
             >
 
@@ -136,10 +144,12 @@
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_view_address_tag"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            app:boxBackgroundColor="@color/transparent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
             android:hint="@string/addressTag"
             >
 

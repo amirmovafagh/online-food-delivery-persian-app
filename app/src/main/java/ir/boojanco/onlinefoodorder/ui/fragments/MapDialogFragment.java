@@ -24,15 +24,23 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
+import ir.boojanco.onlinefoodorder.data.database.CartItem;
 import ir.boojanco.onlinefoodorder.databinding.FragmentMapDialogBinding;
+import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
+import ir.boojanco.onlinefoodorder.models.state.AllStatesList;
+import ir.boojanco.onlinefoodorder.models.user.UserAddressList;
 import ir.boojanco.onlinefoodorder.viewmodels.CartViewModel;
+import ir.boojanco.onlinefoodorder.viewmodels.interfaces.CartInterface;
+import ir.boojanco.onlinefoodorder.viewmodels.interfaces.MapDialogInterface;
 
-public class MapDialogFragment extends DialogFragment implements OnMapReadyCallback {
+public class MapDialogFragment extends DialogFragment implements OnMapReadyCallback, MapDialogInterface {
     private static final String TAG = MapDialogFragment.class.getSimpleName();
     private FragmentMapDialogBinding binding;
     private GoogleMap googleMap;
@@ -61,7 +69,7 @@ public class MapDialogFragment extends DialogFragment implements OnMapReadyCallb
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map_dialog, container,false);
         cartViewModel= new ViewModelProvider(getActivity()).get(CartViewModel.class);
-
+        cartViewModel.mapDialogInterface = this;
         binding.setLifecycleOwner(this);
         return binding.getRoot();
     }
@@ -91,8 +99,25 @@ public class MapDialogFragment extends DialogFragment implements OnMapReadyCallb
                     marker.remove();
                 marker = googleMap.addMarker(new MarkerOptions().position(latLng).title("آدرس من"));
                 cartViewModel.getReverseAddressParsiMap(latLng.latitude, latLng.longitude);
+                cartViewModel.getStates(sharedPreferences.getUserAuthTokenKey());
             });
         }
+
+    }
+
+
+    @Override
+    public void onStarted() {
+
+    }
+
+    @Override
+    public void onSuccess(List<AllStatesList> statesList) {
+        Toast.makeText(getContext(), ""+statesList.get(1).getName(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onFailure(String Error) {
 
     }
 }

@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import ir.boojanco.onlinefoodorder.data.networking.ApiInterface;
 import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.AllPackagesResponse;
+import ir.boojanco.onlinefoodorder.models.state.GetAllStatesResponse;
 import ir.boojanco.onlinefoodorder.models.user.GetUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
 import retrofit2.Retrofit;
@@ -35,52 +36,8 @@ public class UserRepository {
         return apiInterface.getReverseAddresse(latitude, longitude);
     }
 
-/*
-    public MutableLiveData<AddUserAddressResponse> addUserAddress(long id, String address, String zipCode, long regionId) {
-
-        apiInterface.addUserAddress(id, address, zipCode, regionId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<AddUserAddressResponse>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(AddUserAddressResponse addUserAddressResponse) {
-                        addAddressData.setValue(addUserAddressResponse);
-                    }
-                });
-        return addAddressData;
+    public Observable<GetAllStatesResponse> getAllStatesResponseObservable(String authToken){
+        return apiInterface.getAllStatesResponseObservable(authToken);
     }
-*/
-
-/*
-    public MutableLiveData<ChangeUserPasswordResponse> changeUserPassword(long id ,String newPassword ,String currentPassword){
-        apiInterface.changeUserPassword(id, newPassword, currentPassword).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ChangeUserPasswordResponse>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(ChangeUserPasswordResponse changeUserPasswordResponse) {
-                        changeUserPasswordData.setValue(changeUserPasswordResponse);
-                    }
-                });
-        return changeUserPasswordData;
-    }
-*/
-
 
 }

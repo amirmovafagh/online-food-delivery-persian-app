@@ -4,6 +4,7 @@ import java.util.List;
 
 import ir.boojanco.onlinefoodorder.data.database.CartItem;
 import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
+import ir.boojanco.onlinefoodorder.models.state.AllStatesList;
 import ir.boojanco.onlinefoodorder.models.user.UserAddressList;
 
 public interface CartInterface {

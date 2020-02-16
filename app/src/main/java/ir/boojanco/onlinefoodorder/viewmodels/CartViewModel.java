@@ -35,10 +35,12 @@ import ir.boojanco.onlinefoodorder.data.repositories.UserRepository;
 import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.RestaurantPackageItem;
+import ir.boojanco.onlinefoodorder.models.state.GetAllStatesResponse;
 import ir.boojanco.onlinefoodorder.models.user.GetUserAddressResponse;
 import ir.boojanco.onlinefoodorder.ui.activities.cart.FinalPaymentPrice;
 import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.CartInterface;
+import ir.boojanco.onlinefoodorder.viewmodels.interfaces.MapDialogInterface;
 import retrofit2.HttpException;
 import retrofit2.Response;
 import rx.Subscriber;
@@ -47,6 +49,7 @@ public class CartViewModel extends ViewModel {
     private String TAG = this.getClass().getSimpleName();
 
     public CartInterface cartInterface;
+    public MapDialogInterface mapDialogInterface;
     private Context context;
     private CartDataSource cartDataSource;
     private CompositeDisposable compositeDisposableGetAllItems;
@@ -377,6 +380,47 @@ public class CartViewModel extends ViewModel {
         });
     }
 
+    public void getStates(String authToken){
+        rx.Observable<GetAllStatesResponse> observable = userRepository.getAllStatesResponseObservable(authToken);
+        if (observable != null) {
+            observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetAllStatesResponse>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    if (e instanceof NoNetworkConnectionException)
+                        mapDialogInterface.onFailure(e.getMessage());
+                    if (e instanceof HttpException) {
+                        Response response = ((HttpException) e).response();
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
+
+                            mapDialogInterface.onFailure(jsonObject.getString("message"));
+
+
+                        } catch (Exception d) {
+                            mapDialogInterface.onFailure(d.getMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onNext(GetAllStatesResponse getAllStatesResponse) {
+
+
+                    mapDialogInterface.onSuccess(getAllStatesResponse.getAllStatesLists());
+
+                }
+            });
+        }
+    }
+    public void getCities(){
+
+    }
 
     public void onStop() {
         if (compositeDisposableGetAllItems != null)

@@ -34,6 +34,7 @@ import ir.boojanco.onlinefoodorder.databinding.ActivityCartBinding;
 import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.RestaurantPackageItem;
+import ir.boojanco.onlinefoodorder.models.state.AllStatesList;
 import ir.boojanco.onlinefoodorder.models.user.UserAddressList;
 import ir.boojanco.onlinefoodorder.ui.fragments.MapDialogFragment;
 import ir.boojanco.onlinefoodorder.viewmodels.CartViewModel;
@@ -111,7 +112,7 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
         }
         fragmentTransaction.addToBackStack(null);
         mapFragment = new MapDialogFragment();
-        //dialogFragment.show(fragmentTransaction, "dialog");
+        mapFragment.show(fragmentTransaction, "dialog");
 
         acceptOrder.setOnClickListener(v -> {
 
@@ -167,6 +168,7 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
     public void onSuccessGetAddress(List<UserAddressList> addressLists) {
         addressAdapter.setAddressLists(addressLists);
     }
+
 
     @Override
     public void onSuccessGetReverseAddress(ReverseFindAddressResponse reverseFindAddressResponses) {

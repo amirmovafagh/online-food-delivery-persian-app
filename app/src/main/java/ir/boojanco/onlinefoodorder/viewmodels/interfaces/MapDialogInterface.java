@@ -1,0 +1,11 @@
+package ir.boojanco.onlinefoodorder.viewmodels.interfaces;
+
+import java.util.List;
+
+import ir.boojanco.onlinefoodorder.models.state.AllStatesList;
+
+public interface MapDialogInterface {
+    void onStarted();
+    void onSuccess(List<AllStatesList> statesList);
+    void onFailure(String Error);
+}

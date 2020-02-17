@@ -1,5 +1,7 @@
 package ir.boojanco.onlinefoodorder.ui.activities.cart;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.databinding.DataBindingUtil;
@@ -13,7 +15,9 @@ import androidx.transition.AutoTransition;
 import androidx.transition.TransitionManager;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -73,6 +77,7 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
     private Fragment fragment;
     private DialogFragment mapFragment;
     private CityAdapter cityAdapter;
+    private CustomStateCityDialog stateCityDialog;
 
     private final String selectedPackageExtraName = "selectedPackage";
     private final String restaurantInfoResponseExtraName = "restaurantInfoResponse";
@@ -107,12 +112,16 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
                 arrowBtn.setBackgroundResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
             }
         });
-        binding.btnAddAddress.setOnClickListener(v -> sheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED));
-        binding.bottomSheet.textViewState.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        binding.btnAddAddress.setOnClickListener(v -> {
+            /*sheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED)*/
+            cartViewModel.getStates(sharedPreferences.getUserAuthTokenKey());
+            mapFragment.show(fragmentTransaction, "dialog");
+        });
 
-            }
+        binding.bottomSheet.textViewState.setOnClickListener(v -> {
+            if (stateCityDialog != null)
+                stateCityDialog.show();
+            else Toast.makeText(application, "خطا در دریافت اطلاعات استان ها", Toast.LENGTH_LONG).show();
         });
 
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -122,7 +131,7 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
         }
         fragmentTransaction.addToBackStack(null);
         mapFragment = new MapDialogFragment();
-        //mapFragment.show(fragmentTransaction, "dialog");
+
 
         acceptOrder.setOnClickListener(v -> {
 
@@ -161,10 +170,9 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
             cartViewModel.getUserAddress(sharedPreferences.getUserAuthTokenKey());
             cartViewModel.getAllItemInCart(extraRestauranId);
 
-            cartViewModel.getStates(sharedPreferences.getUserAuthTokenKey());
-
         }
     }
+
 
     @Override
     public void onStarted() {
@@ -186,9 +194,8 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
 
         StateAdapter stateAdapter = new StateAdapter(this, this);
         cityAdapter = new CityAdapter(this, this);
-        CustomStateCityDialog stateCityDialog = new CustomStateCityDialog(CartActivity.this,stateAdapter, allStatesLists, cityAdapter);
-        stateCityDialog.show();
-        stateCityDialog.setCanceledOnTouchOutside(true);
+        stateCityDialog = new CustomStateCityDialog(CartActivity.this, stateAdapter, allStatesLists, cityAdapter);
+        stateCityDialog.setCanceledOnTouchOutside(false);
     }
 
     @Override

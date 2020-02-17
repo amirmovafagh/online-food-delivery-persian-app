@@ -3,12 +3,12 @@
     <data>
 
         <variable
-            name="stateItem"
-            type="ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList" />
+            name="cityItem"
+            type="ir.boojanco.onlinefoodorder.models.stateCity.AllCitiesList" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/linear_layout_state"
+        android:id="@+id/linear_layout_city"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layoutDirection="rtl"
@@ -22,7 +22,7 @@
 
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cv_state_text_background"
+                android:id="@+id/cv_city_text_background"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -34,7 +34,7 @@
                 app:cardElevation="0dp">
 
                 <TextView
-                    android:id="@+id/text_view_state"
+                    android:id="@+id/text_view_city"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -42,7 +42,7 @@
                     android:maxLines="1"
                     android:paddingLeft="4dp"
                     android:paddingRight="4dp"
-                    android:text="@{stateItem.name}"
+                    android:text="@{cityItem.name}"
                     android:textSize="@dimen/body3_paragraph_font_size" />
             </androidx.cardview.widget.CardView>
         </FrameLayout>

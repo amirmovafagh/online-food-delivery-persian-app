@@ -8,10 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 
-import com.airbnb.lottie.L;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Polygon;
 import com.google.maps.android.PolyUtil;
 
 import org.json.JSONObject;
@@ -35,7 +32,8 @@ import ir.boojanco.onlinefoodorder.data.repositories.UserRepository;
 import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.RestaurantPackageItem;
-import ir.boojanco.onlinefoodorder.models.state.GetAllStatesResponse;
+import ir.boojanco.onlinefoodorder.models.stateCity.GetAllCitiesResponse;
+import ir.boojanco.onlinefoodorder.models.stateCity.GetAllStatesResponse;
 import ir.boojanco.onlinefoodorder.models.user.GetUserAddressResponse;
 import ir.boojanco.onlinefoodorder.ui.activities.cart.FinalPaymentPrice;
 import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
@@ -420,9 +418,43 @@ public class CartViewModel extends ViewModel {
         }
     }
 
-    public void getCities() {
+    public void getCities(String authToken, long stateId) {
+        rx.Observable<GetAllCitiesResponse> observable = userRepository.getAllCitiesResponseObservable(authToken, stateId);
+        if (observable != null) {
+            observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetAllCitiesResponse>() {
+                @Override
+                public void onCompleted() {
 
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    if (e instanceof NoNetworkConnectionException)
+                        cartInterface.onFailure(e.getMessage());
+                    if (e instanceof HttpException) {
+                        Response response = ((HttpException) e).response();
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
+
+                            cartInterface.onFailure(jsonObject.getString("message"));
+
+
+                        } catch (Exception d) {
+                            cartInterface.onFailure(d.getMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onNext(GetAllCitiesResponse getAllCitiesResponse) {
+
+                    cartInterface.onSuccessGetcities(getAllCitiesResponse.getAllCitiesLists());
+                }
+            });
+        }
     }
+
 
     public void onStop() {
         if (compositeDisposableGetAllItems != null)

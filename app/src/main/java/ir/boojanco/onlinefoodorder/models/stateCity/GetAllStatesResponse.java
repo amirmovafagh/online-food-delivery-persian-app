@@ -1,4 +1,4 @@
-package ir.boojanco.onlinefoodorder.models.state;
+package ir.boojanco.onlinefoodorder.models.stateCity;
 
 import com.google.gson.annotations.SerializedName;
 

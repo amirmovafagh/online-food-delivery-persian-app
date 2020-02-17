@@ -17,9 +17,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -34,14 +34,16 @@ import ir.boojanco.onlinefoodorder.databinding.ActivityCartBinding;
 import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.RestaurantPackageItem;
-import ir.boojanco.onlinefoodorder.models.state.AllStatesList;
+import ir.boojanco.onlinefoodorder.models.stateCity.AllCitiesList;
+import ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList;
 import ir.boojanco.onlinefoodorder.models.user.UserAddressList;
 import ir.boojanco.onlinefoodorder.ui.fragments.MapDialogFragment;
 import ir.boojanco.onlinefoodorder.viewmodels.CartViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.CartViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.CartInterface;
+import ir.boojanco.onlinefoodorder.viewmodels.interfaces.StateCityDialogInterface;
 
-public class CartActivity extends AppCompatActivity implements CartInterface, RecyclerViewCartClickListener {
+public class CartActivity extends AppCompatActivity implements CartInterface, RecyclerViewCartClickListener, StateCityDialogInterface {
     CartViewModel cartViewModel;
     ActivityCartBinding binding;
 
@@ -70,6 +72,7 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
     private FragmentTransaction fragmentTransaction;
     private Fragment fragment;
     private DialogFragment mapFragment;
+    private CityAdapter cityAdapter;
 
     private final String selectedPackageExtraName = "selectedPackage";
     private final String restaurantInfoResponseExtraName = "restaurantInfoResponse";
@@ -158,6 +161,8 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
             cartViewModel.getUserAddress(sharedPreferences.getUserAuthTokenKey());
             cartViewModel.getAllItemInCart(extraRestauranId);
 
+            cartViewModel.getStates(sharedPreferences.getUserAuthTokenKey());
+
         }
     }
 
@@ -178,10 +183,17 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
 
     @Override
     public void onSuccessGetStates(List<AllStatesList> allStatesLists) {
-        StateAdapter stateAdapter = new StateAdapter(this);
-        CustomStateCityDialog stateCityDialog = new CustomStateCityDialog(CartActivity.this,stateAdapter, allStatesLists);
+
+        StateAdapter stateAdapter = new StateAdapter(this, this);
+        cityAdapter = new CityAdapter(this, this);
+        CustomStateCityDialog stateCityDialog = new CustomStateCityDialog(CartActivity.this,stateAdapter, allStatesLists, cityAdapter);
         stateCityDialog.show();
-        stateCityDialog.setCanceledOnTouchOutside(false);
+        stateCityDialog.setCanceledOnTouchOutside(true);
+    }
+
+    @Override
+    public void onSuccessGetcities(List<AllCitiesList> allCitiesLists) {
+        cityAdapter.setCitiesLists(allCitiesLists);
     }
 
 
@@ -213,4 +225,13 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
     }
 
 
+    @Override
+    public void onStateItemClick(AllStatesList state) {
+        cartViewModel.getCities(sharedPreferences.getUserAuthTokenKey(), state.getId());
+    }
+
+    @Override
+    public void onCityItemClick() {
+
+    }
 }

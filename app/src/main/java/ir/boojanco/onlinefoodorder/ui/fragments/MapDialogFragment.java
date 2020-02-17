@@ -1,8 +1,6 @@
 package ir.boojanco.onlinefoodorder.ui.fragments;
 
 import android.app.Dialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,13 +29,9 @@ import javax.inject.Inject;
 import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
-import ir.boojanco.onlinefoodorder.data.database.CartItem;
 import ir.boojanco.onlinefoodorder.databinding.FragmentMapDialogBinding;
-import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
-import ir.boojanco.onlinefoodorder.models.state.AllStatesList;
-import ir.boojanco.onlinefoodorder.models.user.UserAddressList;
+import ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList;
 import ir.boojanco.onlinefoodorder.viewmodels.CartViewModel;
-import ir.boojanco.onlinefoodorder.viewmodels.interfaces.CartInterface;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.MapDialogInterface;
 
 public class MapDialogFragment extends DialogFragment implements OnMapReadyCallback, MapDialogInterface {

@@ -1,13 +1,16 @@
-package ir.boojanco.onlinefoodorder.models.state;
+package ir.boojanco.onlinefoodorder.models.stateCity;
 
 import com.google.gson.annotations.SerializedName;
 
-public class AllStatesList {
+public class AllCitiesList {
     @SerializedName("id")
     private long id;
 
     @SerializedName("name")
     private String name;
+
+    @SerializedName("stateId")
+    private long stateId;
 
     public long getId() {
         return id;

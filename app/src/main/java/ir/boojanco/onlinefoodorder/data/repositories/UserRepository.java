@@ -4,8 +4,8 @@ import androidx.annotation.NonNull;
 
 import ir.boojanco.onlinefoodorder.data.networking.ApiInterface;
 import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
-import ir.boojanco.onlinefoodorder.models.restaurantPackage.AllPackagesResponse;
-import ir.boojanco.onlinefoodorder.models.state.GetAllStatesResponse;
+import ir.boojanco.onlinefoodorder.models.stateCity.GetAllCitiesResponse;
+import ir.boojanco.onlinefoodorder.models.stateCity.GetAllStatesResponse;
 import ir.boojanco.onlinefoodorder.models.user.GetUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
 import retrofit2.Retrofit;
@@ -38,6 +38,9 @@ public class UserRepository {
 
     public Observable<GetAllStatesResponse> getAllStatesResponseObservable(String authToken){
         return apiInterface.getAllStatesResponseObservable(authToken);
+    }
+    public Observable<GetAllCitiesResponse> getAllCitiesResponseObservable(String authToken, long stateId){
+        return apiInterface.getAllCitiesResponseObservable(authToken, stateId);
     }
 
 }

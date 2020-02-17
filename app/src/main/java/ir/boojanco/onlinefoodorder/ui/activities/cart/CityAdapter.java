@@ -14,39 +14,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ir.boojanco.onlinefoodorder.R;
+import ir.boojanco.onlinefoodorder.databinding.RecyclerviewCityItemBinding;
 import ir.boojanco.onlinefoodorder.databinding.RecyclerviewStateItemBinding;
+import ir.boojanco.onlinefoodorder.models.stateCity.AllCitiesList;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList;
-import ir.boojanco.onlinefoodorder.viewmodels.interfaces.StateCityDialogAnimateInterface;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.StateCityDialogInterface;
 
-public class StateAdapter extends RecyclerView.Adapter<StateAdapter.StateViewHolder> {
-    private String TAG = StateAdapter.class.getSimpleName();
-    List<AllStatesList> statesLists;
-    List<AllStatesList> statesListsFiltered;
+public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder> {
+    private String TAG = CityAdapter.class.getSimpleName();
+    List<AllCitiesList> citiesLists;
+    List<AllCitiesList> citiesListsFiltered;
 
     private int selectedPosition = 100000;
     private StateCityDialogInterface dialogInterface;
-    private StateCityDialogAnimateInterface dialogAnimateInterface;
     private Context context;
 
-    public StateAdapter( StateCityDialogInterface dialogInterface, Context context) {
+    public CityAdapter(StateCityDialogInterface dialogInterface, Context context) {
         this.dialogInterface = dialogInterface;
         this.context = context;
     }
 
     @NonNull
     @Override
-    public StateViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        RecyclerviewStateItemBinding binding =
-                DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.recyclerview_state_item , parent, false);
-        return new StateViewHolder(binding);
+    public CityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        RecyclerviewCityItemBinding binding =
+                DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.recyclerview_city_item , parent, false);
+        return new CityViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull StateViewHolder holder, int position) {
-        AllStatesList currentState = statesListsFiltered.get(position);
-        holder.binding.setStateItem(currentState);
-        if (selectedPosition == position) {// is selected
+    public void onBindViewHolder(@NonNull CityViewHolder holder, int position) {
+        AllCitiesList currentState = citiesListsFiltered.get(position);
+        holder.binding.setCityItem(currentState);
+        /*if (selectedPosition == position) {// is selected
             holder.binding.cvStateTextBackground.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
             holder.binding.textViewState.setTextColor(context.getResources().getColor(R.color.white));
         } else {//remove selected
@@ -55,29 +55,27 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.StateViewHol
         }
         holder.binding.linearLayoutState.setOnClickListener(v -> {
             dialogInterface.onStateItemClick(currentState);
-            dialogAnimateInterface.onStateItemClickAnimate();
             //is select
             holder.binding.cvStateTextBackground.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
             holder.binding.textViewState.setTextColor(context.getResources().getColor(R.color.white));
 
             selectedPosition = position;
             notifyDataSetChanged();
-        });
+        });*/
 
     }
 
     @Override
     public int getItemCount() {
-        if (statesListsFiltered != null) {
-            return statesListsFiltered.size();
+        if (citiesListsFiltered != null) {
+            return citiesListsFiltered.size();
         } else {
             return 0;
         }
     }
-    public void setStatesLists(List<AllStatesList> statesLists, StateCityDialogAnimateInterface animateInterface) {
-        this.dialogAnimateInterface = animateInterface;
-        this.statesLists = statesLists;
-        this.statesListsFiltered = statesLists;
+    public void setCitiesLists(List<AllCitiesList> citiesLists) {
+        this.citiesLists = citiesLists;
+        this.citiesListsFiltered = citiesLists;
         notifyDataSetChanged();
     }
 
@@ -89,10 +87,10 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.StateViewHol
 
                 if (charString.isEmpty()){
                     Log.i(TAG,"empty");
-                    statesListsFiltered = statesLists;
+                    citiesListsFiltered = citiesLists;
                 }else {
-                    List<AllStatesList> filteredList = new ArrayList<>();
-                    for (AllStatesList item : statesLists){
+                    List<AllCitiesList> filteredList = new ArrayList<>();
+                    for (AllCitiesList item : citiesLists){
 
                         // name match condition. this might differ depending on your requirement
                         // here we are looking for state name
@@ -101,24 +99,24 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.StateViewHol
                             filteredList.add(item);
                         }
                     }
-                    statesListsFiltered = filteredList;
+                    citiesListsFiltered = filteredList;
                 }
                 FilterResults filterResults = new FilterResults();
-                filterResults.values = statesListsFiltered;
+                filterResults.values = citiesListsFiltered;
                 return filterResults;
             }
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                statesListsFiltered = (List<AllStatesList>)  results.values;
+                citiesListsFiltered = (List<AllCitiesList>)  results.values;
                 notifyDataSetChanged();
             }
         };
     }
 
-    public class StateViewHolder extends RecyclerView.ViewHolder{
-        private RecyclerviewStateItemBinding binding;
-        public StateViewHolder(@NonNull RecyclerviewStateItemBinding binding){
+    public class CityViewHolder extends RecyclerView.ViewHolder{
+        private RecyclerviewCityItemBinding binding;
+        public CityViewHolder(@NonNull RecyclerviewCityItemBinding binding){
             super(binding.getRoot());
             this.binding = binding;
         }

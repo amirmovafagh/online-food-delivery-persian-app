@@ -6,7 +6,8 @@ import ir.boojanco.onlinefoodorder.models.restaurant.DiscountCodeResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.AllPackagesResponse;
-import ir.boojanco.onlinefoodorder.models.state.GetAllStatesResponse;
+import ir.boojanco.onlinefoodorder.models.stateCity.GetAllCitiesResponse;
+import ir.boojanco.onlinefoodorder.models.stateCity.GetAllStatesResponse;
 import ir.boojanco.onlinefoodorder.models.user.AddUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.ChangeUserPasswordResponse;
 import ir.boojanco.onlinefoodorder.models.user.EditUserAaddressResponse;
@@ -61,6 +62,9 @@ public interface ApiInterface {
 
     @GET("/api/v1/state/state/all")
     Observable<GetAllStatesResponse> getAllStatesResponseObservable(@Header("Authorization") String authToken) ;
+
+    @GET("/api/v1/city/all/state/{stateId}")
+    Observable<GetAllCitiesResponse> getAllCitiesResponseObservable(@Header("Authorization") String authToken,@Path("stateId") long stateId) ;
 
     @GET("https://pm1.parsimap.com/comapi.svc/areaInfo/{latitude}/{longitude}/18/1/ccc1a4bc-ade4-460d-b799-82885ab21d6d/1") /*get Reverse Address from LatLng with parsiMap API*/
     Observable<ReverseFindAddressResponse> getReverseAddresse(@Path("latitude") Double latitude, @Path("longitude") Double longitude );

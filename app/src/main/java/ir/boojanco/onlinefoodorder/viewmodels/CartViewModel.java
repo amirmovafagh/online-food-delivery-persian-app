@@ -32,6 +32,8 @@ import ir.boojanco.onlinefoodorder.data.repositories.UserRepository;
 import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.RestaurantPackageItem;
+import ir.boojanco.onlinefoodorder.models.stateCity.AllCitiesList;
+import ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList;
 import ir.boojanco.onlinefoodorder.models.stateCity.GetAllCitiesResponse;
 import ir.boojanco.onlinefoodorder.models.stateCity.GetAllStatesResponse;
 import ir.boojanco.onlinefoodorder.models.user.GetUserAddressResponse;
@@ -53,15 +55,21 @@ public class CartViewModel extends ViewModel {
     private CompositeDisposable compositeDisposableGetAllItems;
     private UserRepository userRepository;
     private RestaurantRepository restaurantRepository;
+
+    private long cityId;
+    private long stateId;
     private RestaurantPackageItem packageItem;
     private RestaurantInfoResponse restaurantInfo;
     private List<CartItem> cartItems;
+    private List<AllStatesList> statesLists;
+    private List<AllCitiesList> citiesLists;
     private ArrayList<FinalPaymentPrice> finalPaymentPrices;
 
 
     public MutableLiveData<Long> totalRawPriceLiveData;
     public MutableLiveData<String> cartStateLiveData;
     public MutableLiveData<String> city;
+    public MutableLiveData<String> state;
     public MutableLiveData<String> region;
     public MutableLiveData<String> exactAddress;
     public MutableLiveData<String> totalAllPriceLiveData;
@@ -84,6 +92,7 @@ public class CartViewModel extends ViewModel {
         this.restaurantRepository = restaurantRepository;
 
         city = new MutableLiveData<>();
+        state = new MutableLiveData<>();
         region = new MutableLiveData<>();
         exactAddress = new MutableLiveData<>();
         cartStateLiveData = new MutableLiveData<>();
@@ -169,44 +178,87 @@ public class CartViewModel extends ViewModel {
     }
 
 
-    public void getReverseAddressParsiMap(Double latitude, Double longitude) {
+    public void getReverseAddressParsiMap(Double latitude, Double longitude, String authToken) {
         rx.Observable<ReverseFindAddressResponse> observable = userRepository.getReverseFindAddressResponse(latitude, longitude);
         if (observable != null) {
             observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<ReverseFindAddressResponse>() {
                 @Override
                 public void onCompleted() {
-
+                    if (state != null){
+                        checkAddressAndGetStateId(authToken);
+                        mapDialogInterface.onSuccess();
+                    }
                 }
 
                 @Override
                 public void onError(Throwable e) {
+                    mapDialogInterface.onFailure(e.getMessage());
                     if (e instanceof NoNetworkConnectionException)
-                        cartInterface.onFailure(e.getMessage());
+                        mapDialogInterface.onFailure(e.getMessage());
                     if (e instanceof HttpException) {
                         Response response = ((HttpException) e).response();
 
                         try {
                             JSONObject jsonObject = new JSONObject(response.errorBody().string());
 
-                            cartInterface.onFailure(jsonObject.getString("message"));
+                            mapDialogInterface.onFailure(jsonObject.getString("message"));
 
 
                         } catch (Exception d) {
-                            cartInterface.onFailure(d.getMessage());
+                            mapDialogInterface.onFailure(d.getMessage());
                         }
                     }
                 }
 
                 @Override
                 public void onNext(ReverseFindAddressResponse reverseFindAddressResponse) {
+                    state.setValue(reverseFindAddressResponse.getResult().get(0).getTitle());
+                    city.setValue(reverseFindAddressResponse.getResult().get(3).getTitle());
+                    region.setValue(reverseFindAddressResponse.getShortAddress());
+                    Toast.makeText(context, "" + reverseFindAddressResponse.getShortAddress() + "  " + state.getValue() + "  " + city.getValue(), Toast.LENGTH_LONG).show();
 
-                    city.setValue(reverseFindAddressResponse.getPrefix());
-                    region.setValue(reverseFindAddressResponse.getLocalAddress());
-                    Toast.makeText(context, "" + reverseFindAddressResponse.getLocalAddress(), Toast.LENGTH_SHORT).show();
                     //cartInterface.onSuccessGetReverseAddress(reverseFindAddressResponse);
                 }
             });
         }
+    }
+
+    public void addMapPositionBtnClick(){
+        Toast.makeText(context, ""+state.getValue()+" "+stateId+" "+city.getValue()+" "+cityId, Toast.LENGTH_SHORT).show();
+        cartInterface.showAddressBottomSheet();
+    }
+
+    private void checkAddressAndGetStateId(String authToken) {
+        if (statesLists != null) {// dont let extra request
+            for (AllStatesList item : statesLists) {
+                if (item.getName().contains(state.getValue())) {
+                    stateId = item.getId();
+                    getCities(authToken, stateId);
+
+                }
+            }
+
+        } else getStates(authToken);
+    }
+
+    private void getCityId() {
+
+        if(city.getValue() != null)
+            for (AllCitiesList item : citiesLists) {
+                if (item.getName().contains(city.getValue())) {
+                    cityId = item.getId();
+
+                }
+            }
+    }
+    private void getStateId() {
+
+        if(state.getValue() != null)
+            for (AllStatesList item : statesLists) {
+                if (item.getName().contains(state.getValue())) {
+                    stateId = item.getId();
+                }
+            }
     }
 
     public void getUserAddress(String authToken) {
@@ -384,7 +436,7 @@ public class CartViewModel extends ViewModel {
             observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetAllStatesResponse>() {
                 @Override
                 public void onCompleted() {
-
+                    getStateId();
                 }
 
                 @Override
@@ -408,10 +460,9 @@ public class CartViewModel extends ViewModel {
 
                 @Override
                 public void onNext(GetAllStatesResponse getAllStatesResponse) {
-
+                    statesLists = getAllStatesResponse.getAllStatesLists();
                     cartInterface.onSuccessGetStates(getAllStatesResponse.getAllStatesLists());
-                    if (mapDialogInterface != null)
-                        mapDialogInterface.onSuccess(getAllStatesResponse.getAllStatesLists());
+
 
                 }
             });
@@ -424,7 +475,7 @@ public class CartViewModel extends ViewModel {
             observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetAllCitiesResponse>() {
                 @Override
                 public void onCompleted() {
-
+                    getCityId();
                 }
 
                 @Override
@@ -448,7 +499,7 @@ public class CartViewModel extends ViewModel {
 
                 @Override
                 public void onNext(GetAllCitiesResponse getAllCitiesResponse) {
-
+                    citiesLists = getAllCitiesResponse.getAllCitiesLists();
                     cartInterface.onSuccessGetcities(getAllCitiesResponse.getAllCitiesLists());
                 }
             });

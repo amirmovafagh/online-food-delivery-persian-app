@@ -2,6 +2,9 @@
 <layout>
     <data>
         <variable
+            name="state"
+            type="String" />
+        <variable
             name="city"
             type="String" />
         <variable
@@ -17,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
-        android:layout_marginTop="?actionBarSize"
+        android:layout_marginTop="100dp"
         android:background="@drawable/bg_bottom_sheet"
         app:behavior_hideable="true"
         android:layoutDirection="rtl"
@@ -62,7 +65,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="2dp"
-
+                    android:text="@={state}"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
                     android:textSize="@dimen/edit_text_font_size"
                     android:textDirection="rtl"
                     android:layout_gravity="center"
@@ -88,6 +93,8 @@
                     android:layout_marginEnd="2dp"
                     android:textSize="@dimen/edit_text_font_size"
                     android:text="@={city}"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
                     android:textDirection="rtl"
                     android:layout_gravity="center"
                     android:maxLines="1"
@@ -112,6 +119,8 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/edit_text_font_size"
                 android:text="@={region}"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:textDirection="rtl"
                 android:layout_gravity="center"
                 android:maxLines="1"

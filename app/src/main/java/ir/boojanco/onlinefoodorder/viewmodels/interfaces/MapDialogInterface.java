@@ -6,6 +6,6 @@ import ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList;
 
 public interface MapDialogInterface {
     void onStarted();
-    void onSuccess(List<AllStatesList> statesList);
+    void onSuccess();
     void onFailure(String Error);
 }

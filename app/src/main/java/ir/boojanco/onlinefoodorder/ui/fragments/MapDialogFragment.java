@@ -64,6 +64,7 @@ public class MapDialogFragment extends DialogFragment implements OnMapReadyCallb
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map_dialog, container,false);
         cartViewModel= new ViewModelProvider(getActivity()).get(CartViewModel.class);
         cartViewModel.mapDialogInterface = this;
+        binding.setViewModel(cartViewModel);
         binding.setLifecycleOwner(this);
         return binding.getRoot();
     }
@@ -92,7 +93,7 @@ public class MapDialogFragment extends DialogFragment implements OnMapReadyCallb
                 if(marker != null)
                     marker.remove();
                 marker = googleMap.addMarker(new MarkerOptions().position(latLng).title("آدرس من"));
-                cartViewModel.getReverseAddressParsiMap(latLng.latitude, latLng.longitude);
+                cartViewModel.getReverseAddressParsiMap(latLng.latitude, latLng.longitude, sharedPreferences.getUserAuthTokenKey());
                 cartViewModel.getStates(sharedPreferences.getUserAuthTokenKey());
             });
         }
@@ -106,12 +107,12 @@ public class MapDialogFragment extends DialogFragment implements OnMapReadyCallb
     }
 
     @Override
-    public void onSuccess(List<AllStatesList> statesList) {
-        Toast.makeText(getContext(), ""+statesList.get(1).getName(), Toast.LENGTH_SHORT).show();
+    public void onSuccess() {
+        binding.btnChooseMapLatlong.setEnabled(true);
     }
 
     @Override
     public void onFailure(String Error) {
-
+        binding.btnChooseMapLatlong.setEnabled(false);
     }
 }

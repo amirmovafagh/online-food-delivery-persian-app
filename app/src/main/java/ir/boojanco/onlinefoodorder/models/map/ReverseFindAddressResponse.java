@@ -2,6 +2,8 @@ package ir.boojanco.onlinefoodorder.models.map;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class ReverseFindAddressResponse {
     @SerializedName("status")
     private String status;
@@ -17,6 +19,16 @@ public class ReverseFindAddressResponse {
     private String prefix;
     @SerializedName("shortAddress")
     private String shortAddress;
+    @SerializedName("result")
+    private List<Result> result;
+
+    public List<Result> getResult() {
+        return result;
+    }
+
+    public void setResult(List<Result> result) {
+        this.result = result;
+    }
 
     public String getStatus() {
         return status;

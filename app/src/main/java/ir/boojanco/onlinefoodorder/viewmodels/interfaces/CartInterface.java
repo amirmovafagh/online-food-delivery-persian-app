@@ -14,6 +14,7 @@ public interface CartInterface {
     void onSuccessGetAddress(List<UserAddressList> addressLists);
     void onSuccessGetStates(List<AllStatesList> allStatesLists);
     void onSuccessGetcities(List<AllCitiesList> allStatesLists);
+    void showAddressBottomSheet();
     void onSuccessGetReverseAddress(ReverseFindAddressResponse reverseFindAddressResponses);
     void onFailure(String Error);
 }

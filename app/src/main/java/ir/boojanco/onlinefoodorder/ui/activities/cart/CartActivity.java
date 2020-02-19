@@ -112,9 +112,19 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
                 arrowBtn.setBackgroundResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
             }
         });
+
+
         binding.btnAddAddress.setOnClickListener(v -> {
-            /*sheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED)*/
+
             cartViewModel.getStates(sharedPreferences.getUserAuthTokenKey());
+
+            fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragment = getSupportFragmentManager().findFragmentByTag("dialog");
+            if (fragment != null) {
+                fragmentTransaction.remove(fragment);
+            }
+            fragmentTransaction.addToBackStack(null);
+            mapFragment = new MapDialogFragment();
             mapFragment.show(fragmentTransaction, "dialog");
         });
 
@@ -124,13 +134,7 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
             else Toast.makeText(application, "خطا در دریافت اطلاعات استان ها", Toast.LENGTH_LONG).show();
         });
 
-        fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragment = getSupportFragmentManager().findFragmentByTag("dialog");
-        if (fragment != null) {
-            fragmentTransaction.remove(fragment);
-        }
-        fragmentTransaction.addToBackStack(null);
-        mapFragment = new MapDialogFragment();
+
 
 
         acceptOrder.setOnClickListener(v -> {
@@ -203,6 +207,12 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
         cityAdapter.setCitiesLists(allCitiesLists);
     }
 
+    @Override
+    public void showAddressBottomSheet() {
+        mapFragment.dismiss();
+        sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+    }
+
 
     @Override
     public void onSuccessGetReverseAddress(ReverseFindAddressResponse reverseFindAddressResponses) {
@@ -211,7 +221,7 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
 
     @Override
     public void onFailure(String Error) {
-
+        Toast.makeText(application, ""+Error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -234,6 +244,7 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
 
     @Override
     public void onStateItemClick(AllStatesList state) {
+        cartViewModel.state.setValue(state.getName());
         cartViewModel.getCities(sharedPreferences.getUserAuthTokenKey(), state.getId());
     }
 

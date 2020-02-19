@@ -22,15 +22,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.FragmentMapDialogBinding;
-import ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList;
 import ir.boojanco.onlinefoodorder.viewmodels.CartViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.MapDialogInterface;
 
@@ -94,7 +91,7 @@ public class MapDialogFragment extends DialogFragment implements OnMapReadyCallb
                     marker.remove();
                 marker = googleMap.addMarker(new MarkerOptions().position(latLng).title("آدرس من"));
                 cartViewModel.getReverseAddressParsiMap(latLng.latitude, latLng.longitude, sharedPreferences.getUserAuthTokenKey());
-                cartViewModel.getStates(sharedPreferences.getUserAuthTokenKey());
+
             });
         }
 

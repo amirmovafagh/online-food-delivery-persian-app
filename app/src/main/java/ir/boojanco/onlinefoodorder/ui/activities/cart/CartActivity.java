@@ -46,6 +46,8 @@ import ir.boojanco.onlinefoodorder.viewmodels.CartViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.CartViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.CartInterface;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.StateCityDialogInterface;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 public class CartActivity extends AppCompatActivity implements CartInterface, RecyclerViewCartClickListener, StateCityDialogInterface {
     CartViewModel cartViewModel;
@@ -91,7 +93,7 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
         binding = DataBindingUtil.setContentView(this, R.layout.activity_cart);
         binding.setViewModel(cartViewModel);
         binding.setLifecycleOwner(this);
-        bottom_sheet = binding.bottomSheet.bottomSheetAddNewAddress;
+        bottom_sheet = binding.bottomSheet.bottomSheetAddUserAddress;
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
         transition = new AutoTransition();
         coordinatorLayoutMainContent = binding.mainContent;
@@ -113,29 +115,11 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
             }
         });
 
-
-        binding.btnAddAddress.setOnClickListener(v -> {
-
-            cartViewModel.getStates(sharedPreferences.getUserAuthTokenKey());
-
-            fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragment = getSupportFragmentManager().findFragmentByTag("dialog");
-            if (fragment != null) {
-                fragmentTransaction.remove(fragment);
-            }
-            fragmentTransaction.addToBackStack(null);
-            mapFragment = new MapDialogFragment();
-            mapFragment.show(fragmentTransaction, "dialog");
+        binding.bottomSheet.switcherDefaultAddress.setOnCheckedChangeListener(aBoolean -> {
+            Toast.makeText(application, ""+aBoolean, Toast.LENGTH_SHORT).show();
+            cartViewModel.defaultAddress = aBoolean;
+            return null;
         });
-
-        binding.bottomSheet.textViewState.setOnClickListener(v -> {
-            if (stateCityDialog != null)
-                stateCityDialog.show();
-            else Toast.makeText(application, "خطا در دریافت اطلاعات استان ها", Toast.LENGTH_LONG).show();
-        });
-
-
-
 
         acceptOrder.setOnClickListener(v -> {
 
@@ -173,7 +157,6 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
             recyclerViewCart.setAdapter(cartAdapter);
             cartViewModel.getUserAddress(sharedPreferences.getUserAuthTokenKey());
             cartViewModel.getAllItemInCart(extraRestauranId);
-
         }
     }
 
@@ -213,6 +196,27 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
         sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
+    @Override
+    public void showStateCityCustomDialog() {
+        if (stateCityDialog != null)
+            stateCityDialog.show();
+        else Toast.makeText(application, "خطا در دریافت اطلاعات استان ها", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showMapDialogFragment() {
+        cartViewModel.getStates(sharedPreferences.getUserAuthTokenKey()); //get States once
+
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragment = getSupportFragmentManager().findFragmentByTag("dialog");
+        if (fragment != null) {
+            fragmentTransaction.remove(fragment);
+        }
+        fragmentTransaction.addToBackStack(null);
+        mapFragment = new MapDialogFragment();
+        mapFragment.show(fragmentTransaction, "dialog");
+    }
+
 
     @Override
     public void onSuccessGetReverseAddress(ReverseFindAddressResponse reverseFindAddressResponses) {
@@ -244,12 +248,17 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
 
     @Override
     public void onStateItemClick(AllStatesList state) {
+        cartViewModel.stateId = state.getId();
         cartViewModel.state.setValue(state.getName());
+        cartViewModel.city.setValue(null);
         cartViewModel.getCities(sharedPreferences.getUserAuthTokenKey(), state.getId());
     }
 
     @Override
-    public void onCityItemClick() {
-
+    public void onCityItemClick(AllCitiesList city) {
+        cartViewModel.cityId = city.getId();
+        cartViewModel.city.setValue(city.getName());
     }
+
+
 }

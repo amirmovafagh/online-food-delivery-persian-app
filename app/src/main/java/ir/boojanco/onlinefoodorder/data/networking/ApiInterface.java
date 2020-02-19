@@ -52,22 +52,28 @@ public interface ApiInterface {
     Observable<RestaurantInfoResponse> getRestaurantInfo(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
 
     @GET("/api/v1/package/{restaurantId}/valid")
-    Observable<AllPackagesResponse> getAllPackagesResponseObservable(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId) ;
+    Observable<AllPackagesResponse> getAllPackagesResponseObservable(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
 
     @GET("/api/v1/discountCode/validate/{code}")
-    Observable<DiscountCodeResponse> getDiscountCodeResponseObservable(@Header("Authorization") String authToken, @Path("code") String code) ;
+    Observable<DiscountCodeResponse> getDiscountCodeResponseObservable(@Header("Authorization") String authToken, @Path("code") String code);
 
     @GET("/api/v1/address/user/all")
-    Observable<GetUserAddressResponse> getUserAddressResponseObservable(@Header("Authorization") String authToken) ;
+    Observable<GetUserAddressResponse> getUserAddressResponseObservable(@Header("Authorization") String authToken);
+
+    @POST("/api/v1/address/add")
+    Observable<AddUserAddressResponse> addUserAddress(@Header("Authorization") String authToken, @Field("cityId") long cityId, @Field("defaultAddress") boolean defaultAddress,
+                                                      @Field("exactAddress") String exactAddress, @Field("latitude") Double latitude,
+                                                      @Field("longitude") Double longitude, @Field("region") String region,
+                                                      @Field("tag") String tag);
 
     @GET("/api/v1/state/state/all")
-    Observable<GetAllStatesResponse> getAllStatesResponseObservable(@Header("Authorization") String authToken) ;
+    Observable<GetAllStatesResponse> getAllStatesResponseObservable(@Header("Authorization") String authToken);
 
     @GET("/api/v1/city/all/state/{stateId}")
-    Observable<GetAllCitiesResponse> getAllCitiesResponseObservable(@Header("Authorization") String authToken,@Path("stateId") long stateId) ;
+    Observable<GetAllCitiesResponse> getAllCitiesResponseObservable(@Header("Authorization") String authToken, @Path("stateId") long stateId);
 
     @GET("https://pm1.parsimap.com/comapi.svc/areaInfo/{latitude}/{longitude}/18/1/ccc1a4bc-ade4-460d-b799-82885ab21d6d/1") /*get Reverse Address from LatLng with parsiMap API*/
-    Observable<ReverseFindAddressResponse> getReverseAddresse(@Path("latitude") Double latitude, @Path("longitude") Double longitude );
+    Observable<ReverseFindAddressResponse> getReverseAddresse(@Path("latitude") Double latitude, @Path("longitude") Double longitude);
 
     @POST("user/verify_Email")
     Call<VerifyEmailResponse> verifyEmail(@Body VerifyEmailResponse verifyEmailResponse);
@@ -77,7 +83,7 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("user/change_password")
-    Observable<ChangeUserPasswordResponse> changeUserPassword(@Field("id")long id ,@Field("newPassword")String newPassword ,@Field("currentPassword") String currentPassword);
+    Observable<ChangeUserPasswordResponse> changeUserPassword(@Field("id") long id, @Field("newPassword") String newPassword, @Field("currentPassword") String currentPassword);
 
     @FormUrlEncoded
     @POST("/user/add_address")
@@ -85,5 +91,5 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("edit_address")
-    Observable<EditUserAaddressResponse> editUserAddress(@Field("id") long id, @Field("address") String address, @Field("zipCode") String zipCode, @Field("region_id") long regionId,@Field("address_index")int addressIndex);
+    Observable<EditUserAaddressResponse> editUserAddress(@Field("id") long id, @Field("address") String address, @Field("zipCode") String zipCode, @Field("region_id") long regionId, @Field("address_index") int addressIndex);
 }

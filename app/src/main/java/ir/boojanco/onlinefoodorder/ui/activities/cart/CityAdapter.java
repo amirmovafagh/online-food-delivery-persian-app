@@ -44,24 +44,24 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull CityViewHolder holder, int position) {
-        AllCitiesList currentState = citiesListsFiltered.get(position);
-        holder.binding.setCityItem(currentState);
-        /*if (selectedPosition == position) {// is selected
-            holder.binding.cvStateTextBackground.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
-            holder.binding.textViewState.setTextColor(context.getResources().getColor(R.color.white));
+        AllCitiesList currentCity = citiesListsFiltered.get(position);
+        holder.binding.setCityItem(currentCity);
+        if (selectedPosition == position) {// is selected
+            holder.binding.cvCityTextBackground.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
+            holder.binding.textViewCity.setTextColor(context.getResources().getColor(R.color.white));
         } else {//remove selected
-            holder.binding.cvStateTextBackground.setCardBackgroundColor(context.getResources().getColor(R.color.transparent));
-            holder.binding.textViewState.setTextColor(context.getResources().getColor(R.color.gray));
+            holder.binding.cvCityTextBackground.setCardBackgroundColor(context.getResources().getColor(R.color.transparent));
+            holder.binding.textViewCity.setTextColor(context.getResources().getColor(R.color.gray));
         }
-        holder.binding.linearLayoutState.setOnClickListener(v -> {
-            dialogInterface.onStateItemClick(currentState);
+        holder.binding.linearLayoutCity.setOnClickListener(v -> {
+            dialogInterface.onCityItemClick(currentCity);
             //is select
-            holder.binding.cvStateTextBackground.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
-            holder.binding.textViewState.setTextColor(context.getResources().getColor(R.color.white));
+            holder.binding.cvCityTextBackground.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
+            holder.binding.textViewCity.setTextColor(context.getResources().getColor(R.color.white));
 
             selectedPosition = position;
             notifyDataSetChanged();
-        });*/
+        });
 
     }
 

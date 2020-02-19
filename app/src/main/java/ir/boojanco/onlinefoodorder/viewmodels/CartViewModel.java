@@ -36,6 +36,7 @@ import ir.boojanco.onlinefoodorder.models.stateCity.AllCitiesList;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList;
 import ir.boojanco.onlinefoodorder.models.stateCity.GetAllCitiesResponse;
 import ir.boojanco.onlinefoodorder.models.stateCity.GetAllStatesResponse;
+import ir.boojanco.onlinefoodorder.models.user.AddUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.GetUserAddressResponse;
 import ir.boojanco.onlinefoodorder.ui.activities.cart.FinalPaymentPrice;
 import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
@@ -56,14 +57,17 @@ public class CartViewModel extends ViewModel {
     private UserRepository userRepository;
     private RestaurantRepository restaurantRepository;
 
-    private long cityId;
-    private long stateId;
+    public long cityId, stateId;
+    private double userLatitude;
+    private double userLongitude;
+    public boolean defaultAddress =false;
     private RestaurantPackageItem packageItem;
     private RestaurantInfoResponse restaurantInfo;
     private List<CartItem> cartItems;
     private List<AllStatesList> statesLists;
     private List<AllCitiesList> citiesLists;
     private ArrayList<FinalPaymentPrice> finalPaymentPrices;
+    private String userAuthToken;
 
 
     public MutableLiveData<Long> totalRawPriceLiveData;
@@ -131,6 +135,10 @@ public class CartViewModel extends ViewModel {
         }
     }
 
+    public void onCheckedDefaultAddressChanged(boolean checked) {
+        defaultAddress = checked;
+    }
+
     private void initDeliveryType() {
         boolean deliverInPlace = restaurantInfo.isGetInPlace();
         boolean deliverInDestination = restaurantInfo.isDelivery();
@@ -184,7 +192,9 @@ public class CartViewModel extends ViewModel {
             observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<ReverseFindAddressResponse>() {
                 @Override
                 public void onCompleted() {
-                    if (state != null){
+                    userLatitude = latitude;
+                    userLongitude = longitude;
+                    if (state.getValue() != null){
                         checkAddressAndGetStateId(authToken);
                         mapDialogInterface.onSuccess();
                     }
@@ -228,6 +238,14 @@ public class CartViewModel extends ViewModel {
         cartInterface.showAddressBottomSheet();
     }
 
+    public void showMap(){
+        cartInterface.showMapDialogFragment();
+    }
+
+    public void showStateCityDialog(){
+        cartInterface.showStateCityCustomDialog();
+    }
+
     private void checkAddressAndGetStateId(String authToken) {
         if (statesLists != null) {// dont let extra request
             for (AllStatesList item : statesLists) {
@@ -262,6 +280,7 @@ public class CartViewModel extends ViewModel {
     }
 
     public void getUserAddress(String authToken) {
+        userAuthToken = authToken;
         rx.Observable<GetUserAddressResponse> observable = userRepository.getUserAddressResponseObservable(authToken);
         if (observable != null) {
             observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetUserAddressResponse>() {
@@ -295,6 +314,46 @@ public class CartViewModel extends ViewModel {
 
                     cartInterface.onSuccessGetAddress(getUserAddressResponse.getUserAddressLists());
                     initDeliveryType();
+                }
+            });
+        }
+    }
+
+    public void addUserAddress() {
+
+        rx.Observable<AddUserAddressResponse> observable = userRepository.addUserAddressResponseObservable(userAuthToken,3,false,"تست",35.45,54.4864,"fasdfas",/*userAuthToken,cityId, defaultAddress, exactAddress.getValue(),userLatitude,userLongitude,region.getValue()*/"خانه");
+        if (observable != null) {
+            observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<AddUserAddressResponse>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    if (e instanceof NoNetworkConnectionException)
+                        cartInterface.onFailure(e.getMessage());
+                    if (e instanceof HttpException) {
+                        Response response = ((HttpException) e).response();
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
+
+                            cartInterface.onFailure(jsonObject.getString("message"));
+
+
+                        } catch (Exception d) {
+                            cartInterface.onFailure(d.getMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onNext(AddUserAddressResponse addUserAddressResponse) {
+
+                    Toast.makeText(context, ""+addUserAddressResponse.getExactAddress(), Toast.LENGTH_SHORT).show();
+                    //cartInterface.onSuccessGetAddress(addUserAddressResponse);
+                    //initDeliveryType();
                 }
             });
         }

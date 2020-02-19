@@ -3,63 +3,74 @@ package ir.boojanco.onlinefoodorder.models.user;
 import com.google.gson.annotations.SerializedName;
 
 public class AddUserAddressResponse {
-    @SerializedName("id")
-    private long id;
-    @SerializedName("address")
-    private String address;
-    @SerializedName("zipCode")
-    private String zipCode;
-    @SerializedName("region_id")
-    private long region_id;
-    @SerializedName("message")
-    private String message;
-    @SerializedName("code")
-    private String code;
+    @SerializedName("cityId")
+    private long cityId;
+    @SerializedName("defaultAddress")
+    private boolean defaultAddress;
+    @SerializedName("exactAddress")
+    private String exactAddress;
+    @SerializedName("latitude")
+    private double latitude;
+    @SerializedName("longitude")
+    private double longitude;
+    @SerializedName("region")
+    private String region;
+    @SerializedName("tag")
+    private String tag;
 
-    /*public AddUserAddressResponse(String id, String address, String zipCode, long region_id) {
-        this.id = id;
-        this.address = address;
-        this.zipCode = zipCode;
-        this.region_id = region_id;
-    }*/
-
-    public long getId() {
-        return id;
+    public long getCityId() {
+        return cityId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setCityId(long cityId) {
+        this.cityId = cityId;
     }
 
-    public String getAddress() {
-        return address;
+    public boolean isDefaultAddress() {
+        return defaultAddress;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setDefaultAddress(boolean defaultAddress) {
+        this.defaultAddress = defaultAddress;
     }
 
-    public String getZipCode() {
-        return zipCode;
+    public String getExactAddress() {
+        return exactAddress;
     }
 
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
+    public void setExactAddress(String exactAddress) {
+        this.exactAddress = exactAddress;
     }
 
-    public long getRegion_id() {
-        return region_id;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setRegion_id(long region_id) {
-        this.region_id = region_id;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
-    public String getMessage() {
-        return message;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public String getCode() {
-        return code;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 }

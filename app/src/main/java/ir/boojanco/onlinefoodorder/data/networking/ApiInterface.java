@@ -61,6 +61,7 @@ public interface ApiInterface {
     Observable<GetUserAddressResponse> getUserAddressResponseObservable(@Header("Authorization") String authToken);
 
     @POST("/api/v1/address/add")
+    @FormUrlEncoded
     Observable<AddUserAddressResponse> addUserAddress(@Header("Authorization") String authToken, @Field("cityId") long cityId, @Field("defaultAddress") boolean defaultAddress,
                                                       @Field("exactAddress") String exactAddress, @Field("latitude") Double latitude,
                                                       @Field("longitude") Double longitude, @Field("region") String region,

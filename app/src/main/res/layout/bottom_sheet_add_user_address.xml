@@ -21,19 +21,13 @@
             type="ir.boojanco.onlinefoodorder.viewmodels.CartViewModel" />
 
     </data>
+
         <LinearLayout
-            android:id="@+id/bottom_sheet_add_user_address"
+            android:id="@+id/linear_layout_bottom_sheet_add_user_address"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="100dp"
             android:layoutDirection="rtl"
-            app:behavior_peekHeight="0dp"
-            android:padding="16dp"
-            android:clipToPadding="false"
-            app:behavior_hideable="true"
-            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-            android:background="@drawable/bg_bottom_sheet"
             >
 
 
@@ -53,26 +47,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                app:cardCornerRadius="@dimen/card_view_corner_radius"
-                android:layout_margin="16dp">
+                android:layout_margin="16dp"
+                app:cardCornerRadius="@dimen/card_view_corner_radius">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:padding="8dp">
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.85"
-                        android:text="@string/chooseOnDefault"/>
+                        android:text="@string/chooseOnDefault" />
+
                     <com.bitvale.switcher.SwitcherX
                         android:id="@+id/switcher_default_address"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.15"
-                        android:checked="false"
-                        />
+                        android:checked="false" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -175,10 +170,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@={viewModel.exactAddress}"
                     android:ellipsize="end"
                     android:inputType="text"
                     android:maxLines="1"
+                    android:text="@={viewModel.exactAddress}"
                     android:textDirection="rtl"
                     android:textSize="@dimen/edit_text_font_size" />
 
@@ -203,12 +198,13 @@
                     android:maxLines="1"
                     android:textDirection="rtl"
                     android:textSize="@dimen/edit_text_font_size" />
+
                 <Button
                     android:id="@+id/btn_accept_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="@{()-> viewModel.addUserAddress()}"
-                    android:text="ثبت"/>
+                    android:text="ثبت" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

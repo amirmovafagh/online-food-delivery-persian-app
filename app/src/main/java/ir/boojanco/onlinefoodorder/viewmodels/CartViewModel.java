@@ -321,7 +321,7 @@ public class CartViewModel extends ViewModel {
 
     public void addUserAddress() {
 
-        rx.Observable<AddUserAddressResponse> observable = userRepository.addUserAddressResponseObservable(userAuthToken,3,false,"تست",35.45,54.4864,"fasdfas",/*userAuthToken,cityId, defaultAddress, exactAddress.getValue(),userLatitude,userLongitude,region.getValue()*/"خانه");
+        rx.Observable<AddUserAddressResponse> observable = userRepository.addUserAddressResponseObservable(userAuthToken,3,false,"ffgyyujju",35.45,54.4864,"fasdfas",/*userAuthToken,cityId, defaultAddress, exactAddress.getValue(),userLatitude,userLongitude,region.getValue()*/"WORK");
         if (observable != null) {
             observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<AddUserAddressResponse>() {
                 @Override

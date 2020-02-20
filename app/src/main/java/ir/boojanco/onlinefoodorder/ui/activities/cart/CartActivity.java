@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
@@ -73,7 +74,7 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
     private AddressAdapter addressAdapter;
 
     private BottomSheetBehavior sheetBehavior;
-    private LinearLayout bottom_sheet;
+    private NestedScrollView bottom_sheet;
     private LinearLayout acceptOrder;
     private FragmentTransaction fragmentTransaction;
     private Fragment fragment;
@@ -93,7 +94,7 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
         binding = DataBindingUtil.setContentView(this, R.layout.activity_cart);
         binding.setViewModel(cartViewModel);
         binding.setLifecycleOwner(this);
-        bottom_sheet = binding.bottomSheet.bottomSheetAddUserAddress;
+        bottom_sheet = binding.bottomSheet;
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
         transition = new AutoTransition();
         coordinatorLayoutMainContent = binding.mainContent;
@@ -115,7 +116,7 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
             }
         });
 
-        binding.bottomSheet.switcherDefaultAddress.setOnCheckedChangeListener(aBoolean -> {
+        binding.bottomSheetInclude.switcherDefaultAddress.setOnCheckedChangeListener(aBoolean -> {
             Toast.makeText(application, ""+aBoolean, Toast.LENGTH_SHORT).show();
             cartViewModel.defaultAddress = aBoolean;
             return null;

@@ -34,10 +34,8 @@ public class UserRepository {
         return apiInterface.getUserAddressResponseObservable(authToken);
     }
 
-    public Observable<AddUserAddressResponse> addUserAddressResponseObservable(String authToken, long cityId, boolean defaultAddress, String exactAddress,
-                                                                               Double latitude, Double longitude, String region, String tag)
-    {
-        return apiInterface.addUserAddress(authToken, cityId, defaultAddress, exactAddress, latitude, longitude,region ,tag);
+    public Observable<AddUserAddressResponse> addUserAddressResponseObservable(String authToken, AddUserAddressResponse addUserAddressResponse) {
+        return apiInterface.addUserAddress(authToken, addUserAddressResponse);
     }
 
     public Observable<ReverseFindAddressResponse> getReverseFindAddressResponse(Double latitude, Double longitude) {

@@ -22,8 +22,8 @@
             >
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_main_package_layout"
-                android:layout_width="170dp"
-                android:layout_height="170dp"
+                android:layout_width="150dp"
+                android:layout_height="120dp"
                 app:cardCornerRadius="@dimen/card_view_corner_radius"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -78,7 +78,7 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_package_name"
-                android:layout_width="130dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
                 app:cardBackgroundColor="@color/colorAccent"

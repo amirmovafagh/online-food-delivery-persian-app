@@ -61,11 +61,7 @@ public interface ApiInterface {
     Observable<GetUserAddressResponse> getUserAddressResponseObservable(@Header("Authorization") String authToken);
 
     @POST("/api/v1/address/add")
-    @FormUrlEncoded
-    Observable<AddUserAddressResponse> addUserAddress(@Header("Authorization") String authToken, @Field("cityId") long cityId, @Field("defaultAddress") boolean defaultAddress,
-                                                      @Field("exactAddress") String exactAddress, @Field("latitude") Double latitude,
-                                                      @Field("longitude") Double longitude, @Field("region") String region,
-                                                      @Field("tag") String tag);
+    Observable<AddUserAddressResponse> addUserAddress(@Header("Authorization") String authToken, @Body AddUserAddressResponse addressBody);
 
     @GET("/api/v1/state/state/all")
     Observable<GetAllStatesResponse> getAllStatesResponseObservable(@Header("Authorization") String authToken);
@@ -85,10 +81,6 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("user/change_password")
     Observable<ChangeUserPasswordResponse> changeUserPassword(@Field("id") long id, @Field("newPassword") String newPassword, @Field("currentPassword") String currentPassword);
-
-    @FormUrlEncoded
-    @POST("/user/add_address")
-    Observable<AddUserAddressResponse> addUserAddress(@Field("id") long id, @Field("address") String address, @Field("zipCode") String zipCode, @Field("region_id") long regionId);
 
     @FormUrlEncoded
     @POST("edit_address")

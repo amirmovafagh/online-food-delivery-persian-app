@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="userLogin"
             type="ir.boojanco.onlinefoodorder.viewmodels.LoginViewModel" />
@@ -13,8 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/login_activity_background"
-        tools:context=".ui.activities.LoginActivity"
-        android:layoutDirection="rtl">
+        android:layoutDirection="rtl"
+        tools:context=".ui.activities.LoginActivity">
 
 
         <TextView
@@ -29,9 +30,9 @@
             android:textColor="@android:color/white"
             android:textSize="@dimen/h5_title_font_size"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.102" />
 
@@ -44,9 +45,9 @@
             android:focusable="true"
             android:onClick="@{()-> userLogin.onLoginClick()}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintHorizontal_bias="0.080"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.556"
             app:srcCompat="@drawable/arrow_next_48dp" />
@@ -57,8 +58,8 @@
             android:layout_height="2dp"
             android:background="?android:attr/listDivider"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fabLogin"
             app:layout_constraintVertical_bias="0.062" />
 
@@ -69,17 +70,15 @@
             android:text="@string/login_info_activity"
             android:textSize="@dimen/h6_title_font_size"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintHorizontal_bias="0.914"
             app:layout_constraintLeft_toRightOf="@+id/fabLogin"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.596" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txtInputLayoutLoginPhoneNumber"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-            app:boxBackgroundColor="@color/transparent"
-            app:boxBackgroundMode="outline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
@@ -87,39 +86,42 @@
             android:layout_marginEnd="25dp"
             android:layout_marginRight="25dp"
             android:hint="@string/hint_text_phone_number_edt_text"
+            app:boxBackgroundColor="@color/transparent"
             app:error="@{userLogin.phoneNumberError}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/divider"
             app:layout_constraintVertical_bias="0.123">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@={userLogin.phoneNumber}"
-                android:textSize="@dimen/edit_text_font_size"
+                android:inputType="phone"
                 android:maxLength="11"
-                android:inputType="phone" />
+                android:text="@={userLogin.phoneNumber}"
+                android:textSize="@dimen/edit_text_font_size" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txtInputLayoutLoginPassword"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
+
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:layout_marginLeft="25dp"
             android:layout_marginEnd="25dp"
             android:layout_marginRight="25dp"
             android:hint="@string/hint_text_password_edt_text"
+            app:boxBackgroundColor="@color/transparent"
             app:error="@{userLogin.passwordError}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtInputLayoutLoginPhoneNumber"
             app:layout_constraintVertical_bias="0.201"
             app:passwordToggleEnabled="true">
@@ -129,8 +131,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@={userLogin.password}"
-                android:textSize="@dimen/edit_text_font_size"
-                />
+                android:textSize="@dimen/edit_text_font_size" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -142,9 +143,10 @@
             android:text="@string/forgot_password"
             android:textSize="@dimen/button_font_size"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtInputLayoutLoginPassword" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guidelineLeft"
             android:layout_width="wrap_content"
@@ -162,29 +164,30 @@
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:orientation="vertical"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintGuide_begin="390dp" />
+            app:layout_constraintGuide_begin="390dp"
+            app:layout_constraintRight_toRightOf="parent" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_waiting_response"
             android:layout_width="150dp"
             android:layout_height="250dp"
-            app:cardBackgroundColor="@color/waitingResponseBackgroundColor"
             android:elevation="4dp"
-            app:cardCornerRadius="25dp"
             android:visibility="gone"
+            app:cardBackgroundColor="@color/waitingResponseBackgroundColor"
+            app:cardCornerRadius="25dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/animation_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                app:lottie_rawRes="@raw/waiting_animate_burger"
+                app:lottie_autoPlay="true"
                 app:lottie_loop="true"
-                app:lottie_autoPlay="true" />
+                app:lottie_rawRes="@raw/waiting_animate_burger" />
         </androidx.cardview.widget.CardView>
 
 

@@ -10,13 +10,23 @@ public class AddUserAddressResponse {
     @SerializedName("exactAddress")
     private String exactAddress;
     @SerializedName("latitude")
-    private double latitude;
+    private Double latitude;
     @SerializedName("longitude")
-    private double longitude;
+    private Double longitude;
     @SerializedName("region")
     private String region;
     @SerializedName("tag")
     private String tag;
+
+    public AddUserAddressResponse(long cityId, boolean defaultAddress, String exactAddress, Double latitude, Double longitude, String region, String tag) {
+        this.cityId = cityId;
+        this.defaultAddress = defaultAddress;
+        this.exactAddress = exactAddress;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.region = region;
+        this.tag = tag;
+    }
 
     public long getCityId() {
         return cityId;

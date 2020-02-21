@@ -213,7 +213,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:visibility="gone"
+                            android:visibility="visible"
+                            android:padding="16dp"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
@@ -221,7 +222,7 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="16dp"
+                                android:layout_margin="4dp"
                                 android:orientation="horizontal"
                                 android:paddingTop="16dp">
 
@@ -232,7 +233,8 @@
                                     android:maxLines="1"
                                     android:text="@string/total_items_price"
                                     android:textColor="@android:color/black"
-                                    android:textSize="@dimen/body2_paragraph_font_size" />
+                                    android:textSize="@dimen/body4_paragraph_font_size"
+                                    android:textStyle="bold" />
 
                                 <TextView
                                     android:id="@+id/text_view_total_items_price"
@@ -242,7 +244,7 @@
                                     android:maxLines="1"
                                     android:text="@{String.valueOf(viewModel.totalRawPriceLiveData)}"
                                     android:textAlignment="viewEnd"
-                                    android:textSize="@dimen/body3_paragraph_font_size"
+                                    android:textSize="@dimen/body4_paragraph_font_size"
                                     bind:ignore="RtlCompat" />
                             </LinearLayout>
 
@@ -255,7 +257,7 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="16dp"
+                                android:layout_margin="4dp"
                                 android:orientation="horizontal">
 
                                 <TextView
@@ -265,7 +267,8 @@
                                     android:maxLines="1"
                                     android:text="@string/discount"
                                     android:textColor="@android:color/black"
-                                    android:textSize="@dimen/body2_paragraph_font_size" />
+                                    android:textSize="@dimen/body4_paragraph_font_size"
+                                    android:textStyle="bold" />
 
                                 <TextView
                                     android:id="@+id/text_view_discount_total_price"
@@ -275,7 +278,7 @@
                                     android:maxLines="1"
                                     android:text="@{viewModel.totalDiscountLiveData}"
                                     android:textAlignment="viewEnd"
-                                    android:textSize="@dimen/body3_paragraph_font_size"
+                                    android:textSize="@dimen/body4_paragraph_font_size"
                                     bind:ignore="RtlCompat" />
                             </LinearLayout>
 
@@ -288,7 +291,7 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="16dp"
+                                android:layout_margin="4dp"
                                 android:orientation="horizontal">
 
                                 <TextView
@@ -298,7 +301,8 @@
                                     android:maxLines="1"
                                     android:text="@string/food_packing"
                                     android:textColor="@android:color/black"
-                                    android:textSize="@dimen/body2_paragraph_font_size" />
+                                    android:textSize="@dimen/body4_paragraph_font_size"
+                                    android:textStyle="bold" />
 
                                 <TextView
                                     android:id="@+id/text_view_food_packing_price"
@@ -308,7 +312,40 @@
                                     android:maxLines="1"
                                     android:text="@{String.valueOf(viewModel.packingCost)}"
                                     android:textAlignment="viewEnd"
-                                    android:textSize="@dimen/body3_paragraph_font_size"
+                                    android:textSize="@dimen/body4_paragraph_font_size"
+                                    bind:ignore="RtlCompat" />
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="?android:attr/listDivider" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="4dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/text_view_shipping_cost"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="1"
+                                    android:text="@string/restaurant_shipping_cost"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="@dimen/body4_paragraph_font_size"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/text_view_food_shipping_cost_price"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:maxLines="1"
+                                    android:text="@{String.valueOf(viewModel.restaurantShippingCostLiveData)}"
+                                    android:textAlignment="viewEnd"
+                                    android:textSize="@dimen/body4_paragraph_font_size"
                                     bind:ignore="RtlCompat" />
                             </LinearLayout>
 
@@ -321,7 +358,7 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="16dp"
+                                android:layout_margin="4dp"
                                 android:orientation="horizontal">
 
                                 <TextView
@@ -331,7 +368,8 @@
                                     android:maxLines="1"
                                     android:text="@string/restaurant_taxes"
                                     android:textColor="@android:color/black"
-                                    android:textSize="@dimen/body2_paragraph_font_size" />
+                                    android:textSize="@dimen/body4_paragraph_font_size"
+                                    android:textStyle="bold" />
 
                                 <TextView
                                     android:id="@+id/text_view_food_taxes_price"
@@ -341,7 +379,7 @@
                                     android:maxLines="1"
                                     android:text="@{String.valueOf(viewModel.taxAndService)}"
                                     android:textAlignment="viewEnd"
-                                    android:textSize="@dimen/body3_paragraph_font_size"
+                                    android:textSize="@dimen/body4_paragraph_font_size"
                                     bind:ignore="RtlCompat" />
                             </LinearLayout>
 
@@ -404,18 +442,15 @@
                             android:maxLines="1"
                             android:padding="4dp"
                             android:text="@{viewModel.totalAllPriceLiveData ,default=قیمت}"
-                            android:textSize="@dimen/body2_paragraph_font_size"
+                            android:textSize="@dimen/body1_paragraph_font_size"
+                            android:textStyle="bold"
                             bind:ignore="RtlCompat" />
 
                         <FrameLayout
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:background="@color/colorPrimary">
-
-                            <FrameLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="?attr/selectableItemBackground" />
+                            android:background="@color/colorPrimary"
+                            android:onClick="@{()->viewModel.acceptOrder()}">
 
                             <LinearLayout
                                 android:id="@+id/linear_layout_accept_order"

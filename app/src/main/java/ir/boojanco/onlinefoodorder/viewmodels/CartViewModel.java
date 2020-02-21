@@ -60,7 +60,7 @@ public class CartViewModel extends ViewModel {
     public long cityId, stateId;
     private double userLatitude;
     private double userLongitude;
-    public boolean defaultAddress =false;
+    public boolean defaultAddress = false;
     private RestaurantPackageItem packageItem;
     private RestaurantInfoResponse restaurantInfo;
     private List<CartItem> cartItems;
@@ -79,6 +79,9 @@ public class CartViewModel extends ViewModel {
     public MutableLiveData<String> totalAllPriceLiveData;
     public MutableLiveData<String> totalDiscountLiveData;
     public MutableLiveData<Integer> packingCost;
+    private double taxAndServicePercent = 0;
+    public MutableLiveData<String> restaurantShippingCostLiveData;
+    private int shippingCost = 0;
     public MutableLiveData<Integer> taxAndService;
     public MutableLiveData<String> deliveryTypeTextLiveData;
     public MutableLiveData<String> restaurantAddressLiveData;
@@ -109,6 +112,7 @@ public class CartViewModel extends ViewModel {
         deliveryTypeSelectLiveData = new MutableLiveData<>();
         deliveryTypeViewLiveData = new MutableLiveData<>();
         restaurantAddressLiveData = new MutableLiveData<>();
+        restaurantShippingCostLiveData = new MutableLiveData<>();
 
         compositeDisposableGetAllItems = new CompositeDisposable();
     }
@@ -120,7 +124,8 @@ public class CartViewModel extends ViewModel {
     public void setRestaurantInfo(RestaurantInfoResponse restaurantInfo) {
         this.restaurantInfo = restaurantInfo;
         packingCost.setValue(restaurantInfo.getPackingCostInt());
-        taxAndService.setValue(restaurantInfo.getTaxAndService());
+        taxAndServicePercent = restaurantInfo.getTaxAndService();
+        //taxAndService.setValue(restaurantInfo.getTaxAndService());
         restaurantAddressLiveData.setValue(restaurantInfo.getRegion() + restaurantInfo.getAddress());
 
     }
@@ -135,9 +140,9 @@ public class CartViewModel extends ViewModel {
         }
     }
 
-    public void onCheckedDefaultAddressChanged(boolean checked) {
+    /*public void onCheckedDefaultAddressChanged(boolean checked) {
         defaultAddress = checked;
-    }
+    }*/
 
     private void initDeliveryType() {
         boolean deliverInPlace = restaurantInfo.isGetInPlace();
@@ -173,7 +178,9 @@ public class CartViewModel extends ViewModel {
         }
 
         if (PolyUtil.containsLocation(city.latitude, city.longitude, closePoints, true)) {
-            Log.i(TAG, "1");
+            shippingCost = restaurantInfo.getShippingCostInCloseRegions();
+            restaurantShippingCostLiveData.setValue(String.valueOf(shippingCost));
+
         } else {
             List<LatLng> serviceAreaPoints = new ArrayList<>();
             for (int i = 0; i < serviceAreaCoordinatesSeperated.length; i++) {
@@ -181,7 +188,10 @@ public class CartViewModel extends ViewModel {
                 LatLng latLng = new LatLng(Double.parseDouble(latLngSeprated[1]), Double.parseDouble(latLngSeprated[0]));
                 serviceAreaPoints.add(latLng);
             }
-            Log.i(TAG, "" + PolyUtil.containsLocation(city.latitude, city.longitude, serviceAreaPoints, true));
+            if (PolyUtil.containsLocation(city.latitude, city.longitude, serviceAreaPoints, true)) {
+                shippingCost = restaurantInfo.getShippingCostInServiceArea();
+                restaurantShippingCostLiveData.setValue(String.valueOf(restaurantInfo.getShippingCostInServiceArea()));
+            }else { restaurantShippingCostLiveData.setValue("عدم سرویس دهی"); }
         }
     }
 
@@ -194,7 +204,7 @@ public class CartViewModel extends ViewModel {
                 public void onCompleted() {
                     userLatitude = latitude;
                     userLongitude = longitude;
-                    if (state.getValue() != null){
+                    if (state.getValue() != null) {
                         checkAddressAndGetStateId(authToken);
                         mapDialogInterface.onSuccess();
                     }
@@ -233,16 +243,16 @@ public class CartViewModel extends ViewModel {
         }
     }
 
-    public void addMapPositionBtnClick(){
-        Toast.makeText(context, ""+state.getValue()+" "+stateId+" "+city.getValue()+" "+cityId, Toast.LENGTH_SHORT).show();
+    public void addMapPositionBtnClick() {
+        Toast.makeText(context, "" + state.getValue() + " " + stateId + " " + city.getValue() + " " + cityId, Toast.LENGTH_SHORT).show();
         cartInterface.showAddressBottomSheet();
     }
 
-    public void showMap(){
+    public void showMap() {
         cartInterface.showMapDialogFragment();
     }
 
-    public void showStateCityDialog(){
+    public void showStateCityDialog() {
         cartInterface.showStateCityCustomDialog();
     }
 
@@ -261,7 +271,7 @@ public class CartViewModel extends ViewModel {
 
     private void getCityId() {
 
-        if(city.getValue() != null)
+        if (city.getValue() != null)
             for (AllCitiesList item : citiesLists) {
                 if (item.getName().contains(city.getValue())) {
                     cityId = item.getId();
@@ -269,9 +279,10 @@ public class CartViewModel extends ViewModel {
                 }
             }
     }
+
     private void getStateId() {
 
-        if(state.getValue() != null)
+        if (state.getValue() != null)
             for (AllStatesList item : statesLists) {
                 if (item.getName().contains(state.getValue())) {
                     stateId = item.getId();
@@ -321,7 +332,8 @@ public class CartViewModel extends ViewModel {
 
     public void addUserAddress() {
 
-        rx.Observable<AddUserAddressResponse> observable = userRepository.addUserAddressResponseObservable(userAuthToken,3,false,"ffgyyujju",35.45,54.4864,"fasdfas",/*userAuthToken,cityId, defaultAddress, exactAddress.getValue(),userLatitude,userLongitude,region.getValue()*/"WORK");
+        AddUserAddressResponse address = new AddUserAddressResponse(cityId, defaultAddress, exactAddress.getValue(), userLatitude, userLongitude, region.getValue(), "WORK");
+        rx.Observable<AddUserAddressResponse> observable = userRepository.addUserAddressResponseObservable(userAuthToken, address);
         if (observable != null) {
             observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<AddUserAddressResponse>() {
                 @Override
@@ -351,7 +363,7 @@ public class CartViewModel extends ViewModel {
                 @Override
                 public void onNext(AddUserAddressResponse addUserAddressResponse) {
 
-                    Toast.makeText(context, ""+addUserAddressResponse.getExactAddress(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "" + addUserAddressResponse.getExactAddress(), Toast.LENGTH_SHORT).show();
                     //cartInterface.onSuccessGetAddress(addUserAddressResponse);
                     //initDeliveryType();
                 }
@@ -397,7 +409,10 @@ public class CartViewModel extends ViewModel {
                     price = price * discount;
                     totalDiscountedPrice += price;
 
-                    totalAllPriceLiveData.setValue(moneyFormat((int) totalDiscountedPrice + packingCost.getValue() + taxAndService.getValue()));
+                    double taxPercent = taxAndServicePercent / 100;
+                    taxAndService.setValue((int) (totalDiscountedPrice * taxPercent));
+
+                    totalAllPriceLiveData.setValue(moneyFormat((int) totalDiscountedPrice + packingCost.getValue() + taxAndService.getValue() + shippingCost));
                     FinalPaymentPrice paymentPrice = new FinalPaymentPrice();
                     paymentPrice.setId(id);
                     paymentPrice.setDiscountedPrice((int) price);
@@ -406,16 +421,20 @@ public class CartViewModel extends ViewModel {
                 } else { //use discountRestaurantPackage
                     double pDiscount = 100 - packageItem.getDiscountPercent();
                     pDiscount = pDiscount / 100;
+
+                    double taxPercent = taxAndServicePercent / 100;
                     Log.i(TAG + " pDiscount: ", "" + totalDiscountedPrice);
                     if (packageItem.isDiscountForAllFoods()) { // discount effect on all items
                         price = price * pDiscount;
                         totalDiscountedPrice += price;
+                        taxAndService.setValue((int) (totalDiscountedPrice * taxPercent));
                         if (tempTotalRawPrice - totalDiscountedPrice >= packageItem.getMaximumDiscountAmount()) {
                             totalDiscountedPrice = tempTotalRawPrice - packageItem.getMaximumDiscountAmount();
-                            totalAllPriceLiveData.setValue(moneyFormat((tempTotalRawPrice - packageItem.getMaximumDiscountAmount()) + packingCost.getValue() + taxAndService.getValue()));
+                            taxAndService.setValue((int) (totalDiscountedPrice * taxPercent));
+                            totalAllPriceLiveData.setValue(moneyFormat((tempTotalRawPrice - packageItem.getMaximumDiscountAmount()) + packingCost.getValue() + taxAndService.getValue() + shippingCost));
                         } else {
 
-                            totalAllPriceLiveData.setValue(moneyFormat((int) totalDiscountedPrice + packingCost.getValue() + taxAndService.getValue()));
+                            totalAllPriceLiveData.setValue(moneyFormat((int) totalDiscountedPrice + packingCost.getValue() + taxAndService.getValue() + shippingCost));
                         }
 
                     } else { // discount effect on Specific items
@@ -437,18 +456,16 @@ public class CartViewModel extends ViewModel {
                                 totalDiscountedPrice += price;
                                 Log.i(TAG + " dontHave foodId : ", "" + totalDiscountedPrice);
                             }
-                            Log.i(TAG + " totalRawPriceLiveDat: ", "" + tempTotalRawPrice);
-                            Log.i(TAG + " DiscountedPrice: ", "" + totalDiscountedPrice);
-                            Log.i(TAG + " getMaximumDiscount: ", "" + packageItem.getMaximumDiscountAmount());
-                            Log.i(TAG + " 0 : ", "" + (totalRawPriceLiveData.getValue() - (long) totalDiscountedPrice >= packageItem.getMaximumDiscountAmount()));
+                            taxAndService.setValue((int) (totalDiscountedPrice * taxPercent));
                             if (tempTotalRawPrice - totalDiscountedPrice >= packageItem.getMaximumDiscountAmount()) {
 
                                 totalDiscountedPrice = tempTotalRawPrice - packageItem.getMaximumDiscountAmount();
-                                totalAllPriceLiveData.setValue(moneyFormat((tempTotalRawPrice - packageItem.getMaximumDiscountAmount()) + packingCost.getValue() + taxAndService.getValue()));
+                                taxAndService.setValue((int) (totalDiscountedPrice * taxPercent));
+                                totalAllPriceLiveData.setValue(moneyFormat((tempTotalRawPrice - packageItem.getMaximumDiscountAmount()) + packingCost.getValue() + taxAndService.getValue() + shippingCost));
                                 Log.i(TAG + " 1 : ", "" + totalDiscountedPrice);
                             } else {
 
-                                totalAllPriceLiveData.setValue(moneyFormat((int) totalDiscountedPrice + packingCost.getValue() + taxAndService.getValue()));
+                                totalAllPriceLiveData.setValue(moneyFormat((int) totalDiscountedPrice + packingCost.getValue() + taxAndService.getValue() + shippingCost));
                                 Log.i(TAG + " 2 : ", "" + totalDiscountedPrice);
                             }
 
@@ -565,6 +582,9 @@ public class CartViewModel extends ViewModel {
         }
     }
 
+    public void acceptOrder(){
+
+    }
 
     public void onStop() {
         if (compositeDisposableGetAllItems != null)

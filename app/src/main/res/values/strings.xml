@@ -54,4 +54,6 @@
     <string name="testPrice">4000 تومان</string>
     <string name="payment"> تایید سفارش</string>
     <string name="chooseOnDefault">انتخاب به عنوان پیشفرض</string>
+    <string name="restaurant_shipping_cost">ارسال</string>
+    <string name="pleaseEnterYourDiscountCode">لطفا کد تخفیف خود را وارد کنید</string>
 </resources>

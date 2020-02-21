@@ -57,6 +57,22 @@ public class RestaurantInfoResponse implements Serializable {
     @SerializedName("lon")
     private Double longitude;
 
+    public int getShippingCostInCloseRegions() {
+        return shippingCostInCloseRegions;
+    }
+
+    public void setShippingCostInCloseRegions(int shippingCostInCloseRegions) {
+        this.shippingCostInCloseRegions = shippingCostInCloseRegions;
+    }
+
+    public int getShippingCostInServiceArea() {
+        return shippingCostInServiceArea;
+    }
+
+    public void setShippingCostInServiceArea(int shippingCostInServiceArea) {
+        this.shippingCostInServiceArea = shippingCostInServiceArea;
+    }
+
     public String getServiceAreaCoordinates() {
         return serviceAreaCoordinates;
     }

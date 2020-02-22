@@ -32,8 +32,8 @@ public class RestaurantRepository {
         return apiInterface.getAllPackagesResponseObservable(authToken, restaurantId);
     }
 
-    public Observable<DiscountCodeResponse> getDiscountCodeResponse(String authToken, String code) {
-        return apiInterface.getDiscountCodeResponseObservable(authToken, code);
+    public Observable<DiscountCodeResponse> getDiscountCodeResponse(String authToken, String code,long restaurantId,int totalCost) {
+        return apiInterface.getDiscountCodeResponseObservable(authToken, code,restaurantId,totalCost);
     }
 
 

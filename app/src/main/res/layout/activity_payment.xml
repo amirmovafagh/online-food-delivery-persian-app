@@ -1,4 +1,6 @@
-<layout xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -7,14 +9,11 @@
             type="ir.boojanco.onlinefoodorder.viewmodels.PaymentViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/wallpaper_restaurant_info"
-        android:layoutDirection="rtl"
-        tools:context=".ui.activities.payment.PaymentActivity">
+        android:layoutDirection="rtl">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
@@ -98,6 +97,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="text"
+                            android:text="@={viewModel.discountCodeLiveData}"
                             android:maxLines="1"
                             android:ellipsize="end"
                             android:textSize="@dimen/edit_text_font_size" />
@@ -196,7 +196,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:maxLines="1"
-                            android:text="@{String.valueOf(viewModel.packingCost)}"
+                            android:text="@{String.valueOf(viewModel.packingCostLiveData)}"
                             android:textAlignment="viewEnd"
                             android:textSize="@dimen/body4_paragraph_font_size"
                             tools:ignore="RtlCompat" />
@@ -263,7 +263,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:maxLines="1"
-                            android:text="@{String.valueOf(viewModel.taxAndService)}"
+                            android:text="@{String.valueOf(viewModel.taxAndServiceLivedata)}"
                             android:textAlignment="viewEnd"
                             android:textSize="@dimen/body4_paragraph_font_size"
                             tools:ignore="RtlCompat" />
@@ -326,7 +326,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="@color/colorPrimary"
-                    android:onClick="@{()->viewModel.acceptOrder()}">
+                    >
 
                     <LinearLayout
                         android:id="@+id/linear_layout_accept_order"

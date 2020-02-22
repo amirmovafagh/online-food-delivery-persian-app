@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,7 +18,9 @@ import androidx.transition.TransitionManager;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageButton;
@@ -26,6 +29,8 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -42,6 +47,7 @@ import ir.boojanco.onlinefoodorder.models.restaurantPackage.RestaurantPackageIte
 import ir.boojanco.onlinefoodorder.models.stateCity.AllCitiesList;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList;
 import ir.boojanco.onlinefoodorder.models.user.UserAddressList;
+import ir.boojanco.onlinefoodorder.ui.activities.payment.PaymentActivity;
 import ir.boojanco.onlinefoodorder.ui.fragments.MapDialogFragment;
 import ir.boojanco.onlinefoodorder.viewmodels.CartViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.CartViewModelFactory;
@@ -81,9 +87,18 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
     private DialogFragment mapFragment;
     private CityAdapter cityAdapter;
     private CustomStateCityDialog stateCityDialog;
+    private Intent goToPaymentActivity;
 
     private final String selectedPackageExtraName = "selectedPackage";
     private final String restaurantInfoResponseExtraName = "restaurantInfoResponse";
+    private final String cartItemExtraName = "cartItem";
+    private final String finalPaymentPricesExtraName = "finalPaymentPrices";
+    private final String totalAllPriceExtraName = "totalAllPrice";
+    private final String totalRawPriceExtraName = "totalRaw";
+    private final String totalDiscountExtraName = "totalDiscount";
+    private final String packingCostLiveDataExtraName = "packingCost";
+    private final String restaurantShippingCostExtraName = "restaurantShipping";
+    private final String taxAndServiceExtraName = "taxAndService";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -216,6 +231,22 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
         fragmentTransaction.addToBackStack(null);
         mapFragment = new MapDialogFragment();
         mapFragment.show(fragmentTransaction, "dialog");
+    }
+
+    @Override
+    public void acceptOrder(ArrayList<FinalPaymentPrice> finalPaymentPrices, List<CartItem> cartItems, MutableLiveData<String> totalAllPriceLiveData, MutableLiveData<Long> totalRawPriceLiveData, MutableLiveData<String> totalDiscountLiveData, MutableLiveData<Integer> packingCostLiveData, MutableLiveData<String> restaurantShippingCostLiveData, MutableLiveData<Integer> taxAndServiceLivedata) {
+        if(cartItems != null){
+            goToPaymentActivity = new Intent(this, PaymentActivity.class);
+            goToPaymentActivity.putExtra(cartItemExtraName, (Serializable) cartItems);
+            goToPaymentActivity.putExtra(finalPaymentPricesExtraName, finalPaymentPrices);
+            goToPaymentActivity.putExtra(totalAllPriceExtraName, totalAllPriceLiveData.getValue());
+            goToPaymentActivity.putExtra(totalRawPriceExtraName,  totalRawPriceLiveData.getValue());
+            goToPaymentActivity.putExtra(totalDiscountExtraName,  totalDiscountLiveData.getValue());
+            goToPaymentActivity.putExtra(packingCostLiveDataExtraName,  packingCostLiveData.getValue());
+            goToPaymentActivity.putExtra(restaurantShippingCostExtraName, restaurantShippingCostLiveData.getValue());
+            goToPaymentActivity.putExtra(taxAndServiceExtraName,  taxAndServiceLivedata.getValue());
+            startActivity(goToPaymentActivity);
+        }
     }
 
 

@@ -5,11 +5,13 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 @Entity(tableName = "cart_table")
-public class CartItem {
+public class CartItem implements Serializable {
 
     @NonNull
     @PrimaryKey

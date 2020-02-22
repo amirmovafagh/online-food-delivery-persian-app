@@ -23,6 +23,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import rx.Observable;
 
 
@@ -55,7 +56,8 @@ public interface ApiInterface {
     Observable<AllPackagesResponse> getAllPackagesResponseObservable(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
 
     @GET("/api/v1/discountCode/validate/{code}")
-    Observable<DiscountCodeResponse> getDiscountCodeResponseObservable(@Header("Authorization") String authToken, @Path("code") String code);
+
+    Observable<DiscountCodeResponse> getDiscountCodeResponseObservable(@Header("Authorization") String authToken, @Path("code") String code, @Query("restaurantId") Long restaurantId, @Query("totalCost") int totalCost );
 
     @GET("/api/v1/address/user/all")
     Observable<GetUserAddressResponse> getUserAddressResponseObservable(@Header("Authorization") String authToken);

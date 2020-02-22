@@ -78,11 +78,11 @@ public class CartViewModel extends ViewModel {
     public MutableLiveData<String> exactAddress;
     public MutableLiveData<String> totalAllPriceLiveData;
     public MutableLiveData<String> totalDiscountLiveData;
-    public MutableLiveData<Integer> packingCost;
+    public MutableLiveData<Integer> packingCostLiveData;
     private double taxAndServicePercent = 0;
     public MutableLiveData<String> restaurantShippingCostLiveData;
     private int shippingCost = 0;
-    public MutableLiveData<Integer> taxAndService;
+    public MutableLiveData<Integer> taxAndServiceLivedata;
     public MutableLiveData<String> deliveryTypeTextLiveData;
     public MutableLiveData<String> restaurantAddressLiveData;
     public MutableLiveData<Integer> deliveryTypeSelectLiveData;
@@ -106,8 +106,8 @@ public class CartViewModel extends ViewModel {
         totalRawPriceLiveData = new MutableLiveData<>();
         totalAllPriceLiveData = new MutableLiveData<>();
         totalDiscountLiveData = new MutableLiveData<>();
-        packingCost = new MutableLiveData<>();
-        taxAndService = new MutableLiveData<>();
+        packingCostLiveData = new MutableLiveData<>();
+        taxAndServiceLivedata = new MutableLiveData<>();
         deliveryTypeTextLiveData = new MutableLiveData<>();
         deliveryTypeSelectLiveData = new MutableLiveData<>();
         deliveryTypeViewLiveData = new MutableLiveData<>();
@@ -123,7 +123,7 @@ public class CartViewModel extends ViewModel {
 
     public void setRestaurantInfo(RestaurantInfoResponse restaurantInfo) {
         this.restaurantInfo = restaurantInfo;
-        packingCost.setValue(restaurantInfo.getPackingCostInt());
+        packingCostLiveData.setValue(restaurantInfo.getPackingCostInt());
         taxAndServicePercent = restaurantInfo.getTaxAndService();
         //taxAndService.setValue(restaurantInfo.getTaxAndService());
         restaurantAddressLiveData.setValue(restaurantInfo.getRegion() + restaurantInfo.getAddress());
@@ -191,7 +191,9 @@ public class CartViewModel extends ViewModel {
             if (PolyUtil.containsLocation(city.latitude, city.longitude, serviceAreaPoints, true)) {
                 shippingCost = restaurantInfo.getShippingCostInServiceArea();
                 restaurantShippingCostLiveData.setValue(String.valueOf(restaurantInfo.getShippingCostInServiceArea()));
-            }else { restaurantShippingCostLiveData.setValue("عدم سرویس دهی"); }
+            } else {
+                restaurantShippingCostLiveData.setValue("عدم سرویس دهی");
+            }
         }
     }
 
@@ -410,9 +412,9 @@ public class CartViewModel extends ViewModel {
                     totalDiscountedPrice += price;
 
                     double taxPercent = taxAndServicePercent / 100;
-                    taxAndService.setValue((int) (totalDiscountedPrice * taxPercent));
+                    taxAndServiceLivedata.setValue((int) (totalDiscountedPrice * taxPercent));
 
-                    totalAllPriceLiveData.setValue(moneyFormat((int) totalDiscountedPrice + packingCost.getValue() + taxAndService.getValue() + shippingCost));
+                    totalAllPriceLiveData.setValue(moneyFormat((int) totalDiscountedPrice + packingCostLiveData.getValue() + taxAndServiceLivedata.getValue() + shippingCost));
                     FinalPaymentPrice paymentPrice = new FinalPaymentPrice();
                     paymentPrice.setId(id);
                     paymentPrice.setDiscountedPrice((int) price);
@@ -427,14 +429,14 @@ public class CartViewModel extends ViewModel {
                     if (packageItem.isDiscountForAllFoods()) { // discount effect on all items
                         price = price * pDiscount;
                         totalDiscountedPrice += price;
-                        taxAndService.setValue((int) (totalDiscountedPrice * taxPercent));
+                        taxAndServiceLivedata.setValue((int) (totalDiscountedPrice * taxPercent));
                         if (tempTotalRawPrice - totalDiscountedPrice >= packageItem.getMaximumDiscountAmount()) {
                             totalDiscountedPrice = tempTotalRawPrice - packageItem.getMaximumDiscountAmount();
-                            taxAndService.setValue((int) (totalDiscountedPrice * taxPercent));
-                            totalAllPriceLiveData.setValue(moneyFormat((tempTotalRawPrice - packageItem.getMaximumDiscountAmount()) + packingCost.getValue() + taxAndService.getValue() + shippingCost));
+                            taxAndServiceLivedata.setValue((int) (totalDiscountedPrice * taxPercent));
+                            totalAllPriceLiveData.setValue(moneyFormat((tempTotalRawPrice - packageItem.getMaximumDiscountAmount()) + packingCostLiveData.getValue() + taxAndServiceLivedata.getValue() + shippingCost));
                         } else {
 
-                            totalAllPriceLiveData.setValue(moneyFormat((int) totalDiscountedPrice + packingCost.getValue() + taxAndService.getValue() + shippingCost));
+                            totalAllPriceLiveData.setValue(moneyFormat((int) totalDiscountedPrice + packingCostLiveData.getValue() + taxAndServiceLivedata.getValue() + shippingCost));
                         }
 
                     } else { // discount effect on Specific items
@@ -456,16 +458,16 @@ public class CartViewModel extends ViewModel {
                                 totalDiscountedPrice += price;
                                 Log.i(TAG + " dontHave foodId : ", "" + totalDiscountedPrice);
                             }
-                            taxAndService.setValue((int) (totalDiscountedPrice * taxPercent));
+                            taxAndServiceLivedata.setValue((int) (totalDiscountedPrice * taxPercent));
                             if (tempTotalRawPrice - totalDiscountedPrice >= packageItem.getMaximumDiscountAmount()) {
 
                                 totalDiscountedPrice = tempTotalRawPrice - packageItem.getMaximumDiscountAmount();
-                                taxAndService.setValue((int) (totalDiscountedPrice * taxPercent));
-                                totalAllPriceLiveData.setValue(moneyFormat((tempTotalRawPrice - packageItem.getMaximumDiscountAmount()) + packingCost.getValue() + taxAndService.getValue() + shippingCost));
+                                taxAndServiceLivedata.setValue((int) (totalDiscountedPrice * taxPercent));
+                                totalAllPriceLiveData.setValue(moneyFormat((tempTotalRawPrice - packageItem.getMaximumDiscountAmount()) + packingCostLiveData.getValue() + taxAndServiceLivedata.getValue() + shippingCost));
                                 Log.i(TAG + " 1 : ", "" + totalDiscountedPrice);
                             } else {
 
-                                totalAllPriceLiveData.setValue(moneyFormat((int) totalDiscountedPrice + packingCost.getValue() + taxAndService.getValue() + shippingCost));
+                                totalAllPriceLiveData.setValue(moneyFormat((int) totalDiscountedPrice + packingCostLiveData.getValue() + taxAndServiceLivedata.getValue() + shippingCost));
                                 Log.i(TAG + " 2 : ", "" + totalDiscountedPrice);
                             }
 
@@ -582,8 +584,10 @@ public class CartViewModel extends ViewModel {
         }
     }
 
-    public void acceptOrder(){
-
+    public void acceptOrder() {
+        Toast.makeText(context, "amiiir", Toast.LENGTH_SHORT).show();
+        cartInterface.acceptOrder(finalPaymentPrices, cartItems, totalAllPriceLiveData, totalRawPriceLiveData,
+                totalDiscountLiveData, packingCostLiveData, restaurantShippingCostLiveData, taxAndServiceLivedata);
     }
 
     public void onStop() {

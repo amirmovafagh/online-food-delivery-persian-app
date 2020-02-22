@@ -310,7 +310,7 @@
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
                                     android:maxLines="1"
-                                    android:text="@{String.valueOf(viewModel.packingCost)}"
+                                    android:text="@{String.valueOf(viewModel.packingCostLiveData)}"
                                     android:textAlignment="viewEnd"
                                     android:textSize="@dimen/body4_paragraph_font_size"
                                     bind:ignore="RtlCompat" />
@@ -377,7 +377,7 @@
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
                                     android:maxLines="1"
-                                    android:text="@{String.valueOf(viewModel.taxAndService)}"
+                                    android:text="@{String.valueOf(viewModel.taxAndServiceLivedata)}"
                                     android:textAlignment="viewEnd"
                                     android:textSize="@dimen/body4_paragraph_font_size"
                                     bind:ignore="RtlCompat" />
@@ -450,13 +450,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:background="@color/colorPrimary"
-                            android:onClick="@{()->viewModel.acceptOrder()}">
+                            >
 
                             <LinearLayout
                                 android:id="@+id/linear_layout_accept_order"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                android:onClick="@{()->viewModel.acceptOrder()}">
 
                                 <TextView
                                     android:layout_width="wrap_content"

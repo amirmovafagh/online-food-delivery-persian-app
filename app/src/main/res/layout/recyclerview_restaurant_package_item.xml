@@ -78,7 +78,7 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_package_name"
-                android:layout_width="100dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
                 app:cardBackgroundColor="@color/colorAccent"

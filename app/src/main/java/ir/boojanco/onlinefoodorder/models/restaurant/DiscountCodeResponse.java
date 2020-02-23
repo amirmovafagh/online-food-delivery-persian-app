@@ -15,7 +15,7 @@ public class DiscountCodeResponse {
     private boolean freeShipping;
 
     @SerializedName("discountPercent")
-    private int discountPercent;
+    private float discountPercent;
 
     @SerializedName("forAllFoods")
     private boolean forAllFoods;
@@ -47,11 +47,11 @@ public class DiscountCodeResponse {
         this.freeShipping = freeShipping;
     }
 
-    public int getDiscountPercent() {
+    public float getDiscountPercent() {
         return discountPercent;
     }
 
-    public void setDiscountPercent(int discountPercent) {
+    public void setDiscountPercent(float discountPercent) {
         this.discountPercent = discountPercent;
     }
 

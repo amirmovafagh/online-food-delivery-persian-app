@@ -29,10 +29,9 @@ public interface CartInterface {
 
     void showMapDialogFragment();
 
-    void acceptOrder(ArrayList<FinalPaymentPrice> finalPaymentPrices, List<CartItem> cartItems, MutableLiveData<String> totalAllPriceLiveData,
-                     MutableLiveData<Long> totalRawPriceLiveData,MutableLiveData<String> totalDiscountLiveData,
-                     MutableLiveData<Integer> packingCostLiveData,MutableLiveData<String> restaurantShippingCostLiveData,
-                     MutableLiveData<Integer> taxAndServiceLivedata);
+    void acceptOrder(ArrayList<FinalPaymentPrice> finalPaymentPrices, List<CartItem> cartItems, int totalAllPrice,
+                     int totalRawPrice,int totalDiscount, int packingCost,
+                     int taxAndService, int shippingCost);
 
     void onSuccessGetReverseAddress(ReverseFindAddressResponse reverseFindAddressResponses);
 

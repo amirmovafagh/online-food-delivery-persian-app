@@ -99,6 +99,7 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
     private final String packingCostLiveDataExtraName = "packingCost";
     private final String restaurantShippingCostExtraName = "restaurantShipping";
     private final String taxAndServiceExtraName = "taxAndService";
+    private final String shipingCostExtraName = "shipingCost";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -234,17 +235,17 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
     }
 
     @Override
-    public void acceptOrder(ArrayList<FinalPaymentPrice> finalPaymentPrices, List<CartItem> cartItems, MutableLiveData<String> totalAllPriceLiveData, MutableLiveData<Long> totalRawPriceLiveData, MutableLiveData<String> totalDiscountLiveData, MutableLiveData<Integer> packingCostLiveData, MutableLiveData<String> restaurantShippingCostLiveData, MutableLiveData<Integer> taxAndServiceLivedata) {
+    public void acceptOrder(ArrayList<FinalPaymentPrice> finalPaymentPrices, List<CartItem> cartItems, int totalAllPrice, int totalRawPrice, int totalDiscount, int packingCost, int taxAndService, int shippingCost) {
         if(cartItems != null){
             goToPaymentActivity = new Intent(this, PaymentActivity.class);
             goToPaymentActivity.putExtra(cartItemExtraName, (Serializable) cartItems);
             goToPaymentActivity.putExtra(finalPaymentPricesExtraName, finalPaymentPrices);
-            goToPaymentActivity.putExtra(totalAllPriceExtraName, totalAllPriceLiveData.getValue());
-            goToPaymentActivity.putExtra(totalRawPriceExtraName,  totalRawPriceLiveData.getValue());
-            goToPaymentActivity.putExtra(totalDiscountExtraName,  totalDiscountLiveData.getValue());
-            goToPaymentActivity.putExtra(packingCostLiveDataExtraName,  packingCostLiveData.getValue());
-            goToPaymentActivity.putExtra(restaurantShippingCostExtraName, restaurantShippingCostLiveData.getValue());
-            goToPaymentActivity.putExtra(taxAndServiceExtraName,  taxAndServiceLivedata.getValue());
+            goToPaymentActivity.putExtra(totalAllPriceExtraName, totalAllPrice);
+            goToPaymentActivity.putExtra(totalRawPriceExtraName,  totalRawPrice);
+            goToPaymentActivity.putExtra(totalDiscountExtraName,  totalDiscount);
+            goToPaymentActivity.putExtra(packingCostLiveDataExtraName,  packingCost);
+            goToPaymentActivity.putExtra(taxAndServiceExtraName,  taxAndService);
+            goToPaymentActivity.putExtra(shipingCostExtraName,  shippingCost);
             startActivity(goToPaymentActivity);
         }
     }

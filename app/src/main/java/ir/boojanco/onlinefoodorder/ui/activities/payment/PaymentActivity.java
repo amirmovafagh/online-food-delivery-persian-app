@@ -9,18 +9,20 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
+import ir.boojanco.onlinefoodorder.data.database.CartItem;
 import ir.boojanco.onlinefoodorder.databinding.ActivityPaymentBinding;
 import ir.boojanco.onlinefoodorder.ui.activities.cart.FinalPaymentPrice;
 import ir.boojanco.onlinefoodorder.viewmodels.PaymentViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.PaymentViewModelFactory;
 
-public class PaymentActivity extends AppCompatActivity implements PaymentInterface  {
+public class PaymentActivity extends AppCompatActivity implements PaymentInterface {
 
     @Inject
     PaymentViewModelFactory factory;
@@ -38,6 +40,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentInterfa
     private final String packingCostLiveDataExtraName = "packingCost";
     private final String restaurantShippingCostExtraName = "restaurantShipping";
     private final String taxAndServiceExtraName = "taxAndService";
+    private final String shipingCostExtraName = "shipingCost";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,17 +60,12 @@ public class PaymentActivity extends AppCompatActivity implements PaymentInterfa
         });
         Bundle extras = this.getIntent().getExtras();
         if (extras != null) {
-            extras.getSerializable(cartItemExtraName);
 
-            viewModel.totalAllPriceLiveData.setValue(extras.getString(totalAllPriceExtraName));
             ArrayList<FinalPaymentPrice> finalPaymentPrice = (ArrayList<FinalPaymentPrice>) extras.getSerializable(finalPaymentPricesExtraName);
-            if(finalPaymentPrice != null)
-                viewModel.finalPaymentPrices = finalPaymentPrice;
-            viewModel.totalRawPriceLiveData.setValue(extras.getLong(totalRawPriceExtraName));
-            viewModel.totalDiscountLiveData.setValue(extras.getString(totalDiscountExtraName));
-            viewModel.packingCostLiveData.setValue(extras.getInt(packingCostLiveDataExtraName));
-            viewModel.restaurantShippingCostLiveData.setValue(extras.getString(restaurantShippingCostExtraName));
-            viewModel.taxAndServiceLivedata.setValue(extras.getInt(taxAndServiceExtraName));
+
+            viewModel.setVariablesInTempVar(finalPaymentPrice,(List<CartItem>) extras.getSerializable(cartItemExtraName),
+                    extras.getInt(totalAllPriceExtraName),extras.getInt(totalRawPriceExtraName),extras.getInt(totalDiscountExtraName),
+                    extras.getInt(packingCostLiveDataExtraName),extras.getInt(taxAndServiceExtraName),extras.getInt(shipingCostExtraName));
         }
     }
 
@@ -82,6 +81,6 @@ public class PaymentActivity extends AppCompatActivity implements PaymentInterfa
 
     @Override
     public void onFailure(String Error) {
-        Toast.makeText(this, ""+Error, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "" + Error, Toast.LENGTH_SHORT).show();
     }
 }

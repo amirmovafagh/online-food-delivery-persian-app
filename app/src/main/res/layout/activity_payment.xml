@@ -263,7 +263,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:maxLines="1"
-                            android:text="@{String.valueOf(viewModel.taxAndServiceLivedata)}"
+                            android:text="@{viewModel.taxAndServiceLiveData}"
                             android:textAlignment="viewEnd"
                             android:textSize="@dimen/body4_paragraph_font_size"
                             tools:ignore="RtlCompat" />

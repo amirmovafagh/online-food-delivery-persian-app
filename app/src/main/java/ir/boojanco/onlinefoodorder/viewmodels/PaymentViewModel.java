@@ -29,6 +29,7 @@ public class PaymentViewModel extends ViewModel {
     private String TAG = this.getClass().getSimpleName();
     private Context context;
     private int tempTotalDiscountedPrice = 0;
+
     private int finalPaymentPrice = 0;
 
     private RestaurantRepository restaurantRepository;
@@ -66,7 +67,7 @@ public class PaymentViewModel extends ViewModel {
 
     public void checkDiscountCode(String authKey) {
         paymentInterface.onStarted();
-        rx.Observable<DiscountCodeResponse> observable = restaurantRepository.getDiscountCodeResponse(authKey, "bj-F8GX0P", 467, 100000);
+        rx.Observable<DiscountCodeResponse> observable = restaurantRepository.getDiscountCodeResponse(authKey, "bj-1KE4GH", 467, 100000);
         if (observable != null) {
             observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<DiscountCodeResponse>() {
                 @Override
@@ -105,6 +106,7 @@ public class PaymentViewModel extends ViewModel {
 
     private void calculateDiscountCode(DiscountCodeResponse discountCode) {
         tempTotalDiscountedPrice = 0;
+        int tempTotalRawPrice=0;
         int allDiscountsCost = 0;
         double discount = 100 - discountCode.getDiscountPercent();
         discount = discount / 100;
@@ -133,23 +135,28 @@ public class PaymentViewModel extends ViewModel {
                 for (int i = 0; i < finalPaymentPrices.size(); i++) {
                     long id = finalPaymentPrices.get(i).getId();
                     int price = finalPaymentPrices.get(i).getDiscountedPrice();
+                    tempTotalRawPrice += price;
+                    Log.i(TAG,"1 "+price);
                     for (Map.Entry<Long, String> entry : specificItems.entrySet()) {
                         long foodId = entry.getKey();
                         String foodName = entry.getValue();
                         if (foodId == id) {
                             id = 0;
                             tempTotalDiscountedPrice += price * discount;
+                            Log.i(TAG,"2 "+tempTotalDiscountedPrice);
                         }
                     }
                     if (id != 0) {
                         tempTotalDiscountedPrice += price;
+                        Log.i(TAG,"3 "+tempTotalDiscountedPrice);
                     }
-                    if (totalRawPrice - tempTotalDiscountedPrice >= discountCode.getMaximumDiscountAmount()) {
+                    if (tempTotalRawPrice - tempTotalDiscountedPrice >= discountCode.getMaximumDiscountAmount()) {
                         tempTotalDiscountedPrice = totalRawPrice - discountCode.getMaximumDiscountAmount();
                         allDiscountsCost = (totalRawPrice - tempTotalDiscountedPrice) + totalDiscount;
+                        Log.i(TAG,"4 "+allDiscountsCost);
                         finalPaymentPrice = (totalRawPrice - allDiscountsCost) + packingCost + taxAndService + shippingCost;
                     } else {
-                        allDiscountsCost = (totalRawPrice - tempTotalDiscountedPrice) + totalDiscount;
+                        allDiscountsCost = (totalRawPrice - tempTotalDiscountedPrice) + totalDiscount;Log.i(TAG,"5 "+allDiscountsCost);
                         finalPaymentPrice = (totalRawPrice - allDiscountsCost) + packingCost + taxAndService + shippingCost;
                     }
                 }
@@ -172,6 +179,7 @@ public class PaymentViewModel extends ViewModel {
                 for (int i = 0; i < cartItems.size(); i++) {
                     long id = cartItems.get(i).getFoodId();
                     int price = cartItems.get(i).getFoodQuantity()* cartItems.get(i).getFoodPrice();
+                    tempTotalRawPrice += price;
                     for (Map.Entry<Long, String> entry : specificItems.entrySet()) {
                         long foodId = entry.getKey();
                         String foodName = entry.getValue();
@@ -183,7 +191,7 @@ public class PaymentViewModel extends ViewModel {
                     if (id != 0) {
                         tempTotalDiscountedPrice += price;
                     }
-                    if (totalRawPrice - tempTotalDiscountedPrice >= discountCode.getMaximumDiscountAmount()) {
+                    if (tempTotalRawPrice - tempTotalDiscountedPrice >= discountCode.getMaximumDiscountAmount()) {
                         tempTotalDiscountedPrice = totalRawPrice - discountCode.getMaximumDiscountAmount();
                         allDiscountsCost = (totalRawPrice - tempTotalDiscountedPrice) + totalDiscount;
                         finalPaymentPrice = (totalRawPrice - allDiscountsCost) + packingCost + taxAndService + shippingCost;

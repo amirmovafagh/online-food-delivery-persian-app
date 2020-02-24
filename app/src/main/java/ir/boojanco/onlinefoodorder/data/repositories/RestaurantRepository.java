@@ -16,8 +16,8 @@ public class RestaurantRepository {
         this.apiInterface = retrofit.create(ApiInterface.class);
     }
 
-    public Observable<LastRestaurantResponse> getLastRestaurant(String authToken) {
-        return apiInterface.getLastRestaurant(authToken);
+    public Observable<LastRestaurantResponse> getLastRestaurant(int page, int size) {
+        return apiInterface.getLastRestaurant( page,size);
     }
 
     public Observable<RestaurantInfoResponse> getRestaurantInfo(String authToken, long restaurantId) {

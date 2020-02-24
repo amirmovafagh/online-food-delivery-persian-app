@@ -44,7 +44,7 @@ public interface ApiInterface {
 
     /*@Headers("Authorization: 9900a9720d31dfd5fdb4352700c...")*/
     @GET("/api/v1/restaurant/last")
-    Observable<LastRestaurantResponse> getLastRestaurant(@Header("Authorization") String authToken);
+    Observable<LastRestaurantResponse> getLastRestaurant(/*@Header("Authorization") String authToken,*/ @Query("page") int page, @Query("size") int size);
 
     @GET("/api/v1/food/restaurant/{restaurantId}")
     Observable<GetAllFoodResponse> getAllFood(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
@@ -56,8 +56,7 @@ public interface ApiInterface {
     Observable<AllPackagesResponse> getAllPackagesResponseObservable(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
 
     @GET("/api/v1/discountCode/validate/{code}")
-
-    Observable<DiscountCodeResponse> getDiscountCodeResponseObservable(@Header("Authorization") String authToken, @Path("code") String code, @Query("restaurantId") Long restaurantId, @Query("totalCost") int totalCost );
+    Observable<DiscountCodeResponse> getDiscountCodeResponseObservable(@Header("Authorization") String authToken, @Path("code") String code, @Query("restaurantId") Long restaurantId, @Query("totalCost") int totalCost);
 
     @GET("/api/v1/address/user/all")
     Observable<GetUserAddressResponse> getUserAddressResponseObservable(@Header("Authorization") String authToken);

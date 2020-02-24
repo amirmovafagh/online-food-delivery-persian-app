@@ -3,6 +3,7 @@ package ir.boojanco.onlinefoodorder.ui.fragments.restaurants;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -73,6 +75,13 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        restaurantViewModel.restaurantPagedListLiveData.observe(getViewLifecycleOwner(), new Observer<PagedList<LastRestaurantList>>() {
+            @Override
+            public void onChanged(PagedList<LastRestaurantList> lastRestaurantLists) {
+                restaurantAdapter.submitList(lastRestaurantLists);
+            }
+        });
+
 
     }
 
@@ -89,13 +98,7 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
 
     @Override
     public void onSuccess(MutableLiveData<LastRestaurantResponse> data) {
-        data.observe(this, lastRestaurantResponse -> {
-            Log.e(TAG, "AA onSuccess in observer");
-            restaurantAdapter.setRestaurantsList(lastRestaurantResponse.getRestaurantsList());
-            recyclerView.scheduleLayoutAnimation();
-            binding.cvWaitingResponse.setVisibility(View.GONE);
 
-        });
     }
 
     @Override

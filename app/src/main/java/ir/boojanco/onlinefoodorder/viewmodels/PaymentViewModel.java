@@ -12,6 +12,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import ir.boojanco.onlinefoodorder.data.database.CartItem;
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
@@ -124,23 +125,72 @@ public class PaymentViewModel extends ViewModel {
                     finalPaymentPrice = (totalRawPrice - allDiscountsCost) + packingCost + taxAndService + shippingCost;
                 } else {
                     allDiscountsCost = (totalRawPrice - tempTotalDiscountedPrice) + totalDiscount;
-                    finalPaymentPrice = (totalRawPrice -allDiscountsCost) + packingCost + taxAndService + shippingCost;
+                    finalPaymentPrice = (totalRawPrice - allDiscountsCost) + packingCost + taxAndService + shippingCost;
                 }
 
-            } else {
+            } else {//discount effect on Specific items
+                Map<Long, String> specificItems = discountCode.getFoodList();
+                for (int i = 0; i < finalPaymentPrices.size(); i++) {
+                    long id = finalPaymentPrices.get(i).getId();
+                    int price = finalPaymentPrices.get(i).getDiscountedPrice();
+                    for (Map.Entry<Long, String> entry : specificItems.entrySet()) {
+                        long foodId = entry.getKey();
+                        String foodName = entry.getValue();
+                        if (foodId == id) {
+                            id = 0;
+                            tempTotalDiscountedPrice += price * discount;
+                        }
+                    }
+                    if (id != 0) {
+                        tempTotalDiscountedPrice += price;
+                    }
+                    if (totalRawPrice - tempTotalDiscountedPrice >= discountCode.getMaximumDiscountAmount()) {
+                        tempTotalDiscountedPrice = totalRawPrice - discountCode.getMaximumDiscountAmount();
+                        allDiscountsCost = (totalRawPrice - tempTotalDiscountedPrice) + totalDiscount;
+                        finalPaymentPrice = (totalRawPrice - allDiscountsCost) + packingCost + taxAndService + shippingCost;
+                    } else {
+                        allDiscountsCost = (totalRawPrice - tempTotalDiscountedPrice) + totalDiscount;
+                        finalPaymentPrice = (totalRawPrice - allDiscountsCost) + packingCost + taxAndService + shippingCost;
+                    }
+                }
 
             }
-        }else {//use the packages
+        } else {//use the packages
             //in this section we must divide on total raw price the discount apply on raw price of food
-            if (discountCode.isForAllFoods()){
+            if (discountCode.isForAllFoods()) {
                 tempTotalDiscountedPrice = (int) (totalRawPrice * discount);
-                if(totalRawPrice - tempTotalDiscountedPrice >= discountCode.getMaximumDiscountAmount()){
+                if (totalRawPrice - tempTotalDiscountedPrice >= discountCode.getMaximumDiscountAmount()) {
                     tempTotalDiscountedPrice = totalRawPrice - discountCode.getMaximumDiscountAmount();
                     allDiscountsCost = (totalRawPrice - tempTotalDiscountedPrice) + totalDiscount;
                     finalPaymentPrice = (totalRawPrice - allDiscountsCost) + packingCost + taxAndService + shippingCost;
-                }else {
+                } else {
                     allDiscountsCost = (totalRawPrice - tempTotalDiscountedPrice) + totalDiscount;
-                    finalPaymentPrice = (totalRawPrice -allDiscountsCost) + packingCost + taxAndService + shippingCost;
+                    finalPaymentPrice = (totalRawPrice - allDiscountsCost) + packingCost + taxAndService + shippingCost;
+                }
+            }else {
+                Map<Long, String> specificItems = discountCode.getFoodList();
+                for (int i = 0; i < cartItems.size(); i++) {
+                    long id = cartItems.get(i).getFoodId();
+                    int price = cartItems.get(i).getFoodQuantity()* cartItems.get(i).getFoodPrice();
+                    for (Map.Entry<Long, String> entry : specificItems.entrySet()) {
+                        long foodId = entry.getKey();
+                        String foodName = entry.getValue();
+                        if (foodId == id) {
+                            id = 0;
+                            tempTotalDiscountedPrice += price * discount;
+                        }
+                    }
+                    if (id != 0) {
+                        tempTotalDiscountedPrice += price;
+                    }
+                    if (totalRawPrice - tempTotalDiscountedPrice >= discountCode.getMaximumDiscountAmount()) {
+                        tempTotalDiscountedPrice = totalRawPrice - discountCode.getMaximumDiscountAmount();
+                        allDiscountsCost = (totalRawPrice - tempTotalDiscountedPrice) + totalDiscount;
+                        finalPaymentPrice = (totalRawPrice - allDiscountsCost) + packingCost + taxAndService + shippingCost;
+                    } else {
+                        allDiscountsCost = (totalRawPrice - tempTotalDiscountedPrice) + totalDiscount;
+                        finalPaymentPrice = (totalRawPrice - allDiscountsCost) + packingCost + taxAndService + shippingCost;
+                    }
                 }
             }
 

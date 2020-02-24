@@ -443,7 +443,7 @@ public class CartViewModel extends ViewModel {
                             totalDiscountedPrice = tempTotalRawPrice - packageItem.getMaximumDiscountAmount();
                             taxAndService = (int) (totalDiscountedPrice * taxPercent);
                             taxAndServiceLivedata.setValue(moneyFormat(taxAndService));
-                            totalAllPrice = (tempTotalRawPrice - packageItem.getMaximumDiscountAmount()) +  packingCost + taxAndService + shippingCost;
+                            totalAllPrice = (tempTotalRawPrice - packageItem.getMaximumDiscountAmount()) + packingCost + taxAndService + shippingCost;
                             totalAllPriceLiveData.setValue(moneyFormat(totalAllPrice));
                         } else {
                             totalAllPrice = totalDiscountedPrice + packingCost + taxAndService + shippingCost;
@@ -490,7 +490,6 @@ public class CartViewModel extends ViewModel {
                     }
                 }
             }
-
     }
 
 
@@ -508,7 +507,7 @@ public class CartViewModel extends ViewModel {
                 totalRawPrice = aLong.intValue();
                 totalRawPriceLiveData.setValue(aLong);
                 calculateFinalCartTotalPrice();
-                totalDiscount = totalRawPrice -totalDiscountedPrice;
+                totalDiscount = totalRawPrice - totalDiscountedPrice;
                 totalDiscountLiveData.setValue(moneyFormat(totalDiscount));
 
             }

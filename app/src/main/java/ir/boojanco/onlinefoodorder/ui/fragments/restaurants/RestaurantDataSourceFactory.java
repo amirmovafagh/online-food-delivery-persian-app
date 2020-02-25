@@ -10,15 +10,17 @@ import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantList;
 public class RestaurantDataSourceFactory extends DataSource.Factory {
     private MutableLiveData<PageKeyedDataSource<Integer, LastRestaurantList>> restaurantLiveDataSource = new MutableLiveData<>();
     private RestaurantRepository restaurantRepository;
+    private RestaurantDataSourceInterface dataSourceInterface;
 
-    public RestaurantDataSourceFactory(RestaurantRepository restaurantRepository) {
+    public RestaurantDataSourceFactory(RestaurantRepository restaurantRepository, RestaurantDataSourceInterface dataSourceInterface) {
         this.restaurantRepository = restaurantRepository;
+        this.dataSourceInterface = dataSourceInterface;
     }
 
 
     @Override
     public DataSource create() {
-        RestaurantDataSource restaurantDataSource = new RestaurantDataSource(restaurantRepository);
+        RestaurantDataSource restaurantDataSource = new RestaurantDataSource(restaurantRepository, dataSourceInterface);
         restaurantLiveDataSource.postValue(restaurantDataSource);
         return restaurantDataSource;
     }

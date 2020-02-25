@@ -20,6 +20,7 @@ import rx.schedulers.Schedulers;
 public class RestaurantDataSource extends PageKeyedDataSource<Integer, LastRestaurantList> {
     public static final int PAGE_SIZE = 10;
     public static final int FIRST_PAGE = 1;
+    private RestaurantDataSourceInterface  dataSourceInterface;
 
     /*
      * Step 1: Initialize the restApiFactory.
@@ -30,10 +31,9 @@ public class RestaurantDataSource extends PageKeyedDataSource<Integer, LastResta
     private RestaurantRepository restaurantRepository;
 
 
-    public RestaurantDataSource(RestaurantRepository restaurantRepository) {
+    public RestaurantDataSource(RestaurantRepository restaurantRepository,RestaurantDataSourceInterface  dataSourceInterface) {
         this.restaurantRepository = restaurantRepository;
-
-
+        this.dataSourceInterface = dataSourceInterface;
     }
 
     /*
@@ -44,14 +44,14 @@ public class RestaurantDataSource extends PageKeyedDataSource<Integer, LastResta
      */
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, LastRestaurantList> callback) {
-
+        dataSourceInterface.onStarted();
 
         Observable<LastRestaurantResponse> observable = restaurantRepository.getLastRestaurant(FIRST_PAGE, PAGE_SIZE);
         if (observable != null) {
             observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<LastRestaurantResponse>() {
                 @Override
                 public void onCompleted() {
-
+                    dataSourceInterface.onSuccess();
                 }
 
                 @Override
@@ -64,12 +64,11 @@ public class RestaurantDataSource extends PageKeyedDataSource<Integer, LastResta
 
                             try {
                                 JSONObject jsonObject = new JSONObject(response.errorBody().string());
-
-//                            restaurantInterface.onFailure(jsonObject.getString("message"));
+                                dataSourceInterface.onFailure(jsonObject.getString("message"));
 
 
                             } catch (Exception d) {
-//                            restaurantInterface.onFailure(d.getMessage());
+                                dataSourceInterface.onFailure(d.getMessage());
                             }
                         }
                 }

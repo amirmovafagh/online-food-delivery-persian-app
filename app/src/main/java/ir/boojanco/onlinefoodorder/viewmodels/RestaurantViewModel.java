@@ -18,6 +18,7 @@ import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantList;
 import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantResponse;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurants.RestaurantDataSource;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurants.RestaurantDataSourceFactory;
+import ir.boojanco.onlinefoodorder.ui.fragments.restaurants.RestaurantDataSourceInterface;
 import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantFragmentInterface;
 import retrofit2.HttpException;
@@ -27,7 +28,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class RestaurantViewModel extends ViewModel {
+public class RestaurantViewModel extends ViewModel implements RestaurantDataSourceInterface {
     private static final String TAG = RestaurantViewModel.class.getSimpleName();
 
     public RestaurantFragmentInterface restaurantInterface;
@@ -43,7 +44,7 @@ public class RestaurantViewModel extends ViewModel {
         this.context = context;
         this.restaurantRepository = restaurantRepository;
 
-        RestaurantDataSourceFactory restaurantDataSourceFactory = new RestaurantDataSourceFactory(restaurantRepository);
+        RestaurantDataSourceFactory restaurantDataSourceFactory = new RestaurantDataSourceFactory(restaurantRepository, this);
         liveDataSource = restaurantDataSourceFactory.getRestaurantLiveDataSource();
         PagedList.Config config =
                 (new  PagedList.Config.Builder()
@@ -54,5 +55,20 @@ public class RestaurantViewModel extends ViewModel {
 
     public void getAllRestaurant(String authToken){
 
+    }
+
+    @Override
+    public void onStarted() {
+        restaurantInterface.onStarted();
+    }
+
+    @Override
+    public void onSuccess() {
+        restaurantInterface.onSuccess();
+    }
+
+    @Override
+    public void onFailure(String error) {
+        restaurantInterface.onFailure(error);
     }
 }

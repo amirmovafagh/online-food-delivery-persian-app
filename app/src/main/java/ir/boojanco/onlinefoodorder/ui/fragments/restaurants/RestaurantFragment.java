@@ -97,9 +97,11 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
     }
 
     @Override
-    public void onSuccess(MutableLiveData<LastRestaurantResponse> data) {
-
+    public void onSuccess() {
+        recyclerView.scheduleLayoutAnimation();
+        binding.cvWaitingResponse.setVisibility(View.GONE);
     }
+
 
     @Override
     public void onFailure(String error) {

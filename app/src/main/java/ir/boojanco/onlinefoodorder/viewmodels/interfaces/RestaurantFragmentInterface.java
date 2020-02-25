@@ -7,6 +7,6 @@ import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantResponse;
 
 public interface RestaurantFragmentInterface {
     void onStarted();
-    void onSuccess(MutableLiveData<LastRestaurantResponse> liveData);
+    void onSuccess();
     void onFailure(String error);
 }

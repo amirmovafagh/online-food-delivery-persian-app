@@ -12,6 +12,7 @@ import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.RestaurantDet
 import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.RestaurantFoodMenuFragment;
 import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.RestaurantInfoFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.MapDialogFragment;
+import ir.boojanco.onlinefoodorder.ui.fragments.UserProfileFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.home.HomeFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurants.RestaurantFragment;
 
@@ -24,6 +25,7 @@ public interface AppComponent {
     void inject(RegisterActivity registerActivity);
     void inject(HomeFragment homeFragment);
     void inject(RestaurantFragment restaurantFragment);
+    void inject(UserProfileFragment userProfileFragment);
     void inject(RestaurantDetailsActivity restaurantFoodActivity);
     void inject(RestaurantFoodMenuFragment restaurantFoodMenuFragment);
     void inject(RestaurantInfoFragment restaurantInfoFragment);

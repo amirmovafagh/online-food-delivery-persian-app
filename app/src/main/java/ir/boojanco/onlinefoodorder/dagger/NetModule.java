@@ -28,6 +28,7 @@ import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantDetailsViewMod
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantFoodMenuViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantInfoFragmentViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.factories.UserProfileViewModelFactory;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -43,9 +44,10 @@ public class NetModule {
     public NetModule(String baseUrl) {
         this.mBaseUrl = baseUrl;
     }
+
     @Provides
     @Singleton
-    LoginViewModelFactory provideLoginViewModelFactory(Application application, UserRepository userRepository){
+    LoginViewModelFactory provideLoginViewModelFactory(Application application, UserRepository userRepository) {
         LoginViewModelFactory factory =
                 new LoginViewModelFactory(application, userRepository);
         return factory;
@@ -61,7 +63,7 @@ public class NetModule {
 
     @Provides
     @Singleton
-    RegisterViewModelFactory provideRegisterViewModelFactory(Application application, UserRepository userRepository){
+    RegisterViewModelFactory provideRegisterViewModelFactory(Application application, UserRepository userRepository) {
         RegisterViewModelFactory factory =
                 new RegisterViewModelFactory(application, userRepository);
         return factory;
@@ -69,7 +71,15 @@ public class NetModule {
 
     @Provides
     @Singleton
-    HomeViewModelFactory provideHomeViewModelFactory(Application application){
+    UserProfileViewModelFactory provideUserProfileViewModelFactory(Application application, RestaurantRepository restaurantRepository, UserRepository userRepository) {
+        UserProfileViewModelFactory factory =
+                new UserProfileViewModelFactory(application, restaurantRepository, userRepository);
+        return factory;
+    }
+
+    @Provides
+    @Singleton
+    HomeViewModelFactory provideHomeViewModelFactory(Application application) {
         HomeViewModelFactory factory =
                 new HomeViewModelFactory(application);
         return factory;
@@ -77,14 +87,15 @@ public class NetModule {
 
     @Provides
     @Singleton
-    RestaurantViewModelFactory provideRestaurntViewModelFactory(Application application ,RestaurantRepository restaurantRepository){
+    RestaurantViewModelFactory provideRestaurntViewModelFactory(Application application, RestaurantRepository restaurantRepository) {
         RestaurantViewModelFactory factory =
                 new RestaurantViewModelFactory(application, restaurantRepository);
         return factory;
     }
+
     @Provides
     @Singleton
-    RestaurantInfoFragmentViewModelFactory provideRestaurantInfoFragmentViewModelFactory(Application application , RestaurantRepository restaurantRepository){
+    RestaurantInfoFragmentViewModelFactory provideRestaurantInfoFragmentViewModelFactory(Application application, RestaurantRepository restaurantRepository) {
         RestaurantInfoFragmentViewModelFactory factory =
                 new RestaurantInfoFragmentViewModelFactory(application, restaurantRepository);
         return factory;
@@ -92,7 +103,7 @@ public class NetModule {
 
     @Provides
     @Singleton
-    RestaurantDetailsViewModelFactory provideRestaurantDetailsViewModelFactory(Application application , RestaurantRepository restaurantRepository, CartDataSource cartDataSource){
+    RestaurantDetailsViewModelFactory provideRestaurantDetailsViewModelFactory(Application application, RestaurantRepository restaurantRepository, CartDataSource cartDataSource) {
         RestaurantDetailsViewModelFactory factory =
                 new RestaurantDetailsViewModelFactory(application, restaurantRepository, cartDataSource);
         return factory;
@@ -100,7 +111,7 @@ public class NetModule {
 
     @Provides
     @Singleton
-    RestaurantFoodMenuViewModelFactory provideRestaurantFoodMenuViewModelFactory(Application application , RestaurantRepository restaurantRepository, CartDataSource cartDataSource){
+    RestaurantFoodMenuViewModelFactory provideRestaurantFoodMenuViewModelFactory(Application application, RestaurantRepository restaurantRepository, CartDataSource cartDataSource) {
         RestaurantFoodMenuViewModelFactory factory =
                 new RestaurantFoodMenuViewModelFactory(application, restaurantRepository, cartDataSource);
         return factory;
@@ -108,7 +119,7 @@ public class NetModule {
 
     @Provides
     @Singleton
-    CartViewModelFactory provideCartViewModelFactory(Application application , CartDataSource cartDataSource, UserRepository userRepository, RestaurantRepository restaurantRepository){
+    CartViewModelFactory provideCartViewModelFactory(Application application, CartDataSource cartDataSource, UserRepository userRepository, RestaurantRepository restaurantRepository) {
         CartViewModelFactory factory =
                 new CartViewModelFactory(application, cartDataSource, userRepository, restaurantRepository);
         return factory;
@@ -116,7 +127,7 @@ public class NetModule {
 
     @Provides
     @Singleton
-    PaymentViewModelFactory providePaymentViewModelFactory(Application application , RestaurantRepository restaurantRepository){
+    PaymentViewModelFactory providePaymentViewModelFactory(Application application, RestaurantRepository restaurantRepository) {
         PaymentViewModelFactory factory =
                 new PaymentViewModelFactory(application, restaurantRepository);
         return factory;
@@ -128,7 +139,6 @@ public class NetModule {
         RestaurantRepository restaurantRepository = new RestaurantRepository(retrofit);
         return restaurantRepository;
     }
-
 
 
     // Dagger will only look for methods annotated with @Provides
@@ -190,7 +200,7 @@ public class NetModule {
 
     @Provides
     @Singleton
-    NetworkConnectionInterceptor provideNetworkConnectionInterceptor( Application application) {
+    NetworkConnectionInterceptor provideNetworkConnectionInterceptor(Application application) {
         NetworkConnectionInterceptor networkConnectionInterceptor = new NetworkConnectionInterceptor(application);
         return networkConnectionInterceptor;
     }

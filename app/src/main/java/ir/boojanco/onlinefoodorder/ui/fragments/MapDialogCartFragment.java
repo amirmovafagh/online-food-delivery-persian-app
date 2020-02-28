@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,8 +30,8 @@ import ir.boojanco.onlinefoodorder.databinding.FragmentMapDialogBinding;
 import ir.boojanco.onlinefoodorder.viewmodels.CartViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.MapDialogInterface;
 
-public class MapDialogFragment extends DialogFragment implements OnMapReadyCallback, MapDialogInterface {
-    private static final String TAG = MapDialogFragment.class.getSimpleName();
+public class MapDialogCartFragment extends DialogFragment implements OnMapReadyCallback, MapDialogInterface {
+    private static final String TAG = MapDialogCartFragment.class.getSimpleName();
     private FragmentMapDialogBinding binding;
     private GoogleMap googleMap;
     private Marker marker;
@@ -40,6 +39,7 @@ public class MapDialogFragment extends DialogFragment implements OnMapReadyCallb
 
     @Inject
     MySharedPreferences sharedPreferences;
+
 
     @NonNull
     @Override
@@ -60,7 +60,7 @@ public class MapDialogFragment extends DialogFragment implements OnMapReadyCallb
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map_dialog, container,false);
         cartViewModel= new ViewModelProvider(getActivity()).get(CartViewModel.class);
-        cartViewModel.mapDialogInterface = this;
+        cartViewModel.mapDialogCartInterface = this;
         binding.setViewModel(cartViewModel);
         binding.setLifecycleOwner(this);
         return binding.getRoot();

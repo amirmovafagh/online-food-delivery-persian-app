@@ -59,7 +59,7 @@ public interface ApiInterface {
     Observable<DiscountCodeResponse> getDiscountCodeResponseObservable(@Header("Authorization") String authToken, @Path("code") String code, @Query("restaurantId") Long restaurantId, @Query("totalCost") int totalCost);
 
     @GET("/api/v1/address/user/all")
-    Observable<GetUserAddressResponse> getUserAddressResponseObservable(@Header("Authorization") String authToken);
+    Observable<GetUserAddressResponse> getUserAddressResponseObservable(@Header("Authorization") String authToken, @Query("page") int page, @Query("size") int size);
 
     @POST("/api/v1/address/add")
     Observable<AddUserAddressResponse> addUserAddress(@Header("Authorization") String authToken, @Body AddUserAddressResponse addressBody);

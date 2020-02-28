@@ -9,7 +9,6 @@ import ir.boojanco.onlinefoodorder.data.database.CartItem;
 import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllCitiesList;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList;
-import ir.boojanco.onlinefoodorder.models.user.UserAddressList;
 import ir.boojanco.onlinefoodorder.ui.activities.cart.FinalPaymentPrice;
 
 public interface CartInterface {
@@ -17,7 +16,7 @@ public interface CartInterface {
 
     void onSuccess(List<CartItem> cartItems);
 
-    void onSuccessGetAddress(List<UserAddressList> addressLists);
+    void onSuccessGetAddress();
 
     void onSuccessGetStates(List<AllStatesList> allStatesLists);
 
@@ -30,7 +29,7 @@ public interface CartInterface {
     void showMapDialogFragment();
 
     void acceptOrder(ArrayList<FinalPaymentPrice> finalPaymentPrices, List<CartItem> cartItems, int totalAllPrice,
-                     int totalRawPrice,int totalDiscount, int packingCost,
+                     int totalRawPrice, int totalDiscount, int packingCost,
                      int taxAndService, int shippingCost);
 
     void onSuccessGetReverseAddress(ReverseFindAddressResponse reverseFindAddressResponses);

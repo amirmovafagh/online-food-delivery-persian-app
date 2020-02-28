@@ -18,9 +18,9 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class RestaurantDataSource extends PageKeyedDataSource<Integer, LastRestaurantList> {
-    public static final int PAGE_SIZE = 10;
+    public static final int PAGE_SIZE = 5;
     public static final int FIRST_PAGE = 1;
-    private RestaurantDataSourceInterface  dataSourceInterface;
+    private RestaurantDataSourceInterface dataSourceInterface;
 
     /*
      * Step 1: Initialize the restApiFactory.
@@ -31,7 +31,7 @@ public class RestaurantDataSource extends PageKeyedDataSource<Integer, LastResta
     private RestaurantRepository restaurantRepository;
 
 
-    public RestaurantDataSource(RestaurantRepository restaurantRepository,RestaurantDataSourceInterface  dataSourceInterface) {
+    public RestaurantDataSource(RestaurantRepository restaurantRepository, RestaurantDataSourceInterface dataSourceInterface) {
         this.restaurantRepository = restaurantRepository;
         this.dataSourceInterface = dataSourceInterface;
     }
@@ -58,19 +58,19 @@ public class RestaurantDataSource extends PageKeyedDataSource<Integer, LastResta
                 public void onError(Throwable e) {
 
                     if (e instanceof NoNetworkConnectionException)
-//                        restaurantInterface.onFailure(e.getMessage());
-                        if (e instanceof HttpException) {
-                            Response response = ((HttpException) e).response();
+                        dataSourceInterface.onFailure(e.getMessage());
+                    if (e instanceof HttpException) {
+                        Response response = ((HttpException) e).response();
 
-                            try {
-                                JSONObject jsonObject = new JSONObject(response.errorBody().string());
-                                dataSourceInterface.onFailure(jsonObject.getString("message"));
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                            dataSourceInterface.onFailure(jsonObject.getString("message"));
 
 
-                            } catch (Exception d) {
-                                dataSourceInterface.onFailure(d.getMessage());
-                            }
+                        } catch (Exception d) {
+                            dataSourceInterface.onFailure(d.getMessage());
                         }
+                    }
                 }
 
                 @Override
@@ -96,20 +96,20 @@ public class RestaurantDataSource extends PageKeyedDataSource<Integer, LastResta
                 @Override
                 public void onError(Throwable e) {
                     if (e instanceof NoNetworkConnectionException)
-//                        restaurantInterface.onFailure(e.getMessage());
-                        if (e instanceof HttpException) {
-                            Response response = ((HttpException) e).response();
+                        dataSourceInterface.onFailure(e.getMessage());
+                    if (e instanceof HttpException) {
+                        Response response = ((HttpException) e).response();
 
-                            try {
-                                JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
 
-//                            restaurantInterface.onFailure(jsonObject.getString("message"));
+                            dataSourceInterface.onFailure(jsonObject.getString("message"));
 
 
-                            } catch (Exception d) {
-//                            restaurantInterface.onFailure(d.getMessage());
-                            }
+                        } catch (Exception d) {
+                            dataSourceInterface.onFailure(d.getMessage());
                         }
+                    }
                 }
 
                 @Override
@@ -135,20 +135,19 @@ public class RestaurantDataSource extends PageKeyedDataSource<Integer, LastResta
                 @Override
                 public void onError(Throwable e) {
                     if (e instanceof NoNetworkConnectionException)
-//                        restaurantInterface.onFailure(e.getMessage());
-                        if (e instanceof HttpException) {
-                            Response response = ((HttpException) e).response();
+                        dataSourceInterface.onFailure(e.getMessage());
+                    if (e instanceof HttpException) {
+                        Response response = ((HttpException) e).response();
 
-                            try {
-                                JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
 
-//                            restaurantInterface.onFailure(jsonObject.getString("message"));
+                            dataSourceInterface.onFailure(jsonObject.getString("message"));
 
-
-                            } catch (Exception d) {
-//                            restaurantInterface.onFailure(d.getMessage());
-                            }
+                        } catch (Exception d) {
+                            dataSourceInterface.onFailure(d.getMessage());
                         }
+                    }
                 }
 
                 @Override

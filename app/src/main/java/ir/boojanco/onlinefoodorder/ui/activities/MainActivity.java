@@ -52,27 +52,18 @@ import ir.boojanco.onlinefoodorder.viewmodels.MainViewModel;
 
 
 public class MainActivity extends AppCompatActivity  {
-    private static String TAG = "regTest";
+    private static String TAG = MainActivity.class.getSimpleName();
     private MainViewModel mainViewModel;
     ActivityMainBinding binding;
-    final Fragment homeFragment = new HomeFragment();
-    final Fragment cartFragment = new CartFragment();
-    final Fragment restaurantFragment = new RestaurantFragment();
-    final Fragment userProfileFragment = new UserProfileFragment();
-    final FragmentManager fm = getSupportFragmentManager();
-    Fragment active = homeFragment;
     BottomNavigationView bottomNavigationView;
     Toolbar myToolbar;
 
     private int PERMISSION_ID = 17;
     private FusedLocationProviderClient locationProviderClient;
 
-
-
     @Inject
     MySharedPreferences sharedPreferences;
-    @Inject
-    CartDataSource cartDataSource;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

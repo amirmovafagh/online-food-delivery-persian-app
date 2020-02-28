@@ -8,7 +8,7 @@
     </data>
 
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,7 +22,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/backgroundGrayLight_lowAlpha"
-            android:padding="16dp"
             bind:layout_constraintBottom_toBottomOf="parent"
             bind:layout_constraintLeft_toLeftOf="parent"
             bind:layout_constraintRight_toRightOf="parent"
@@ -40,7 +39,7 @@
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cv_user_profile_details"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="140dp"
                         bind:cardCornerRadius="@dimen/card_view_corner_radius"
                         bind:layout_constraintLeft_toLeftOf="parent"
@@ -86,47 +85,64 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="85dp"
                         android:layout_height="85dp"
-                        bind:cardBackgroundColor="#DBF5FA"
+                        android:layout_marginRight="8dp"
                         bind:cardCornerRadius="@dimen/card_view_corner_radius"
-
                         bind:layout_constraintBottom_toBottomOf="@id/cv_user_profile_details"
-                        bind:layout_constraintLeft_toRightOf="@+id/cv_user_profile_details"
                         bind:layout_constraintRight_toRightOf="@+id/cv_user_profile_details"
                         bind:layout_constraintTop_toTopOf="@id/cv_user_profile_details">
 
-                        <com.airbnb.lottie.LottieAnimationView
-                            android:id="@+id/animation_view_delivery_time"
+                        <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:cropToPadding="true"
-                            android:scaleType="centerCrop"
-                            bind:lottie_autoPlay="true"
-                            bind:lottie_loop="true"
-                            bind:lottie_rawRes="@raw/random_user_profile_person_animate" />
+                            android:background="@drawable/cardview_border">
+
+                            <com.airbnb.lottie.LottieAnimationView
+                                android:id="@+id/animation_view_delivery_time"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:cropToPadding="true"
+                                android:scaleType="centerCrop"
+                                bind:lottie_autoPlay="true"
+                                bind:lottie_loop="true"
+                                bind:lottie_rawRes="@raw/random_user_profile_person_animate" />
+                        </FrameLayout>
                     </androidx.cardview.widget.CardView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
                     android:orientation="horizontal">
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/cv_orders"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
                         android:layout_weight="0.5"
-                        bind:cardCornerRadius="@dimen/card_view_corner_radius"
+                        bind:cardCornerRadius="20dp"
                         bind:cardElevation="0dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:drawableStart="@drawable/ic_orders_list"
-                            android:drawablePadding="8dp"
-                            android:padding="4dp"
-                            android:text="سفارشات" />
+                        <FrameLayout
+                            android:id="@+id/frame_layout_orders"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:drawableStart="@drawable/ic_orders_list"
+                                android:drawablePadding="8dp"
+                                android:padding="8dp"
+                                android:text="سفارشات" />
+                        </FrameLayout>
+
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
@@ -134,23 +150,93 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
                         android:layout_weight="0.5"
-                        bind:cardCornerRadius="@dimen/card_view_corner_radius"
+                        bind:cardCornerRadius="20dp"
                         bind:cardElevation="0dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:drawableStart="@drawable/ic_delicious_fav"
-                            android:drawablePadding="8dp"
-                            android:padding="4dp"
-                            android:text="پرمزه ها" />
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:drawableStart="@drawable/ic_delicious_fav"
+                                android:drawablePadding="8dp"
+                                android:padding="8dp"
+                                android:text="پرمزه ها" />
+                        </FrameLayout>
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="16dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textViewCategoryTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.9"
+                        android:drawableStart="@drawable/ic_deliver_in_my_address"
+                        android:drawablePadding="8dp"
+                        android:maxLines="1"
+                        android:text="@string/your_addresses"
+                        android:textAlignment="textStart"
+                        android:textSize="@dimen/body1_paragraph_font_size" />
+
+                    <Button
+                        android:id="@+id/btn_add_address"
+                        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:onClick="@{()-> viewModel.addAddressOnClick()}"
+                        android:textSize="@dimen/button_font_size"
+                        bind:icon="@drawable/ic_add_location" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_user_address_horizontal_items"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layoutAnimation="@anim/layout_animation_fall_down" />
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
 
+        <View
+            android:id="@+id/bottom_sheet_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:background="@drawable/bottom_sheet_shadow"
+            bind:layout_anchor="@+id/bottom_sheet" />
 
-    </FrameLayout>
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="100dp"
+            android:background="@drawable/bg_bottom_sheet"
+            android:fitsSystemWindows="true"
+            android:layoutDirection="rtl"
+            android:orientation="vertical"
+            android:padding="16dp"
+            bind:behavior_hideable="true"
+            bind:behavior_peekHeight="0dp"
+            bind:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+            <include
+                android:id="@+id/bottom_sheet_include"
+                layout="@layout/bottom_sheet_add_user_address_profile"
+                bind:viewModel="@{viewModel}" />
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

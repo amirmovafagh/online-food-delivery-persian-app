@@ -74,15 +74,12 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         restaurantViewModel.restaurantPagedListLiveData.observe(getViewLifecycleOwner(), new Observer<PagedList<LastRestaurantList>>() {
             @Override
             public void onChanged(PagedList<LastRestaurantList> lastRestaurantLists) {
                 restaurantAdapter.submitList(lastRestaurantLists);
             }
         });
-
-
     }
 
     @Override

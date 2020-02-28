@@ -10,13 +10,11 @@ import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
-
 import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.databinding.RecyclerviewRestaurantItemBinding;
 import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantList;
 
-public class RestaurantAdapter extends PagedListAdapter<LastRestaurantList,RestaurantAdapter.RestaurantViewHolder> {
+public class RestaurantAdapter extends PagedListAdapter<LastRestaurantList, RestaurantAdapter.RestaurantViewHolder> {
     //private List<LastRestaurantList> restaurants;
     public RecyclerViewRestaurantClickListener clickListener;
 
@@ -36,12 +34,12 @@ public class RestaurantAdapter extends PagedListAdapter<LastRestaurantList,Resta
     @Override
     public void onBindViewHolder(@NonNull RestaurantViewHolder holder, int position) {
         LastRestaurantList currentRestaurant = getItem(position);
-        if(currentRestaurant != null){
+        if (currentRestaurant != null) {
             holder.binding.setRestaurant(currentRestaurant);
             holder.binding.toggleBookmark.setOnClickListener(v -> {
                 clickListener.onRecyclerViewItemClick(holder.binding.toggleBookmark, currentRestaurant);
             });
-            holder.binding.consLayout.setOnClickListener(v ->{
+            holder.binding.consLayout.setOnClickListener(v -> {
                 clickListener.onRecyclerViewItemClick(holder.binding.consLayout, currentRestaurant);
             });
         }
@@ -63,8 +61,9 @@ public class RestaurantAdapter extends PagedListAdapter<LastRestaurantList,Resta
                 }
             };
 
-    class RestaurantViewHolder extends RecyclerView.ViewHolder{
+    class RestaurantViewHolder extends RecyclerView.ViewHolder {
         private RecyclerviewRestaurantItemBinding binding; //this variable is from XML recyclerview_restauran
+
         public RestaurantViewHolder(@NonNull RecyclerviewRestaurantItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;

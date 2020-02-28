@@ -4,8 +4,12 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PageKeyedDataSource;
+import androidx.paging.PagedList;
 
 
 import com.google.android.gms.maps.model.LatLng;
@@ -38,6 +42,10 @@ import ir.boojanco.onlinefoodorder.models.stateCity.GetAllCitiesResponse;
 import ir.boojanco.onlinefoodorder.models.stateCity.GetAllStatesResponse;
 import ir.boojanco.onlinefoodorder.models.user.AddUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.GetUserAddressResponse;
+import ir.boojanco.onlinefoodorder.models.user.UserAddressList;
+import ir.boojanco.onlinefoodorder.ui.activities.cart.AddressDataSource;
+import ir.boojanco.onlinefoodorder.ui.activities.cart.AddressDataSourceFactory;
+import ir.boojanco.onlinefoodorder.ui.activities.cart.AddressDataSourceInterface;
 import ir.boojanco.onlinefoodorder.ui.activities.cart.FinalPaymentPrice;
 import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.CartInterface;
@@ -46,11 +54,11 @@ import retrofit2.HttpException;
 import retrofit2.Response;
 import rx.Subscriber;
 
-public class CartViewModel extends ViewModel {
+public class CartViewModel extends ViewModel implements AddressDataSourceInterface {
     private String TAG = this.getClass().getSimpleName();
 
     public CartInterface cartInterface;
-    public MapDialogInterface mapDialogInterface;
+    public MapDialogInterface mapDialogCartInterface;
     private Context context;
     private CartDataSource cartDataSource;
     private CompositeDisposable compositeDisposableGetAllItems;
@@ -67,7 +75,7 @@ public class CartViewModel extends ViewModel {
     private List<AllStatesList> statesLists;
     private List<AllCitiesList> citiesLists;
     private ArrayList<FinalPaymentPrice> finalPaymentPrices;
-    private String userAuthToken;
+    public String userAuthToken;
 
 
     public MutableLiveData<Long> totalRawPriceLiveData;
@@ -92,6 +100,8 @@ public class CartViewModel extends ViewModel {
     public MutableLiveData<String> restaurantAddressLiveData;
     public MutableLiveData<Integer> deliveryTypeSelectLiveData;
     public MutableLiveData<Integer> deliveryTypeViewLiveData;
+    public LiveData<PagedList<UserAddressList>> userAddressPagedListLiveData;
+    public LiveData<PageKeyedDataSource<Integer, UserAddressList>> userAddressPageKeyedDataSourceLiveData;
 
     private int totalDiscountedPrice = 0;
     private int tempTotalRawPrice = 0;
@@ -206,8 +216,10 @@ public class CartViewModel extends ViewModel {
 
 
     public void getReverseAddressParsiMap(Double latitude, Double longitude, String authToken) {
+        Log.i("AMIR","rev");
         rx.Observable<ReverseFindAddressResponse> observable = userRepository.getReverseFindAddressResponse(latitude, longitude);
         if (observable != null) {
+            Log.i("AMIR","rev1");
             observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<ReverseFindAddressResponse>() {
                 @Override
                 public void onCompleted() {
@@ -215,32 +227,35 @@ public class CartViewModel extends ViewModel {
                     userLongitude = longitude;
                     if (state.getValue() != null) {
                         checkAddressAndGetStateId(authToken);
-                        mapDialogInterface.onSuccess();
+                        mapDialogCartInterface.onSuccess();
                     }
                 }
 
                 @Override
                 public void onError(Throwable e) {
-                    mapDialogInterface.onFailure(e.getMessage());
+                    Log.i("AMIR","rev "+e.getMessage()) ;
+                    mapDialogCartInterface.onFailure(e.getMessage());
                     if (e instanceof NoNetworkConnectionException)
-                        mapDialogInterface.onFailure(e.getMessage());
+                        mapDialogCartInterface.onFailure(e.getMessage());
                     if (e instanceof HttpException) {
                         Response response = ((HttpException) e).response();
 
                         try {
                             JSONObject jsonObject = new JSONObject(response.errorBody().string());
 
-                            mapDialogInterface.onFailure(jsonObject.getString("message"));
+                            mapDialogCartInterface.onFailure(jsonObject.getString("message"));
 
 
                         } catch (Exception d) {
-                            mapDialogInterface.onFailure(d.getMessage());
+                            Log.i("AMIR","rev "+d.getMessage()) ;
+                            mapDialogCartInterface.onFailure(d.getMessage());
                         }
                     }
                 }
 
                 @Override
                 public void onNext(ReverseFindAddressResponse reverseFindAddressResponse) {
+                    Log.i("AMIR","rev3");
                     state.setValue(reverseFindAddressResponse.getResult().get(0).getTitle());
                     city.setValue(reverseFindAddressResponse.getResult().get(3).getTitle());
                     region.setValue(reverseFindAddressResponse.getShortAddress());
@@ -301,42 +316,13 @@ public class CartViewModel extends ViewModel {
 
     public void getUserAddress(String authToken) {
         userAuthToken = authToken;
-        rx.Observable<GetUserAddressResponse> observable = userRepository.getUserAddressResponseObservable(authToken);
-        if (observable != null) {
-            observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetUserAddressResponse>() {
-                @Override
-                public void onCompleted() {
-
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    if (e instanceof NoNetworkConnectionException)
-                        cartInterface.onFailure(e.getMessage());
-                    if (e instanceof HttpException) {
-                        Response response = ((HttpException) e).response();
-
-                        try {
-                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
-
-                            cartInterface.onFailure(jsonObject.getString("message"));
-
-
-                        } catch (Exception d) {
-                            cartInterface.onFailure(d.getMessage());
-                        }
-                    }
-                }
-
-                @Override
-                public void onNext(GetUserAddressResponse getUserAddressResponse) {
-
-
-                    cartInterface.onSuccessGetAddress(getUserAddressResponse.getUserAddressLists());
-                    initDeliveryType();
-                }
-            });
-        }
+        AddressDataSourceFactory addressDataSourceFactory = new AddressDataSourceFactory(userRepository, this, authToken);
+        userAddressPageKeyedDataSourceLiveData = addressDataSourceFactory.getAddresstLiveDataSource();
+        PagedList.Config config =
+                (new PagedList.Config.Builder()
+                        .setEnablePlaceholders(false)).setPageSize(AddressDataSource.PAGE_SIZE)
+                        .build();
+        userAddressPagedListLiveData = (new LivePagedListBuilder(addressDataSourceFactory, config)).build();
     }
 
     public void addUserAddress() {
@@ -534,18 +520,18 @@ public class CartViewModel extends ViewModel {
                 @Override
                 public void onError(Throwable e) {
                     if (e instanceof NoNetworkConnectionException)
-                        mapDialogInterface.onFailure(e.getMessage());
+                        mapDialogCartInterface.onFailure(e.getMessage());
                     if (e instanceof HttpException) {
                         Response response = ((HttpException) e).response();
 
                         try {
                             JSONObject jsonObject = new JSONObject(response.errorBody().string());
 
-                            mapDialogInterface.onFailure(jsonObject.getString("message"));
+                            mapDialogCartInterface.onFailure(jsonObject.getString("message"));
 
 
                         } catch (Exception d) {
-                            mapDialogInterface.onFailure(d.getMessage());
+                            mapDialogCartInterface.onFailure(d.getMessage());
                         }
                     }
                 }
@@ -612,5 +598,22 @@ public class CartViewModel extends ViewModel {
         NumberFormat formatter = new DecimalFormat("#,###");
         String formattedNumber = formatter.format(cost);
         return formattedNumber + " تومان";
+    }
+
+    @Override
+    public void onStarted() {
+
+    }
+
+    @Override
+    public void onSuccess() {
+        initDeliveryType();
+        cartInterface.onSuccessGetAddress();
+
+    }
+
+    @Override
+    public void onFailure(String error) {
+        cartInterface.onFailure(error);
     }
 }

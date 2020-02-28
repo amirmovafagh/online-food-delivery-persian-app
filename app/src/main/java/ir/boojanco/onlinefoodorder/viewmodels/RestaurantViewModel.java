@@ -34,7 +34,7 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
     public RestaurantFragmentInterface restaurantInterface;
     private RestaurantRepository restaurantRepository;
     private Context context;
-    public MutableLiveData<LastRestaurantResponse> responseMutableLiveData ;
+    public MutableLiveData<LastRestaurantResponse> responseMutableLiveData;
 
     public LiveData<PagedList<LastRestaurantList>> restaurantPagedListLiveData;
     public LiveData<PageKeyedDataSource<Integer, LastRestaurantList>> liveDataSource;
@@ -44,17 +44,17 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
         this.context = context;
         this.restaurantRepository = restaurantRepository;
 
+
+    }
+
+    public void getAllRestaurant(String authToken) {
         RestaurantDataSourceFactory restaurantDataSourceFactory = new RestaurantDataSourceFactory(restaurantRepository, this);
         liveDataSource = restaurantDataSourceFactory.getRestaurantLiveDataSource();
         PagedList.Config config =
-                (new  PagedList.Config.Builder()
-                .setEnablePlaceholders(false)).setPageSize(RestaurantDataSource.PAGE_SIZE)
-                .build();
+                (new PagedList.Config.Builder()
+                        .setEnablePlaceholders(false)).setPageSize(RestaurantDataSource.PAGE_SIZE)
+                        .build();
         restaurantPagedListLiveData = (new LivePagedListBuilder(restaurantDataSourceFactory, config)).build();
-    }
-
-    public void getAllRestaurant(String authToken){
-
     }
 
     @Override

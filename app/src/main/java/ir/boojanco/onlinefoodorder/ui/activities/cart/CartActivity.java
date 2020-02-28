@@ -1,7 +1,5 @@
 package ir.boojanco.onlinefoodorder.ui.activities.cart;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.widget.NestedScrollView;
@@ -9,7 +7,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,11 +14,8 @@ import androidx.transition.AutoTransition;
 import androidx.transition.TransitionManager;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -48,15 +42,15 @@ import ir.boojanco.onlinefoodorder.models.stateCity.AllCitiesList;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList;
 import ir.boojanco.onlinefoodorder.models.user.UserAddressList;
 import ir.boojanco.onlinefoodorder.ui.activities.payment.PaymentActivity;
-import ir.boojanco.onlinefoodorder.ui.fragments.MapDialogFragment;
+import ir.boojanco.onlinefoodorder.ui.fragments.MapDialogCartFragment;
 import ir.boojanco.onlinefoodorder.viewmodels.CartViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.CartViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.interfaces.AddressRecyclerViewInterface;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.CartInterface;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.StateCityDialogInterface;
-import kotlin.Unit;
-import kotlin.jvm.functions.Function1;
 
-public class CartActivity extends AppCompatActivity implements CartInterface, RecyclerViewCartClickListener, StateCityDialogInterface {
+
+public class CartActivity extends AppCompatActivity implements CartInterface, RecyclerViewCartClickListener, StateCityDialogInterface, AddressRecyclerViewInterface {
     CartViewModel cartViewModel;
     ActivityCartBinding binding;
 
@@ -163,10 +157,8 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
             recyclerViewUserAddress = binding.recyclerViewUserAddressHorizontalItems;
             recyclerViewUserAddress.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
             recyclerViewUserAddress.setHasFixedSize(true);
-            addressAdapter = new AddressAdapter(this, application);
+            addressAdapter = new AddressAdapter(this, application, true);
             recyclerViewUserAddress.setAdapter(addressAdapter);
-
-
             recyclerViewCart = binding.recyclerViewRestaurantCartItems;
             recyclerViewCart.setLayoutManager(new LinearLayoutManager(this));
             recyclerViewCart.setHasFixedSize(true);
@@ -174,6 +166,9 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
             recyclerViewCart.setAdapter(cartAdapter);
             cartViewModel.getUserAddress(sharedPreferences.getUserAuthTokenKey());
             cartViewModel.getAllItemInCart(extraRestauranId);
+
+            cartViewModel.userAddressPagedListLiveData.observe(this, userAddressLists -> addressAdapter.submitList(userAddressLists)); //set PagedList user address
+
         }
     }
 
@@ -189,8 +184,9 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
     }
 
     @Override
-    public void onSuccessGetAddress(List<UserAddressList> addressLists) {
-        addressAdapter.setAddressLists(addressLists);
+    public void onSuccessGetAddress() {
+
+
     }
 
     @Override
@@ -230,7 +226,7 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
             fragmentTransaction.remove(fragment);
         }
         fragmentTransaction.addToBackStack(null);
-        mapFragment = new MapDialogFragment();
+        mapFragment = new MapDialogCartFragment();
         mapFragment.show(fragmentTransaction, "dialog");
     }
 

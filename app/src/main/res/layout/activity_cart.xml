@@ -137,6 +137,7 @@
                                 android:onClick="@{()-> viewModel.showMap()}"
                                 android:text="@string/add_new_address"
                                 android:textSize="@dimen/button_font_size"
+                                app:icon="@drawable/ic_add_location"
                                 app:layout_constraintLeft_toLeftOf="parent"
                                 app:layout_constraintRight_toRightOf="parent"
                                 app:layout_constraintTop_toBottomOf="@id/recycler_view_user_address_horizontal_items" />

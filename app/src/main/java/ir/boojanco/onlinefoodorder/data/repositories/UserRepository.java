@@ -30,8 +30,8 @@ public class UserRepository {
         return apiInterface.registerUser(phoneNumber);
     }
 
-    public Observable<GetUserAddressResponse> getUserAddressResponseObservable(String authToken) {
-        return apiInterface.getUserAddressResponseObservable(authToken);
+    public Observable<GetUserAddressResponse> getUserAddressResponseObservable(String authToken, int page, int size) {
+        return apiInterface.getUserAddressResponseObservable(authToken, page, size);
     }
 
     public Observable<AddUserAddressResponse> addUserAddressResponseObservable(String authToken, AddUserAddressResponse addUserAddressResponse) {

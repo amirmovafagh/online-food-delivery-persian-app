@@ -19,10 +19,19 @@
         android:id="@+id/userProfileFragment"
         android:name="ir.boojanco.onlinefoodorder.ui.fragments.UserProfileFragment"
         android:label="user_profile_fragment"
-        tools:layout="@layout/user_profile_fragment" />
+        tools:layout="@layout/user_profile_fragment" >
+        <action
+            android:id="@+id/action_userProfileFragment_to_ordersFragment"
+            app:destination="@id/ordersFragment"/>
+    </fragment>
     <fragment
         android:id="@+id/restaurantFragment"
         android:name="ir.boojanco.onlinefoodorder.ui.fragments.restaurants.RestaurantFragment"
         android:label="restaurant_fragment"
         tools:layout="@layout/restaurant_fragment" />
+    <fragment
+        android:id="@+id/ordersFragment"
+        android:name="ir.boojanco.onlinefoodorder.ui.fragments.OrdersFragment"
+        android:label="orders_fragment"
+        tools:layout="@layout/orders_fragment" />
 </navigation>

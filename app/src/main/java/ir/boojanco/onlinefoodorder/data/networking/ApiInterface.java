@@ -10,7 +10,7 @@ import ir.boojanco.onlinefoodorder.models.stateCity.GetAllCitiesResponse;
 import ir.boojanco.onlinefoodorder.models.stateCity.GetAllStatesResponse;
 import ir.boojanco.onlinefoodorder.models.user.AddUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.ChangeUserPasswordResponse;
-import ir.boojanco.onlinefoodorder.models.user.EditUserAaddressResponse;
+import ir.boojanco.onlinefoodorder.models.user.EditUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.EditUserInfoResponse;
 import ir.boojanco.onlinefoodorder.models.user.GetUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
@@ -22,6 +22,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -64,6 +65,9 @@ public interface ApiInterface {
     @POST("/api/v1/address/add")
     Observable<AddUserAddressResponse> addUserAddress(@Header("Authorization") String authToken, @Body AddUserAddressResponse addressBody);
 
+    @PUT("/api/v1/address/{addressId}/edit")
+    Observable<EditUserAddressResponse> editUserAddress(@Header("Authorization") String authToken, @Path("addressId") long addressId, @Body EditUserAddressResponse editedAddressBody);
+
     @GET("/api/v1/state/state/all")
     Observable<GetAllStatesResponse> getAllStatesResponseObservable(@Header("Authorization") String authToken);
 
@@ -82,8 +86,4 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("user/change_password")
     Observable<ChangeUserPasswordResponse> changeUserPassword(@Field("id") long id, @Field("newPassword") String newPassword, @Field("currentPassword") String currentPassword);
-
-    @FormUrlEncoded
-    @POST("edit_address")
-    Observable<EditUserAaddressResponse> editUserAddress(@Field("id") long id, @Field("address") String address, @Field("zipCode") String zipCode, @Field("region_id") long regionId, @Field("address_index") int addressIndex);
 }

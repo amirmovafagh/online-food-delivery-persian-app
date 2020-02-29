@@ -22,6 +22,8 @@ import ir.boojanco.onlinefoodorder.models.stateCity.AllCitiesList;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList;
 import ir.boojanco.onlinefoodorder.models.stateCity.GetAllCitiesResponse;
 import ir.boojanco.onlinefoodorder.models.stateCity.GetAllStatesResponse;
+import ir.boojanco.onlinefoodorder.models.user.AddUserAddressResponse;
+import ir.boojanco.onlinefoodorder.models.user.EditUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.UserAddressList;
 import ir.boojanco.onlinefoodorder.ui.activities.cart.AddressDataSource;
 import ir.boojanco.onlinefoodorder.ui.activities.cart.AddressDataSourceFactory;
@@ -39,6 +41,7 @@ import rx.schedulers.Schedulers;
 public class UserProfileViewModel extends ViewModel implements AddressDataSourceInterface {
     private static final String TAG = UserProfileViewModel.class.getSimpleName();
     private Context context;
+    private String userAuthToken;
     private RestaurantRepository restaurantRepository;
     private UserRepository userRepository;
     public UserProfileInterface userProfileInterface;
@@ -53,6 +56,9 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
     public MutableLiveData<Boolean> defaultAddress;
     private double userLatitude;
     private double userLongitude;
+    private long addressId;
+    private String addressTag;
+    private int addressFunctionFlag;
     private List<AllStatesList> statesLists;
     private List<AllCitiesList> citiesLists;
 
@@ -69,9 +75,11 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         exactAddress = new MutableLiveData<>();
         addressBottomSheetTitle = new MutableLiveData<>();
         defaultAddress = new MutableLiveData<>();
+        defaultAddress.setValue(false);
     }
 
     public void getUserAddress(String authToken) {
+        userAuthToken = authToken;
         AddressDataSourceFactory addressDataSourceFactory = new AddressDataSourceFactory(userRepository, this, authToken);
         userAddressPageKeyedDataSourceLiveData = addressDataSourceFactory.getAddresstLiveDataSource();
         PagedList.Config config =
@@ -81,16 +89,104 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         userAddressPagedListLiveData = (new LivePagedListBuilder(addressDataSourceFactory, config)).build();
     }
 
-    public void acceptAddNewUserAddressOnClick(){
+    public void acceptAddNewUserAddressOrEditAddressOnClick(){
+        if (addressFunctionFlag == 1){//add new address
+            if(userLatitude ==0 || userLongitude==0){
+                userProfileInterface.onFailure("لطفا موقعیت دقیق خودرا در نقشه مشخص کنید");
+            return;}
 
+            AddUserAddressResponse address = new AddUserAddressResponse(cityId, defaultAddress.getValue(), exactAddress.getValue(), userLatitude, userLongitude, region.getValue(), "WORK");
+            Observable<AddUserAddressResponse> observable = userRepository.addUserAddressResponseObservable(userAuthToken, address);
+            if (observable != null) {
+                observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<AddUserAddressResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (e instanceof NoNetworkConnectionException)
+                            userProfileInterface.onFailure(e.getMessage());
+                        if (e instanceof HttpException) {
+                            Response response = ((HttpException) e).response();
+
+                            try {
+                                JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                                userProfileInterface.onFailure(jsonObject.getString("message"));
+                            } catch (Exception d) {
+                                userProfileInterface.onFailure(d.getMessage());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onNext(AddUserAddressResponse addUserAddressResponse) {
+
+                        Toast.makeText(context, "" + addUserAddressResponse.getExactAddress(), Toast.LENGTH_SHORT).show();
+                        userProfileInterface.updateAddressRecyclerView();
+                        //cartInterface.onSuccessGetAddress(addUserAddressResponse);
+                        //initDeliveryType();
+                    }
+                });
+            }
+
+        }else if (addressFunctionFlag == 2){
+            EditUserAddressResponse editedAddress = new EditUserAddressResponse(exactAddress.getValue(),"WORK",cityId, defaultAddress.getValue(),  userLatitude, userLongitude, region.getValue());
+            Observable<EditUserAddressResponse> observable = userRepository.getEditUserAddressResponseObservable(userAuthToken,addressId, editedAddress);
+            if (observable != null) {
+                observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<EditUserAddressResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        userProfileInterface.onFailure(e.getMessage());
+                        if (e instanceof NoNetworkConnectionException)
+                            userProfileInterface.onFailure(e.getMessage());
+                        if (e instanceof HttpException) {
+                            Response response = ((HttpException) e).response();
+
+                            try {
+                                JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                                userProfileInterface.onFailure(jsonObject.getString("message"));
+                            } catch (Exception d) {
+                                userProfileInterface.onFailure(d.getMessage());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onNext(EditUserAddressResponse editUserAddressResponse) {
+                        userProfileInterface.updateAddressRecyclerView();
+                        //cartInterface.onSuccessGetAddress(addUserAddressResponse);
+                        //initDeliveryType();
+                    }
+                });
+            }
+        }
     }
     public void addAddressOnClick(){
+        addressFunctionFlag = 1; // add function
         addressBottomSheetTitle.setValue("افزودن آدرس");
+
+        addressId = 0;
+        city.setValue(null);
+        cityId = 0;
+        stateId = 0;
+        userLatitude = 0;
+        userLongitude = 0;
+        exactAddress.setValue(null);
+        addressTag = null;
+        region.setValue(null);
+        defaultAddress.setValue(false);
+
         userProfileInterface.showMapDialogFragment();
     }
 
     public void getReverseAddressParsimap(Double latitude, Double longitude, String authToken) {
-        Log.i(TAG,"rev"+" la "+latitude+" lo "+longitude+" aut "+authToken);
         Observable<ReverseFindAddressResponse> observable = userRepository.getReverseFindAddressResponse(latitude, longitude);
         if (observable != null) {
             observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<ReverseFindAddressResponse>() {
@@ -272,13 +368,17 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
     }
 
     public void editUserAddress(UserAddressList userAddress) {
+        addressFunctionFlag = 2; // edit function
         addressBottomSheetTitle.setValue("تغییر آدرس");
+        addressId = userAddress.getId();
         city.setValue(userAddress.getCity());
         cityId = userAddress.getCityId();
         stateId = userAddress.getStateId();
+        userLatitude = userAddress.getLatitude();
+        userLongitude = userAddress.getLongitude();
         exactAddress.setValue(userAddress.getExactAddress());
+        addressTag = userAddress.getTag();
         region.setValue(userAddress.getRegion());
-        Log.i("amir "," "+userAddress.isDefaultAddress());
         defaultAddress.setValue(userAddress.isDefaultAddress());
     }
 }

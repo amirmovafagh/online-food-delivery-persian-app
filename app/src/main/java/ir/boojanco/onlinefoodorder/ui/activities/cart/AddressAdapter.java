@@ -47,7 +47,8 @@ public class AddressAdapter extends PagedListAdapter<UserAddressList, AddressAda
     public void onBindViewHolder(@NonNull AddressViewHolder holder, int position) {
         UserAddressList currentAddress = getItem(position);
         holder.binding.setAddressList(currentAddress);
-
+        if (runFromCartActivity)
+            holder.binding.linearLayoutControlButtons.setVisibility(View.GONE);
         if (selectedPosition == position && runFromCartActivity) {// is selected
             holder.binding.cvMainAddressLayout.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
 

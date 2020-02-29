@@ -112,6 +112,10 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
 
     }
 
+    @Override
+    public void updateAddressRecyclerView() {
+        addressAdapter.notifyDataSetChanged();
+    }
 
 
     @Override

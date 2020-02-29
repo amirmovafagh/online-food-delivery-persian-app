@@ -7,6 +7,7 @@ import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
 import ir.boojanco.onlinefoodorder.models.stateCity.GetAllCitiesResponse;
 import ir.boojanco.onlinefoodorder.models.stateCity.GetAllStatesResponse;
 import ir.boojanco.onlinefoodorder.models.user.AddUserAddressResponse;
+import ir.boojanco.onlinefoodorder.models.user.EditUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.GetUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
 import retrofit2.Retrofit;
@@ -32,6 +33,10 @@ public class UserRepository {
 
     public Observable<GetUserAddressResponse> getUserAddressResponseObservable(String authToken, int page, int size) {
         return apiInterface.getUserAddressResponseObservable(authToken, page, size);
+    }
+
+    public Observable<EditUserAddressResponse> getEditUserAddressResponseObservable(String authToken, long addressId, EditUserAddressResponse editedAddressBody) {
+        return apiInterface.editUserAddress(authToken, addressId, editedAddressBody);
     }
 
     public Observable<AddUserAddressResponse> addUserAddressResponseObservable(String authToken, AddUserAddressResponse addUserAddressResponse) {

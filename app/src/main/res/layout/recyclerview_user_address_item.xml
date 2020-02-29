@@ -52,6 +52,7 @@
                         android:textSize="@dimen/body4_paragraph_font_size" />
 
                     <LinearLayout
+                        android:id="@+id/linear_layout_control_buttons"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.1"

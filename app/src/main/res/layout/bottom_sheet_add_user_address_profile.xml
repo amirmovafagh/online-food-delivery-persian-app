@@ -202,7 +202,7 @@
                 android:id="@+id/btn_accept_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{()-> viewModel.acceptAddNewUserAddressOnClick()}"
+                android:onClick="@{()-> viewModel.acceptAddNewUserAddressOrEditAddressOnClick()}"
                 android:text="ثبت" />
 
         </com.google.android.material.textfield.TextInputLayout>

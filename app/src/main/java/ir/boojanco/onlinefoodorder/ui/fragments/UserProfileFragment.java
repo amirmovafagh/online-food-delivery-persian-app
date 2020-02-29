@@ -4,6 +4,7 @@ import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Application;
@@ -14,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -59,6 +62,8 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
     private AddressAdapter addressAdapter;
     private NestedScrollView bottom_sheet;
     private BottomSheetBehavior sheetBehavior;
+
+    private LiveData<PagedList<UserAddressList>> userAddressPaged;
     public static UserProfileFragment newInstance() {
         return new UserProfileFragment();
     }
@@ -81,6 +86,8 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
 
         bottom_sheet = binding.bottomSheet;
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
+
+        //go to order fragment
         NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
         binding.frameLayoutOrders.setOnClickListener(v -> navController.navigate(R.id.action_userProfileFragment_to_ordersFragment));
         return binding.getRoot();
@@ -90,16 +97,16 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        viewModel.userAddressPagedListLiveData.observe(getViewLifecycleOwner(), userAddressLists -> addressAdapter.submitList(userAddressLists)); //set PagedList user address
-
+        userAddressPaged = viewModel.userAddressPagedListLiveData;
+        userAddressPaged.observe(getActivity(), userAddressLists -> addressAdapter.submitList(userAddressLists)); //set PagedList user address
 
     }
 
     @Override
-    public void onRecyclerViewAddressClick(View v, UserAddressList userAddress) {
+    public void onRecyclerViewAddressClick(View v, UserAddressList userAddress, int position) {
         switch (v.getId()){
             case R.id.img_edit_address:
-                viewModel.editUserAddress(userAddress);
+                viewModel.editUserAddress(userAddress, position);
                 sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 break;
             case R.id.img_remove_address:
@@ -113,8 +120,15 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
     }
 
     @Override
-    public void updateAddressRecyclerView() {
-        addressAdapter.notifyDataSetChanged();
+    public void updateAddressRecyclerView(int position) {
+        if (userAddressPaged.hasObservers()){
+            userAddressPaged.removeObservers(getActivity());
+            userAddressPaged = viewModel.userAddressPagedListLiveData;
+            userAddressPaged.observe(getActivity(), userAddressLists -> addressAdapter.submitList(userAddressLists)); //set PagedList user address
+        }
+        Snackbar snackbar = Snackbar.make(binding.coordinateLayoutMain,"This is Simple Snackbar",Snackbar.LENGTH_SHORT);
+        snackbar.show();
+        sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
 
@@ -132,8 +146,11 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
         if (fragment != null) {
             fragmentTransaction.remove(fragment);
         }
+
         fragmentTransaction.addToBackStack(null);
         mapFragment = new MapDialogProfileFragment(viewModel);
+        //mapFragment.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Material_Light_Panel);
+
         mapFragment.show(fragmentTransaction, "mapDialogUserProfile");
     }
 

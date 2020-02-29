@@ -5,7 +5,7 @@
             type="ir.boojanco.onlinefoodorder.viewmodels.UserProfileViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-         android:layout_width="wrap_content"
+         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layoutDirection="rtl"
         >

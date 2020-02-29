@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -59,6 +60,7 @@ public class MapDialogProfileFragment extends DialogFragment implements OnMapRea
         if (getDialog() != null && getDialog().getWindow() != null) {
             getDialog().getWindow().setBackgroundDrawableResource(R.drawable.popup_background);
             getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+            getDialog().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         }
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map_dialog_profile, container,false);

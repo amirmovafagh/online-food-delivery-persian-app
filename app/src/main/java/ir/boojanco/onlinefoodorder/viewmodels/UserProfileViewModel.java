@@ -56,6 +56,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
     public MutableLiveData<Boolean> defaultAddress;
     private double userLatitude;
     private double userLongitude;
+    private int addressRecyclerViewPosition;
     private long addressId;
     private String addressTag;
     private int addressFunctionFlag;
@@ -87,6 +88,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
                         .setEnablePlaceholders(false)).setPageSize(AddressDataSource.PAGE_SIZE)
                         .build();
         userAddressPagedListLiveData = (new LivePagedListBuilder(addressDataSourceFactory, config)).build();
+
     }
 
     public void acceptAddNewUserAddressOrEditAddressOnClick(){
@@ -96,9 +98,9 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
             return;}
 
             AddUserAddressResponse address = new AddUserAddressResponse(cityId, defaultAddress.getValue(), exactAddress.getValue(), userLatitude, userLongitude, region.getValue(), "WORK");
-            Observable<AddUserAddressResponse> observable = userRepository.addUserAddressResponseObservable(userAuthToken, address);
+            Observable<Response<Void>> observable = userRepository.addUserAddressResponseObservable(userAuthToken, address);
             if (observable != null) {
-                observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<AddUserAddressResponse>() {
+                observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Response<Void>>() {
                     @Override
                     public void onCompleted() {
 
@@ -121,10 +123,11 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
                     }
 
                     @Override
-                    public void onNext(AddUserAddressResponse addUserAddressResponse) {
+                    public void onNext(Response<Void> voidResponse) {
 
-                        Toast.makeText(context, "" + addUserAddressResponse.getExactAddress(), Toast.LENGTH_SHORT).show();
-                        userProfileInterface.updateAddressRecyclerView();
+                        Toast.makeText(context, "save", Toast.LENGTH_SHORT).show();
+                        getUserAddress(userAuthToken);
+                        userProfileInterface.updateAddressRecyclerView(addressRecyclerViewPosition);
                         //cartInterface.onSuccessGetAddress(addUserAddressResponse);
                         //initDeliveryType();
                     }
@@ -133,9 +136,9 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
 
         }else if (addressFunctionFlag == 2){
             EditUserAddressResponse editedAddress = new EditUserAddressResponse(exactAddress.getValue(),"WORK",cityId, defaultAddress.getValue(),  userLatitude, userLongitude, region.getValue());
-            Observable<EditUserAddressResponse> observable = userRepository.getEditUserAddressResponseObservable(userAuthToken,addressId, editedAddress);
+            Observable<Response<Void>> observable = userRepository.getEditUserAddressResponseObservable(userAuthToken,addressId, editedAddress);
             if (observable != null) {
-                observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<EditUserAddressResponse>() {
+                observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Response<Void>>() {
                     @Override
                     public void onCompleted() {
 
@@ -159,8 +162,9 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
                     }
 
                     @Override
-                    public void onNext(EditUserAddressResponse editUserAddressResponse) {
-                        userProfileInterface.updateAddressRecyclerView();
+                    public void onNext(Response<Void> voidResponse) {
+                        getUserAddress(userAuthToken);
+                        userProfileInterface.updateAddressRecyclerView(addressRecyclerViewPosition);
                         //cartInterface.onSuccessGetAddress(addUserAddressResponse);
                         //initDeliveryType();
                     }
@@ -367,7 +371,8 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         userProfileInterface.onFailure(error);
     }
 
-    public void editUserAddress(UserAddressList userAddress) {
+    public void editUserAddress(UserAddressList userAddress, int position) {
+        addressRecyclerViewPosition = position;
         addressFunctionFlag = 2; // edit function
         addressBottomSheetTitle.setValue("تغییر آدرس");
         addressId = userAddress.getId();

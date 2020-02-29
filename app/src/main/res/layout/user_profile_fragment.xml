@@ -1,4 +1,6 @@
-<layout xmlns:bind="http://schemas.android.com/apk/res-auto">
+<layout xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,8 +10,8 @@
     </data>
 
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinate_layout_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/wallpaper_restaurant_info"

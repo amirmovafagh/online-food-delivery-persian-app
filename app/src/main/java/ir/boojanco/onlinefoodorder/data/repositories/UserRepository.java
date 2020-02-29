@@ -9,7 +9,9 @@ import ir.boojanco.onlinefoodorder.models.stateCity.GetAllStatesResponse;
 import ir.boojanco.onlinefoodorder.models.user.AddUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.EditUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.GetUserAddressResponse;
+import ir.boojanco.onlinefoodorder.models.user.GetUserOrdersResponse;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Observable;
 
@@ -35,11 +37,11 @@ public class UserRepository {
         return apiInterface.getUserAddressResponseObservable(authToken, page, size);
     }
 
-    public Observable<EditUserAddressResponse> getEditUserAddressResponseObservable(String authToken, long addressId, EditUserAddressResponse editedAddressBody) {
+    public Observable<Response<Void>> getEditUserAddressResponseObservable(String authToken, long addressId, EditUserAddressResponse editedAddressBody) {
         return apiInterface.editUserAddress(authToken, addressId, editedAddressBody);
     }
 
-    public Observable<AddUserAddressResponse> addUserAddressResponseObservable(String authToken, AddUserAddressResponse addUserAddressResponse) {
+    public Observable<Response<Void>> addUserAddressResponseObservable(String authToken, AddUserAddressResponse addUserAddressResponse) {
         return apiInterface.addUserAddress(authToken, addUserAddressResponse);
     }
 
@@ -53,6 +55,10 @@ public class UserRepository {
 
     public Observable<GetAllCitiesResponse> getAllCitiesResponseObservable(String authToken, long stateId) {
         return apiInterface.getAllCitiesResponseObservable(authToken, stateId);
+    }
+
+    public Observable<GetUserOrdersResponse> getUserOrdersResponseObservable(String authToken, int page, int size) {
+        return apiInterface.getUserOrdersResponseObservable(authToken, page, size);
     }
 
 }

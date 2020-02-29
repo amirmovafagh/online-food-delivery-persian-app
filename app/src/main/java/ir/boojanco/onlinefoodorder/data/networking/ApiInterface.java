@@ -13,9 +13,11 @@ import ir.boojanco.onlinefoodorder.models.user.ChangeUserPasswordResponse;
 import ir.boojanco.onlinefoodorder.models.user.EditUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.EditUserInfoResponse;
 import ir.boojanco.onlinefoodorder.models.user.GetUserAddressResponse;
+import ir.boojanco.onlinefoodorder.models.user.GetUserOrdersResponse;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
 import ir.boojanco.onlinefoodorder.models.user.VerifyEmailResponse;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -63,10 +65,10 @@ public interface ApiInterface {
     Observable<GetUserAddressResponse> getUserAddressResponseObservable(@Header("Authorization") String authToken, @Query("page") int page, @Query("size") int size);
 
     @POST("/api/v1/address/add")
-    Observable<AddUserAddressResponse> addUserAddress(@Header("Authorization") String authToken, @Body AddUserAddressResponse addressBody);
+    Observable<Response<Void>> addUserAddress(@Header("Authorization") String authToken, @Body AddUserAddressResponse addressBody);
 
     @PUT("/api/v1/address/{addressId}/edit")
-    Observable<EditUserAddressResponse> editUserAddress(@Header("Authorization") String authToken, @Path("addressId") long addressId, @Body EditUserAddressResponse editedAddressBody);
+    Observable<Response<Void>> editUserAddress(@Header("Authorization") String authToken, @Path("addressId") long addressId, @Body EditUserAddressResponse editedAddressBody);
 
     @GET("/api/v1/state/state/all")
     Observable<GetAllStatesResponse> getAllStatesResponseObservable(@Header("Authorization") String authToken);
@@ -77,13 +79,6 @@ public interface ApiInterface {
     @GET("https://pm1.parsimap.com/comapi.svc/areaInfo/{latitude}/{longitude}/18/1/ccc1a4bc-ade4-460d-b799-82885ab21d6d/1") /*get Reverse Address from LatLng with parsiMap API*/
     Observable<ReverseFindAddressResponse> getReverseAddresse(@Path("latitude") Double latitude, @Path("longitude") Double longitude);
 
-    @POST("user/verify_Email")
-    Call<VerifyEmailResponse> verifyEmail(@Body VerifyEmailResponse verifyEmailResponse);
-
-    @POST("user/edit_info")
-    Call<EditUserInfoResponse> editInfo(@Body EditUserInfoResponse editUserInfoResponse);
-
-    @FormUrlEncoded
-    @POST("user/change_password")
-    Observable<ChangeUserPasswordResponse> changeUserPassword(@Field("id") long id, @Field("newPassword") String newPassword, @Field("currentPassword") String currentPassword);
+    @GET("/api/v1/order/user/getAll/")
+    Observable<GetUserOrdersResponse> getUserOrdersResponseObservable(@Header("Authorization") String authToken, @Query("page") int page, @Query("size") int size);
 }

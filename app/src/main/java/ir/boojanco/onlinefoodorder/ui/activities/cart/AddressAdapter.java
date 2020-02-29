@@ -59,7 +59,7 @@ public class AddressAdapter extends PagedListAdapter<UserAddressList, AddressAda
             holder.binding.cvMainAddressLayout.setOnClickListener(v -> {
                 //is select
                 holder.binding.cvMainAddressLayout.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
-                clickListener.onRecyclerViewAddressClick(holder.binding.cvMainAddressLayout, currentAddress);
+                clickListener.onRecyclerViewAddressClick(holder.binding.cvMainAddressLayout, currentAddress,position);
                 selectedPosition = position;
                 notifyDataSetChanged();
             });
@@ -67,7 +67,7 @@ public class AddressAdapter extends PagedListAdapter<UserAddressList, AddressAda
         holder.binding.imgEditAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickListener.onRecyclerViewAddressClick(holder.binding.imgEditAddress, currentAddress);
+                clickListener.onRecyclerViewAddressClick(holder.binding.imgEditAddress, currentAddress, position);
             }
         });
     }
@@ -95,4 +95,5 @@ public class AddressAdapter extends PagedListAdapter<UserAddressList, AddressAda
             this.binding = binding;
         }
     }
+
 }

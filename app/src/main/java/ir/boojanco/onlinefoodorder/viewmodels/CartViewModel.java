@@ -328,9 +328,9 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
     public void addUserAddress() {
 
         AddUserAddressResponse address = new AddUserAddressResponse(cityId, defaultAddress, exactAddress.getValue(), userLatitude, userLongitude, region.getValue(), "WORK");
-        rx.Observable<AddUserAddressResponse> observable = userRepository.addUserAddressResponseObservable(userAuthToken, address);
+        rx.Observable<Response<Void>> observable = userRepository.addUserAddressResponseObservable(userAuthToken, address);
         if (observable != null) {
-            observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<AddUserAddressResponse>() {
+            observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<Response<Void>>() {
                 @Override
                 public void onCompleted() {
 
@@ -356,9 +356,8 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
                 }
 
                 @Override
-                public void onNext(AddUserAddressResponse addUserAddressResponse) {
+                public void onNext(Response<Void> voidResponse) {
 
-                    Toast.makeText(context, "" + addUserAddressResponse.getExactAddress(), Toast.LENGTH_SHORT).show();
                     //cartInterface.onSuccessGetAddress(addUserAddressResponse);
                     //initDeliveryType();
                 }

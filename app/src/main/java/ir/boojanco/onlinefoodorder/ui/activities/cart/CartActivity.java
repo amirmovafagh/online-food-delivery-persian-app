@@ -263,7 +263,7 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
     }
 
     @Override
-    public void onRecyclerViewAddressClick(View v, UserAddressList userAddress) {
+    public void onRecyclerViewAddressClick(View v, UserAddressList userAddress, int position) {
         cartViewModel.checkUserAddressForService(userAddress.getLatitude(), userAddress.getLongitude());
     }
 

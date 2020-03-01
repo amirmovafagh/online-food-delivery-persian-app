@@ -19,9 +19,13 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:layoutDirection="rtl"
-        app:cardBackgroundColor="@color/backgroundGrayLight_lowAlpha"
         app:cardCornerRadius="@dimen/card_view_corner_radius"
         app:cardElevation="0dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/cardview_border" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -52,8 +56,10 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:padding="8dp"
+
                         android:text="@{orderItem.restaurantName,default=رستوران}"
-                        android:textSize="@dimen/body2_paragraph_font_size"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/body1_paragraph_font_size"
                         android:textStyle="bold" />
 
                     <TextView
@@ -90,8 +96,11 @@
                         android:layout_weight="0.7"
                         android:ellipsize="end"
                         android:maxLines="1"
+
                         android:text="@{orderItem.orderStatus ,default=وضعیت}"
-                        android:textSize="@dimen/body2_paragraph_font_size" />
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/body2_paragraph_font_size"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/text_view_payment_type"
@@ -104,179 +113,174 @@
                 </LinearLayout>
 
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cv_cart_items"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_cart_items"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:cardCornerRadius="@dimen/card_view_corner_radius"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent">
+
+
+                    <LinearLayout
+                        android:id="@+id/linear_layout_cart_details_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        app:cardCornerRadius="@dimen/card_view_corner_radius"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:visibility="visible"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        >
+                        app:layout_constraintTop_toTopOf="parent">
+                        <!--details layout-->
 
 
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="?android:attr/listDivider" />
 
-                            <LinearLayout
-                                android:id="@+id/linear_layout_cart_details_view"
+                        <!--discount layout-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:orientation="horizontal"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:id="@+id/text_view_discount_total"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:text="@string/discount"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/body4_paragraph_font_size"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/text_view_discount_total_price"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:visibility="visible"
-                                android:padding="16dp"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintRight_toRightOf="parent"
-                                app:layout_constraintTop_toTopOf="parent">
-                                <!--details layout-->
+                                android:gravity="center"
+                                android:maxLines="1"
+                                android:textAlignment="viewEnd"
+                                android:textSize="@dimen/body4_paragraph_font_size"
+                                tools:ignore="RtlCompat" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="?android:attr/listDivider" />
+
+                        <!--food packaging prooce layout-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/text_view_food_packing"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:text="@string/food_packing"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/body4_paragraph_font_size"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/text_view_food_packing_price"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:maxLines="1"
+                                android:text="@{orderItem.packingCostString}"
+                                android:textAlignment="viewEnd"
+                                android:textSize="@dimen/body4_paragraph_font_size"
+                                tools:ignore="RtlCompat" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="?android:attr/listDivider" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/text_view_shipping_cost"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:text="@{orderItem.orderType ,default=ارسال}"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/body4_paragraph_font_size"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/text_view_food_shipping_cost_price"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:maxLines="1"
+                                android:text="@{orderItem.shippingCostString}"
+                                android:textAlignment="viewEnd"
+                                android:textSize="@dimen/body4_paragraph_font_size"
+                                tools:ignore="RtlCompat" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="?android:attr/listDivider" />
+
+                        <!--taxes layout-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/text_view_taxes"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:text="@string/restaurant_taxes"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/body4_paragraph_font_size"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/text_view_food_taxes_price"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:maxLines="1"
+                                android:text="@{String.valueOf(orderItem.taxAndService)}"
+                                android:textAlignment="viewEnd"
+                                android:textSize="@dimen/body4_paragraph_font_size"
+                                tools:ignore="RtlCompat" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="?android:attr/listDivider" />
 
 
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="?android:attr/listDivider" />
-
-                                <!--discount layout-->
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_margin="4dp"
-                                    android:visibility="gone"
-                                    android:orientation="horizontal">
-
-                                    <TextView
-                                        android:id="@+id/text_view_discount_total"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:maxLines="1"
-                                        android:text="@string/discount"
-                                        android:textColor="@android:color/black"
-                                        android:textSize="@dimen/body4_paragraph_font_size"
-                                        android:textStyle="bold" />
-
-                                    <TextView
-                                        android:id="@+id/text_view_discount_total_price"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:maxLines="1"
-                                        android:textAlignment="viewEnd"
-                                        android:textSize="@dimen/body4_paragraph_font_size"
-                                        tools:ignore="RtlCompat" />
-                                </LinearLayout>
-
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="?android:attr/listDivider" />
-
-                                <!--food packaging prooce layout-->
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_margin="4dp"
-                                    android:orientation="horizontal">
-
-                                    <TextView
-                                        android:id="@+id/text_view_food_packing"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:maxLines="1"
-                                        android:text="@string/food_packing"
-                                        android:textColor="@android:color/black"
-                                        android:textSize="@dimen/body4_paragraph_font_size"
-                                        android:textStyle="bold" />
-
-                                    <TextView
-                                        android:id="@+id/text_view_food_packing_price"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:maxLines="1"
-                                        android:text="@{orderItem.packingCostString}"
-                                        android:textAlignment="viewEnd"
-                                        android:textSize="@dimen/body4_paragraph_font_size"
-                                        tools:ignore="RtlCompat" />
-                                </LinearLayout>
-
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="?android:attr/listDivider" />
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_margin="4dp"
-                                    android:orientation="horizontal">
-
-                                    <TextView
-                                        android:id="@+id/text_view_shipping_cost"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:maxLines="1"
-                                        android:text="@{orderItem.orderType ,default=ارسال}"
-                                        android:textColor="@android:color/black"
-                                        android:textSize="@dimen/body4_paragraph_font_size"
-                                        android:textStyle="bold" />
-
-                                    <TextView
-                                        android:id="@+id/text_view_food_shipping_cost_price"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:maxLines="1"
-                                        android:text="@{orderItem.shippingCostString}"
-                                        android:textAlignment="viewEnd"
-                                        android:textSize="@dimen/body4_paragraph_font_size"
-                                        tools:ignore="RtlCompat" />
-                                </LinearLayout>
-
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="?android:attr/listDivider" />
-
-                                <!--taxes layout-->
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_margin="4dp"
-                                    android:orientation="horizontal">
-
-                                    <TextView
-                                        android:id="@+id/text_view_taxes"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:maxLines="1"
-                                        android:text="@string/restaurant_taxes"
-                                        android:textColor="@android:color/black"
-                                        android:textSize="@dimen/body4_paragraph_font_size"
-                                        android:textStyle="bold" />
-
-                                    <TextView
-                                        android:id="@+id/text_view_food_taxes_price"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:maxLines="1"
-                                        android:text="@{String.valueOf(orderItem.taxAndService)}"
-                                        android:textAlignment="viewEnd"
-                                        android:textSize="@dimen/body4_paragraph_font_size"
-                                        tools:ignore="RtlCompat" />
-                                </LinearLayout>
-
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="?android:attr/listDivider" />
+                    </LinearLayout>
 
 
-                            </LinearLayout>
-
-
-
-                    </androidx.cardview.widget.CardView>
-
-
+                </androidx.cardview.widget.CardView>
 
 
                 <LinearLayout
@@ -292,7 +296,9 @@
                         android:layout_weight="0.6"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="@{orderItem.paidCostString ,default=جمع}" />
+                        android:text="@{orderItem.paidCostString ,default=جمع}"
+
+                        android:textColor="@color/black" />
 
                     <Button
                         android:id="@+id/btn_more_details"
@@ -303,6 +309,7 @@
                         android:maxLines="1"
                         android:text="جزئیات بیشتر"
                         android:textSize="@dimen/body3_paragraph_font_size"
+                        android:textStyle="bold"
                         app:icon="@drawable/ic_add" />
                 </LinearLayout>
             </LinearLayout>

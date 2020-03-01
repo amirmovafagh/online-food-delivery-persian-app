@@ -139,7 +139,7 @@ public class OrderItem {
     }
 
     public String getPaidCostString(){
-        return "جمع سفارش: "+moneyFormat(packingCost);
+        return "جمع سفارش: "+moneyFormat(paidCost);
     }
 
     public void setPaidCost(int paidCost) {

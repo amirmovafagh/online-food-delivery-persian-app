@@ -1,7 +1,7 @@
 package ir.boojanco.onlinefoodorder.data.repositories;
 
 import ir.boojanco.onlinefoodorder.data.networking.ApiInterface;
-import ir.boojanco.onlinefoodorder.models.food.getAllFood.GetAllFoodResponse;
+import ir.boojanco.onlinefoodorder.models.food.GetAllFoodResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.DiscountCodeResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;

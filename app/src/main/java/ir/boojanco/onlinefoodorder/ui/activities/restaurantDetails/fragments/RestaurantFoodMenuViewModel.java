@@ -1,7 +1,6 @@
 package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
@@ -18,8 +17,8 @@ import io.reactivex.disposables.Disposable;
 import ir.boojanco.onlinefoodorder.data.database.CartDataSource;
 import ir.boojanco.onlinefoodorder.data.database.CartItem;
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
-import ir.boojanco.onlinefoodorder.models.food.getAllFood.AllFoodList;
-import ir.boojanco.onlinefoodorder.models.food.getAllFood.GetAllFoodResponse;
+import ir.boojanco.onlinefoodorder.models.food.AllFoodList;
+import ir.boojanco.onlinefoodorder.models.food.GetAllFoodResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.AllPackagesResponse;
 import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.FoodTypeHeader;
 import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.ListItemType;

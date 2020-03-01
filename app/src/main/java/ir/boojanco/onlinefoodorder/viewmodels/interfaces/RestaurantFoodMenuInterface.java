@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 
-import ir.boojanco.onlinefoodorder.models.food.getAllFood.GetAllFoodResponse;
+import ir.boojanco.onlinefoodorder.models.food.GetAllFoodResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.AllPackagesResponse;
 import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.ListItemType;
 

@@ -2,9 +2,11 @@ package ir.boojanco.onlinefoodorder.models.user;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
-public class orderItem {
+public class OrderItem {
     @SerializedName("id")
     private long id;
     @SerializedName("date")
@@ -101,7 +103,7 @@ public class orderItem {
     }
 
     public String getPaymentType() {
-        return paymentType;
+        return "پرداخت "+paymentType;
     }
 
     public void setPaymentType(String paymentType) {
@@ -136,12 +138,20 @@ public class orderItem {
         return paidCost;
     }
 
+    public String getPaidCostString(){
+        return "جمع سفارش: "+moneyFormat(packingCost);
+    }
+
     public void setPaidCost(int paidCost) {
         this.paidCost = paidCost;
     }
 
     public int getShippingCost() {
         return shippingCost;
+    }
+
+    public String getShippingCostString(){
+        return moneyFormat(shippingCost);
     }
 
     public void setShippingCost(int shippingCost) {
@@ -152,7 +162,16 @@ public class orderItem {
         return packingCost;
     }
 
+    public String getPackingCostString(){
+        return moneyFormat(packingCost);
+    }
+
     public void setPackingCost(int packingCost) {
         this.packingCost = packingCost;
+    }
+    private String moneyFormat(int cost) {
+        NumberFormat formatter = new DecimalFormat("#,###");
+        String formattedNumber = formatter.format(cost);
+        return formattedNumber + " تومان";
     }
 }

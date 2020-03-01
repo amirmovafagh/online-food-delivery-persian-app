@@ -1,4 +1,4 @@
-package ir.boojanco.onlinefoodorder.models.food.getAllFood;
+package ir.boojanco.onlinefoodorder.models.food;
 
 
 import com.google.gson.annotations.SerializedName;

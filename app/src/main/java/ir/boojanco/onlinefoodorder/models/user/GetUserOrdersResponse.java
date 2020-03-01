@@ -6,15 +6,15 @@ import java.util.List;
 
 public class GetUserOrdersResponse {
     @SerializedName("hits")
-    private List<orderItem> orderItemList;
+    private List<OrderItem> orderItemList;
     @SerializedName("total")
     private int total;
 
-    public List<orderItem> getOrderItemList() {
+    public List<OrderItem> getOrderItemList() {
         return orderItemList;
     }
 
-    public void setOrderItemList(List<orderItem> orderItemList) {
+    public void setOrderItemList(List<OrderItem> orderItemList) {
         this.orderItemList = orderItemList;
     }
 

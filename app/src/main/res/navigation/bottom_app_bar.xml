@@ -31,7 +31,7 @@
         tools:layout="@layout/restaurant_fragment" />
     <fragment
         android:id="@+id/ordersFragment"
-        android:name="ir.boojanco.onlinefoodorder.ui.fragments.OrdersFragment"
+        android:name="ir.boojanco.onlinefoodorder.ui.fragments.userorders.OrdersFragmentFragment"
         android:label="orders_fragment"
         tools:layout="@layout/orders_fragment" />
 </navigation>

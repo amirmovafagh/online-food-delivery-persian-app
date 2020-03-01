@@ -1,12 +1,9 @@
 package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments;
 
-import android.util.Log;
-
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 
-import ir.boojanco.onlinefoodorder.models.food.getAllFood.AllFoodList;
 import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.ListItemType;
 
 public class FoodItem implements ListItemType {

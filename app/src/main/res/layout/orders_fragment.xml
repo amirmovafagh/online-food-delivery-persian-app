@@ -4,7 +4,7 @@
 
         <variable
             name="viewModel"
-            type="ir.boojanco.onlinefoodorder.ui.fragments.OrdersViewModel" />
+            type="ir.boojanco.onlinefoodorder.viewmodels.OrdersViewModel" />
     </data>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/wallpaper_restaurant_info"
         android:layoutDirection="rtl"
-        tools:context=".ui.fragments.OrdersFragment">
+        tools:context=".ui.fragments.userorders.OrdersFragmentFragment">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -23,6 +23,6 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_orders"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"/>
     </FrameLayout>
 </layout>

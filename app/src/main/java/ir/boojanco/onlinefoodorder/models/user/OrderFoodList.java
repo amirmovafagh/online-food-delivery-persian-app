@@ -2,7 +2,8 @@ package ir.boojanco.onlinefoodorder.models.user;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import static ir.boojanco.onlinefoodorder.dagger.App.webServerMediaRoute;
 
@@ -29,7 +30,7 @@ public class OrderFoodList {
     }
 
     public String getLogo() {
-        return logo;
+        return webServerMediaRoute + logo;
     }
 
     public void setLogo(String logo) {
@@ -56,6 +57,11 @@ public class OrderFoodList {
         return cost;
     }
 
+    public String getCostMoneyFormat() {
+        return moneyFormat(cost * count);
+    }
+
+
     public void setCost(int cost) {
         this.cost = cost;
     }
@@ -64,7 +70,18 @@ public class OrderFoodList {
         return count;
     }
 
+    public String getCountString() {
+        return "تعداد " + count;
+    }
+
     public void setCount(int count) {
         this.count = count;
+    }
+
+    private String moneyFormat(int cost) {
+        NumberFormat formatter = new DecimalFormat("#,###");
+        String formattedNumber = formatter.format(cost);
+        return formattedNumber + " تومان";
+
     }
 }

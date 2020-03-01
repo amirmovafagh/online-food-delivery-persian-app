@@ -13,7 +13,7 @@ import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.Res
 import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.RestaurantInfoFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.MapDialogCartFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.MapDialogProfileFragment;
-import ir.boojanco.onlinefoodorder.ui.fragments.userorders.OrdersFragmentFragment;
+import ir.boojanco.onlinefoodorder.ui.fragments.userorders.OrdersFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.UserProfileFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.home.HomeFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurants.RestaurantFragment;
@@ -28,7 +28,7 @@ public interface AppComponent {
     void inject(HomeFragment homeFragment);
     void inject(RestaurantFragment restaurantFragment);
     void inject(UserProfileFragment userProfileFragment);
-    void inject(OrdersFragmentFragment ordersFragment);
+    void inject(OrdersFragment ordersFragment);
     void inject(RestaurantDetailsActivity restaurantFoodActivity);
     void inject(RestaurantFoodMenuFragment restaurantFoodMenuFragment);
     void inject(RestaurantInfoFragment restaurantInfoFragment);

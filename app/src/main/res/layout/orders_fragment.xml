@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/wallpaper_restaurant_info"
         android:layoutDirection="rtl"
-        tools:context=".ui.fragments.userorders.OrdersFragmentFragment">
+        tools:context=".ui.fragments.userorders.OrdersFragment">
 
         <FrameLayout
             android:layout_width="match_parent"

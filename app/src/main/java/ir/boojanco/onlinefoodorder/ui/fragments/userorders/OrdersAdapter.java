@@ -42,6 +42,7 @@ public class OrdersAdapter extends PagedListAdapter<OrderItem, OrdersAdapter.Ord
     public void onBindViewHolder(@NonNull OrdersViewHolder holder, int position) {
         OrderItem currentOrder = getItem(position);
         holder.binding.setOrderItem(currentOrder);
+        holder.binding.btnMoreDetails.setOnClickListener(v -> clickListener.onRecyclerViewOrderClick(v, currentOrder.getFoodLists()));
     }
 
     private static DiffUtil.ItemCallback<OrderItem> DIFF_CALLBACK =

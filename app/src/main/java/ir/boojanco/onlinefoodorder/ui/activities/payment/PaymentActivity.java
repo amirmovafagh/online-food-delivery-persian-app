@@ -55,9 +55,11 @@ public class PaymentActivity extends AppCompatActivity implements PaymentInterfa
         binding.linearLayoutAcceptOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewModel.checkDiscountCode(sharedPreferences.getUserAuthTokenKey());
+//                viewModel.checkDiscountCode(sharedPreferences.getUserAuthTokenKey());
+            viewModel.checkOrderAtServerSide();
             }
         });
+        viewModel.setUserAuthToken(sharedPreferences.getUserAuthTokenKey());
         Bundle extras = this.getIntent().getExtras();
         if (extras != null) {
 

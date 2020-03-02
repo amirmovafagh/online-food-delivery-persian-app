@@ -13,7 +13,7 @@ public class CartOrderResponse {
     @SerializedName("discountCode")
     private String discountCode;
     @SerializedName("foodList")
-    private Map<Long, Integer> foodLists;
+    private Map<Long, Integer> foodLists; //long = id , int= count
     @SerializedName("orderType")
     private String orderType;
     @SerializedName("packageId")

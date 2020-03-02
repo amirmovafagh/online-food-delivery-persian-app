@@ -9,6 +9,7 @@ import ir.boojanco.onlinefoodorder.models.restaurantPackage.AllPackagesResponse;
 import ir.boojanco.onlinefoodorder.models.stateCity.GetAllCitiesResponse;
 import ir.boojanco.onlinefoodorder.models.stateCity.GetAllStatesResponse;
 import ir.boojanco.onlinefoodorder.models.user.AddUserAddressResponse;
+import ir.boojanco.onlinefoodorder.models.user.CartOrderResponse;
 import ir.boojanco.onlinefoodorder.models.user.EditUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.GetUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.GetUserOrdersResponse;
@@ -62,6 +63,9 @@ public interface ApiInterface {
 
     @POST("/api/v1/address/add")
     Observable<Response<Void>> addUserAddress(@Header("Authorization") String authToken, @Body AddUserAddressResponse addressBody);
+
+    @POST("/api/v1/order/add")
+    Observable<Response<Boolean>> addOrder(@Header("Authorization") String authToken, @Body CartOrderResponse cartOrderBody);
 
     @PUT("/api/v1/address/{addressId}/edit")
     Observable<Response<Void>> editUserAddress(@Header("Authorization") String authToken, @Path("addressId") long addressId, @Body EditUserAddressResponse editedAddressBody);

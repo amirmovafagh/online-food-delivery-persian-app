@@ -36,6 +36,10 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import javax.inject.Inject;
 
 import ir.boojanco.onlinefoodorder.R;
@@ -89,7 +93,6 @@ public class MainActivity extends AppCompatActivity  {
         myToolbar = binding.myToolbar;
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(null);
-        Toast.makeText(this, ""+sharedPreferences.getUserAuthTokenKey(), Toast.LENGTH_SHORT).show();
     }
 
     private boolean checkPermissions(){

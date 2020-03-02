@@ -10,13 +10,19 @@ import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import ir.boojanco.onlinefoodorder.data.database.CartItem;
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
 import ir.boojanco.onlinefoodorder.models.restaurant.DiscountCodeResponse;
+import ir.boojanco.onlinefoodorder.models.user.CartOrderResponse;
 import ir.boojanco.onlinefoodorder.ui.activities.cart.FinalPaymentPrice;
 import ir.boojanco.onlinefoodorder.ui.activities.payment.PaymentInterface;
 import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
@@ -35,6 +41,11 @@ public class PaymentViewModel extends ViewModel {
     private RestaurantRepository restaurantRepository;
     private ArrayList<FinalPaymentPrice> finalPaymentPrices;
     private List<CartItem> cartItems;
+    private String userAuthToken;
+
+    public void setUserAuthToken(String userAuthToken) {
+        this.userAuthToken = userAuthToken;
+    }
 
     public MutableLiveData<String> discountCodeLiveData;
     public MutableLiveData<String> totalAllPriceLiveData;
@@ -42,9 +53,9 @@ public class PaymentViewModel extends ViewModel {
     public MutableLiveData<String> totalDiscountLiveData;
     private int totalDiscount = 0;
     public MutableLiveData<String> packingCostLiveData;
-    private int packingCost = 0;
+    private int packingCost =   0;
     public MutableLiveData<String> restaurantShippingCostLiveData;
-    private int shippingCost = 0;
+    private int shippingCost =  0;
     public MutableLiveData<String> taxAndServiceLiveData;
     private int taxAndService = 0;
     public MutableLiveData<String> totalRawPriceLiveData;
@@ -57,11 +68,11 @@ public class PaymentViewModel extends ViewModel {
 
         totalAllPriceLiveData = new MutableLiveData<>();
         totalDiscountLiveData = new MutableLiveData<>();
-        packingCostLiveData = new MutableLiveData<>();
+        packingCostLiveData  =   new MutableLiveData<>();
         restaurantShippingCostLiveData = new MutableLiveData<>();
         taxAndServiceLiveData = new MutableLiveData<>();
         totalRawPriceLiveData = new MutableLiveData<>();
-        discountCodeLiveData = new MutableLiveData<>();
+        discountCodeLiveData =  new MutableLiveData<>();
     }
 
 
@@ -77,7 +88,6 @@ public class PaymentViewModel extends ViewModel {
 
                 @Override
                 public void onError(Throwable e) {
-                    paymentInterface.onFailure(e.getMessage());
                     if (e instanceof NoNetworkConnectionException)
                         paymentInterface.onFailure(e.getMessage());
                     if (e instanceof HttpException) {
@@ -104,9 +114,52 @@ public class PaymentViewModel extends ViewModel {
         }
     }
 
+    public void checkOrderAtServerSide() {
+        Map<Long, Integer> foodLists = new HashMap<>();
+        for (CartItem item: cartItems){
+            foodLists.put(item.getFoodId(), item.getFoodQuantity());
+        }
+        Date date = new Date();
+        CartOrderResponse cartOrderBody = new CartOrderResponse(date.getTime(),"","",foodLists,"GET_BY_DELIVERY",0,packingCost,"ONLINE", 467,483,shippingCost,totalAllPrice,0);
+        rx.Observable<Response<Boolean>> observable = restaurantRepository.addOrder(userAuthToken, cartOrderBody);
+        if (observable != null) {
+            observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<Response<Boolean>>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    paymentInterface.onFailure(e.getMessage());
+                    if (e instanceof NoNetworkConnectionException)
+                        paymentInterface.onFailure(e.getMessage());
+                    if (e instanceof HttpException) {
+                        Response response = ((HttpException) e).response();
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
+
+                            paymentInterface.onFailure(jsonObject.getString("message"));
+
+
+                        } catch (Exception d) {
+                            paymentInterface.onFailure(d.getMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onNext(Response<Boolean> booleanResponse) {
+                    paymentInterface.onFailure(""+booleanResponse);
+                }
+            });
+        }
+    }
+
     private void calculateDiscountCode(DiscountCodeResponse discountCode) {
         tempTotalDiscountedPrice = 0;
-        int tempTotalRawPrice=0;
+        int tempTotalRawPrice = 0;
         int allDiscountsCost = 0;
         double discount = 100 - discountCode.getDiscountPercent();
         discount = discount / 100;
@@ -136,27 +189,28 @@ public class PaymentViewModel extends ViewModel {
                     long id = finalPaymentPrices.get(i).getId();
                     int price = finalPaymentPrices.get(i).getDiscountedPrice();
                     tempTotalRawPrice += price;
-                    Log.i(TAG,"1 "+price);
+                    Log.i(TAG, "1 " + price);
                     for (Map.Entry<Long, String> entry : specificItems.entrySet()) {
                         long foodId = entry.getKey();
                         String foodName = entry.getValue();
                         if (foodId == id) {
                             id = 0;
                             tempTotalDiscountedPrice += price * discount;
-                            Log.i(TAG,"2 "+tempTotalDiscountedPrice);
+                            Log.i(TAG, "2 " + tempTotalDiscountedPrice);
                         }
                     }
                     if (id != 0) {
                         tempTotalDiscountedPrice += price;
-                        Log.i(TAG,"3 "+tempTotalDiscountedPrice);
+                        Log.i(TAG, "3 " + tempTotalDiscountedPrice);
                     }
                     if (tempTotalRawPrice - tempTotalDiscountedPrice >= discountCode.getMaximumDiscountAmount()) {
                         tempTotalDiscountedPrice = totalRawPrice - discountCode.getMaximumDiscountAmount();
                         allDiscountsCost = (totalRawPrice - tempTotalDiscountedPrice) + totalDiscount;
-                        Log.i(TAG,"4 "+allDiscountsCost);
+                        Log.i(TAG, "4 " + allDiscountsCost);
                         finalPaymentPrice = (totalRawPrice - allDiscountsCost) + packingCost + taxAndService + shippingCost;
                     } else {
-                        allDiscountsCost = (totalRawPrice - tempTotalDiscountedPrice) + totalDiscount;Log.i(TAG,"5 "+allDiscountsCost);
+                        allDiscountsCost = (totalRawPrice - tempTotalDiscountedPrice) + totalDiscount;
+                        Log.i(TAG, "5 " + allDiscountsCost);
                         finalPaymentPrice = (totalRawPrice - allDiscountsCost) + packingCost + taxAndService + shippingCost;
                     }
                 }
@@ -174,11 +228,11 @@ public class PaymentViewModel extends ViewModel {
                     allDiscountsCost = (totalRawPrice - tempTotalDiscountedPrice) + totalDiscount;
                     finalPaymentPrice = (totalRawPrice - allDiscountsCost) + packingCost + taxAndService + shippingCost;
                 }
-            }else {
+            } else {
                 Map<Long, String> specificItems = discountCode.getFoodList();
                 for (int i = 0; i < cartItems.size(); i++) {
                     long id = cartItems.get(i).getFoodId();
-                    int price = cartItems.get(i).getFoodQuantity()* cartItems.get(i).getFoodPrice();
+                    int price = cartItems.get(i).getFoodQuantity() * cartItems.get(i).getFoodPrice();
                     tempTotalRawPrice += price;
                     for (Map.Entry<Long, String> entry : specificItems.entrySet()) {
                         long foodId = entry.getKey();

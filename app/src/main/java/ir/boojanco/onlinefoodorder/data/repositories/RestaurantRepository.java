@@ -6,6 +6,8 @@ import ir.boojanco.onlinefoodorder.models.restaurant.DiscountCodeResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.AllPackagesResponse;
+import ir.boojanco.onlinefoodorder.models.user.CartOrderResponse;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Observable;
 
@@ -17,7 +19,7 @@ public class RestaurantRepository {
     }
 
     public Observable<LastRestaurantResponse> getLastRestaurant(int page, int size) {
-        return apiInterface.getLastRestaurant( page,size);
+        return apiInterface.getLastRestaurant(page, size);
     }
 
     public Observable<RestaurantInfoResponse> getRestaurantInfo(String authToken, long restaurantId) {
@@ -32,8 +34,12 @@ public class RestaurantRepository {
         return apiInterface.getAllPackagesResponseObservable(authToken, restaurantId);
     }
 
-    public Observable<DiscountCodeResponse> getDiscountCodeResponse(String authToken, String code,long restaurantId,int totalCost) {
-        return apiInterface.getDiscountCodeResponseObservable(authToken, code,restaurantId,totalCost);
+    public Observable<DiscountCodeResponse> getDiscountCodeResponse(String authToken, String code, long restaurantId, int totalCost) {
+        return apiInterface.getDiscountCodeResponseObservable(authToken, code, restaurantId, totalCost);
+    }
+
+    public Observable<Response<Boolean>> addOrder(String authToken, CartOrderResponse cartOrderBody) {
+        return apiInterface.addOrder(authToken, cartOrderBody);
     }
 
 

@@ -43,6 +43,7 @@ import ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList;
 import ir.boojanco.onlinefoodorder.models.user.UserAddressList;
 import ir.boojanco.onlinefoodorder.ui.activities.payment.PaymentActivity;
 import ir.boojanco.onlinefoodorder.ui.fragments.MapDialogCartFragment;
+import ir.boojanco.onlinefoodorder.util.OrderType;
 import ir.boojanco.onlinefoodorder.viewmodels.CartViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.CartViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.AddressRecyclerViewInterface;
@@ -93,7 +94,11 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
     private final String packingCostLiveDataExtraName = "packingCost";
     private final String restaurantShippingCostExtraName = "restaurantShipping";
     private final String taxAndServiceExtraName = "taxAndService";
-    private final String shipingCostExtraName = "shipingCost";
+    private final String shippingCostExtraName = "shippingCost";
+    private final String orderTypeExtraName = "orderType";
+    private final String restaurantIdExtraName = "restaurantId";
+    private final String restaurantPackageIdExtraName = "restaurantPackageId";
+    private final String shippingAddressIdExtraName = "shippingAddressId";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +132,7 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
         });
 
         binding.bottomSheetInclude.switcherDefaultAddress.setOnCheckedChangeListener(aBoolean -> {
-            Toast.makeText(application, ""+aBoolean, Toast.LENGTH_SHORT).show();
+            Toast.makeText(application, "" + aBoolean, Toast.LENGTH_SHORT).show();
             cartViewModel.defaultAddress = aBoolean;
             return null;
         });
@@ -146,14 +151,7 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
                 cartViewModel.setPackageItem(packageItem);
             if (restaurantInfo != null)
                 cartViewModel.setRestaurantInfo(restaurantInfo);
-            /*String extraRestauranLogo = extras.getString("RESTAURANT_LOGO"," ");
-            String extraRestauranName = extras.getString("RESTAURANT_NAME"," ");
-            String extraRestauranTagList = extras.getString("RESTAURANT_TAG_LIST"," ");
-            Float extraRestauranAverageScore = extras.getFloat("RESTAURANT_AVERAGE_SCORE",0);
-            restaurantDetailsViewModel.restaurantCover.setValue(extraRestauranCover);
-            restaurantDetailsViewModel.restaurantLogo.setValue(extraRestauranLogo);
-            restaurantDetailsViewModel.restaurantAverageScore.setValue(extraRestauranAverageScore);
-            restaurantDetailsViewModel.restaurantName.setValue(extraRestauranName);*/
+
             recyclerViewUserAddress = binding.recyclerViewUserAddressHorizontalItems;
             recyclerViewUserAddress.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
             recyclerViewUserAddress.setHasFixedSize(true);
@@ -213,7 +211,8 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
     public void showStateCityCustomDialog() {
         if (stateCityDialog != null)
             stateCityDialog.show();
-        else Toast.makeText(application, "خطا در دریافت اطلاعات استان ها", Toast.LENGTH_LONG).show();
+        else
+            Toast.makeText(application, "خطا در دریافت اطلاعات استان ها", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -231,21 +230,24 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
     }
 
     @Override
-    public void acceptOrder(ArrayList<FinalPaymentPrice> finalPaymentPrices, List<CartItem> cartItems, int totalAllPrice, int totalRawPrice, int totalDiscount, int packingCost, int taxAndService, int shippingCost) {
-        if(cartItems != null){
+    public void acceptOrder(ArrayList<FinalPaymentPrice> finalPaymentPrices, List<CartItem> cartItems, int totalAllPrice, int totalRawPrice, int totalDiscount, int packingCost, int taxAndService, int shippingCost, OrderType orderType, long restaurantId, long restaurantPackageId, long shippingAddressId) {
+        if (cartItems != null) {
             goToPaymentActivity = new Intent(this, PaymentActivity.class);
             goToPaymentActivity.putExtra(cartItemExtraName, (Serializable) cartItems);
             goToPaymentActivity.putExtra(finalPaymentPricesExtraName, finalPaymentPrices);
             goToPaymentActivity.putExtra(totalAllPriceExtraName, totalAllPrice);
-            goToPaymentActivity.putExtra(totalRawPriceExtraName,  totalRawPrice);
-            goToPaymentActivity.putExtra(totalDiscountExtraName,  totalDiscount);
-            goToPaymentActivity.putExtra(packingCostLiveDataExtraName,  packingCost);
-            goToPaymentActivity.putExtra(taxAndServiceExtraName,  taxAndService);
-            goToPaymentActivity.putExtra(shipingCostExtraName,  shippingCost);
+            goToPaymentActivity.putExtra(totalRawPriceExtraName, totalRawPrice);
+            goToPaymentActivity.putExtra(totalDiscountExtraName, totalDiscount);
+            goToPaymentActivity.putExtra(packingCostLiveDataExtraName, packingCost);
+            goToPaymentActivity.putExtra(taxAndServiceExtraName, taxAndService);
+            goToPaymentActivity.putExtra(shippingCostExtraName, shippingCost);
+            goToPaymentActivity.putExtra(orderTypeExtraName, orderType);
+            goToPaymentActivity.putExtra(restaurantIdExtraName, restaurantId);
+            goToPaymentActivity.putExtra(restaurantPackageIdExtraName, restaurantPackageId);
+            goToPaymentActivity.putExtra(shippingAddressIdExtraName, shippingAddressId);
             startActivity(goToPaymentActivity);
         }
     }
-
 
     @Override
     public void onSuccessGetReverseAddress(ReverseFindAddressResponse reverseFindAddressResponses) {
@@ -254,7 +256,7 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
 
     @Override
     public void onFailure(String Error) {
-        Toast.makeText(application, ""+Error, Toast.LENGTH_SHORT).show();
+        Toast.makeText(application, "" + Error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -264,7 +266,7 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
 
     @Override
     public void onRecyclerViewAddressClick(View v, UserAddressList userAddress, int position) {
-        cartViewModel.checkUserAddressForService(userAddress.getLatitude(), userAddress.getLongitude());
+        cartViewModel.checkUserAddressForService(userAddress.getId(), userAddress.getLatitude(), userAddress.getLongitude());
     }
 
     @Override

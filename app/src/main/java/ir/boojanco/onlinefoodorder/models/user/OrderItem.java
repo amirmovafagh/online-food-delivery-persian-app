@@ -6,6 +6,9 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 
+import ir.boojanco.onlinefoodorder.util.persianDate.PersianDate;
+import ir.boojanco.onlinefoodorder.util.persianDate.PersianDateFormat;
+
 public class OrderItem {
     @SerializedName("id")
     private long id;
@@ -38,6 +41,13 @@ public class OrderItem {
     @SerializedName("packingCost")
     private int packingCost;
 
+    PersianDate pdate;
+    PersianDateFormat pdformater;
+
+    public OrderItem() {
+        pdformater = new PersianDateFormat("Y/m/d");
+    }
+
     public long getId() {
         return id;
     }
@@ -48,6 +58,11 @@ public class OrderItem {
 
     public long getDate() {
         return date;
+    }
+
+    public String getShamsiDate() {
+        pdate = new PersianDate(date);
+        return pdformater.format(pdate);
     }
 
     public void setDate(long date) {

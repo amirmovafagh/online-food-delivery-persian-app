@@ -19,6 +19,7 @@ import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.data.database.CartItem;
 import ir.boojanco.onlinefoodorder.databinding.ActivityPaymentBinding;
 import ir.boojanco.onlinefoodorder.ui.activities.cart.FinalPaymentPrice;
+import ir.boojanco.onlinefoodorder.util.OrderType;
 import ir.boojanco.onlinefoodorder.viewmodels.PaymentViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.PaymentViewModelFactory;
 
@@ -38,9 +39,12 @@ public class PaymentActivity extends AppCompatActivity implements PaymentInterfa
     private final String totalRawPriceExtraName = "totalRaw";
     private final String totalDiscountExtraName = "totalDiscount";
     private final String packingCostLiveDataExtraName = "packingCost";
-    private final String restaurantShippingCostExtraName = "restaurantShipping";
     private final String taxAndServiceExtraName = "taxAndService";
-    private final String shipingCostExtraName = "shipingCost";
+    private final String shippingCostExtraName = "shippingCost";
+    private final String orderTypeExtraName = "orderType";
+    private final String restaurantIdExtraName = "restaurantId";
+    private final String restaurantPackageIdExtraName = "restaurantPackageId";
+    private final String shippingAddressIdExtraName = "shippingAddressId";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,18 +60,19 @@ public class PaymentActivity extends AppCompatActivity implements PaymentInterfa
             @Override
             public void onClick(View v) {
 //                viewModel.checkDiscountCode(sharedPreferences.getUserAuthTokenKey());
-            viewModel.checkOrderAtServerSide();
+                viewModel.checkOrderAtServerSide();
             }
         });
         viewModel.setUserAuthToken(sharedPreferences.getUserAuthTokenKey());
+
         Bundle extras = this.getIntent().getExtras();
         if (extras != null) {
-
             ArrayList<FinalPaymentPrice> finalPaymentPrice = (ArrayList<FinalPaymentPrice>) extras.getSerializable(finalPaymentPricesExtraName);
-
-            viewModel.setVariablesInTempVar(finalPaymentPrice,(List<CartItem>) extras.getSerializable(cartItemExtraName),
-                    extras.getInt(totalAllPriceExtraName),extras.getInt(totalRawPriceExtraName),extras.getInt(totalDiscountExtraName),
-                    extras.getInt(packingCostLiveDataExtraName),extras.getInt(taxAndServiceExtraName),extras.getInt(shipingCostExtraName));
+            viewModel.setVariablesInTempVar(finalPaymentPrice, (List<CartItem>) extras.getSerializable(cartItemExtraName),
+                    extras.getInt(totalAllPriceExtraName), extras.getInt(totalRawPriceExtraName), extras.getInt(totalDiscountExtraName),
+                    extras.getInt(packingCostLiveDataExtraName), extras.getInt(taxAndServiceExtraName), extras.getInt(shippingCostExtraName),
+                    (OrderType)extras.getSerializable(orderTypeExtraName),extras.getLong(restaurantIdExtraName),
+                    extras.getLong(restaurantPackageIdExtraName),extras.getLong(shippingAddressIdExtraName));
         }
     }
 

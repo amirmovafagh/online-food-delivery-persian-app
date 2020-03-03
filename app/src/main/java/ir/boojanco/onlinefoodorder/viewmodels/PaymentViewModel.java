@@ -2,6 +2,7 @@ package ir.boojanco.onlinefoodorder.viewmodels;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.RadioGroup;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.data.database.CartItem;
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
 import ir.boojanco.onlinefoodorder.models.restaurant.DiscountCodeResponse;
@@ -26,6 +28,8 @@ import ir.boojanco.onlinefoodorder.models.user.CartOrderResponse;
 import ir.boojanco.onlinefoodorder.ui.activities.cart.FinalPaymentPrice;
 import ir.boojanco.onlinefoodorder.ui.activities.payment.PaymentInterface;
 import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
+import ir.boojanco.onlinefoodorder.util.OrderType;
+import ir.boojanco.onlinefoodorder.util.PaymentType;
 import retrofit2.HttpException;
 import retrofit2.Response;
 import rx.Subscriber;
@@ -42,20 +46,27 @@ public class PaymentViewModel extends ViewModel {
     private ArrayList<FinalPaymentPrice> finalPaymentPrices;
     private List<CartItem> cartItems;
     private String userAuthToken;
+    private OrderType orderType;
+    private PaymentType paymentType = PaymentType.ONLINE;
+    private long packageId = 0;
+    private long restaurantId = 0;
+    private long shippingAddressId = 0;
 
     public void setUserAuthToken(String userAuthToken) {
         this.userAuthToken = userAuthToken;
     }
 
     public MutableLiveData<String> discountCodeLiveData;
+    public String discountCode = "";
+    public MutableLiveData<String> userDescriptionLiveData;
     public MutableLiveData<String> totalAllPriceLiveData;
     private int totalAllPrice = 0;
     public MutableLiveData<String> totalDiscountLiveData;
     private int totalDiscount = 0;
     public MutableLiveData<String> packingCostLiveData;
-    private int packingCost =   0;
+    private int packingCost = 0;
     public MutableLiveData<String> restaurantShippingCostLiveData;
-    private int shippingCost =  0;
+    private int shippingCost = 0;
     public MutableLiveData<String> taxAndServiceLiveData;
     private int taxAndService = 0;
     public MutableLiveData<String> totalRawPriceLiveData;
@@ -68,15 +79,17 @@ public class PaymentViewModel extends ViewModel {
 
         totalAllPriceLiveData = new MutableLiveData<>();
         totalDiscountLiveData = new MutableLiveData<>();
-        packingCostLiveData  =   new MutableLiveData<>();
+        packingCostLiveData = new MutableLiveData<>();
         restaurantShippingCostLiveData = new MutableLiveData<>();
         taxAndServiceLiveData = new MutableLiveData<>();
         totalRawPriceLiveData = new MutableLiveData<>();
-        discountCodeLiveData =  new MutableLiveData<>();
+        discountCodeLiveData = new MutableLiveData<>();
+        userDescriptionLiveData = new MutableLiveData<>();
     }
 
 
     public void checkDiscountCode(String authKey) {
+
         paymentInterface.onStarted();
         rx.Observable<DiscountCodeResponse> observable = restaurantRepository.getDiscountCodeResponse(authKey, "bj-1KE4GH", 467, 100000);
         if (observable != null) {
@@ -115,12 +128,19 @@ public class PaymentViewModel extends ViewModel {
     }
 
     public void checkOrderAtServerSide() {
+        if (paymentType.equals(PaymentType.DONT_CHOOSE)) {
+            paymentInterface.onFailure("لطفا نحوه پرداخت را مشخص کنید");
+            return;
+        }
+
         Map<Long, Integer> foodLists = new HashMap<>();
-        for (CartItem item: cartItems){
+        for (CartItem item : cartItems) {
             foodLists.put(item.getFoodId(), item.getFoodQuantity());
         }
         Date date = new Date();
-        CartOrderResponse cartOrderBody = new CartOrderResponse(date.getTime(),"","",foodLists,"GET_BY_DELIVERY",0,packingCost,"ONLINE", 467,483,shippingCost,totalAllPrice,0);
+        CartOrderResponse cartOrderBody = new CartOrderResponse(date.getTime(), userDescriptionLiveData.getValue(),
+                discountCode, foodLists, orderType.toString(), packageId, packingCost, paymentType.toString(),
+                restaurantId, shippingAddressId, shippingCost, totalAllPrice, 0);
         rx.Observable<Response<Boolean>> observable = restaurantRepository.addOrder(userAuthToken, cartOrderBody);
         if (observable != null) {
             observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<Response<Boolean>>() {
@@ -151,7 +171,7 @@ public class PaymentViewModel extends ViewModel {
 
                 @Override
                 public void onNext(Response<Boolean> booleanResponse) {
-                    paymentInterface.onFailure(""+booleanResponse);
+                    paymentInterface.onFailure("" + booleanResponse);
                 }
             });
         }
@@ -261,9 +281,20 @@ public class PaymentViewModel extends ViewModel {
         totalAllPriceLiveData.setValue(moneyFormat(finalPaymentPrice));
     }
 
+    public void onPaymentTypeCheckedChanged(int id) {
+        switch (id) {
+            case R.id.r_btn_online:
+                paymentType = PaymentType.ONLINE;
+                break;
+            case R.id.r_btn_in_place:
+                paymentType = PaymentType.INPLACE;
+                break;
+        }
+    }
+
     public void setVariablesInTempVar(ArrayList<FinalPaymentPrice> finalPaymentPrices, List<CartItem> cartItems,
                                       int totalAllPrice, int totalRawPrice, int totalDiscount, int packingCost,
-                                      int taxAndService, int shippingCost) {
+                                      int taxAndService, int shippingCost, OrderType orderType, long restaurantId, long restaurantPackageId, long shippingAddressId) {
         if (finalPaymentPrices != null)
             this.finalPaymentPrices = finalPaymentPrices;
         this.cartItems = cartItems;
@@ -273,6 +304,10 @@ public class PaymentViewModel extends ViewModel {
         this.packingCost = packingCost;
         this.taxAndService = taxAndService;
         this.shippingCost = shippingCost;
+        this.orderType = orderType;
+        this.restaurantId = restaurantId;
+        this.packageId = restaurantPackageId;
+        this.shippingAddressId = shippingAddressId;
 
         totalAllPriceLiveData.setValue(moneyFormat(totalAllPrice));
         totalRawPriceLiveData.setValue(moneyFormat(totalRawPrice));

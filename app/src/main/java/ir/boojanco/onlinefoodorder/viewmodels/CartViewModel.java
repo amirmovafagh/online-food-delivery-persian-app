@@ -41,13 +41,13 @@ import ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList;
 import ir.boojanco.onlinefoodorder.models.stateCity.GetAllCitiesResponse;
 import ir.boojanco.onlinefoodorder.models.stateCity.GetAllStatesResponse;
 import ir.boojanco.onlinefoodorder.models.user.AddUserAddressResponse;
-import ir.boojanco.onlinefoodorder.models.user.GetUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.UserAddressList;
 import ir.boojanco.onlinefoodorder.ui.activities.cart.AddressDataSource;
 import ir.boojanco.onlinefoodorder.ui.activities.cart.AddressDataSourceFactory;
 import ir.boojanco.onlinefoodorder.ui.activities.cart.AddressDataSourceInterface;
 import ir.boojanco.onlinefoodorder.ui.activities.cart.FinalPaymentPrice;
 import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
+import ir.boojanco.onlinefoodorder.util.OrderType;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.CartInterface;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.MapDialogInterface;
 import retrofit2.HttpException;
@@ -70,14 +70,17 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
     private double userLongitude;
     public boolean defaultAddress = false;
     private RestaurantPackageItem packageItem;
+    private long packageId = 0;
     private RestaurantInfoResponse restaurantInfo;
     private List<CartItem> cartItems;
     private List<AllStatesList> statesLists;
     private List<AllCitiesList> citiesLists;
     private ArrayList<FinalPaymentPrice> finalPaymentPrices;
     public String userAuthToken;
+    private long shippingUserAddressId = 0;
 
 
+    private OrderType orderType = OrderType.DONT_CHOOSE;
     public MutableLiveData<Long> totalRawPriceLiveData;
     private int totalRawPrice = 0;
     public MutableLiveData<String> cartStateLiveData;
@@ -133,6 +136,8 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
     }
 
     public void setPackageItem(RestaurantPackageItem packageItem) {
+        if (packageItem != null)
+            packageId = packageItem.getId();
         this.packageItem = packageItem;
     }
 
@@ -153,6 +158,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
         } else {
             deliveryTypeTextLiveData.setValue("دریافت در رستوران");
             deliveryTypeViewLiveData.setValue(2);
+            orderType = OrderType.GET_BY_CUSTOMER;
         }
     }
 
@@ -176,10 +182,11 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
             deliveryTypeTextLiveData.setValue("فقط دریافت در رستوران");
             deliveryTypeSelectLiveData.setValue(0); //hide switch button
             deliveryTypeViewLiveData.setValue(2);   //just show deliver in place
+            orderType = OrderType.GET_BY_CUSTOMER;
         }
     }
 
-    public void checkUserAddressForService(Double lat, Double lng) {
+    public void checkUserAddressForService(long userAddressId, Double lat, Double lng) {
         LatLng city = new LatLng(lat, lng);
         String closeRegionsCoordinates = restaurantInfo.getCloseRegionsCoordinates().substring(2); //substring for remove P:
         String[] closeRegionsCoordinatesSeperated = closeRegionsCoordinates.split(" ");
@@ -193,13 +200,14 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
             closePoints.add(latLng);
         }
 
-        if (PolyUtil.containsLocation(city.latitude, city.longitude, closePoints, true)) {
+        if (PolyUtil.containsLocation(city.latitude, city.longitude, closePoints, true)) { //check user address is in close area
             shippingCost = restaurantInfo.getShippingCostInCloseRegions();
             restaurantShippingCostLiveData.setValue(String.valueOf(shippingCost));
-
+            orderType = OrderType.GET_BY_DELIVERY;
+            shippingUserAddressId = userAddressId;
         } else {
             List<LatLng> serviceAreaPoints = new ArrayList<>();
-            for (int i = 0; i < serviceAreaCoordinatesSeperated.length; i++) {
+            for (int i = 0; i < serviceAreaCoordinatesSeperated.length; i++) {          //check user address is in service area
                 String[] latLngSeprated = serviceAreaCoordinatesSeperated[i].split(",");
                 LatLng latLng = new LatLng(Double.parseDouble(latLngSeprated[1]), Double.parseDouble(latLngSeprated[0]));
                 serviceAreaPoints.add(latLng);
@@ -207,8 +215,12 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
             if (PolyUtil.containsLocation(city.latitude, city.longitude, serviceAreaPoints, true)) {
                 shippingCost = restaurantInfo.getShippingCostInServiceArea();
                 restaurantShippingCostLiveData.setValue(String.valueOf(restaurantInfo.getShippingCostInServiceArea()));
+                orderType = OrderType.GET_BY_DELIVERY;
+                shippingUserAddressId = userAddressId;
             } else {
                 restaurantShippingCostLiveData.setValue("عدم سرویس دهی");
+                cartInterface.onFailure("عدم سرویس دهی در محدوده شما");
+                orderType = OrderType.DONT_CHOOSE;
             }
         }
         calculateFinalCartTotalPrice();
@@ -216,10 +228,10 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
 
 
     public void getReverseAddressParsiMap(Double latitude, Double longitude, String authToken) {
-        Log.i("AMIR","rev");
+        Log.i("AMIR", "rev");
         rx.Observable<ReverseFindAddressResponse> observable = userRepository.getReverseFindAddressResponse(latitude, longitude);
         if (observable != null) {
-            Log.i("AMIR","rev1");
+            Log.i("AMIR", "rev1");
             observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<ReverseFindAddressResponse>() {
                 @Override
                 public void onCompleted() {
@@ -233,7 +245,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
 
                 @Override
                 public void onError(Throwable e) {
-                    Log.i("AMIR","rev "+e.getMessage()) ;
+                    Log.i("AMIR", "rev " + e.getMessage());
                     mapDialogCartInterface.onFailure(e.getMessage());
                     if (e instanceof NoNetworkConnectionException)
                         mapDialogCartInterface.onFailure(e.getMessage());
@@ -247,7 +259,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
 
 
                         } catch (Exception d) {
-                            Log.i("AMIR","rev "+d.getMessage()) ;
+                            Log.i("AMIR", "rev " + d.getMessage());
                             mapDialogCartInterface.onFailure(d.getMessage());
                         }
                     }
@@ -255,7 +267,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
 
                 @Override
                 public void onNext(ReverseFindAddressResponse reverseFindAddressResponse) {
-                    Log.i("AMIR","rev3");
+                    Log.i("AMIR", "rev3");
                     state.setValue(reverseFindAddressResponse.getResult().get(0).getTitle());
                     city.setValue(reverseFindAddressResponse.getResult().get(3).getTitle());
                     region.setValue(reverseFindAddressResponse.getShortAddress());
@@ -584,8 +596,21 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
     }
 
     public void acceptOrder() {
-        cartInterface.acceptOrder(finalPaymentPrices, cartItems, totalAllPrice, totalRawPrice,
-                totalDiscount, packingCost, taxAndService, shippingCost);
+        switch (orderType) {
+            case DONT_CHOOSE:
+                cartInterface.onFailure("لطفا نحوه دریافت سفارش را مشخص کنید");
+                break;
+            case GET_BY_CUSTOMER:
+            case GET_BY_DELIVERY:
+                cartInterface.acceptOrder(finalPaymentPrices, cartItems, totalAllPrice, totalRawPrice,
+                        totalDiscount, packingCost, taxAndService, shippingCost, orderType, restaurantInfo.getId(), packageId, shippingUserAddressId);
+                break;
+            case SERVE_IN_PLACE:
+                // TODO: SERVE_IN_PLACE implement later
+                break;
+        }
+
+
     }
 
     public void onStop() {
@@ -615,4 +640,6 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
     public void onFailure(String error) {
         cartInterface.onFailure(error);
     }
+
+
 }

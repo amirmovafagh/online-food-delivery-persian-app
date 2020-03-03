@@ -1,6 +1,6 @@
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -14,6 +14,11 @@
         android:layout_height="match_parent"
         android:background="@drawable/wallpaper_restaurant_info"
         android:layoutDirection="rtl">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/backgroundGrayLight_lowAlpha" />
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
@@ -58,9 +63,9 @@
             android:id="@+id/cv_cart_items"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="40dp"
             android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
             app:cardBackgroundColor="@color/restaurantDetailsCardViewBackground"
             app:cardCornerRadius="@dimen/card_view_corner_radius"
             app:cardElevation="0dp"
@@ -70,15 +75,14 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:id="@+id/linear_layout_cart_details_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_margin="16dp"
+                    android:orientation="vertical"
                     android:visibility="visible"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -96,13 +100,51 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="text"
-                            android:text="@={viewModel.discountCodeLiveData}"
-                            android:maxLines="1"
                             android:ellipsize="end"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:text="@={viewModel.discountCodeLiveData}"
                             android:textSize="@dimen/edit_text_font_size" />
 
                     </com.google.android.material.textfield.TextInputLayout>
+
+                    <RadioGroup
+                        android:id="@+id/radio_group_toggle_pament_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:onCheckedChanged="@{(RadioGroup, id) -> viewModel.onPaymentTypeCheckedChanged(id)}"
+                        android:background="@drawable/payment_type_radio_group_bg"
+                        android:checkedButton="@+id/r_btn_online"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/r_btn_online"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="2dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginBottom="2dp"
+                            android:layout_weight="0.5"
+                            android:background="@drawable/toggle_widget_background"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="@string/online_pay"
+                            android:textColor="@color/white" />
+
+                        <RadioButton
+                            android:id="@+id/r_btn_in_place"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginBottom="2dp"
+                            android:layout_weight="0.5"
+                            android:background="@drawable/toggle_widget_background"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="@string/in_place_pay"
+                            android:textColor="@color/white" />
+                    </RadioGroup>
 
                     <!--details layout-->
                     <LinearLayout
@@ -325,8 +367,7 @@
                 <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="@color/colorPrimary"
-                    >
+                    android:background="@color/colorPrimary">
 
                     <LinearLayout
                         android:id="@+id/linear_layout_accept_order"

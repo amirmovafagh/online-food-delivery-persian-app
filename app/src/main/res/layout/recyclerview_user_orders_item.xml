@@ -68,7 +68,7 @@
                         android:layout_gravity="center"
                         android:layout_weight="0.3"
                         android:padding="8dp"
-                        android:text="@{String.valueOf(orderItem.date),default=تاریخ}"
+                        android:text="@{orderItem.shamsiDate ,default=تاریخ}"
                         android:textAlignment="viewEnd"
                         android:textSize="@dimen/body4_paragraph_font_size"
                         tools:ignore="RtlCompat" />

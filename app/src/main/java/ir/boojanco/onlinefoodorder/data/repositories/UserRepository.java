@@ -3,7 +3,9 @@ package ir.boojanco.onlinefoodorder.data.repositories;
 import androidx.annotation.NonNull;
 
 import ir.boojanco.onlinefoodorder.data.networking.ApiInterface;
+import ir.boojanco.onlinefoodorder.models.food.FavoriteFoodsResponse;
 import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
+import ir.boojanco.onlinefoodorder.models.restaurant.FavoriteRestaurantsResponse;
 import ir.boojanco.onlinefoodorder.models.stateCity.GetAllCitiesResponse;
 import ir.boojanco.onlinefoodorder.models.stateCity.GetAllStatesResponse;
 import ir.boojanco.onlinefoodorder.models.user.AddUserAddressResponse;
@@ -59,6 +61,14 @@ public class UserRepository {
 
     public Observable<GetUserOrdersResponse> getUserOrdersResponseObservable(String authToken, int page, int size) {
         return apiInterface.getUserOrdersResponseObservable(authToken, page, size);
+    }
+
+    public Observable<FavoriteRestaurantsResponse> getFavoriteRestaurantsResponseObservable(String authToken) {
+        return apiInterface.getFavoriteRestaurantsResponseObservable(authToken);
+    }
+
+    public Observable<FavoriteFoodsResponse> getFavoriteFoodsResponseObservable(String authToken) {
+        return apiInterface.getFavoriteFoodsResponseObservable(authToken);
     }
 
 }

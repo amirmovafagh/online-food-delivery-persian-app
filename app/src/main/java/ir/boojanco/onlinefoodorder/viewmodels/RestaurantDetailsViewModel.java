@@ -26,25 +26,27 @@ public class RestaurantDetailsViewModel extends ViewModel {
     private static final String TAG = RestaurantDetailsViewModel.class.getSimpleName();
     public RestaurantDetailsInterface detailsInterface;
 
-    public MutableLiveData<String>  restaurantCover;
-    public MutableLiveData<String>  restaurantLogo;
-    public MutableLiveData<Float>   restaurantAverageScore;
-    public MutableLiveData<String>  restaurantName;
-    public MutableLiveData<String>  restaurantAddress;
-    public MutableLiveData<String>  restaurantBranch;
+    public MutableLiveData<String> restaurantCover;
+    public MutableLiveData<String> restaurantLogo;
+    public MutableLiveData<Float> restaurantAverageScore;
+    public MutableLiveData<String> restaurantName;
+    public MutableLiveData<String> restaurantAddress;
+    public MutableLiveData<String> restaurantBranch;
     public MutableLiveData<Boolean> restaurantDelivery;
-    public MutableLiveData<String>  restaurantDeliveryTime;
+    public MutableLiveData<String> restaurantDeliveryTime;
     public MutableLiveData<Boolean> restaurantGetInPlace;
     public MutableLiveData<String> restaurantMinimumOrder;
     public MutableLiveData<String> restaurantPackingCost;
     public MutableLiveData<String> restaurantShippingCostInRegion;
     public MutableLiveData<String> restaurantShippingCostOutRegion;
-    public MutableLiveData<String>  restaurantPhoneNumber;
-    public MutableLiveData<String>  restaurantRegion;
-    public MutableLiveData<String>    restaurantTagList;
+    public MutableLiveData<String> restaurantPhoneNumber;
+    public MutableLiveData<String> restaurantRegion;
+    public MutableLiveData<String> restaurantTagList;
     public MutableLiveData<Integer> cartItemCount;
 
     private Context context;
+    private long restaurantId = 0;
+    private String userAuthToken;
     private RestaurantRepository restaurantRepository;
     private CartDataSource cartDataSource;
 
@@ -73,10 +75,11 @@ public class RestaurantDetailsViewModel extends ViewModel {
     }
 
 
-    public void getRestaurantInfo(String authToken, long restaurantId){
+    public void getRestaurantInfo(String authToken, long restaurantId) {
+        userAuthToken = authToken;
         Observable<RestaurantInfoResponse> observable = restaurantRepository.getRestaurantInfo(authToken, restaurantId);
-        Log.e(TAG,""+observable);
-        if(observable != null){
+        Log.e(TAG, "" + observable);
+        if (observable != null) {
             observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<RestaurantInfoResponse>() {
                 @Override
                 public void onCompleted() {
@@ -85,8 +88,8 @@ public class RestaurantDetailsViewModel extends ViewModel {
 
                 @Override
                 public void onError(Throwable e) {
-                    Log.e(TAG,""+e.toString());
-                    if(e instanceof NoNetworkConnectionException)
+                    Log.e(TAG, "" + e.toString());
+                    if (e instanceof NoNetworkConnectionException)
                         detailsInterface.onFailure(e.getMessage());
                     if (e instanceof HttpException) {
                         Response response = ((HttpException) e).response();
@@ -97,7 +100,7 @@ public class RestaurantDetailsViewModel extends ViewModel {
                             detailsInterface.onFailure(jsonObject.getString("message"));
 
 
-                        }  catch (Exception d) {
+                        } catch (Exception d) {
                             detailsInterface.onFailure(d.getMessage());
                         }
                     }
@@ -131,5 +134,92 @@ public class RestaurantDetailsViewModel extends ViewModel {
         }
     }
 
+    private void addToFavoriteList() {
+        Observable<Response<Void>> observable = restaurantRepository.addRestaurantToFavoriteList(userAuthToken, restaurantId);
+        Log.e(TAG, "" + observable);
+        if (observable != null) {
+            observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Response<Void>>() {
+                @Override
+                public void onCompleted() {
+                    detailsInterface.onFailure("به پرمزه ها افزوده شد");
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                    if (e instanceof NoNetworkConnectionException)
+                        detailsInterface.onFailure(e.getMessage());
+                    if (e instanceof HttpException) {
+                        Response response = ((HttpException) e).response();
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
+
+                            detailsInterface.onFailure(jsonObject.getString("message"));
+
+
+                        } catch (Exception d) {
+                            detailsInterface.onFailure(d.getMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onNext(Response<Void> voidResponse) {
+
+
+                }
+            });
+        }
+    }
+
+    private void removeFromFavoriteList() {
+        Observable<Response<Void>> observable = restaurantRepository.removeRestaurantFromFavoriteList(userAuthToken, restaurantId);
+        Log.e(TAG, "" + observable);
+        if (observable != null) {
+            observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Response<Void>>() {
+                @Override
+                public void onCompleted() {
+                    detailsInterface.onFailure("از پرمزه ها حذف شد");
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                    if (e instanceof NoNetworkConnectionException)
+                        detailsInterface.onFailure(e.getMessage());
+                    if (e instanceof HttpException) {
+                        Response response = ((HttpException) e).response();
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
+
+                            detailsInterface.onFailure(jsonObject.getString("message"));
+
+
+                        } catch (Exception d) {
+                            detailsInterface.onFailure(d.getMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onNext(Response<Void> voidResponse) {
+
+                }
+            });
+        }
+    }
+
+
+    public void onRestaurantFavoriteCheckedChanged(boolean checked) {
+
+        if (checked){
+            addToFavoriteList();
+        }else {
+            removeFromFavoriteList();
+        }
+    }
 
 }

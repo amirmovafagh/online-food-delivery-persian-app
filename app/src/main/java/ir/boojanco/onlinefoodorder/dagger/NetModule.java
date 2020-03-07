@@ -20,6 +20,8 @@ import ir.boojanco.onlinefoodorder.data.networking.NetworkConnectionInterceptor;
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
 import ir.boojanco.onlinefoodorder.data.repositories.UserRepository;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.CartViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.factories.FavoriteFoodsViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.factories.FavoriteRestaurantsViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.HomeViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.LoginViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.OrdersViewModelFactory;
@@ -83,6 +85,22 @@ public class NetModule {
     OrdersViewModelFactory provideOrdersViewModelFactory(Application application, UserRepository userRepository) {
         OrdersViewModelFactory factory =
                 new OrdersViewModelFactory(application, userRepository);
+        return factory;
+    }
+
+    @Provides
+    @Singleton
+    FavoriteFoodsViewModelFactory provideFavoriteFoodsViewModelFactory(Application application, UserRepository userRepository) {
+        FavoriteFoodsViewModelFactory factory =
+                new FavoriteFoodsViewModelFactory(application, userRepository);
+        return factory;
+    }
+
+    @Provides
+    @Singleton
+    FavoriteRestaurantsViewModelFactory provideFavoriteRestaurantsViewModelFactory(Application application, UserRepository userRepository) {
+        FavoriteRestaurantsViewModelFactory factory =
+                new FavoriteRestaurantsViewModelFactory(application, userRepository);
         return factory;
     }
 

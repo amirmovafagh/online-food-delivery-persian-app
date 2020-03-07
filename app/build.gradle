@@ -31,9 +31,7 @@ android {
     dataBinding {
         enabled = true
     }
-    viewBinding {
-        enabled = true
-    }
+
 }
 def lifecycle_version = "2.2.0"
 def retrofit_version = "2.5.0"

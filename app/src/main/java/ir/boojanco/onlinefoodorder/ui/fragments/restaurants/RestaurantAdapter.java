@@ -36,9 +36,9 @@ public class RestaurantAdapter extends PagedListAdapter<LastRestaurantList, Rest
         LastRestaurantList currentRestaurant = getItem(position);
         if (currentRestaurant != null) {
             holder.binding.setRestaurant(currentRestaurant);
-            holder.binding.toggleBookmark.setOnClickListener(v -> {
+            /*holder.binding.toggleBookmark.setOnClickListener(v -> {
                 clickListener.onRecyclerViewItemClick(holder.binding.toggleBookmark, currentRestaurant);
-            });
+            });*/
             holder.binding.consLayout.setOnClickListener(v -> {
                 clickListener.onRecyclerViewItemClick(holder.binding.consLayout, currentRestaurant);
             });

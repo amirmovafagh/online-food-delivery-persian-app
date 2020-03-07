@@ -90,13 +90,13 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
 
     @Override
     public void onStarted() {
-        binding.cvWaitingResponse.setVisibility(View.VISIBLE);
+        binding.animationViewLoadRequest.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onSuccess() {
         recyclerView.scheduleLayoutAnimation();
-        binding.cvWaitingResponse.setVisibility(View.GONE);
+        binding.animationViewLoadRequest.setVisibility(View.GONE);
     }
 
 
@@ -116,11 +116,6 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
 
                 Intent intent = new Intent(getContext(), RestaurantDetailsActivity.class);
                 intent.putExtra("RESTAURANT_ID",restaurantList.getId());
-                /*intent.putExtra("RESTAURANT_COVER", restaurantList.getCover());
-                intent.putExtra("RESTAURANT_LOGO", restaurantList.getLogo());
-                intent.putExtra("RESTAURANT_NAME", restaurantList.getName());
-                intent.putExtra("RESTAURANT_AVERAGE_SCORE", restaurantList.getAverageScore());
-                intent.putExtra("RESTAURANT_TAG_LIST", restaurantList.getTagList());*/
                 startActivity(intent);
                 break;
         }

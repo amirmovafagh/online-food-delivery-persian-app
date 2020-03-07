@@ -44,19 +44,7 @@
                 bind:layout_constraintRight_toRightOf="parent"
                 bind:layout_constraintTop_toTopOf="parent" />
 
-            <ToggleButton
-                android:id="@+id/toggle_bookmark"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@drawable/fav_toggle_selector"
-                android:textOff=""
-                android:textOn=""
-                bind:layout_constraintBottom_toBottomOf="parent"
-                bind:layout_constraintHorizontal_bias="0.978"
-                bind:layout_constraintLeft_toLeftOf="parent"
-                bind:layout_constraintRight_toRightOf="parent"
-                bind:layout_constraintTop_toTopOf="parent"
-                bind:layout_constraintVertical_bias="0.0" />
+
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_restauran_details"
@@ -68,7 +56,6 @@
                 bind:layout_constraintBottom_toBottomOf="parent"
                 bind:layout_constraintLeft_toLeftOf="@id/ivPic"
                 bind:layout_constraintRight_toRightOf="@id/ivPic"
-                bind:layout_constraintTop_toBottomOf="@id/toggle_bookmark"
                 bind:layout_constraintVertical_bias="1"
                 card_view:cardCornerRadius="@dimen/card_view_corner_radius"
                 tools:targetApi="lollipop">

@@ -1,52 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="restaurantViewModel"
             type="ir.boojanco.onlinefoodorder.viewmodels.RestaurantViewModel" />
     </data>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.fragments.restaurants.RestaurantFragment"
-    android:background="@color/backgroundGrayLight">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_all_restaurant"
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layoutAnimation="@anim/layout_animation_fall_down"
+        android:background="@color/backgroundGrayLight"
+        tools:context=".ui.fragments.restaurants.RestaurantFragment">
 
-         />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_all_restaurant"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layoutAnimation="@anim/layout_animation_fall_down"
 
-    <!--<ProgressBar
-        android:id="@+id/restaurantFragmentProgressBar"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_margin="15dp"
-        android:layout_gravity="bottom|center_horizontal" />-->
+            />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_waiting_response"
-        android:layout_width="150dp"
-        android:layout_height="250dp"
-        app:cardBackgroundColor="@color/waitingResponseBackgroundColor"
-        android:elevation="4dp"
-        app:cardCornerRadius="25dp"
-        android:visibility="visible"
-        android:layout_gravity="center"
-        >
         <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animation_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            app:lottie_rawRes="@raw/waiting_animate_burger"
+            android:id="@+id/animation_view_load_request"
+            android:layout_width="150dp"
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:lottie_autoPlay="true" />
-    </androidx.cardview.widget.CardView>
+            app:lottie_rawRes="@raw/waiting_animate_burger" />
 
-</FrameLayout>
+    </FrameLayout>
 </layout>

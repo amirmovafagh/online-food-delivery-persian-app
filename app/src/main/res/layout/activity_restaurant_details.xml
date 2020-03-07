@@ -101,9 +101,22 @@
                                 android:paddingStart="115dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintRight_toRightOf="parent"
-                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintLeft_toRightOf="@id/toggle_bookmark"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintVertical_bias="0"/>
+                            <ToggleButton
+                                android:id="@+id/toggle_bookmark"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:background="@drawable/fav_toggle_selector"
+                                android:layout_marginLeft="8dp"
+                                android:onCheckedChanged="@{(ToggleBottun, checked) -> detailsViewModel.onRestaurantFavoriteCheckedChanged(checked)}"
+                                android:textOff=""
+                                android:textOn=""
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintRight_toLeftOf="@id/text_view_restaurant_name"
+                                app:layout_constraintTop_toTopOf="@id/text_view_restaurant_name"
+                                app:layout_constraintBottom_toBottomOf="@id/text_view_restaurant_name" />
                             <TextView
                                 android:id="@+id/text_view_restaurant_tag_list"
                                 android:layout_width="match_parent"
@@ -127,23 +140,20 @@
                                 android:id="@+id/animation_view_delivery_time"
                                 android:layout_width="0dp"
                                 android:layout_height="45dp"
-                                android:layout_marginTop="4dp"
+                                android:layout_marginTop="8dp"
                                 android:scaleX="-1"
-                                app:layout_constraintBottom_toBottomOf="@+id/text_view_delivery_time"
                                 app:layout_constraintHorizontal_weight="1.5"
                                 app:layout_constraintLeft_toRightOf="@id/text_view_delivery_time"
                                 app:layout_constraintRight_toRightOf="parent"
                                 app:layout_constraintTop_toBottomOf="@id/text_view_restaurant_tag_list"
                                 app:layout_constraintVertical_bias="0"
                                 app:lottie_autoPlay="true"
-
                                 app:lottie_loop="true"
                                 app:lottie_rawRes="@raw/delivery_riding_animate" />
                             <TextView
                                 android:id="@+id/text_view_delivery_time"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="16dp"
                                 android:paddingEnd="16dp"
                                 android:maxLines="1"
                                 android:ellipsize="end"
@@ -151,7 +161,7 @@
                                 android:textStyle="bold"
                                 android:textColor="@android:color/black"
                                 android:text="@{detailsViewModel.restaurantDeliveryTime, default=@string/delivery_time}"
-                                app:layout_constraintTop_toBottomOf="@id/text_view_restaurant_tag_list"
+                                app:layout_constraintTop_toTopOf="@id/animation_view_delivery_time"
                                 app:layout_constraintRight_toLeftOf="@id/animation_view_delivery_time"
                                 app:layout_constraintBottom_toBottomOf="@id/animation_view_delivery_time"
                                 app:layout_constraintLeft_toLeftOf="parent"
@@ -267,7 +277,8 @@
                     android:layout_gravity="bottom"
                     app:tabGravity="center"
                     android:textAlignment="center"
-                    app:pager="@{pager}"/>
+                    app:pager="@{pager}"
+                    bind:ignore="RtlCompat" />
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         </com.google.android.material.appbar.AppBarLayout>

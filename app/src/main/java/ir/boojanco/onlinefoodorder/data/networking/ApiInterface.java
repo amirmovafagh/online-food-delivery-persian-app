@@ -1,8 +1,10 @@
 package ir.boojanco.onlinefoodorder.data.networking;
 
+import ir.boojanco.onlinefoodorder.models.food.FavoriteFoodsResponse;
 import ir.boojanco.onlinefoodorder.models.food.GetAllFoodResponse;
 import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.DiscountCodeResponse;
+import ir.boojanco.onlinefoodorder.models.restaurant.FavoriteRestaurantsResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.AllPackagesResponse;
@@ -52,6 +54,12 @@ public interface ApiInterface {
     @GET("/api/v1/restaurant/{restaurantId}/info")
     Observable<RestaurantInfoResponse> getRestaurantInfo(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
 
+    @GET("/api/v1/restaurant/{restaurantId}/addToFavoriteList")
+    Observable<Response<Void>> addRestaurantToFavoriteList(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
+
+    @GET("/api/v1/restaurant/{restaurantId}/removeFromFavoriteList")
+    Observable<Response<Void>> removeRestaurantFromFavoriteList(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
+
     @GET("/api/v1/package/{restaurantId}/valid")
     Observable<AllPackagesResponse> getAllPackagesResponseObservable(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
 
@@ -81,4 +89,10 @@ public interface ApiInterface {
 
     @GET("/api/v1/order/user/getAll/")
     Observable<GetUserOrdersResponse> getUserOrdersResponseObservable(@Header("Authorization") String authToken, @Query("page") int page, @Query("size") int size);
+
+    @GET("/api/v1/user/getFaveRestaurants")
+    Observable<FavoriteRestaurantsResponse> getFavoriteRestaurantsResponseObservable(@Header("Authorization") String authToken);
+
+    @GET("/api/v1/user/getFaveFoods")
+    Observable<FavoriteFoodsResponse> getFavoriteFoodsResponseObservable(@Header("Authorization") String authToken);
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 import static ir.boojanco.onlinefoodorder.dagger.App.webServerMediaRoute;
 
-public class AllFoodList {
+class FavoriteFoods {
     @SerializedName("id")
     private long id;
     @SerializedName("name")
@@ -30,22 +30,6 @@ public class AllFoodList {
     @SerializedName("foodTypeList")
     private List<String> foodTypeList;
 
-    public int getCommentCount() {
-        return commentCount;
-    }
-
-    public float getScore() {
-        return score;
-    }
-
-    public void setScore(float score) {
-        this.score = score;
-    }
-
-    public void setCommentCount(int commentCount) {
-        this.commentCount = commentCount;
-    }
-
     public long getId() {
         return id;
     }
@@ -66,20 +50,27 @@ public class AllFoodList {
         return point;
     }
 
-    public int getDiscountPercent() {
-        return discountPercent;
+    public float getScore() {
+        return score;
     }
 
-    public boolean isActive() {
-        return active;
+    public int getDiscountPercent() {
+        return discountPercent;
     }
 
     public int getCost() {
         return cost;
     }
 
+    public int getCommentCount() {
+        return commentCount;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
     public List<String> getFoodTypeList() {
         return foodTypeList;
     }
-
 }

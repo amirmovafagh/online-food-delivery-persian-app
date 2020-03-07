@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 
@@ -49,6 +50,7 @@ public class FavoriteFoodsFragment extends Fragment implements FavoriteFoodsFrag
         viewModel.setFragmentInterface(this);
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
+        viewModel.getFavoriteFoods(sharedPreferences.getUserAuthTokenKey());
 
         return binding.getRoot();
     }
@@ -56,6 +58,8 @@ public class FavoriteFoodsFragment extends Fragment implements FavoriteFoodsFrag
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        //viewModel.userFavoriteFoodsPagedListLiveData.observe(getActivity(), favoriteFoods -> faveFoodsAdapter.submitList(favoriteFoods));
+
     }
 
     @Override
@@ -70,6 +74,6 @@ public class FavoriteFoodsFragment extends Fragment implements FavoriteFoodsFrag
 
     @Override
     public void onFailure(String error) {
-
+        Toast.makeText(application, ""+error, Toast.LENGTH_SHORT).show();
     }
 }

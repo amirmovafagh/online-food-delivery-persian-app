@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 
@@ -46,6 +47,7 @@ public class FavoriteRestaurantsFragment extends Fragment implements FavoriteRes
         viewModel.setFragmentInterface(this);
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
+        viewModel.getFavoriteRestaurants(sharedPreferences.getUserAuthTokenKey());
 
         return binding.getRoot();
     }
@@ -53,6 +55,7 @@ public class FavoriteRestaurantsFragment extends Fragment implements FavoriteRes
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        //viewModel.userFavoriteRestaurantsPagedListLiveData.observe(getActivity(), favoriteRestaurants -> faveRestaurantsAdapter.submitList(favoriteRestaurants));
 
     }
 
@@ -68,6 +71,6 @@ public class FavoriteRestaurantsFragment extends Fragment implements FavoriteRes
 
     @Override
     public void onFailure(String error) {
-
+        Toast.makeText(application, ""+error, Toast.LENGTH_SHORT).show();
     }
 }

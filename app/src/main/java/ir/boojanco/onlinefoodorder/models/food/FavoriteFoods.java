@@ -6,7 +6,7 @@ import java.util.List;
 
 import static ir.boojanco.onlinefoodorder.dagger.App.webServerMediaRoute;
 
-class FavoriteFoods {
+public class FavoriteFoods {
     @SerializedName("id")
     private long id;
     @SerializedName("name")

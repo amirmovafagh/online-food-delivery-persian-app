@@ -63,12 +63,12 @@ public class UserRepository {
         return apiInterface.getUserOrdersResponseObservable(authToken, page, size);
     }
 
-    public Observable<FavoriteRestaurantsResponse> getFavoriteRestaurantsResponseObservable(String authToken) {
-        return apiInterface.getFavoriteRestaurantsResponseObservable(authToken);
+    public Observable<FavoriteRestaurantsResponse> getFavoriteRestaurantsResponseObservable(String authToken, int page, int size) {
+        return apiInterface.getFavoriteRestaurantsResponseObservable(authToken, page, size);
     }
 
-    public Observable<FavoriteFoodsResponse> getFavoriteFoodsResponseObservable(String authToken) {
-        return apiInterface.getFavoriteFoodsResponseObservable(authToken);
+    public Observable<FavoriteFoodsResponse> getFavoriteFoodsResponseObservable(String authToken, int page, int size) {
+        return apiInterface.getFavoriteFoodsResponseObservable(authToken, page, size);
     }
 
 }

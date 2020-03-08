@@ -46,8 +46,16 @@ public class RestaurantRepository {
         return apiInterface.addRestaurantToFavoriteList(authToken, restaurantId);
     }
 
+    public Observable<Response<Void>> addFoodToFavoriteList(String authToken, long foodId) {
+        return apiInterface.addFoodToFavoriteList(authToken, foodId);
+    }
+
     public Observable<Response<Void>> removeRestaurantFromFavoriteList(String authToken, long restaurantId) {
         return apiInterface.removeRestaurantFromFavoriteList(authToken, restaurantId);
+    }
+
+    public Observable<Response<Void>> removeFoodFromFavoriteList(String authToken, long foodId) {
+        return apiInterface.removeFoodFromFavoriteList(authToken, foodId);
     }
 
 

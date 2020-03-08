@@ -57,8 +57,14 @@ public interface ApiInterface {
     @GET("/api/v1/restaurant/{restaurantId}/addToFavoriteList")
     Observable<Response<Void>> addRestaurantToFavoriteList(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
 
+    @GET("/api/v1/food/{foodId}/addToFavoriteList")
+    Observable<Response<Void>> addFoodToFavoriteList(@Header("Authorization") String authToken, @Path("foodId") long foodId);
+
     @GET("/api/v1/restaurant/{restaurantId}/removeFromFavoriteList")
     Observable<Response<Void>> removeRestaurantFromFavoriteList(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
+
+    @GET("/api/v1/food/{foodId}/removeFromFavoriteList")
+    Observable<Response<Void>> removeFoodFromFavoriteList(@Header("Authorization") String authToken, @Path("foodId") long foodId);
 
     @GET("/api/v1/package/{restaurantId}/valid")
     Observable<AllPackagesResponse> getAllPackagesResponseObservable(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);

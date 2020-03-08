@@ -2,6 +2,8 @@ package ir.boojanco.onlinefoodorder.models.food;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 import static ir.boojanco.onlinefoodorder.dagger.App.webServerMediaRoute;
@@ -58,8 +60,24 @@ public class FavoriteFoods {
         return discountPercent;
     }
 
+    public String getDiscountedPrice(){
+        if(discountPercent > 0){
+            double i= 100-discountPercent;
+            double percent = (i/100);
+            i = cost; //convert int to double
+            i = i * percent;
+            int disPrice = (int)i;
+            return moneyFormat(disPrice);
+        }
+        return " ";
+    }
+
     public int getCost() {
         return cost;
+    }
+
+    public String getCostMoneyFormat(){
+        return moneyFormat(cost);
     }
 
     public int getCommentCount() {
@@ -72,5 +90,11 @@ public class FavoriteFoods {
 
     public List<String> getFoodTypeList() {
         return foodTypeList;
+    }
+
+    private String moneyFormat(int cost){
+        NumberFormat formatter = new DecimalFormat("#,###");
+        String formattedNumber = formatter.format(cost);
+        return formattedNumber+" تومان";
     }
 }

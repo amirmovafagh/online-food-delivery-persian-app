@@ -77,6 +77,7 @@ public class RestaurantDetailsViewModel extends ViewModel {
 
     public void getRestaurantInfo(String authToken, long restaurantId) {
         userAuthToken = authToken;
+        this.restaurantId = restaurantId;
         Observable<RestaurantInfoResponse> observable = restaurantRepository.getRestaurantInfo(authToken, restaurantId);
         Log.e(TAG, "" + observable);
         if (observable != null) {
@@ -215,9 +216,9 @@ public class RestaurantDetailsViewModel extends ViewModel {
 
     public void onRestaurantFavoriteCheckedChanged(boolean checked) {
 
-        if (checked){
+        if (checked) {
             addToFavoriteList();
-        }else {
+        } else {
             removeFromFavoriteList();
         }
     }

@@ -19,10 +19,16 @@
         android:id="@+id/userProfileFragment"
         android:name="ir.boojanco.onlinefoodorder.ui.fragments.UserProfileFragment"
         android:label="user_profile_fragment"
-        tools:layout="@layout/user_profile_fragment" >
+        tools:layout="@layout/user_profile_fragment">
         <action
             android:id="@+id/action_userProfileFragment_to_ordersFragment"
-            app:destination="@id/ordersFragment"/>
+            app:destination="@id/ordersFragment" />
+        <action
+            android:id="@+id/action_userProfileFragment_to_faveRestaurantsFragment"
+            app:destination="@id/faveRestaurantsFragment" />
+        <action
+            android:id="@+id/action_userProfileFragment_to_faveFoodsFragment"
+            app:destination="@id/faveFoodsFragment" />
     </fragment>
     <fragment
         android:id="@+id/restaurantFragment"
@@ -34,4 +40,14 @@
         android:name="ir.boojanco.onlinefoodorder.ui.fragments.userorders.OrdersFragment"
         android:label="orders_fragment"
         tools:layout="@layout/orders_fragment" />
+    <fragment
+        android:id="@+id/faveRestaurantsFragment"
+        android:name="ir.boojanco.onlinefoodorder.ui.fragments.favoriteRestaurants.FavoriteRestaurantsFragment"
+        android:label="favorite_restaurants_fragment"
+        tools:layout="@layout/favorite_restaurants_fragment" />
+    <fragment
+        android:id="@+id/faveFoodsFragment"
+        android:name="ir.boojanco.onlinefoodorder.ui.fragments.favoriteFoods.FavoriteFoodsFragment"
+        android:label="favorite_foods_fragment"
+        tools:layout="@layout/favorite_foods_fragment" />
 </navigation>

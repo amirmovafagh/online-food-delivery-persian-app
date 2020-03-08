@@ -1,6 +1,7 @@
 package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
@@ -37,6 +38,7 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
     public RestaurantFoodMenuInterface foodInterface;
     RestaurantRepository restaurantRepository;
     Context context;
+    private String userAuthToken;
     private CompositeDisposable compositeDisposable;
     private CartDataSource cartDataSource;
     private FoodItem foodItem;
@@ -111,6 +113,7 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
     }
 
     public void getAllFood(String authToken, long restaurantId) {
+        userAuthToken = authToken;
         Observable<GetAllFoodResponse> observable = restaurantRepository.getAllFood(authToken, restaurantId);
         if (observable != null) {
             observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetAllFoodResponse>() {
@@ -214,6 +217,92 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
                     foodInterface.onStarted();
                     allPackagesMutableLiveData.setValue(getAllPackagesResponse);
                     foodInterface.onSuccessRestaurantPackages(allPackagesMutableLiveData);
+                }
+            });
+        }
+    }
+
+    public void onFoodFavoriteCheckedChanged(long foodId, boolean isChecked) {
+        if (isChecked) {
+            addToFavoriteList(foodId);
+        } else {
+            removeFromFavoriteList(foodId);
+        }
+    }
+
+    private void removeFromFavoriteList(long foodId) {
+        Observable<Response<Void>> observable = restaurantRepository.removeFoodFromFavoriteList(userAuthToken, foodId);
+
+        if (observable != null) {
+            observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Response<Void>>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                    if (e instanceof NoNetworkConnectionException)
+                        foodInterface.onFailure(e.getMessage());
+                    if (e instanceof HttpException) {
+                        Response response = ((HttpException) e).response();
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
+
+                            foodInterface.onFailure(jsonObject.getString("message"));
+
+
+                        } catch (Exception d) {
+                            foodInterface.onFailure(d.getMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onNext(Response<Void> voidResponse) {
+                    foodInterface.onFailure("از مورد علاقه ها حذف شد");
+
+                }
+            });
+        }
+    }
+
+    private void addToFavoriteList(long foodId) {
+        Observable<Response<Void>> observable = restaurantRepository.addFoodToFavoriteList(userAuthToken, foodId);
+
+        if (observable != null) {
+            observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Response<Void>>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                    if (e instanceof NoNetworkConnectionException)
+                        foodInterface.onFailure(e.getMessage());
+                    if (e instanceof HttpException) {
+                        Response response = ((HttpException) e).response();
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
+
+                            foodInterface.onFailure(jsonObject.getString("message"));
+
+
+                        } catch (Exception d) {
+                            foodInterface.onFailure(d.getMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onNext(Response<Void> voidResponse) {
+                    foodInterface.onFailure("به مورد علاقه ها افزوده شد");
+
                 }
             });
         }

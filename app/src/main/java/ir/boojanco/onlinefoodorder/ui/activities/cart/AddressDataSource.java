@@ -60,8 +60,6 @@ public class AddressDataSource extends PageKeyedDataSource<Integer, UserAddressL
 
                 @Override
                 public void onError(Throwable e) {
-                    dataSourceInterface.onFailure(e.getMessage());
-                    Log.i(TAG," 1 "+e.getMessage());
                     if (e instanceof NoNetworkConnectionException)
                         dataSourceInterface.onFailure(e.getMessage());
                     if (e instanceof HttpException) {
@@ -69,18 +67,17 @@ public class AddressDataSource extends PageKeyedDataSource<Integer, UserAddressL
 
                         try {
                             JSONObject jsonObject = new JSONObject(response.errorBody().string());
-                            dataSourceInterface.onFailure(jsonObject.getString("message"));
+                            Log.i(TAG," "+jsonObject.getString("message"));
 
 
                         } catch (Exception d) {
-                            dataSourceInterface.onFailure(d.getMessage());
+                            Log.i(TAG," "+d.getMessage());
                         }
                     }
                 }
 
                 @Override
                 public void onNext(GetUserAddressResponse getUserAddressResponse) {
-                    Log.i(TAG," 1 "+getUserAddressResponse.getTotal());
                     callback.onResult(getUserAddressResponse.getUserAddressLists(), null, FIRST_PAGE + 1);
                 }
             });
@@ -101,8 +98,6 @@ public class AddressDataSource extends PageKeyedDataSource<Integer, UserAddressL
 
                 @Override
                 public void onError(Throwable e) {
-                    Log.i(TAG," 2 "+e.getMessage());
-                    dataSourceInterface.onFailure(e.getMessage());
                     if (e instanceof NoNetworkConnectionException)
                         dataSourceInterface.onFailure(e.getMessage());
                     if (e instanceof HttpException) {
@@ -111,18 +106,17 @@ public class AddressDataSource extends PageKeyedDataSource<Integer, UserAddressL
                         try {
                             JSONObject jsonObject = new JSONObject(response.errorBody().string());
 
-                            dataSourceInterface.onFailure(jsonObject.getString("message"));
+                            Log.i(TAG," "+jsonObject.getString("message"));
 
 
                         } catch (Exception d) {
-                            dataSourceInterface.onFailure(d.getMessage());
+                            Log.i(TAG," "+d.getMessage());
                         }
                     }
                 }
 
                 @Override
                 public void onNext(GetUserAddressResponse getUserAddressResponse) {
-                    Log.i(TAG," 2 "+getUserAddressResponse.getTotal());
                     int key = (params.key > 1) ? params.key - 1 : null;
                     callback.onResult(getUserAddressResponse.getUserAddressLists(), key);
                 }
@@ -143,9 +137,6 @@ public class AddressDataSource extends PageKeyedDataSource<Integer, UserAddressL
 
                 @Override
                 public void onError(Throwable e) {
-                    dataSourceInterface.onFailure(e.getMessage());
-                    Log.i(TAG," 3 "+e.getMessage());
-                    dataSourceInterface.onFailure(e.getMessage());
                     if (e instanceof NoNetworkConnectionException)
                         dataSourceInterface.onFailure(e.getMessage());
                     if (e instanceof HttpException) {
@@ -153,18 +144,15 @@ public class AddressDataSource extends PageKeyedDataSource<Integer, UserAddressL
 
                         try {
                             JSONObject jsonObject = new JSONObject(response.errorBody().string());
-
-                            dataSourceInterface.onFailure(jsonObject.getString("message"));
-
+                            Log.i(TAG," "+jsonObject.getString("message"));
                         } catch (Exception d) {
-                            dataSourceInterface.onFailure(d.getMessage());
+                            Log.i(TAG," "+d.getMessage());
                         }
                     }
                 }
 
                 @Override
                 public void onNext(GetUserAddressResponse getUserAddressResponse) {
-                    Log.i(TAG," 3 "+getUserAddressResponse.getTotal());
                     int key = getUserAddressResponse != null ? params.key + 1 : null;
                     callback.onResult(getUserAddressResponse.getUserAddressLists(), key);
                 }

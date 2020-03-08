@@ -1,5 +1,7 @@
 package ir.boojanco.onlinefoodorder.ui.fragments.favoriteRestaurants;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.paging.PageKeyedDataSource;
 
@@ -65,10 +67,10 @@ public class FavoriteRestaurantsDataSource extends PageKeyedDataSource<Integer, 
                         Response response = ((HttpException) e).response();
                         try {
                             JSONObject jsonObject = new JSONObject(response.errorBody().string());
-                            dataSourceInterface.onFailureFaveRestaurantsData(jsonObject.getString("message"));
+                            Log.i(TAG," "+jsonObject.getString("message"));
 
                         } catch (Exception d) {
-                            dataSourceInterface.onFailureFaveRestaurantsData(d.getMessage());
+                            Log.i(TAG," "+d.getMessage());
                         }
                     }
                 }
@@ -102,12 +104,10 @@ public class FavoriteRestaurantsDataSource extends PageKeyedDataSource<Integer, 
 
                         try {
                             JSONObject jsonObject = new JSONObject(response.errorBody().string());
-
-                            dataSourceInterface.onFailureFaveRestaurantsData(jsonObject.getString("message"));
-
+                            Log.i(TAG," "+jsonObject.getString("message"));
 
                         } catch (Exception d) {
-                            dataSourceInterface.onFailureFaveRestaurantsData(d.getMessage());
+                            Log.i(TAG," "+d.getMessage());
                         }
                     }
                 }
@@ -141,11 +141,9 @@ public class FavoriteRestaurantsDataSource extends PageKeyedDataSource<Integer, 
 
                         try {
                             JSONObject jsonObject = new JSONObject(response.errorBody().string());
-
-                            dataSourceInterface.onFailureFaveRestaurantsData(jsonObject.getString("message"));
-
+                            Log.i(TAG," "+jsonObject.getString("message"));
                         } catch (Exception d) {
-                            dataSourceInterface.onFailureFaveRestaurantsData(d.getMessage());
+                            Log.i(TAG," "+d.getMessage());
                         }
                     }
                 }

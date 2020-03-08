@@ -1,5 +1,7 @@
 package ir.boojanco.onlinefoodorder.ui.fragments.restaurants;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PageKeyedDataSource;
@@ -18,6 +20,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class RestaurantDataSource extends PageKeyedDataSource<Integer, LastRestaurantList> {
+    private static final String TAG = RestaurantDataSource.class.getSimpleName();
     public static final int PAGE_SIZE = 5;
     public static final int FIRST_PAGE = 1;
     private RestaurantDataSourceInterface dataSourceInterface;
@@ -64,11 +67,9 @@ public class RestaurantDataSource extends PageKeyedDataSource<Integer, LastResta
 
                         try {
                             JSONObject jsonObject = new JSONObject(response.errorBody().string());
-                            dataSourceInterface.onFailure(jsonObject.getString("message"));
-
-
+                            Log.i(TAG, " " + jsonObject.getString("message"));
                         } catch (Exception d) {
-                            dataSourceInterface.onFailure(d.getMessage());
+                            Log.i(TAG, " " + d.getMessage());
                         }
                     }
                 }
@@ -102,12 +103,9 @@ public class RestaurantDataSource extends PageKeyedDataSource<Integer, LastResta
 
                         try {
                             JSONObject jsonObject = new JSONObject(response.errorBody().string());
-
-                            dataSourceInterface.onFailure(jsonObject.getString("message"));
-
-
+                            Log.i(TAG, " " + jsonObject.getString("message"));
                         } catch (Exception d) {
-                            dataSourceInterface.onFailure(d.getMessage());
+                            Log.i(TAG, " " + d.getMessage());
                         }
                     }
                 }
@@ -141,11 +139,9 @@ public class RestaurantDataSource extends PageKeyedDataSource<Integer, LastResta
 
                         try {
                             JSONObject jsonObject = new JSONObject(response.errorBody().string());
-
-                            dataSourceInterface.onFailure(jsonObject.getString("message"));
-
+                            Log.i(TAG, " " + jsonObject.getString("message"));
                         } catch (Exception d) {
-                            dataSourceInterface.onFailure(d.getMessage());
+                            Log.i(TAG, " " + d.getMessage());
                         }
                     }
                 }

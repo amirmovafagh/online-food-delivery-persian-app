@@ -60,4 +60,7 @@
     <string name="your_addresses">آدرس های شما</string>
     <string name="online_pay">پرداخت آنلاین</string>
     <string name="in_place_pay">پرداخت در محل</string>
+    <string name="transactions">تراکنش ها</string>
+    <string name="yourFavoriteFoods">غذا های مورد علاقه شما</string>
+    <string name="yourFavoriteRestaurants">رستوران های مورد علاقه شما</string>
 </resources>

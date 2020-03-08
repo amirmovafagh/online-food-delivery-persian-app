@@ -6,5 +6,6 @@ import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.Foo
 
 public interface RecyclerViewRestaurantFoodMenuClickListener {
     void onRecyclerViewItemClick(View v, FoodItem items);
+    void onRecyclerViewFaveToggleClick( FoodItem items, boolean isChecked);
     void onCartItemCountUpdate();
 }

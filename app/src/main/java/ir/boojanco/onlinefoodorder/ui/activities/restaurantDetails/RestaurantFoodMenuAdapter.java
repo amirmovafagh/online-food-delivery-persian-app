@@ -4,6 +4,7 @@ import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,9 +35,9 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
     private Long extraRestaurantId;
     public RecyclerViewRestaurantFoodMenuClickListener clickListener;
 
-    public RestaurantFoodMenuAdapter(RecyclerViewRestaurantFoodMenuClickListener clickListener, CartDataSource cartDataSource, Long extraRestaurantId){
+    public RestaurantFoodMenuAdapter(RecyclerViewRestaurantFoodMenuClickListener clickListener, CartDataSource cartDataSource, Long extraRestaurantId) {
         this.clickListener = clickListener;
-        this.cartDataSource =cartDataSource;
+        this.cartDataSource = cartDataSource;
         this.extraRestaurantId = extraRestaurantId;
 
 
@@ -45,11 +46,11 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if(viewType == ListItemType.TYPE_HEADER){
+        if (viewType == ListItemType.TYPE_HEADER) {
             RecyclerviewFoodTypeHeaderItemBinding recyclerviewFoodTypeHeaderBinding =
                     DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.recyclerview_food_type_header_item, parent, false);
             return new RestaurantFoodHeaderViewHolder(recyclerviewFoodTypeHeaderBinding);
-        }else if(viewType == ListItemType.TYPE_ITEM){
+        } else if (viewType == ListItemType.TYPE_ITEM) {
             RecyclerviewRestaurantFoodMenuItemBinding recyclerviewRestaurantFoodMenuBinding =
                     DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.recyclerview_restaurant_food_menu_item, parent, false);
             return new RestaurantFoodViewHolder(recyclerviewRestaurantFoodMenuBinding);
@@ -60,29 +61,31 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-        if(holder instanceof RestaurantFoodHeaderViewHolder){
+        if (holder instanceof RestaurantFoodHeaderViewHolder) {
             header = (FoodTypeHeader) items.get(position);
             ((RestaurantFoodHeaderViewHolder) holder).recyclerviewFoodTypeHeaderBinding.setHeader(header);
-        }else if(holder instanceof RestaurantFoodViewHolder){
+        } else if (holder instanceof RestaurantFoodViewHolder) {
             FoodItem foodItem = (FoodItem) items.get(position);
             ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.setFoodItem(foodItem);
-            getFoodByIdFromDB(foodItem,extraRestaurantId, (RestaurantFoodViewHolder) holder,false,false);
+            ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.toggleBookmark.setOnCheckedChangeListener((buttonView, isChecked) -> clickListener.onRecyclerViewFaveToggleClick( foodItem, isChecked));
+            getFoodByIdFromDB(foodItem, extraRestaurantId, (RestaurantFoodViewHolder) holder, false, false);
             ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.imgBtnIncrease.setOnClickListener(v -> {
                 TextView textView = ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.textViewItemCount;
                 int count = Integer.parseInt(textView.getText().toString());
-                if(count == 0){
+                if (count == 0) {
                     foodItem.setCount(1);
                     clickListener.onRecyclerViewItemClick(((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.imgBtnIncrease, foodItem);
                     textView.setText("1");
-                }else getFoodByIdFromDB(foodItem,extraRestaurantId, (RestaurantFoodViewHolder) holder,true,false);
+                } else
+                    getFoodByIdFromDB(foodItem, extraRestaurantId, (RestaurantFoodViewHolder) holder, true, false);
 
             });
             ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.imgBtnDecrease.setOnClickListener(v -> {
-                getFoodByIdFromDB(foodItem, extraRestaurantId, (RestaurantFoodViewHolder) holder,false,true);
+                getFoodByIdFromDB(foodItem, extraRestaurantId, (RestaurantFoodViewHolder) holder, false, true);
             });
 
-            if(foodItem.getDiscount()>0){
-                TextView textViewCostStrikeThrough  = ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.textViewPrice;
+            if (foodItem.getDiscount() > 0) {
+                TextView textViewCostStrikeThrough = ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.textViewPrice;
                 textViewCostStrikeThrough.setPaintFlags(textViewCostStrikeThrough.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             }
         }
@@ -90,8 +93,8 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
 
-    private void getFoodByIdFromDB(FoodItem currentFood, long extraRestaurantId,RestaurantFoodViewHolder holder, boolean isIncrease,boolean isDecrease){
-                cartDataSource.getItemInCart(currentFood.getId(),extraRestaurantId)
+    private void getFoodByIdFromDB(FoodItem currentFood, long extraRestaurantId, RestaurantFoodViewHolder holder, boolean isIncrease, boolean isDecrease) {
+        cartDataSource.getItemInCart(currentFood.getId(), extraRestaurantId)
                 .subscribeOn(io.reactivex.schedulers.Schedulers.io())
                 .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<CartItem>() {
@@ -103,19 +106,18 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
                     @Override
                     public void onSuccess(CartItem cartItem) {
 
-                        if(!isDecrease && !isIncrease)
+                        if (!isDecrease && !isIncrease)
                             holder.recyclerviewRestaurantFoodMenuBinding.textViewItemCount.setText(String.valueOf((cartItem.getFoodQuantity())));
 
-                        if(isIncrease && cartItem.getFoodQuantity() < 99) {
+                        if (isIncrease && cartItem.getFoodQuantity() < 99) {
                             currentFood.setCount(cartItem.getFoodQuantity() + 1);
                             clickListener.onRecyclerViewItemClick(holder.recyclerviewRestaurantFoodMenuBinding.imgBtnIncrease, currentFood);
                             holder.recyclerviewRestaurantFoodMenuBinding.textViewItemCount.setText(String.valueOf(currentFood.getCount()));
 
                         }
-                        if(isDecrease && cartItem.getFoodQuantity() == 1){
-                            deleteCartItemDatabase(cartItem,holder,0);
-                        }
-                        else if(isDecrease && cartItem.getFoodQuantity() > 1 ){
+                        if (isDecrease && cartItem.getFoodQuantity() == 1) {
+                            deleteCartItemDatabase(cartItem, holder, 0);
+                        } else if (isDecrease && cartItem.getFoodQuantity() > 1) {
                             currentFood.setCount(cartItem.getFoodQuantity() - 1);
                             clickListener.onRecyclerViewItemClick(holder.recyclerviewRestaurantFoodMenuBinding.imgBtnIncrease, currentFood);
                             holder.recyclerviewRestaurantFoodMenuBinding.textViewItemCount.setText(String.valueOf(currentFood.getCount()));
@@ -127,12 +129,12 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
                     @Override
                     public void onError(Throwable e) {
                         holder.recyclerviewRestaurantFoodMenuBinding.textViewItemCount.setText("0");
-                        Log.e(TAG,"{add Cart throwable}->"+e.getMessage());
+                        Log.e(TAG, "{add Cart throwable}->" + e.getMessage());
                     }
                 });
     }
 
-    private void deleteCartItemDatabase(CartItem currentItem,RestaurantFoodViewHolder holder, int num){
+    private void deleteCartItemDatabase(CartItem currentItem, RestaurantFoodViewHolder holder, int num) {
         cartDataSource.deleteCart(currentItem)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -150,7 +152,7 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG,"{DELETE CART ITEM}-> "+e.getMessage());
+                        Log.e(TAG, "{DELETE CART ITEM}-> " + e.getMessage());
                     }
                 });
     }
@@ -181,15 +183,18 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
         notifyDataSetChanged();
     }
 
-    class RestaurantFoodViewHolder extends RecyclerView.ViewHolder{
+    class RestaurantFoodViewHolder extends RecyclerView.ViewHolder {
         private RecyclerviewRestaurantFoodMenuItemBinding recyclerviewRestaurantFoodMenuBinding; //this variable is from XML recyclerview_restauran_food
+
         public RestaurantFoodViewHolder(@NonNull RecyclerviewRestaurantFoodMenuItemBinding recyclerviewRestaurantFoodBinding) {
             super(recyclerviewRestaurantFoodBinding.getRoot());
             this.recyclerviewRestaurantFoodMenuBinding = recyclerviewRestaurantFoodBinding;
         }
     }
-    class RestaurantFoodHeaderViewHolder extends RecyclerView.ViewHolder{
+
+    class RestaurantFoodHeaderViewHolder extends RecyclerView.ViewHolder {
         private RecyclerviewFoodTypeHeaderItemBinding recyclerviewFoodTypeHeaderBinding; //this variable is from XML recyclerview_food_type_header_item
+
         public RestaurantFoodHeaderViewHolder(@NonNull RecyclerviewFoodTypeHeaderItemBinding recyclerviewFoodTypeHeaderBinding) {
             super(recyclerviewFoodTypeHeaderBinding.getRoot());
             this.recyclerviewFoodTypeHeaderBinding = recyclerviewFoodTypeHeaderBinding;

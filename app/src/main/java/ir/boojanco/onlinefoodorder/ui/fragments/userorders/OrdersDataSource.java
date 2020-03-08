@@ -68,10 +68,9 @@ public class OrdersDataSource extends PageKeyedDataSource<Integer, OrderItem> {
                         Response response = ((HttpException) e).response();
                         try {
                             JSONObject jsonObject = new JSONObject(response.errorBody().string());
-                            dataSourceInterface.onFailureOrdersData(jsonObject.getString("message"));
-
+                            Log.i(TAG," "+jsonObject.getString("message"));
                         } catch (Exception d) {
-                            dataSourceInterface.onFailureOrdersData(d.getMessage());
+                            Log.i(TAG," "+d.getMessage());
                         }
                     }
                 }
@@ -107,12 +106,9 @@ public class OrdersDataSource extends PageKeyedDataSource<Integer, OrderItem> {
 
                         try {
                             JSONObject jsonObject = new JSONObject(response.errorBody().string());
-
-                            dataSourceInterface.onFailureOrdersData(jsonObject.getString("message"));
-
-
+                            Log.i(TAG," "+jsonObject.getString("message"));
                         } catch (Exception d) {
-                            dataSourceInterface.onFailureOrdersData(d.getMessage());
+                            Log.i(TAG," "+d.getMessage());
                         }
                     }
                 }
@@ -149,11 +145,9 @@ public class OrdersDataSource extends PageKeyedDataSource<Integer, OrderItem> {
 
                         try {
                             JSONObject jsonObject = new JSONObject(response.errorBody().string());
-
-                            dataSourceInterface.onFailureOrdersData(jsonObject.getString("message"));
-
+                            Log.i(TAG," "+jsonObject.getString("message"));
                         } catch (Exception d) {
-                            dataSourceInterface.onFailureOrdersData(d.getMessage());
+                            Log.i(TAG," "+d.getMessage());
                         }
                     }
                 }

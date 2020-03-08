@@ -144,8 +144,9 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
             sharedViewModel.infoResponseMutableLiveData.observe(getViewLifecycleOwner(), new Observer<RestaurantInfoResponse>() {
                 @Override
                 public void onChanged(RestaurantInfoResponse restaurantInfoResponse) {
-                    if(restaurantInfoResponse != null){
-                        goToCartActivityIntent.putExtra(restaurantInfoResponseExtraName , restaurantInfoResponse);                    }
+                    if (restaurantInfoResponse != null) {
+                        goToCartActivityIntent.putExtra(restaurantInfoResponseExtraName, restaurantInfoResponse);
+                    }
                 }
             });
         }
@@ -236,6 +237,11 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     }
 
     @Override
+    public void onRecyclerViewFaveToggleClick(FoodItem items, boolean isChecked) {
+        restaurantFoodMenuViewModel.onFoodFavoriteCheckedChanged(items.getId(), isChecked);
+    }
+
+    @Override
     public void onCartItemCountUpdate() {
         restaurantFoodMenuViewModel.getCartCountItem(extraRestauranId);
     }
@@ -266,7 +272,7 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     public void onPackageItemClick(View v, RestaurantPackageItem packageItem) {
         switch (v.getId()) {
             case R.id.cv_main_package_layout:
-                goToCartActivityIntent.putExtra(selectedPackageExtraName , packageItem);
+                goToCartActivityIntent.putExtra(selectedPackageExtraName, packageItem);
                 return;
             case R.id.cv_package_name:
                 if (goToCartActivityIntent.getSerializableExtra(selectedPackageExtraName) != null)

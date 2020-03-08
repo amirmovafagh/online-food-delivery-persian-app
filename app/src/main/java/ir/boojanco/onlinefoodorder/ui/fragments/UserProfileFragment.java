@@ -90,6 +90,8 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
         //go to order fragment
         NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
         binding.frameLayoutOrders.setOnClickListener(v -> navController.navigate(R.id.action_userProfileFragment_to_ordersFragment));
+        binding.frameLayoutFaveRestaurants.setOnClickListener(v -> navController.navigate(R.id.action_userProfileFragment_to_faveRestaurantsFragment));
+        binding.frameLayoutFaveFoods.setOnClickListener(v -> navController.navigate(R.id.action_userProfileFragment_to_faveFoodsFragment));
         return binding.getRoot();
     }
 

@@ -46,7 +46,12 @@ public class LoginActivity extends AppCompatActivity implements LoginAuth {
         // We need to cast to `App` in order to get the right method
         ((App) getApplicationContext()).getComponent().inject(this);
 
-
+        if(sharedPreferences.getUserAuthTokenKey() != null ){
+            Intent i = new Intent(this,MainActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
+        }
 
         // get view model
         loginViewModel = new ViewModelProvider(this,factory).get(LoginViewModel.class);

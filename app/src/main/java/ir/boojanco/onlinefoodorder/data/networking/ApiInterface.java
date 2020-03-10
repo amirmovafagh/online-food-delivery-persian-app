@@ -10,12 +10,14 @@ import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.AllPackagesResponse;
 import ir.boojanco.onlinefoodorder.models.stateCity.GetAllCitiesResponse;
 import ir.boojanco.onlinefoodorder.models.stateCity.GetAllStatesResponse;
+import ir.boojanco.onlinefoodorder.models.user.ActivateUserBody;
 import ir.boojanco.onlinefoodorder.models.user.AddUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.CartOrderResponse;
 import ir.boojanco.onlinefoodorder.models.user.EditUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.GetUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.GetUserOrdersResponse;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
+import ir.boojanco.onlinefoodorder.models.user.VerificationNewUserResponse;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -43,6 +45,12 @@ public interface ApiInterface {
     @POST("/api/v1/auth/login")
     @FormUrlEncoded
     Observable<LoginUserResponse> loginUser(@Field("mobile") String phoneNumber, @Field("password") String password);
+
+    @POST("/api/v1/auth/verify")
+    Observable<VerificationNewUserResponse> verificationNewUser(@Query("code") String verificationCode, @Query("mobile") String phoneNumber);
+
+    @PUT("/api/v1/auth/activate")
+    Observable<Response<Void>> activateNewUser(@Body ActivateUserBody activateUserBody);
 
     /*@Headers("Authorization: 9900a9720d31dfd5fdb4352700c...")*/
     @GET("/api/v1/restaurant/last")

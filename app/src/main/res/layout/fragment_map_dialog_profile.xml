@@ -1,37 +1,42 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="viewModel"
             type="ir.boojanco.onlinefoodorder.viewmodels.UserProfileViewModel" />
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layoutDirection="rtl"
-        >
-            <com.google.android.gms.maps.MapView
-                android:id="@+id/map_view"
-                android:layout_width="match_parent"
-                android:layout_height="500dp"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
 
-                />
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl">
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/map_view"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            />
+
         <Button
             android:id="@+id/btn_choose_map_latlong"
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:onClick="@{()-> viewModel.addMapPositionBtnClick()}"
             android:text="@string/accept_new_location"
             android:textSize="@dimen/button_font_size"
-            android:onClick="@{()-> viewModel.addMapPositionBtnClick()}"
+            app:cornerRadius="@dimen/card_view_corner_radius"
             app:icon="@drawable/ic_accept_location"
-            app:layout_constraintRight_toRightOf="@id/map_view"
-            app:layout_constraintLeft_toLeftOf="@id/map_view"
-            app:layout_constraintTop_toBottomOf="@id/map_view"
             app:layout_constraintBottom_toBottomOf="@id/map_view"
+            app:layout_constraintLeft_toLeftOf="@id/map_view"
+            app:layout_constraintRight_toRightOf="@id/map_view"
+            app:layout_constraintTop_toBottomOf="@id/map_view"
 
             />
 

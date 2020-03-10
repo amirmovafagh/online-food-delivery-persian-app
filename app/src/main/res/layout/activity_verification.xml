@@ -3,10 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="ir.boojanco.onlinefoodorder.viewmodels.VerificationViewModel" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/login_activity_background"
+        android:layoutDirection="rtl"
         tools:context=".ui.activities.VerificationActivity">
 
 
@@ -22,9 +28,9 @@
             android:textColor="@android:color/white"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.102" />
 
@@ -33,12 +39,13 @@
             style="@style/Widget.MaterialComponents.FloatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{()->viewModel.checkVerificationCode()}"
             android:clickable="true"
             android:focusable="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintHorizontal_bias="0.083"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView"
             app:layout_constraintVertical_bias="0.465"
             app:srcCompat="@drawable/arrow_next_48dp" />
@@ -49,8 +56,8 @@
             android:layout_height="2dp"
             android:background="?android:attr/listDivider"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fabLogin"
             app:layout_constraintVertical_bias="0.062" />
 
@@ -58,12 +65,12 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/register_info_activity"
+            android:text="کد پیامک شده را وارد کنید"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintHorizontal_bias="0.813"
-            app:layout_constraintStart_toEndOf="@+id/fabLogin"
+            app:layout_constraintLeft_toRightOf="@+id/fabLogin"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.596" />
 
@@ -73,30 +80,34 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="188dp"
             android:inputType="number"
-            android:itemBackground="@color/colorPrimary"
-            android:textColor="@android:color/white"
-            app:itemCount="6"
+            style="@style/OtpWidget.OtpView"
+            android:itemBackground="@color/transparent"
+            app:itemCount="5"
+            android:text="@={viewModel.verificationCode}"
+            android:cursorVisible="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/divider"
             app:layout_constraintVertical_bias="0.934"
             app:lineColor="@color/colorPrimary"
-            app:viewType="line" />
+            app:itemRadius="@dimen/card_view_corner_radius"
+            app:viewType="rectangle" />
 
         <Button
             android:id="@+id/btnSendAgainVerifyCode"
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/send_again_verification_code"
+            android:minWidth="185dp"
+            android:text="@={viewModel.buttonTimerLiveData, default=@string/send_again_verification_code}"
             android:textSize="16sp"
             app:cornerRadius="16dp"
+            android:enabled="@{viewModel.buttonTimerStateLiveData==true ? true : false, default=false}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/otp_view"
-            app:layout_constraintVertical_bias="0.406" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/otp_view" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guidelineLeft"
@@ -115,8 +126,8 @@
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:orientation="vertical"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintGuide_begin="390dp" />
+            app:layout_constraintGuide_begin="390dp"
+            app:layout_constraintRight_toRightOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

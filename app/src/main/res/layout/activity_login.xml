@@ -101,6 +101,7 @@
                 android:inputType="phone"
                 android:maxLength="11"
                 android:text="@={userLogin.phoneNumber}"
+                android:textAlignment="center"
                 android:textSize="@dimen/edit_text_font_size" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -109,7 +110,6 @@
             android:id="@+id/txtInputLayoutLoginPassword"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:layout_marginLeft="25dp"
@@ -131,6 +131,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@={userLogin.password}"
+                android:textAlignment="center"
                 android:textSize="@dimen/edit_text_font_size" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -142,6 +143,7 @@
             android:layout_height="wrap_content"
             android:text="@string/forgot_password"
             android:textSize="@dimen/button_font_size"
+            app:cornerRadius="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

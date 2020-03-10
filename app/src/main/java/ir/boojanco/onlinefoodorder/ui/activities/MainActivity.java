@@ -53,6 +53,7 @@ import ir.boojanco.onlinefoodorder.ui.fragments.home.HomeFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurants.RestaurantFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.UserProfileFragment;
 import ir.boojanco.onlinefoodorder.viewmodels.MainViewModel;
+import ir.boojanco.onlinefoodorder.viewmodels.factories.VerificationViewModelFactory;
 
 
 public class MainActivity extends AppCompatActivity  {
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity  {
 
     @Inject
     MySharedPreferences sharedPreferences;
+
 
 
     @Override

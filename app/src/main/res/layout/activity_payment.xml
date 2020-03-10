@@ -108,43 +108,77 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <RadioGroup
-                        android:id="@+id/radio_group_toggle_pament_type"
-                        android:layout_width="match_parent"
+                                        <RadioGroup
+                                            android:id="@+id/radio_group_toggle_pament_type"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="30dp"
+                                            android:onCheckedChanged="@{(RadioGroup, id) -> viewModel.onPaymentTypeCheckedChanged(id)}"
+                                            android:background="@drawable/payment_type_radio_group_bg"
+                                            android:checkedButton="@+id/r_btn_online"
+                                            android:orientation="horizontal">
+
+                                            <RadioButton
+                                                android:id="@+id/r_btn_online"
+                                                android:layout_width="0dp"
+                                                android:layout_height="match_parent"
+                                                android:layout_marginRight="2dp"
+                                                android:layout_marginTop="2dp"
+                                                android:layout_marginBottom="2dp"
+                                                android:layout_weight="0.5"
+                                                android:background="@drawable/toggle_widget_background"
+                                                android:button="@null"
+                                                android:gravity="center"
+                                                android:text="@string/online_pay"
+                                                android:textColor="@color/white" />
+
+                                            <RadioButton
+                                                android:id="@+id/r_btn_in_place"
+                                                android:layout_width="0dp"
+                                                android:layout_height="match_parent"
+                                                android:layout_marginTop="2dp"
+                                                android:layout_marginLeft="2dp"
+                                                android:layout_marginBottom="2dp"
+                                                android:layout_weight="0.5"
+                                                android:background="@drawable/toggle_widget_background"
+                                                android:button="@null"
+                                                android:gravity="center"
+                                                android:text="@string/in_place_pay"
+                                                android:textColor="@color/white" />
+                                        </RadioGroup>
+<!--
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chip_group_toggle_payment_type"
+                        android:layout_width="wrap_content"
                         android:layout_height="30dp"
-                        android:onCheckedChanged="@{(RadioGroup, id) -> viewModel.onPaymentTypeCheckedChanged(id)}"
-                        android:background="@drawable/payment_type_radio_group_bg"
-                        android:checkedButton="@+id/r_btn_online"
-                        android:orientation="horizontal">
+                        android:layout_gravity="center"
+                        android:onCheckedChangeListener="@{(ChipGroup, id) -> viewModel.onPaymentTypeCheckedChanged(id)}"
+                        android:orientation="horizontal"
+                        app:checkedChip="@id/chip_btn_online"
+                        app:chipSpacingHorizontal="30dp"
+                        app:singleLine="true"
+                        app:singleSelection="true">
 
-                        <RadioButton
-                            android:id="@+id/r_btn_online"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="2dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginBottom="2dp"
-                            android:layout_weight="0.5"
-                            android:background="@drawable/toggle_widget_background"
-                            android:button="@null"
-                            android:gravity="center"
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_btn_online"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
                             android:text="@string/online_pay"
-                            android:textColor="@color/white" />
+                            android:textAlignment="center"
+                            android:textAppearance="@style/ChipTextAppearance" />
 
-                        <RadioButton
-                            android:id="@+id/r_btn_in_place"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginLeft="2dp"
-                            android:layout_marginBottom="2dp"
-                            android:layout_weight="0.5"
-                            android:background="@drawable/toggle_widget_background"
-                            android:button="@null"
-                            android:gravity="center"
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_btn_in_place"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+
+                            android:layout_height="wrap_content"
                             android:text="@string/in_place_pay"
-                            android:textColor="@color/white" />
-                    </RadioGroup>
+                            android:textAlignment="center"
+                            android:textAppearance="@style/ChipTextAppearance" />
+                    </com.google.android.material.chip.ChipGroup>
+-->
 
                     <!--details layout-->
                     <LinearLayout

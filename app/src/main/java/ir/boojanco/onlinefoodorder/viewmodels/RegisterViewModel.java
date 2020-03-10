@@ -2,6 +2,7 @@ package ir.boojanco.onlinefoodorder.viewmodels;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 
@@ -29,13 +30,13 @@ public class RegisterViewModel extends ViewModel {
     private final static String TAG = RegisterViewModel.class.getSimpleName();
     public RegisterAuth registerAuth;
     public MutableLiveData<String> phoneNumber = new MutableLiveData<>();
+    public MutableLiveData<String> password = new MutableLiveData<>();
     public MutableLiveData<String> phoneNumberError = new MutableLiveData<>();
-    public MutableLiveData<String> enterVerificationCode = new MutableLiveData<>();
-    private MutableLiveData<RegisterUserResponse> mutableLiveData;
+    public MutableLiveData<String> passwordError = new MutableLiveData<>();
     private UserRepository userRepository;
     private Context context;
 
-    public RegisterViewModel(Context context, UserRepository userRepository){
+    public RegisterViewModel(Context context, UserRepository userRepository) {
         this.context = context;
         this.userRepository = userRepository;
     }
@@ -47,10 +48,10 @@ public class RegisterViewModel extends ViewModel {
     }*/
 
     public void onRegisterClick(View view) {
-        if (isValidPhoneNumber(phoneNumber.getValue())) {
+        if (isValidPhoneNumber(phoneNumber.getValue()) && checkPasswordStrength(password.getValue())) {
             registerAuth.onStarted();
             Observable<Long> observable = userRepository.registerUser(phoneNumber.getValue());
-            if(observable != null){
+            if (observable != null) {
                 observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Long>() {
                     @Override
                     public void onCompleted() {
@@ -59,40 +60,32 @@ public class RegisterViewModel extends ViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        if(e instanceof NoNetworkConnectionException)
+                        if (e instanceof NoNetworkConnectionException)
                             registerAuth.onFailure(e.getMessage());
-                        if(e instanceof HttpException){
+                        if (e instanceof HttpException) {
                             Response response = ((HttpException) e).response();
                             try {
                                 JSONObject jsonObject = new JSONObject(response.errorBody().string());
                                 registerAuth.onFailure(jsonObject.getString("message"));
                             } catch (Exception d) {
                                 registerAuth.onFailure(d.getMessage());
+                                Log.i(TAG, "" + d.getMessage());
                             }
                         }
                     }
 
                     @Override
                     public void onNext(Long time) {
-                        registerAuth.onSuccess(time);
+                        registerAuth.onSuccess(time, phoneNumber.getValue(), password.getValue());
                     }
                 });
             }
         }
     }
 
-    public  void goToLoginActivity (View view){
+    public void goToLoginActivity(View view) {
         Intent i = new Intent(view.getContext(), LoginActivity.class);
         view.getContext().startActivity(i);
-    }
-
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-    }
-
-    public LiveData<RegisterUserResponse> getRegisterResponse() {
-        return mutableLiveData;
     }
 
     private boolean isValidPhoneNumber(String phone) {
@@ -100,7 +93,7 @@ public class RegisterViewModel extends ViewModel {
             phoneNumberError.setValue("لطفا شماره موبایل را وارد کنید");
             return false;
         } else {
-            if (Patterns.PHONE.matcher(phone).matches() && phoneNumber.getValue().length()>10) {
+            if (Patterns.PHONE.matcher(phone).matches() && phoneNumber.getValue().length() > 10) {
                 phoneNumberError.setValue(null);
                 return true;
             } else {
@@ -111,25 +104,17 @@ public class RegisterViewModel extends ViewModel {
 
     }
 
-    public void checkRegisterState(RegisterUserResponse mRegisterUserResponse){
-        /*switch(mRegisterUserResponse.getState()){
-            case "1":   // new register
-                if(authenticateVerificationCode(mRegisterUserResponse.getVerificationCode())){
-                    getNavigator().onSuccessRegister();
-                }
-                return;
-            case "2":   // is regitered already but dont check the verification code yet!
-                return;
-            case "3":   //
-                return;
-            case "4":
-                return;
-        }*/
+    private boolean checkPasswordStrength(String pass) {
+        if (pass == null || pass.isEmpty()) {
+            passwordError.setValue("لطفا کلمه عبور را وارد کنید");
+            return false;
+        } else if (pass.length() < 8) {
+            passwordError.setValue("حداقل کلمه عبور 8 کاراکتر");
+            return false;
+        } else {
+            passwordError.setValue(null);
+            return true;
+        }
     }
 
-    public boolean authenticateVerificationCode(String serverVerificationCode) {
-
-        return serverVerificationCode.equalsIgnoreCase(enterVerificationCode.getValue());
-
-    }
 }

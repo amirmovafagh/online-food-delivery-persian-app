@@ -7,8 +7,11 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Application;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import javax.inject.Inject;
@@ -22,6 +25,9 @@ import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RegisterAuth;
 
 public class RegisterActivity extends AppCompatActivity implements RegisterAuth {
     private static final String TAG = RegisterActivity.class.getSimpleName();
+    private String verificationCodeTimerKeyExtra = "verificationCodeTimer";
+    private String phoneNumberKeyExtra = "phoneNumber";
+    private String passwordKeyExtra = "password";
     RegisterViewModel registerViewModel;
     ActivityRegisterBinding binding;
 
@@ -39,13 +45,17 @@ public class RegisterActivity extends AppCompatActivity implements RegisterAuth 
         ((App) getApplicationContext()).getComponent().inject(this);
 
         // get view model
-        registerViewModel = new ViewModelProvider(this,factory).get(RegisterViewModel.class);
+        registerViewModel = new ViewModelProvider(this, factory).get(RegisterViewModel.class);
         // Inflate view and obtain an instance of the binding class.
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register);
         binding.setUserRegister(registerViewModel); // connect activity_Main variable to ViewModel class
         // Specify the current activity as the lifecycle owner.
         binding.setLifecycleOwner(this);
         registerViewModel.registerAuth = this;
+
+        EditText password = binding.registerPasswordEdtText;
+        password.setTypeface(Typeface.DEFAULT);
+        password.setTransformationMethod(new PasswordTransformationMethod());
 
     }
 
@@ -54,12 +64,15 @@ public class RegisterActivity extends AppCompatActivity implements RegisterAuth 
     }
 
     @Override
-    public void onSuccess(Long time) {
+    public void onSuccess(Long time, String phoneNumber, String password) {
 
-        Toast.makeText(application, ""+time, Toast.LENGTH_SHORT).show();
-        Intent i = new Intent(this,MainActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        Toast.makeText(application, "" + time, Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this, VerificationActivity.class);
+        i.putExtra(verificationCodeTimerKeyExtra, time);
+        i.putExtra(phoneNumberKeyExtra, phoneNumber);
+        i.putExtra(passwordKeyExtra, password);
+        /*i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);*/
         startActivity(i);
 
     }
@@ -67,6 +80,6 @@ public class RegisterActivity extends AppCompatActivity implements RegisterAuth 
     @Override
     public void onFailure(String Error) {
 
-        Toast.makeText(application, ""+Error, Toast.LENGTH_SHORT).show();
+        Toast.makeText(application, "" + Error, Toast.LENGTH_SHORT).show();
     }
 }

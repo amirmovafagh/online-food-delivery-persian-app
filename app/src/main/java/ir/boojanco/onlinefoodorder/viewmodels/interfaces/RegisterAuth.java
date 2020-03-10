@@ -4,6 +4,8 @@ import ir.boojanco.onlinefoodorder.models.user.RegisterUserResponse;
 
 public interface RegisterAuth {
     void onStarted();
-    void onSuccess(Long time);
+
+    void onSuccess(Long time, String phoneNumber, String password);
+
     void onFailure(String Error);
 }

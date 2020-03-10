@@ -1,5 +1,5 @@
-<layout xmlns:bind="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -175,44 +175,44 @@
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cv_fave_restaurants"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_fave_restaurants"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="4dp"
+                    bind:cardCornerRadius="20dp"
+                    bind:cardElevation="0dp">
+
+                    <FrameLayout
+                        android:id="@+id/frame_layout_fave_restaurants"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginBottom="4dp"
-                        bind:cardCornerRadius="20dp"
-                        bind:cardElevation="0dp">
+                        android:layout_height="match_parent"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
 
-                        <FrameLayout
-                            android:id="@+id/frame_layout_fave_restaurants"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="?attr/selectableItemBackground"
-                            android:clickable="true"
-                            android:focusable="true">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:drawableStart="@drawable/ic_restaurant_fav"
+                            android:drawablePadding="8dp"
+                            android:padding="8dp"
+                            android:text="@string/yourFavoriteRestaurants" />
+                    </FrameLayout>
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:drawableStart="@drawable/ic_restaurant_fav"
-                                android:drawablePadding="8dp"
-                                android:padding="8dp"
-                                android:text="@string/yourFavoriteRestaurants" />
-                        </FrameLayout>
-
-                    </androidx.cardview.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
                     android:layout_marginTop="4dp"
+                    android:layout_marginRight="20dp"
                     android:layout_marginBottom="4dp"
                     android:layout_weight="0.5"
                     bind:cardCornerRadius="20dp"
@@ -265,6 +265,7 @@
                         android:layout_weight="0.1"
                         android:onClick="@{()-> viewModel.addAddressOnClick()}"
                         android:textSize="@dimen/button_font_size"
+                        bind:cornerRadius="16dp"
                         bind:icon="@drawable/ic_add_location" />
                 </LinearLayout>
 

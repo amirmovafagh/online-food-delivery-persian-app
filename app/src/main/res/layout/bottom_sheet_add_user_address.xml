@@ -22,191 +22,191 @@
 
     </data>
 
-        <LinearLayout
-            android:id="@+id/linear_layout_bottom_sheet_add_user_address"
+    <LinearLayout
+        android:id="@+id/linear_layout_bottom_sheet_add_user_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableStart="@drawable/ic_deliver_in_my_address"
+            android:drawablePadding="4dp"
+            android:maxLines="1"
+            android:text="@string/add_new_address"
+            android:textAlignment="center"
+            android:textSize="@dimen/body1_paragraph_font_size" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_sset_default_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layoutDirection="rtl"
-            >
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:drawableStart="@drawable/ic_deliver_in_my_address"
-                android:drawablePadding="4dp"
-                android:maxLines="1"
-                android:text="@string/add_new_address"
-                android:textAlignment="center"
-                android:textSize="@dimen/body1_paragraph_font_size" />
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cv_sset_default_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="16dp"
-                app:cardCornerRadius="@dimen/card_view_corner_radius">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="8dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.85"
-                        android:text="@string/chooseOnDefault" />
-
-                    <com.bitvale.switcher.SwitcherX
-                        android:id="@+id/switcher_default_address"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.15"
-                        android:checked="false" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
+            android:layout_gravity="center"
+            android:layout_margin="16dp"
+            app:cardCornerRadius="@dimen/card_view_corner_radius">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="8dp">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/text_inpu_state"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:hint="@string/state"
-                    app:boxBackgroundColor="@color/transparent">
+                    android:layout_weight="0.85"
+                    android:text="@string/chooseOnDefault" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edit_text_state"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="2dp"
-                        android:ellipsize="end"
-                        android:focusable="false"
-                        android:inputType="none"
-                        android:maxLines="1"
-                        android:onClick="@{()-> viewModel.showStateCityDialog()}"
-                        android:text="@={state}"
-                        android:textDirection="rtl"
-                        android:textSize="@dimen/edit_text_font_size" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/text_view_city"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcher_default_address"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:hint="@string/city"
-                    app:boxBackgroundColor="@color/transparent">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="2dp"
-                        android:ellipsize="end"
-                        android:focusable="false"
-                        android:inputType="none"
-                        android:maxLines="1"
-                        android:onClick="@{()-> viewModel.showStateCityDialog()}"
-                        android:text="@={city}"
-                        android:textDirection="rtl"
-                        android:textSize="@dimen/edit_text_font_size" />
-
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_weight="0.15"
+                    android:checked="false" />
             </LinearLayout>
 
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:orientation="horizontal">
+
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_view_region"
+                android:id="@+id/text_inpu_state"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:hint="@string/region"
+                android:layout_weight="0.5"
+                android:hint="@string/state"
                 app:boxBackgroundColor="@color/transparent">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_text_state"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginEnd="2dp"
                     android:ellipsize="end"
                     android:focusable="false"
                     android:inputType="none"
                     android:maxLines="1"
-                    android:onClick="@{()-> viewModel.showMap()}"
-                    android:text="@={region}"
+                    android:onClick="@{()-> viewModel.showStateCityDialog()}"
+                    android:text="@={state}"
                     android:textDirection="rtl"
                     android:textSize="@dimen/edit_text_font_size" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_view_exact_address"
+                android:id="@+id/text_view_city"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:hint="@string/exactAddress"
+                android:layout_weight="0.5"
+                android:hint="@string/city"
                 app:boxBackgroundColor="@color/transparent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginEnd="2dp"
                     android:ellipsize="end"
-                    android:inputType="text"
+                    android:focusable="false"
+                    android:inputType="none"
                     android:maxLines="1"
-                    android:text="@={viewModel.exactAddress}"
+                    android:onClick="@{()-> viewModel.showStateCityDialog()}"
+                    android:text="@={city}"
                     android:textDirection="rtl"
                     android:textSize="@dimen/edit_text_font_size" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_view_address_tag"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:hint="@string/addressTag"
-                app:boxBackgroundColor="@color/transparent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:ellipsize="end"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:textDirection="rtl"
-                    android:textSize="@dimen/edit_text_font_size" />
-
-                <Button
-                    android:id="@+id/btn_accept_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="@{()-> viewModel.addUserAddress()}"
-                    android:text="ثبت" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
         </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_view_region"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="@string/region"
+            app:boxBackgroundColor="@color/transparent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ellipsize="end"
+                android:focusable="false"
+                android:inputType="none"
+                android:maxLines="1"
+                android:onClick="@{()-> viewModel.showMap()}"
+                android:text="@={region}"
+                android:textDirection="rtl"
+                android:textSize="@dimen/edit_text_font_size" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_view_exact_address"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="@string/exactAddress"
+            app:boxBackgroundColor="@color/transparent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ellipsize="end"
+                android:inputType="text"
+                android:maxLines="1"
+                android:text="@={viewModel.exactAddress}"
+                android:textDirection="rtl"
+                android:textSize="@dimen/edit_text_font_size" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_view_address_tag"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="@string/addressTag"
+            app:boxBackgroundColor="@color/transparent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ellipsize="end"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textDirection="rtl"
+                android:textSize="@dimen/edit_text_font_size" />
+
+            <Button
+                android:id="@+id/btn_accept_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{()-> viewModel.addUserAddress()}"
+                android:text="ثبت"
+                app:cornerRadius="16dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
 </layout>

@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity implements LoginAuth {
         loginViewModel.loginAuth = this;
 
         //set font on password editText
-        password = findViewById(R.id.loginPasswordEdtText);
+        password = binding.loginPasswordEdtText;
         password.setTypeface(Typeface.DEFAULT);
         password.setTransformationMethod(new PasswordTransformationMethod());
     }

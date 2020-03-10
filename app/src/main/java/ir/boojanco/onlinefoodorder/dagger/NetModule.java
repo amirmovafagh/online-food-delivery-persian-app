@@ -32,6 +32,7 @@ import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantFoodMenuViewMo
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantInfoFragmentViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.UserProfileViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.factories.VerificationViewModelFactory;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -101,6 +102,14 @@ public class NetModule {
     FavoriteRestaurantsViewModelFactory provideFavoriteRestaurantsViewModelFactory(Application application, UserRepository userRepository) {
         FavoriteRestaurantsViewModelFactory factory =
                 new FavoriteRestaurantsViewModelFactory(application, userRepository);
+        return factory;
+    }
+
+    @Provides
+    @Singleton
+    VerificationViewModelFactory provideVerificationViewModelFactory(Application application, UserRepository userRepository) {
+        VerificationViewModelFactory factory =
+                new VerificationViewModelFactory(application, userRepository);
         return factory;
     }
 

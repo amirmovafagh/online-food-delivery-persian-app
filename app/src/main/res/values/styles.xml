@@ -25,6 +25,10 @@
         <item name="android:fontFamily">@font/iran_sans_mobile_fa_num</item>
     </style>
 
-
-
+    <style name="Theme_Custom_Dialog" parent="android:Theme.Dialog">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowMinWidthMajor">90%</item>
+        <item name="android:windowMinWidthMinor">90%</item>
+    </style>
 </resources>

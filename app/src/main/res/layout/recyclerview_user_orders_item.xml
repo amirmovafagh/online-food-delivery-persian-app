@@ -291,27 +291,25 @@
 
                     <TextView
                         android:id="@+id/text_view_paid_cost"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.6"
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:text="@{orderItem.paidCostString ,default=جمع}"
-
                         android:textColor="@color/black" />
-
-                    <Button
-                        android:id="@+id/btn_more_details"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.4"
-                        android:maxLines="1"
-                        android:text="جزئیات بیشتر"
-                        android:textSize="@dimen/body3_paragraph_font_size"
-                        android:textStyle="bold"
-                        app:icon="@drawable/ic_add" />
                 </LinearLayout>
+                <Button
+                    android:id="@+id/btn_more_details"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="@string/showOrderAndAddComment"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/body3_paragraph_font_size"
+                    android:textStyle="bold"
+                    app:cornerRadius="16dp"
+                    app:icon="@drawable/ic_add" />
             </LinearLayout>
 
 

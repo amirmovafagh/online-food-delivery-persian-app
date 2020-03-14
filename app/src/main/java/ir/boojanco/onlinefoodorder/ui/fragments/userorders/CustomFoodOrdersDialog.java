@@ -4,13 +4,16 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Window;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,16 +21,29 @@ import java.util.List;
 
 import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.databinding.UserOrdersFoodCustomDialogLayoutBinding;
+import ir.boojanco.onlinefoodorder.models.user.GetUserOrderCommentResponse;
 import ir.boojanco.onlinefoodorder.models.user.OrderFoodList;
+import ir.boojanco.onlinefoodorder.models.user.OrderItem;
 
 public class CustomFoodOrdersDialog extends Dialog {
+    private static final String TAG = CustomFoodOrdersDialog.class.getSimpleName();
     private Activity activity;
 
     private FoodAdapter foodAdapter;
     private RecyclerView foodRecyclerView;
     private List<OrderFoodList> orderFoodLists;
+    private OrderItem orderItem;
+    private GetUserOrderCommentResponse commentResponse;
 
 
+    public MutableLiveData<Boolean> acceptButtonStateLiveData = new MutableLiveData<>();
+    public MutableLiveData<Boolean> rateBarStateLiveData = new MutableLiveData<>();
+    public MutableLiveData<Boolean> userCommentStateLiveData = new MutableLiveData<>();
+    public MutableLiveData<String> userCommentLiveData = new MutableLiveData<>();
+    public MutableLiveData<Float> foodQualityLiveData = new MutableLiveData<>();
+    public MutableLiveData<Float> personnelBehaviourLiveData = new MutableLiveData<>();
+    public MutableLiveData<Float> arrivalTimeLiveData = new MutableLiveData<>();
+    public MutableLiveData<Float> systemExLiveData = new MutableLiveData<>();
     UserOrdersFoodCustomDialogLayoutBinding binding;
 
     public CustomFoodOrdersDialog(@NonNull Context context, int themeResId) {
@@ -38,10 +54,12 @@ public class CustomFoodOrdersDialog extends Dialog {
         super(context, cancelable, cancelListener);
     }
 
-    public CustomFoodOrdersDialog(Activity activity, List<OrderFoodList> orderFoodLists) {
-        super(activity);
+    public CustomFoodOrdersDialog(Activity activity, int themeResId, OrderItem orderItem, GetUserOrderCommentResponse commentResponse) {
+
+        super(activity, themeResId);
         this.activity = activity;
-        this.orderFoodLists = orderFoodLists;
+        this.orderFoodLists = orderItem.getFoodLists();
+        this.commentResponse = commentResponse;
     }
 
     @Override
@@ -50,15 +68,42 @@ public class CustomFoodOrdersDialog extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         binding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.user_orders_food_custom_dialog_layout, null, false);
-
+        binding.setVariables(this);
         foodRecyclerView = binding.recyclerviewFood;
         foodRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
         foodAdapter = new FoodAdapter();
         foodRecyclerView.setAdapter(foodAdapter);
         foodAdapter.setFoodLists(orderFoodLists);
 
+        checkCommentState();
         setContentView(binding.getRoot());
 
+    }
+
+    private void checkCommentState() {
+
+        if (commentResponse.getArrivalTime() == 0.0 && commentResponse.getFoodQuality() == 0.0 &&
+                commentResponse.getSystemEx() == 0.0 && commentResponse.getPersonnelBehaviour() == 0.0) {
+            rateBarStateLiveData.setValue(false); // not indicator and can set the rate
+        } else { // is indicator and read old values
+            rateBarStateLiveData.setValue(true);
+            foodQualityLiveData.setValue(commentResponse.getFoodQuality());
+            personnelBehaviourLiveData.setValue(commentResponse.getPersonnelBehaviour());
+            arrivalTimeLiveData.setValue(commentResponse.getArrivalTime());
+            systemExLiveData.setValue(commentResponse.getSystemEx());
+        }
+
+        if (!commentResponse.getContext().equals("")) {//lock the edit text and set old user context
+            userCommentStateLiveData.setValue(false);
+            userCommentLiveData.setValue(commentResponse.getContext());
+        } else {//enable
+            userCommentStateLiveData.setValue(true);
+        }
+
+        if (!commentResponse.getContext().equals("") && commentResponse.getArrivalTime() != 0.0 && commentResponse.getFoodQuality() != 0.0 &&
+                commentResponse.getSystemEx() != 0.0 && commentResponse.getPersonnelBehaviour() != 0.0) {
+            acceptButtonStateLiveData.setValue(false); //disable accept btn
+        } else acceptButtonStateLiveData.setValue(true); //enable accept btn
     }
 
 }

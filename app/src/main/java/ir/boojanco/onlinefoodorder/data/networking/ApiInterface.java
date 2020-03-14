@@ -15,6 +15,7 @@ import ir.boojanco.onlinefoodorder.models.user.AddUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.CartOrderResponse;
 import ir.boojanco.onlinefoodorder.models.user.EditUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.GetUserAddressResponse;
+import ir.boojanco.onlinefoodorder.models.user.GetUserOrderCommentResponse;
 import ir.boojanco.onlinefoodorder.models.user.GetUserOrdersResponse;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
 import ir.boojanco.onlinefoodorder.models.user.VerificationNewUserResponse;
@@ -103,6 +104,9 @@ public interface ApiInterface {
 
     @GET("/api/v1/order/user/getAll/")
     Observable<GetUserOrdersResponse> getUserOrdersResponseObservable(@Header("Authorization") String authToken, @Query("page") int page, @Query("size") int size);
+
+    @GET("/api/v1/comment/order/{orderId}")
+    Observable<GetUserOrderCommentResponse> getUserOrderCommentObservable(@Header("Authorization") String authToken, @Path("orderId") long orderId);
 
     @GET("/api/v1/user/getFaveRestaurants")
     Observable<FavoriteRestaurantsResponse> getFavoriteRestaurantsResponseObservable(@Header("Authorization") String authToken, @Query("page") int page, @Query("size") int size);

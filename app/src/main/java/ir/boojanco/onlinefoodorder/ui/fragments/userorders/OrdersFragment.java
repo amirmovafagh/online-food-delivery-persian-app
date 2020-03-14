@@ -25,7 +25,9 @@ import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.OrdersFragmentBinding;
+import ir.boojanco.onlinefoodorder.models.user.GetUserOrderCommentResponse;
 import ir.boojanco.onlinefoodorder.models.user.OrderFoodList;
+import ir.boojanco.onlinefoodorder.models.user.OrderItem;
 import ir.boojanco.onlinefoodorder.models.user.UserAddressList;
 import ir.boojanco.onlinefoodorder.viewmodels.OrdersViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.OrdersViewModelFactory;
@@ -43,7 +45,7 @@ public class OrdersFragment extends Fragment implements OrdersFragmentInterface,
     MySharedPreferences sharedPreferences;
     @Inject
     Application application;
-
+    private OrderItem orderItem;
     private CustomFoodOrdersDialog customFoodOrdersDialog;
     private RecyclerView recyclerViewUserOrders;
     private OrdersAdapter ordersAdapter;
@@ -75,12 +77,10 @@ public class OrdersFragment extends Fragment implements OrdersFragmentInterface,
     }
 
     @Override
-    public void onRecyclerViewOrderClick(View v, List<OrderFoodList> foodLists) {
-        customFoodOrdersDialog = new CustomFoodOrdersDialog(getActivity(), foodLists);
-        customFoodOrdersDialog.setCanceledOnTouchOutside(true);
-        if (customFoodOrdersDialog != null && !customFoodOrdersDialog.isShowing())
-            customFoodOrdersDialog.show();
-        else Toast.makeText(application, "خطا در دریافت اطلاعات ", Toast.LENGTH_LONG).show();
+    public void onRecyclerViewOrderClick(View v, OrderItem orderItem) {
+        this.orderItem = orderItem;
+        viewModel.getOrderComment(orderItem.getId());
+        /**/
     }
 
     @Override
@@ -94,7 +94,21 @@ public class OrdersFragment extends Fragment implements OrdersFragmentInterface,
     }
 
     @Override
+    public void onSuccessOrderComment(GetUserOrderCommentResponse commentResponse) {
+        if (commentResponse != null && orderItem != null) {
+
+            customFoodOrdersDialog = new CustomFoodOrdersDialog(getActivity(),R.style.Theme_Custom_Dialog, orderItem, commentResponse);
+            customFoodOrdersDialog.setCanceledOnTouchOutside(true);
+            if (customFoodOrdersDialog != null && !customFoodOrdersDialog.isShowing())
+                customFoodOrdersDialog.show();
+            else Toast.makeText(application, "خطا در دریافت اطلاعات ", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    @Override
     public void onFailure(String error) {
         Toast.makeText(application, "" + error, Toast.LENGTH_SHORT).show();
+
     }
 }

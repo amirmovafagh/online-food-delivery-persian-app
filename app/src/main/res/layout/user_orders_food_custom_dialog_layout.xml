@@ -1,36 +1,171 @@
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data></data>
+    <data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <import type="android.text.InputType" />
+        <import type="android.view.View"/>
+
+        <variable
+            name="variables"
+            type="ir.boojanco.onlinefoodorder.ui.fragments.userorders.CustomFoodOrdersDialog" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cons_layout_main_state_city_dialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="4dp"
-        android:background="@color/backgroundGrayLight"
+        android:background="@color/transparent"
         android:layoutDirection="rtl"
-        >
+        android:padding="4dp">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_state_city"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minWidth="400dp"
-            app:cardCornerRadius="@dimen/card_view_corner_radius"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerview_food"
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_state_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minWidth="400dp"
+                app:cardBackgroundColor="@color/backgroundGrayLight"
+                app:cardCornerRadius="@dimen/card_view_corner_radius"
+                app:cardElevation="0dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:overScrollMode="never"
-                    />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/foodQuality"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/h7_title_font_size" />
+
+                    <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                        style="@style/Widget.MaterialRatingBar.RatingBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:isIndicator="@{variables.rateBarStateLiveData , default=true}"
+                        android:layoutDirection="ltr"
+                        android:numStars="5"
+                        android:rating="@{variables.foodQualityLiveData}"
+                        android:stepSize="0.1" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_margin="4dp"
+                        android:background="?android:attr/listDivider" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/arrivalTime"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/h7_title_font_size" />
+
+                    <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                        style="@style/Widget.MaterialRatingBar.RatingBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:isIndicator="@{variables.rateBarStateLiveData , default=true}"
+                        android:layoutDirection="ltr"
+                        android:numStars="5"
+                        android:rating="@{variables.arrivalTimeLiveData}"
+                        android:stepSize="0.1" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_margin="4dp"
+
+                        android:background="?android:attr/listDivider" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/personnelBehaviour"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/h7_title_font_size" />
+
+                    <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                        style="@style/Widget.MaterialRatingBar.RatingBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:isIndicator="@{variables.rateBarStateLiveData , default=true}"
+                        android:layoutDirection="ltr"
+                        android:numStars="5"
+                        android:rating="@{variables.personnelBehaviourLiveData}"
+                        android:stepSize="0.1" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_margin="4dp"
+                        android:background="?android:attr/listDivider" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/txtInputLayoutUserComment"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginEnd="25dp"
+                        android:layout_marginRight="25dp"
+                        android:hint="@string/yourComment"
+                        app:boxBackgroundColor="@color/transparent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="@{variables.userCommentStateLiveData }"
+                            android:focusableInTouchMode="@{variables.userCommentStateLiveData }"
+                            android:inputType="@{variables.userCommentStateLiveData ? InputType.TYPE_TEXT_FLAG_MULTI_LINE : InputType.TYPE_NULL}"
+                            android:text="@={variables.userCommentLiveData}"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/edit_text_font_size" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/btn_accept_comment"
+                        style="@style/Widget.MaterialComponents.FloatingActionButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:visibility="@{variables.acceptButtonStateLiveData ? View.VISIBLE : View.GONE}"
+                        android:maxLines="1"
+                        android:text="@string/acceptComment"
+                        android:textSize="@dimen/body3_paragraph_font_size"
+                        android:textStyle="bold"
+                        app:cornerRadius="16dp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerview_food"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:overScrollMode="never" />
+
+                </LinearLayout>
 
 
-        </androidx.cardview.widget.CardView>
-
+            </androidx.cardview.widget.CardView>
+        </androidx.core.widget.NestedScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

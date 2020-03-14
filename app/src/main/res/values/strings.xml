@@ -63,4 +63,10 @@
     <string name="transactions">تراکنش ها</string>
     <string name="yourFavoriteFoods">غذا های مورد علاقه شما</string>
     <string name="yourFavoriteRestaurants">رستوران های مورد علاقه شما</string>
+    <string name="showOrderAndAddComment">مشاهده / ثبت نظر</string>
+    <string name="foodQuality">کیفیت غذا</string>
+    <string name="arrivalTime">دریافت به موقع</string>
+    <string name="personnelBehaviour">رضایت مندی از پرسنل رستوران</string>
+    <string name="yourComment">نظر شما</string>
+    <string name="acceptComment">ثبت</string>
 </resources>

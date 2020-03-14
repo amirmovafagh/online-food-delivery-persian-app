@@ -101,5 +101,7 @@ dependencies {
     // switch animation from Oleg Frolov
     implementation 'com.bitvale:switcher:1.0.5'
 
+    //custom RatingBar
+    implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
 
 }

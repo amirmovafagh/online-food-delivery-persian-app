@@ -12,6 +12,7 @@ import ir.boojanco.onlinefoodorder.models.user.ActivateUserBody;
 import ir.boojanco.onlinefoodorder.models.user.AddUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.EditUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.GetUserAddressResponse;
+import ir.boojanco.onlinefoodorder.models.user.GetUserOrderCommentResponse;
 import ir.boojanco.onlinefoodorder.models.user.GetUserOrdersResponse;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
 import ir.boojanco.onlinefoodorder.models.user.VerificationNewUserResponse;
@@ -70,6 +71,10 @@ public class UserRepository {
 
     public Observable<GetUserOrdersResponse> getUserOrdersResponseObservable(String authToken, int page, int size) {
         return apiInterface.getUserOrdersResponseObservable(authToken, page, size);
+    }
+
+    public Observable<GetUserOrderCommentResponse> getUserOrderCommentResponseObservable(String authToken, long orderId) {
+        return apiInterface.getUserOrderCommentObservable(authToken, orderId);
     }
 
     public Observable<FavoriteRestaurantsResponse> getFavoriteRestaurantsResponseObservable(String authToken, int page, int size) {

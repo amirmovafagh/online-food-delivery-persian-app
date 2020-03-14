@@ -77,6 +77,10 @@ public class UserRepository {
         return apiInterface.getUserOrderCommentObservable(authToken, orderId);
     }
 
+    public Observable<Response<Void>> addUserOrderCommentResponseObservable(String authToken, GetUserOrderCommentResponse userOrderCommentBody) {
+        return apiInterface.addUserOrderCommentObservable(authToken, userOrderCommentBody);
+    }
+
     public Observable<FavoriteRestaurantsResponse> getFavoriteRestaurantsResponseObservable(String authToken, int page, int size) {
         return apiInterface.getFavoriteRestaurantsResponseObservable(authToken, page, size);
     }

@@ -69,4 +69,5 @@
     <string name="personnelBehaviour">رضایت مندی از پرسنل رستوران</string>
     <string name="yourComment">نظر شما</string>
     <string name="acceptComment">ثبت</string>
+    <string name="systemQuality">کیفیت سیستم</string>
 </resources>

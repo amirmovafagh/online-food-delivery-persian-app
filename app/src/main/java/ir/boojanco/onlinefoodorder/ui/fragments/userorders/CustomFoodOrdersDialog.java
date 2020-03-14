@@ -24,10 +24,12 @@ import ir.boojanco.onlinefoodorder.databinding.UserOrdersFoodCustomDialogLayoutB
 import ir.boojanco.onlinefoodorder.models.user.GetUserOrderCommentResponse;
 import ir.boojanco.onlinefoodorder.models.user.OrderFoodList;
 import ir.boojanco.onlinefoodorder.models.user.OrderItem;
+import ir.boojanco.onlinefoodorder.viewmodels.interfaces.FoodOrdersDialogInterface;
 
 public class CustomFoodOrdersDialog extends Dialog {
     private static final String TAG = CustomFoodOrdersDialog.class.getSimpleName();
     private Activity activity;
+    private FoodOrdersDialogInterface dialogInterface;
 
     private FoodAdapter foodAdapter;
     private RecyclerView foodRecyclerView;
@@ -54,10 +56,12 @@ public class CustomFoodOrdersDialog extends Dialog {
         super(context, cancelable, cancelListener);
     }
 
-    public CustomFoodOrdersDialog(Activity activity, int themeResId, OrderItem orderItem, GetUserOrderCommentResponse commentResponse) {
+    public CustomFoodOrdersDialog(Activity activity, int themeResId, FoodOrdersDialogInterface dialogInterface, OrderItem orderItem, GetUserOrderCommentResponse commentResponse) {
 
         super(activity, themeResId);
         this.activity = activity;
+        this.dialogInterface = dialogInterface;
+        this.orderItem =orderItem;
         this.orderFoodLists = orderItem.getFoodLists();
         this.commentResponse = commentResponse;
     }
@@ -104,6 +108,15 @@ public class CustomFoodOrdersDialog extends Dialog {
                 commentResponse.getSystemEx() != 0.0 && commentResponse.getPersonnelBehaviour() != 0.0) {
             acceptButtonStateLiveData.setValue(false); //disable accept btn
         } else acceptButtonStateLiveData.setValue(true); //enable accept btn
+    }
+
+    public void commentButtonOnClick() {
+        Toast.makeText(activity, "hey"+orderItem.getId(), Toast.LENGTH_SHORT).show();
+        /*if (commentResponse.getOrderId() != 0 && foodQualityLiveData.getValue() != null && systemExLiveData.getValue() != null &&
+                arrivalTimeLiveData.getValue() != null && personnelBehaviourLiveData.getValue() != null && userCommentLiveData.getValue() != null)*/
+            dialogInterface.addComment(orderItem.getId(), foodQualityLiveData.getValue(),
+                    systemExLiveData.getValue(), arrivalTimeLiveData.getValue(),
+                    personnelBehaviourLiveData.getValue(), userCommentLiveData.getValue());
     }
 
 }

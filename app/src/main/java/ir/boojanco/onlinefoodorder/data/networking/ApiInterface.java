@@ -108,6 +108,9 @@ public interface ApiInterface {
     @GET("/api/v1/comment/order/{orderId}")
     Observable<GetUserOrderCommentResponse> getUserOrderCommentObservable(@Header("Authorization") String authToken, @Path("orderId") long orderId);
 
+    @POST("/api/v1/comment/add")
+    Observable<Response<Void>> addUserOrderCommentObservable(@Header("Authorization") String authToken, @Body GetUserOrderCommentResponse userOrderCommentBody);
+
     @GET("/api/v1/user/getFaveRestaurants")
     Observable<FavoriteRestaurantsResponse> getFavoriteRestaurantsResponseObservable(@Header("Authorization") String authToken, @Query("page") int page, @Query("size") int size);
 

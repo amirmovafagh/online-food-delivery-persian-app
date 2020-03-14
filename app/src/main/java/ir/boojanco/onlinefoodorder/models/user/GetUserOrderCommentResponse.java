@@ -16,6 +16,15 @@ public class GetUserOrderCommentResponse {
     @SerializedName("personnelBehaviour")
     private Float personnelBehaviour;
 
+    public GetUserOrderCommentResponse(long orderId, String context, Float foodQuality, Float arrivalTime, Float systemEx, Float personnelBehaviour) {
+        this.orderId = orderId;
+        this.context = context;
+        this.foodQuality = foodQuality;
+        this.arrivalTime = arrivalTime;
+        this.systemEx = systemEx;
+        this.personnelBehaviour = personnelBehaviour;
+    }
+
     public Float getPersonnelBehaviour() {
         return personnelBehaviour;
     }

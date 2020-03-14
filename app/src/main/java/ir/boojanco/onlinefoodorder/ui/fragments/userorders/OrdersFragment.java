@@ -31,10 +31,11 @@ import ir.boojanco.onlinefoodorder.models.user.OrderItem;
 import ir.boojanco.onlinefoodorder.models.user.UserAddressList;
 import ir.boojanco.onlinefoodorder.viewmodels.OrdersViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.OrdersViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.interfaces.FoodOrdersDialogInterface;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.OrdersFragmentInterface;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.OrdersRecyclerViewInterface;
 
-public class OrdersFragment extends Fragment implements OrdersFragmentInterface, OrdersRecyclerViewInterface {
+public class OrdersFragment extends Fragment implements OrdersFragmentInterface, OrdersRecyclerViewInterface, FoodOrdersDialogInterface {
 
     private OrdersFragmentBinding binding;
 
@@ -97,7 +98,7 @@ public class OrdersFragment extends Fragment implements OrdersFragmentInterface,
     public void onSuccessOrderComment(GetUserOrderCommentResponse commentResponse) {
         if (commentResponse != null && orderItem != null) {
 
-            customFoodOrdersDialog = new CustomFoodOrdersDialog(getActivity(),R.style.Theme_Custom_Dialog, orderItem, commentResponse);
+            customFoodOrdersDialog = new CustomFoodOrdersDialog(getActivity(), R.style.Theme_Custom_Dialog, this, orderItem, commentResponse);
             customFoodOrdersDialog.setCanceledOnTouchOutside(true);
             if (customFoodOrdersDialog != null && !customFoodOrdersDialog.isShowing())
                 customFoodOrdersDialog.show();
@@ -110,5 +111,10 @@ public class OrdersFragment extends Fragment implements OrdersFragmentInterface,
     public void onFailure(String error) {
         Toast.makeText(application, "" + error, Toast.LENGTH_SHORT).show();
 
+    }
+
+    @Override
+    public void addComment(long orderId, float foodQuality, float systemEx, float arrivalTime, float personnelBehaviour, String userComment) {
+        viewModel.addOrderComment(orderId,foodQuality,systemEx,arrivalTime,personnelBehaviour,userComment);
     }
 }

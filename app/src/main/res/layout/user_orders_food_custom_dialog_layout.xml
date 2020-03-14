@@ -57,7 +57,31 @@
                         android:isIndicator="@{variables.rateBarStateLiveData , default=true}"
                         android:layoutDirection="ltr"
                         android:numStars="5"
-                        android:rating="@{variables.foodQualityLiveData}"
+                        android:rating="@={variables.foodQualityLiveData}"
+                        android:stepSize="0.1" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_margin="4dp"
+                        android:background="?android:attr/listDivider" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/systemQuality"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/h7_title_font_size" />
+
+                    <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                        style="@style/Widget.MaterialRatingBar.RatingBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:isIndicator="@{variables.rateBarStateLiveData , default=true}"
+                        android:layoutDirection="ltr"
+                        android:numStars="5"
+                        android:rating="@={variables.systemExLiveData}"
                         android:stepSize="0.1" />
 
                     <View
@@ -82,7 +106,7 @@
                         android:isIndicator="@{variables.rateBarStateLiveData , default=true}"
                         android:layoutDirection="ltr"
                         android:numStars="5"
-                        android:rating="@{variables.arrivalTimeLiveData}"
+                        android:rating="@={variables.arrivalTimeLiveData}"
                         android:stepSize="0.1" />
 
                     <View
@@ -108,7 +132,7 @@
                         android:isIndicator="@{variables.rateBarStateLiveData , default=true}"
                         android:layoutDirection="ltr"
                         android:numStars="5"
-                        android:rating="@{variables.personnelBehaviourLiveData}"
+                        android:rating="@={variables.personnelBehaviourLiveData}"
                         android:stepSize="0.1" />
 
                     <View
@@ -147,6 +171,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:onClick="@{()-> variables.commentButtonOnClick()}"
                         android:visibility="@{variables.acceptButtonStateLiveData ? View.VISIBLE : View.GONE}"
                         android:maxLines="1"
                         android:text="@string/acceptComment"

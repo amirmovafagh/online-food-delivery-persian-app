@@ -85,6 +85,39 @@ public class OrdersViewModel extends ViewModel implements OrdersDataSourceInterf
         }
     }
 
+    public void addOrderComment(long orderId, float foodQuality, float systemEx, float arrivalTime, float personnelBehaviour, String userComment) {
+        GetUserOrderCommentResponse commentBody = new GetUserOrderCommentResponse(orderId, userComment, foodQuality, arrivalTime, systemEx, personnelBehaviour);
+        Observable<Response<Void>> observable = userRepository.addUserOrderCommentResponseObservable(userAuthToken, commentBody);
+        if (observable != null) {
+            observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Response<Void>>() {
+                @Override
+                public void onCompleted() {
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                    if (e instanceof NoNetworkConnectionException)
+                        fragmentInterface.onFailure(e.getMessage());
+                    if (e instanceof HttpException) {
+                        Response response = ((HttpException) e).response();
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                            Log.i(TAG, " " + jsonObject.getString("message"));
+                        } catch (Exception d) {
+                            Log.i(TAG, " " + d.getMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onNext(Response<Void> voidResponse) {
+                    fragmentInterface.onFailure("نظر شما ثبت شد");
+                }
+            });
+        }
+    }
+
     @Override
     public void onStartedOrdersData() {
         fragmentInterface.onStarted();

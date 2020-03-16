@@ -1,14 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.activities.restaurantDetails.fragments.RestaurantCommentFragment">
+<layout>
 
-    <TextView
+    <data>
+
+        <variable
+            name="viewModel"
+            type="ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.RestaurantCommentViewModel" />
+    </data>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello"
-        android:background="@color/colorAccent"/>
+        android:background="@drawable/wallpaper_restaurant_info"
+        android:layoutDirection="rtl"
+        tools:context=".ui.activities.restaurantDetails.fragments.RestaurantCommentFragment">
 
-</FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/backgroundGrayLight_lowAlpha" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_restaurant_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layoutAnimation="@anim/layout_animation_fall_down"
+            android:overScrollMode="never" />
+
+    </FrameLayout>
+</layout>

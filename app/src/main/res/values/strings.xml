@@ -4,6 +4,10 @@
 
     <string name="welcome">خوش آمدید</string>
     <string name="verification">تایید شماره موبایل</string>
+    <string name="name">نام</string>
+    <string name="date">تاریخ</string>
+    <string name="comment">نظر</string>
+
     <string name="login_info_activity">ورود</string>
     <string name="register_info_activity">ثبت نام</string>
     <string name="verify_info_activity">لطفا کد ارسال شده را وارد کنید</string>

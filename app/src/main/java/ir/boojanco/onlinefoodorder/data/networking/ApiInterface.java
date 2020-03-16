@@ -5,6 +5,7 @@ import ir.boojanco.onlinefoodorder.models.food.GetAllFoodResponse;
 import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.DiscountCodeResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.FavoriteRestaurantsResponse;
+import ir.boojanco.onlinefoodorder.models.restaurant.GetRestaurantCommentResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.AllPackagesResponse;
@@ -101,6 +102,9 @@ public interface ApiInterface {
 
     @GET("https://pm1.parsimap.com/comapi.svc/areaInfo/{latitude}/{longitude}/18/1/ccc1a4bc-ade4-460d-b799-82885ab21d6d/1") /*get Reverse Address from LatLng with parsiMap API*/
     Observable<ReverseFindAddressResponse> getReverseAddresse(@Path("latitude") Double latitude, @Path("longitude") Double longitude);
+
+    @GET("/api/v1/comment/restaurant/{restaurantId}/all")
+    Observable<GetRestaurantCommentResponse> getRestaurantCommentsResponseObservable(@Header("Authorization") String authToken,@Path("restaurantId")long restaurantId, @Query("page") int page, @Query("size") int size);
 
     @GET("/api/v1/order/user/getAll/")
     Observable<GetUserOrdersResponse> getUserOrdersResponseObservable(@Header("Authorization") String authToken, @Query("page") int page, @Query("size") int size);

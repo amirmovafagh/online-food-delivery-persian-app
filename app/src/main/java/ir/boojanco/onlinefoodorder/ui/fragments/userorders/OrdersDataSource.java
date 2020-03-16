@@ -97,7 +97,7 @@ public class OrdersDataSource extends PageKeyedDataSource<Integer, OrderItem> {
 
                 @Override
                 public void onError(Throwable e) {
-                    Log.i(TAG," 2 "+e.getMessage());
+
                     dataSourceInterface.onFailureOrdersData(e.getMessage());
                     if (e instanceof NoNetworkConnectionException)
                         dataSourceInterface.onFailureOrdersData(e.getMessage());
@@ -135,14 +135,10 @@ public class OrdersDataSource extends PageKeyedDataSource<Integer, OrderItem> {
 
                 @Override
                 public void onError(Throwable e) {
-                    dataSourceInterface.onFailureOrdersData(e.getMessage());
-                    Log.i(TAG," 3 "+e.getMessage());
-                    dataSourceInterface.onFailureOrdersData(e.getMessage());
                     if (e instanceof NoNetworkConnectionException)
                         dataSourceInterface.onFailureOrdersData(e.getMessage());
                     if (e instanceof HttpException) {
                         Response response = ((HttpException) e).response();
-
                         try {
                             JSONObject jsonObject = new JSONObject(response.errorBody().string());
                             Log.i(TAG," "+jsonObject.getString("message"));

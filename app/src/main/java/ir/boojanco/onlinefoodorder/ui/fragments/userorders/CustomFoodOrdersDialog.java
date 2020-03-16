@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Window;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -61,7 +60,7 @@ public class CustomFoodOrdersDialog extends Dialog {
         super(activity, themeResId);
         this.activity = activity;
         this.dialogInterface = dialogInterface;
-        this.orderItem =orderItem;
+        this.orderItem = orderItem;
         this.orderFoodLists = orderItem.getFoodLists();
         this.commentResponse = commentResponse;
     }
@@ -111,12 +110,15 @@ public class CustomFoodOrdersDialog extends Dialog {
     }
 
     public void commentButtonOnClick() {
-        Toast.makeText(activity, "hey"+orderItem.getId(), Toast.LENGTH_SHORT).show();
-        /*if (commentResponse.getOrderId() != 0 && foodQualityLiveData.getValue() != null && systemExLiveData.getValue() != null &&
-                arrivalTimeLiveData.getValue() != null && personnelBehaviourLiveData.getValue() != null && userCommentLiveData.getValue() != null)*/
+
+        if (orderItem.getId() != 0 && foodQualityLiveData.getValue() != null && systemExLiveData.getValue() != null &&
+                arrivalTimeLiveData.getValue() != null && personnelBehaviourLiveData.getValue() != null && userCommentLiveData.getValue() != null) {
             dialogInterface.addComment(orderItem.getId(), foodQualityLiveData.getValue(),
                     systemExLiveData.getValue(), arrivalTimeLiveData.getValue(),
                     personnelBehaviourLiveData.getValue(), userCommentLiveData.getValue());
+            this.cancel();
+        } else
+            Toast.makeText(activity, "لطفا فیلد های موردنظر را تکمیل کنید", Toast.LENGTH_SHORT).show();
     }
 
 }

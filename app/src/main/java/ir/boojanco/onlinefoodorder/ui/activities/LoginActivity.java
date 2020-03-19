@@ -66,6 +66,8 @@ public class LoginActivity extends AppCompatActivity implements LoginAuth {
         password = binding.loginPasswordEdtText;
         password.setTypeface(Typeface.DEFAULT);
         password.setTransformationMethod(new PasswordTransformationMethod());
+
+        binding.buttonRegisterActivity.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, RegisterActivity.class)));
     }
 
 
@@ -91,7 +93,7 @@ public class LoginActivity extends AppCompatActivity implements LoginAuth {
     @Override
     public void onFailure(String error) {
         Toast.makeText(LoginActivity.this, "" + error, Toast.LENGTH_SHORT).show();
-        binding.cvWaitingResponse.setVisibility(View.VISIBLE);
+        binding.cvWaitingResponse.setVisibility(View.GONE);
 
     }
 }

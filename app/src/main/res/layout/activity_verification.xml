@@ -4,130 +4,126 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="ir.boojanco.onlinefoodorder.viewmodels.VerificationViewModel" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/login_activity_background"
         android:layoutDirection="rtl"
         tools:context=".ui.activities.VerificationActivity">
 
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/textview_shape_red_rounded"
-            android:paddingLeft="8dp"
-            android:paddingTop="8dp"
-            android:paddingRight="8dp"
-            android:text="@string/verification"
-            android:textColor="@android:color/white"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.102" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabLogin"
-            style="@style/Widget.MaterialComponents.FloatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="@{()->viewModel.checkVerificationCode()}"
-            android:clickable="true"
-            android:focusable="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.083"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            app:layout_constraintVertical_bias="0.465"
-            app:srcCompat="@drawable/arrow_next_48dp" />
-
-        <View
-            android:id="@+id/divider"
-            android:layout_width="380dp"
-            android:layout_height="2dp"
-            android:background="?android:attr/listDivider"
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/wallpaper_dark_dish"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fabLogin"
-            app:layout_constraintVertical_bias="0.062" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="کد پیامک شده را وارد کنید"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.813"
-            app:layout_constraintLeft_toRightOf="@+id/fabLogin"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.596" />
-
-        <com.mukesh.OtpView
-            android:id="@+id/otp_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="188dp"
-            android:inputType="number"
-            style="@style/OtpWidget.OtpView"
-            android:itemBackground="@color/transparent"
-            app:itemCount="5"
-            android:text="@={viewModel.verificationCode}"
-            android:cursorVisible="true"
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/backgroundGrayLight_lowAlpha_test"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider"
-            app:layout_constraintVertical_bias="0.934"
-            app:lineColor="@color/colorPrimary"
-            app:itemRadius="@dimen/card_view_corner_radius"
-            app:viewType="rectangle" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btnSendAgainVerifyCode"
-            style="@style/Widget.MaterialComponents.Button"
-            android:layout_width="wrap_content"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/verification_cardview"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minWidth="185dp"
-            android:text="@={viewModel.buttonTimerLiveData, default=@string/send_again_verification_code}"
-            android:textSize="16sp"
-            app:cornerRadius="16dp"
-            android:enabled="@{viewModel.buttonTimerStateLiveData==true ? true : false, default=false}"
+            android:layout_margin="16dp"
+            app:cardBackgroundColor="@color/overlapCardBackgroundColor"
+            app:cardCornerRadius="@dimen/card_view_corner_radius"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/otp_view" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineLeft"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="16dp"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineRight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="390dp"
-            app:layout_constraintRight_toRightOf="parent" />
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="کد پیامک شده را وارد کنید"
+                    android:textSize="@dimen/h6_title_font_size" />
+
+                <com.mukesh.OtpView
+                    android:id="@+id/otp_view"
+                    style="@style/OtpWidget.OtpView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    android:cursorVisible="true"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:itemBackground="@color/transparent"
+                    android:text="@={viewModel.verificationCode}"
+                    app:itemCount="5"
+                    app:itemRadius="@dimen/card_view_corner_radius"
+                    app:lineColor="@color/colorPrimary"
+                    app:viewType="rectangle" />
+
+                <Button
+                    android:id="@+id/buttonLogin"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:onClick="@{()->viewModel.checkVerificationCode()}"
+                    android:text="@string/accept"
+                    android:textSize="@dimen/button_font_size"
+                    app:cornerRadius="16dp" />
+
+                <Button
+                    android:id="@+id/btnSendAgainVerifyCode"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:enabled="@{viewModel.buttonTimerStateLiveData==true ? true : false, default=false}"
+                    android:text="@={viewModel.buttonTimerLiveData, default=@string/send_again_verification_code}"
+                    android:textSize="@dimen/button_font_size"
+                    app:cornerRadius="16dp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_waiting_response"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:cardBackgroundColor="@color/overlapBackgroundColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animation_view"
+                android:layout_width="150dp"
+                android:layout_height="250dp"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/waiting_animate_burger" />
+        </androidx.cardview.widget.CardView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

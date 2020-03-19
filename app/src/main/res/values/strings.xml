@@ -49,6 +49,7 @@
     <string name="deliverInMyAddress">دریافت در آدرس من</string>
     <string name="add_new_address">افزودن آدرس جدید</string>
     <string name="accept_new_location">تایید موقعیت مکانی</string>
+    <string name="accept">تایید</string>
     <string name="address">آدرس</string>
     <string name="exactAddress">آدرس دقیق</string>
     <string name="city">شهر</string>
@@ -74,4 +75,6 @@
     <string name="yourComment">نظر شما</string>
     <string name="acceptComment">ثبت</string>
     <string name="systemQuality">کیفیت سیستم</string>
+    <string name="regsterInMazzeh">ثبت نام در مزه</string>
+    <string name="register">عضویت</string>
 </resources>

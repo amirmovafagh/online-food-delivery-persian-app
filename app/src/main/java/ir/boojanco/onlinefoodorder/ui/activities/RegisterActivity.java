@@ -11,6 +11,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -61,6 +62,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterAuth 
 
     @Override
     public void onStarted() {
+        binding.cvWaitingResponse.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -71,6 +73,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterAuth 
         i.putExtra(verificationCodeTimerKeyExtra, time);
         i.putExtra(phoneNumberKeyExtra, phoneNumber);
         i.putExtra(passwordKeyExtra, password);
+        binding.cvWaitingResponse.setVisibility(View.GONE);
         /*i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);*/
         startActivity(i);
@@ -78,8 +81,16 @@ public class RegisterActivity extends AppCompatActivity implements RegisterAuth 
     }
 
     @Override
-    public void onFailure(String Error) {
+    public void onGoToLoginActivity() {
+        if(getIntent()!=null){
+            onBackPressed();
+        }else startActivity(new Intent(this, LoginActivity.class));
 
+    }
+
+    @Override
+    public void onFailure(String Error) {
+        binding.cvWaitingResponse.setVisibility(View.GONE);
         Toast.makeText(application, "" + Error, Toast.LENGTH_SHORT).show();
     }
 }

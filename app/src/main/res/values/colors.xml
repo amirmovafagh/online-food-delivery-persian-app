@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#e53935</color>
-    <!--<color name="colorPrimaryDark">#071C2B</color>-->
-    <color name="colorPrimaryDark">#ab000d</color>
-    <color name="colorPrimaryLight">#ff6f60</color>
-    <color name="colorAccent">#ff6f60</color>
+    <color name="colorPrimary">#e03e08</color>
+    <color name="colorSecondPrimary">#639509</color>
+    <color name="colorPrimaryDark">#b80311</color>
+    <color name="colorSecondPrimaryDark">#32660f</color>
+    <color name="colorPrimaryLight">#c95300</color>
+    <color name="colorAccent">#c95300</color>
+    <color name="colorGold">#ffb601</color>
+    <color name="colorLowGold">#fee5a5</color>
+
+
 
     <color name="colorEdtTextHalfRounded">#B2FF6659</color>
     <color name="colorBotomNavigationNotSelected">#808080</color>
     <color name="overlapCardBackgroundColor">#EDFFFFFF</color>
+    <color name="overlapBackgroundColor">#EDFEE5A5</color>
     <color name="detailsTextColor">#939393</color>
     <color name="backgroundGrayLight">#F0F6F7</color>
     <color name="backgroundGrayLight_lowAlpha">#80F0F6F7</color>
+    <color name="backgroundGrayLight_lowAlpha_test">#993E3E3E</color>
     <color name="greenTest">#69CC1F</color>
     <color name="waitingResponseBackgroundColor">#FFFFFF</color>
     <color name="restaurantCoverDarkShadowBackground">#7E5A5A5A</color>
@@ -20,6 +27,6 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="gray">#939393</color>
-    <color name="packageTitleCardViewColor">#ffff52</color>
-    <color name="defaultAddressCardView">#e6a700</color>
+    <color name="packageTitleCardViewColor">#ffb601</color>
+    <color name="defaultAddressCardView">#ffb601</color>
 </resources>

@@ -52,7 +52,7 @@ public class VerificationActivity extends AppCompatActivity implements Verificat
 
     @Override
     public void onStarted() {
-
+binding.cvWaitingResponse.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -60,11 +60,13 @@ public class VerificationActivity extends AppCompatActivity implements Verificat
         Intent i = new Intent(this,LoginActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        binding.cvWaitingResponse.setVisibility(View.GONE);
         startActivity(i);
     }
 
     @Override
     public void onFailure(String Error) {
         Toast.makeText(this, ""+Error, Toast.LENGTH_SHORT).show();
+        binding.cvWaitingResponse.setVisibility(View.GONE);
     }
 }

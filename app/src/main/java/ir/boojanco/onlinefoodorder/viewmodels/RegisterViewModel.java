@@ -84,8 +84,7 @@ public class RegisterViewModel extends ViewModel {
     }
 
     public void goToLoginActivity(View view) {
-        Intent i = new Intent(view.getContext(), LoginActivity.class);
-        view.getContext().startActivity(i);
+        registerAuth.onGoToLoginActivity();
     }
 
     private boolean isValidPhoneNumber(String phone) {

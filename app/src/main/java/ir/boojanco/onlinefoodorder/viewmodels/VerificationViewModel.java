@@ -82,6 +82,7 @@ public class VerificationViewModel extends ViewModel {
         if (verificationCode != null && verificationCode.getValue() != null && verificationCode.getValue().length() == 5) {
             Observable<VerificationNewUserResponse> observable = userRepository.verifyNewUser(verificationCode.getValue(), phoneNumber);
             if (observable != null) {
+                verificationInterface.onStarted();
                 observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<VerificationNewUserResponse>() {
                     @Override
                     public void onCompleted() {
@@ -105,6 +106,7 @@ public class VerificationViewModel extends ViewModel {
 
                     @Override
                     public void onNext(VerificationNewUserResponse verificationNewUserResponse) {
+                        verificationInterface.onSuccess();
                         activateUser(verificationNewUserResponse.getId(), verificationNewUserResponse.getMobile(), password);
                     }
                 });
@@ -117,6 +119,7 @@ public class VerificationViewModel extends ViewModel {
             ActivateUserBody activeUserBody = new ActivateUserBody(userId, userPhoneNumber, userPassword);
             Observable<Response<Void>> observable = userRepository.activateNewUser(activeUserBody);
             if (observable != null) {
+                verificationInterface.onStarted();
                 observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Response<Void>>() {
                     @Override
                     public void onCompleted() {

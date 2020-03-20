@@ -18,7 +18,7 @@ import ir.boojanco.onlinefoodorder.ui.fragments.MapDialogProfileFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.favoriteFoods.FavoriteFoodsFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.favoriteRestaurants.FavoriteRestaurantsFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.userorders.OrdersFragment;
-import ir.boojanco.onlinefoodorder.ui.fragments.UserProfileFragment;
+import ir.boojanco.onlinefoodorder.ui.fragments.userProfile.UserProfileFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.home.HomeFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurants.RestaurantFragment;
 

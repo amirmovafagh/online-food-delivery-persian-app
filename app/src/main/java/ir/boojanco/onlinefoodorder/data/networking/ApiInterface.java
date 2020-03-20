@@ -19,6 +19,7 @@ import ir.boojanco.onlinefoodorder.models.user.GetUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.GetUserOrderCommentResponse;
 import ir.boojanco.onlinefoodorder.models.user.GetUserOrdersResponse;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
+import ir.boojanco.onlinefoodorder.models.user.UserProfileResponse;
 import ir.boojanco.onlinefoodorder.models.user.VerificationNewUserResponse;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -111,6 +112,9 @@ public interface ApiInterface {
 
     @GET("/api/v1/comment/order/{orderId}")
     Observable<GetUserOrderCommentResponse> getUserOrderCommentObservable(@Header("Authorization") String authToken, @Path("orderId") long orderId);
+
+    @GET("/api/v1/user/getProfile")
+    Observable<UserProfileResponse> getUserProfileResponseObservable(@Header("Authorization") String authToken);
 
     @POST("/api/v1/comment/add")
     Observable<Response<Void>> addUserOrderCommentObservable(@Header("Authorization") String authToken, @Body GetUserOrderCommentResponse userOrderCommentBody);

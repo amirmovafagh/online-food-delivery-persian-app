@@ -15,6 +15,7 @@ import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.ActivityVerificationBinding;
+import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
 import ir.boojanco.onlinefoodorder.viewmodels.VerificationViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.VerificationViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.VerificationInterface;
@@ -56,12 +57,15 @@ binding.cvWaitingResponse.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void onSuccess() {
-        Intent i = new Intent(this,LoginActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        binding.cvWaitingResponse.setVisibility(View.GONE);
-        startActivity(i);
+    public void onSuccess(LoginUserResponse loginUserResponse) {
+        if (loginUserResponse != null){
+            sharedPreferences.setUserAuthTokenKey(loginUserResponse.getId());
+            Intent i = new Intent(this,MainActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            binding.cvWaitingResponse.setVisibility(View.GONE);
+            startActivity(i);
+        }
     }
 
     @Override

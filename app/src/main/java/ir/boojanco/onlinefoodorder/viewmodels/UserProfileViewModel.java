@@ -25,6 +25,7 @@ import ir.boojanco.onlinefoodorder.models.stateCity.GetAllStatesResponse;
 import ir.boojanco.onlinefoodorder.models.user.AddUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.EditUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.UserAddressList;
+import ir.boojanco.onlinefoodorder.models.user.UserProfileResponse;
 import ir.boojanco.onlinefoodorder.ui.activities.cart.AddressDataSource;
 import ir.boojanco.onlinefoodorder.ui.activities.cart.AddressDataSourceFactory;
 import ir.boojanco.onlinefoodorder.ui.activities.cart.AddressDataSourceInterface;
@@ -54,6 +55,9 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
     public MutableLiveData<String> exactAddress;
     public MutableLiveData<String> addressBottomSheetTitle;
     public MutableLiveData<Boolean> defaultAddress;
+    public MutableLiveData<String> emailLiveData;
+    public MutableLiveData<String> lastNameLiveData;
+    public MutableLiveData<String> firstNameLiveData;
     private double userLatitude;
     private double userLongitude;
     private int addressRecyclerViewPosition;
@@ -66,6 +70,14 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
     public LiveData<PagedList<UserAddressList>> userAddressPagedListLiveData;
     public LiveData<PageKeyedDataSource<Integer, UserAddressList>> userAddressPageKeyedDataSourceLiveData;
 
+    public void setCityId(long cityId) {
+        this.cityId = cityId;
+    }
+
+    public void setStateId(long stateId) {
+        this.stateId = stateId;
+    }
+
     public UserProfileViewModel(Context context, RestaurantRepository restaurantRepository, UserRepository userRepository) {
         this.context = context;
         this.restaurantRepository = restaurantRepository;
@@ -77,6 +89,10 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         addressBottomSheetTitle = new MutableLiveData<>();
         defaultAddress = new MutableLiveData<>();
         defaultAddress.setValue(false);
+        emailLiveData = new MutableLiveData<>();
+        lastNameLiveData = new MutableLiveData<>();
+        firstNameLiveData = new MutableLiveData<>();
+
     }
 
     public void getUserAddress(String authToken) {
@@ -354,6 +370,55 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
     public void addMapPositionBtnClick() {
         Toast.makeText(context, "" + state.getValue() + " " + stateId + " " + city.getValue() + " " + cityId, Toast.LENGTH_SHORT).show();
         userProfileInterface.showAddressBottomSheet();
+    }
+
+    public void getUserProfileInfo(String authToken) {
+        rx.Observable<UserProfileResponse> observable = userRepository.getUserProfileResponseObservable(authToken);
+        if (observable != null) {
+            userProfileInterface.onStarted();
+            observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<UserProfileResponse>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    if (e instanceof NoNetworkConnectionException)
+                        userProfileInterface.onFailure(e.getMessage());
+                    if (e instanceof HttpException) {
+                        Response response = ((HttpException) e).response();
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
+
+                            userProfileInterface.onFailure(jsonObject.getString("message"));
+
+
+                        } catch (Exception d) {
+                            userProfileInterface.onFailure(d.getMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onNext(UserProfileResponse profileResponse) {
+                    emailLiveData.setValue(profileResponse.getEmail());
+                    lastNameLiveData.setValue(profileResponse.getLastName());
+                    firstNameLiveData.setValue(profileResponse.getFirstName()+" ");
+                    userProfileInterface.onSuccessGetUserProfileInfo();
+
+                }
+            });
+        }
+    }
+
+    public void logoutUser(){
+        userProfileInterface.onLogoutUser();
+    }
+
+    public void editUserProfile() {
+        userProfileInterface.onEditUserProfile();
     }
 
     @Override

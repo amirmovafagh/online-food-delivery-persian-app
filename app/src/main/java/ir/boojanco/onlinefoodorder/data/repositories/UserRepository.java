@@ -15,6 +15,7 @@ import ir.boojanco.onlinefoodorder.models.user.GetUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.GetUserOrderCommentResponse;
 import ir.boojanco.onlinefoodorder.models.user.GetUserOrdersResponse;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
+import ir.boojanco.onlinefoodorder.models.user.UserProfileResponse;
 import ir.boojanco.onlinefoodorder.models.user.VerificationNewUserResponse;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -75,6 +76,10 @@ public class UserRepository {
 
     public Observable<GetUserOrderCommentResponse> getUserOrderCommentResponseObservable(String authToken, long orderId) {
         return apiInterface.getUserOrderCommentObservable(authToken, orderId);
+    }
+
+    public Observable<UserProfileResponse> getUserProfileResponseObservable(String authToken) {
+        return apiInterface.getUserProfileResponseObservable(authToken);
     }
 
     public Observable<Response<Void>> addUserOrderCommentResponseObservable(String authToken, GetUserOrderCommentResponse userOrderCommentBody) {

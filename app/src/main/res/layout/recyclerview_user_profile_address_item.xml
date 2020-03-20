@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="addressList"
+            type="ir.boojanco.onlinefoodorder.models.user.UserAddressList" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:layout_marginRight="8dp"
+        android:orientation="horizontal">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+
+            >
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_main_address_layout"
+                android:layout_width="210dp"
+                android:layout_height="90dp"
+                app:cardCornerRadius="@dimen/card_view_corner_radius"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:orientation="horizontal"
+                    android:paddingTop="4dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0.8"
+                        android:paddingTop="4dp"
+                        android:ellipsize="end"
+                        android:maxLines="5"
+                        android:text="@{addressList.completeAddress ,default=@string/address}"
+                        android:textSize="@dimen/body3_paragraph_font_size" />
+
+                    <LinearLayout
+                        android:id="@+id/linear_layout_control_buttons"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        android:layoutDirection="ltr"
+                        android:orientation="vertical"
+                        android:weightSum="1">
+
+                        <ImageView
+                            android:id="@+id/img_edit_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="0.5"
+                            android:src="@drawable/ic_edit_location"
+                            />
+
+                        <ImageView
+                            android:id="@+id/img_remove_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="0.5"
+                            app:srcCompat="@drawable/ic_remove_location" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_package_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="150dp"
+
+                app:cardBackgroundColor="@color/colorAccent"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/cv_main_address_layout"
+                app:layout_constraintEnd_toEndOf="@+id/cv_main_address_layout"
+                app:layout_constraintStart_toStartOf="@+id/cv_main_address_layout"
+                app:layout_constraintTop_toTopOf="@+id/cv_main_address_layout">
+
+                <TextView
+                    android:id="@+id/text_view_package_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textStyle="bold"
+                    android:text="@{addressList.tag}"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/body3_paragraph_font_size" />
+
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</layout>

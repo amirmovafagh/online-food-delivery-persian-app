@@ -21,6 +21,11 @@ public class MySharedPreferences {
         editor.commit();
     }
 
+    public void removeUserAuthTokenKey() {
+        editor.remove(userAuthTokenKey);
+        editor.commit();
+    }
+
     public String getUserAuthTokenKey(){
         return sharedPreferences.getString(userAuthTokenKey,null);
     }

@@ -15,15 +15,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/wallpaper_restaurant_info"
+        android:fitsSystemWindows="true"
         android:layoutDirection="rtl"
-        tools:context=".ui.fragments.UserProfileFragment"
-
-        >
+        tools:context=".ui.fragments.userProfile.UserProfileFragment">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/backgroundGrayLight_lowAlpha"/>
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/backgroundGrayLight_lowAlpha"
+            bind:layout_behavior="@string/appbar_scrolling_view_behavior"
             bind:layout_constraintBottom_toBottomOf="parent"
             bind:layout_constraintLeft_toLeftOf="parent"
             bind:layout_constraintRight_toRightOf="parent"
@@ -32,17 +35,18 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:orientation="vertical">
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="16dp">
+                    android:layout_margin="16dp"
+                    bind:layout_collapseMode="parallax">
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cv_user_profile_details"
                         android:layout_width="match_parent"
-                        android:layout_height="140dp"
+                        android:layout_height="wrap_content"
                         bind:cardCornerRadius="@dimen/card_view_corner_radius"
                         bind:layout_constraintLeft_toLeftOf="parent"
                         bind:layout_constraintRight_toRightOf="parent"
@@ -50,66 +54,101 @@
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="wrap_content">
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/cv_profile_photo"
+                                android:layout_width="85dp"
+                                android:layout_height="85dp"
+                                android:layout_marginRight="8dp"
+                                bind:cardCornerRadius="@dimen/card_view_corner_radius"
+                                bind:layout_constraintRight_toRightOf="parent"
+                                bind:layout_constraintTop_toTopOf="parent"
+                                bind:layout_constraintBottom_toBottomOf="parent">
+
+                                <FrameLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/cardview_border">
+
+                                    <com.airbnb.lottie.LottieAnimationView
+                                        android:id="@+id/animation_view_delivery_time"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:cropToPadding="true"
+                                        android:scaleType="centerCrop"
+                                        bind:lottie_autoPlay="true"
+                                        bind:lottie_loop="true"
+                                        bind:lottie_rawRes="@raw/random_user_profile_person_animate" />
+                                </FrameLayout>
+                            </androidx.cardview.widget.CardView>
 
                             <TextView
                                 android:id="@+id/text_user_name"
-                                android:layout_width="0dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
                                 android:ellipsize="end"
                                 android:maxLines="1"
-                                android:paddingStart="115dp"
+                                android:text="@{viewModel.firstNameLiveData + viewModel.lastNameLiveData ,default=@string/name}"
+                                android:paddingStart="8dp"
                                 android:paddingEnd="8dp"
                                 android:textAlignment="textStart"
-                                android:textColor="@android:color/black"
-                                android:textSize="@dimen/body1_paragraph_font_size"
+                                android:textSize="@dimen/body2_paragraph_font_size"
                                 android:textStyle="bold"
-
+                                bind:layout_constraintRight_toLeftOf="@id/cv_profile_photo"
+                                bind:layout_constraintTop_toTopOf="@id/cv_profile_photo"
+                                bind:layout_constraintBottom_toTopOf="@id/text_view_user_email"
                                 />
 
                             <TextView
-                                android:id="@+id/text_view_restaurant_tag_list"
-                                android:layout_width="match_parent"
+                                android:id="@+id/text_view_user_email"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
                                 android:ellipsize="end"
                                 android:maxLines="1"
-                                android:paddingStart="115dp"
+                                android:text="@{viewModel.emailLiveData ,default=ایمیل}"
+                                android:paddingStart="8dp"
                                 android:paddingEnd="8dp"
                                 android:textAlignment="textStart"
-                                android:textColor="@color/colorPrimaryLight"
-                                android:textSize="@dimen/body4_paragraph_font_size" />
+                                android:textSize="@dimen/body2_paragraph_font_size"
+                                bind:layout_constraintRight_toLeftOf="@id/cv_profile_photo"
+                                bind:layout_constraintTop_toBottomOf="@id/text_user_name"
+                                bind:layout_constraintBottom_toBottomOf="@id/cv_profile_photo"/>
+
+                            <Button
+                                android:id="@+id/btn_edit_user"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:onClick="@{()-> viewModel.editUserProfile()}"
+                                android:textSize="@dimen/body4_paragraph_font_size"
+                                bind:cornerRadius="16dp"
+                                bind:icon="@drawable/ic_edit_user"
+                                android:text="@string/changeUserInfo"
+                                bind:layout_constraintHorizontal_chainStyle="spread"
+                                bind:layout_constraintLeft_toRightOf="@id/btn_exit_user"
+                                bind:layout_constraintTop_toBottomOf="@id/cv_profile_photo"
+                                bind:layout_constraintRight_toRightOf="parent"/>
+
+                            <Button
+                                android:id="@+id/btn_exit_user"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:onClick="@{()-> viewModel.logoutUser()}"
+                                android:textSize="@dimen/body4_paragraph_font_size"
+                                bind:cornerRadius="16dp"
+                                android:text="@string/logout"
+                                bind:icon="@drawable/ic_exit"
+                                bind:layout_constraintRight_toLeftOf="@id/btn_edit_user"
+                                bind:layout_constraintBottom_toBottomOf="@id/btn_edit_user"
+                                bind:layout_constraintTop_toTopOf="@id/btn_edit_user"
+                                bind:layout_constraintLeft_toLeftOf="parent"/>
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </androidx.cardview.widget.CardView>
 
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="85dp"
-                        android:layout_height="85dp"
-                        android:layout_marginRight="8dp"
-                        bind:cardCornerRadius="@dimen/card_view_corner_radius"
-                        bind:layout_constraintBottom_toBottomOf="@id/cv_user_profile_details"
-                        bind:layout_constraintRight_toRightOf="@+id/cv_user_profile_details"
-                        bind:layout_constraintTop_toTopOf="@id/cv_user_profile_details">
-
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/cardview_border">
-
-                            <com.airbnb.lottie.LottieAnimationView
-                                android:id="@+id/animation_view_delivery_time"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:cropToPadding="true"
-                                android:scaleType="centerCrop"
-                                bind:lottie_autoPlay="true"
-                                bind:lottie_loop="true"
-                                bind:lottie_rawRes="@raw/random_user_profile_person_animate" />
-                        </FrameLayout>
-                    </androidx.cardview.widget.CardView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -237,46 +276,82 @@
                     </FrameLayout>
                 </androidx.cardview.widget.CardView>
 
-                <LinearLayout
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginRight="16dp"
-                    android:orientation="horizontal">
+                    android:layout_margin="16dp"
+                    bind:cardBackgroundColor="@color/colorLowGold"
+                    bind:cardCornerRadius="@dimen/card_view_corner_radius"
+                    bind:cardElevation="0dp">
 
-                    <TextView
-                        android:id="@+id/textViewCategoryTitle"
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.9"
-                        android:drawableStart="@drawable/ic_deliver_in_my_address"
-                        android:drawablePadding="8dp"
-                        android:maxLines="1"
-                        android:text="@string/your_addresses"
-                        android:textAlignment="textStart"
-                        android:textSize="@dimen/body1_paragraph_font_size" />
+                        android:orientation="vertical">
 
-                    <Button
-                        android:id="@+id/btn_add_address"
-                        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.1"
-                        android:onClick="@{()-> viewModel.addAddressOnClick()}"
-                        android:textSize="@dimen/button_font_size"
-                        bind:cornerRadius="16dp"
-                        bind:icon="@drawable/ic_add_location" />
-                </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="8dp"
+                            android:orientation="horizontal">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_view_user_address_horizontal_items"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layoutAnimation="@anim/layout_animation_fall_down" />
+                            <TextView
+                                android:id="@+id/textViewCategoryTitle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.9"
+                                android:drawableStart="@drawable/ic_deliver_in_my_address"
+                                android:drawablePadding="8dp"
+                                android:maxLines="1"
+                                android:text="@string/your_addresses"
+                                android:textAlignment="textStart"
+                                android:textSize="@dimen/body1_paragraph_font_size" />
+
+                            <Button
+                                android:id="@+id/btn_add_address"
+                                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.1"
+                                android:onClick="@{()-> viewModel.addAddressOnClick()}"
+                                android:textSize="@dimen/button_font_size"
+                                bind:cornerRadius="16dp"
+                                bind:icon="@drawable/ic_add_location" />
+                        </LinearLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recycler_view_user_address_horizontal_items"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layoutAnimation="@anim/layout_animation_fall_down" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_waiting_response"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            bind:cardBackgroundColor="@color/overlapBackgroundColor"
+            bind:layout_constraintBottom_toBottomOf="parent"
+            bind:layout_constraintEnd_toEndOf="parent"
+            bind:layout_constraintStart_toStartOf="parent"
+            bind:layout_constraintTop_toTopOf="parent">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animation_view"
+                android:layout_width="150dp"
+                android:layout_height="250dp"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                bind:lottie_autoPlay="true"
+                bind:lottie_loop="true"
+                bind:lottie_rawRes="@raw/waiting_animate_burger" />
+        </androidx.cardview.widget.CardView>
 
         <View
             android:id="@+id/bottom_sheet_shadow"

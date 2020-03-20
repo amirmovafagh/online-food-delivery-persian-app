@@ -1,5 +1,7 @@
-package ir.boojanco.onlinefoodorder.ui.fragments;
+package ir.boojanco.onlinefoodorder.ui.fragments.userProfile;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
@@ -39,12 +41,18 @@ import ir.boojanco.onlinefoodorder.models.stateCity.AllCitiesList;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList;
 import ir.boojanco.onlinefoodorder.models.user.UserAddressList;
 import ir.boojanco.onlinefoodorder.ui.activities.cart.AddressAdapter;
+import ir.boojanco.onlinefoodorder.ui.activities.cart.CartActivity;
+import ir.boojanco.onlinefoodorder.ui.activities.cart.CityAdapter;
+import ir.boojanco.onlinefoodorder.ui.activities.cart.CustomStateCityDialog;
+import ir.boojanco.onlinefoodorder.ui.activities.cart.StateAdapter;
+import ir.boojanco.onlinefoodorder.ui.fragments.MapDialogProfileFragment;
 import ir.boojanco.onlinefoodorder.viewmodels.UserProfileViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.UserProfileViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.AddressRecyclerViewInterface;
+import ir.boojanco.onlinefoodorder.viewmodels.interfaces.StateCityDialogInterface;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.UserProfileInterface;
 
-public class UserProfileFragment extends Fragment implements AddressRecyclerViewInterface , UserProfileInterface {
+public class UserProfileFragment extends Fragment implements AddressRecyclerViewInterface, UserProfileInterface, StateCityDialogInterface {
 
     private UserProfileFragmentBinding binding;
     private UserProfileViewModel viewModel;
@@ -55,15 +63,19 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
     @Inject
     Application application;
 
+    private Toolbar toolbar;
     private FragmentTransaction fragmentTransaction;
     private Fragment fragment;
     private DialogFragment mapFragment;
+    private CityAdapter cityAdapter;
+    private CustomStateCityDialog stateCityDialog;
     private RecyclerView recyclerViewUserAddress;
-    private AddressAdapter addressAdapter;
+    private AddressProfileAdapter addressAdapter;
     private NestedScrollView bottom_sheet;
     private BottomSheetBehavior sheetBehavior;
 
     private LiveData<PagedList<UserAddressList>> userAddressPaged;
+
     public static UserProfileFragment newInstance() {
         return new UserProfileFragment();
     }
@@ -72,16 +84,17 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         ((App) getActivity().getApplication()).getComponent().inject(this);
-        binding = DataBindingUtil.inflate(inflater, R.layout.user_profile_fragment,container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.user_profile_fragment, container, false);
         viewModel = new ViewModelProvider(this, factory).get(UserProfileViewModel.class);
         viewModel.userProfileInterface = this;
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
+
         viewModel.getUserAddress(sharedPreferences.getUserAuthTokenKey());
         recyclerViewUserAddress = binding.recyclerViewUserAddressHorizontalItems;
         recyclerViewUserAddress.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerViewUserAddress.setHasFixedSize(true);
-        addressAdapter = new AddressAdapter(this, application, false);
+        addressAdapter = new AddressProfileAdapter(this, application);
         recyclerViewUserAddress.setAdapter(addressAdapter);
 
         bottom_sheet = binding.bottomSheet;
@@ -92,6 +105,8 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
         binding.frameLayoutOrders.setOnClickListener(v -> navController.navigate(R.id.action_userProfileFragment_to_ordersFragment));
         binding.frameLayoutFaveRestaurants.setOnClickListener(v -> navController.navigate(R.id.action_userProfileFragment_to_faveRestaurantsFragment));
         binding.frameLayoutFaveFoods.setOnClickListener(v -> navController.navigate(R.id.action_userProfileFragment_to_faveFoodsFragment));
+
+        viewModel.getUserProfileInfo(sharedPreferences.getUserAuthTokenKey());
         return binding.getRoot();
     }
 
@@ -106,7 +121,7 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
 
     @Override
     public void onRecyclerViewAddressClick(View v, UserAddressList userAddress, int position) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.img_edit_address:
                 viewModel.editUserAddress(userAddress, position);
                 sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
@@ -118,17 +133,17 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
 
     @Override
     public void onStarted() {
-
+        binding.cvWaitingResponse.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void updateAddressRecyclerView(int position) {
-        if (userAddressPaged.hasObservers()){
+        if (userAddressPaged.hasObservers()) {
             userAddressPaged.removeObservers(getActivity());
             userAddressPaged = viewModel.userAddressPagedListLiveData;
             userAddressPaged.observe(getActivity(), userAddressLists -> addressAdapter.submitList(userAddressLists)); //set PagedList user address
         }
-        Snackbar snackbar = Snackbar.make(binding.coordinateLayoutMain,"This is Simple Snackbar",Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(binding.coordinateLayoutMain, "This is Simple Snackbar", Snackbar.LENGTH_SHORT);
         snackbar.show();
         sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
@@ -158,17 +173,28 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
 
     @Override
     public void showStateCityCustomDialog() {
+        if (stateCityDialog != null)
+            stateCityDialog.show();
+        else
+            Toast.makeText(application, "خطا در دریافت اطلاعات استان ها", Toast.LENGTH_LONG).show();
+    }
 
+    @Override
+    public void onSuccessGetUserProfileInfo() {
+        binding.cvWaitingResponse.setVisibility(View.GONE);
     }
 
     @Override
     public void onSuccessGetStates(List<AllStatesList> statesLists) {
-
+        StateAdapter stateAdapter = new StateAdapter(this, application);
+        cityAdapter = new CityAdapter(this, application);
+        stateCityDialog = new CustomStateCityDialog(getActivity(), stateAdapter, statesLists, cityAdapter);
+        stateCityDialog.setCanceledOnTouchOutside(false);
     }
 
     @Override
     public void onSuccessGetcities(List<AllCitiesList> citiesLists) {
-
+        cityAdapter.setCitiesLists(citiesLists);
     }
 
 
@@ -178,7 +204,36 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
     }
 
     @Override
+    public void onLogoutUser() {
+        sharedPreferences.removeUserAuthTokenKey();
+        if (getActivity() != null)
+            getActivity().moveTaskToBack(true);
+        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(1);
+    }
+
+    @Override
+    public void onEditUserProfile() {
+
+    }
+
+    @Override
     public void onFailure(String Error) {
-        Toast.makeText(application, ""+Error, Toast.LENGTH_SHORT).show();
+        Toast.makeText(application, "" + Error, Toast.LENGTH_SHORT).show();
+        binding.cvWaitingResponse.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onStateItemClick(AllStatesList state) {
+        viewModel.setStateId(state.getId());
+        viewModel.state.setValue(state.getName());
+        viewModel.city.setValue(null);
+        viewModel.getCities(sharedPreferences.getUserAuthTokenKey(), state.getId());
+    }
+
+    @Override
+    public void onCityItemClick(AllCitiesList city) {
+        viewModel.setCityId(city.getId());
+        viewModel.city.setValue(city.getName());
     }
 }

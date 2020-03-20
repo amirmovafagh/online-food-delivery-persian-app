@@ -11,8 +11,11 @@ public interface UserProfileInterface {
     void showAddressBottomSheet();
     void showMapDialogFragment();
     void showStateCityCustomDialog();
+    void onSuccessGetUserProfileInfo();
     void onSuccessGetStates(List<AllStatesList> statesLists);
     void onSuccessGetcities(List<AllCitiesList> citiesLists);
     void onSuccessGetAddress();
+    void onLogoutUser();
+    void onEditUserProfile();
     void onFailure(String Error);
 }

@@ -77,4 +77,6 @@
     <string name="systemQuality">کیفیت سیستم</string>
     <string name="regsterInMazzeh">ثبت نام در مزه</string>
     <string name="register">عضویت</string>
+    <string name="changeUserInfo">ویرایش اطلاعات</string>
+    <string name="logout">خروج</string>
 </resources>

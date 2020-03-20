@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import ir.boojanco.onlinefoodorder.data.repositories.UserRepository;
 import ir.boojanco.onlinefoodorder.models.user.ActivateUserBody;
+import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
 import ir.boojanco.onlinefoodorder.models.user.RegisterUserResponse;
 import ir.boojanco.onlinefoodorder.models.user.VerificationNewUserResponse;
 import ir.boojanco.onlinefoodorder.ui.activities.LoginActivity;
@@ -106,7 +107,6 @@ public class VerificationViewModel extends ViewModel {
 
                     @Override
                     public void onNext(VerificationNewUserResponse verificationNewUserResponse) {
-                        verificationInterface.onSuccess();
                         activateUser(verificationNewUserResponse.getId(), verificationNewUserResponse.getMobile(), password);
                     }
                 });
@@ -114,7 +114,7 @@ public class VerificationViewModel extends ViewModel {
         }
     }
 
-    public void activateUser(long userId, String userPhoneNumber, String userPassword) {
+    private void activateUser(long userId, String userPhoneNumber, String userPassword) {
         if (userId != 0 && userPhoneNumber != null && userPassword != null) {
             ActivateUserBody activeUserBody = new ActivateUserBody(userId, userPhoneNumber, userPassword);
             Observable<Response<Void>> observable = userRepository.activateNewUser(activeUserBody);
@@ -143,15 +143,48 @@ public class VerificationViewModel extends ViewModel {
 
                     @Override
                     public void onNext(Response<Void> response) {
-                        verificationInterface.onFailure("res m : " + response.message());
-                        if (response.isSuccessful()) {
 
-                            verificationInterface.onSuccess();
-                        }
+                        if (response.isSuccessful()) {
+                            doLogin();
+                        }else verificationInterface.onFailure("خطا در فعالسازی حساب کاربری");
 
                     }
                 });
             }
+        }
+    }
+
+    private void doLogin (){
+        Observable<LoginUserResponse> observable = userRepository.loginUser(phoneNumber, password);
+        if (observable != null) {
+            observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<LoginUserResponse>() {
+                @Override
+                public void onCompleted() {
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    if (e instanceof NoNetworkConnectionException)
+                        verificationInterface.onFailure(e.getMessage());
+                    if (e instanceof HttpException) {
+                        Response response = ((HttpException) e).response();
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                            verificationInterface.onFailure(jsonObject.getString("message"));
+
+
+                        } catch (Exception d) {
+                            Log.i(TAG, "" + d.getMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onNext(LoginUserResponse loginUserResponse) {
+                    verificationInterface.onSuccess(loginUserResponse);
+                }
+            });
         }
     }
 

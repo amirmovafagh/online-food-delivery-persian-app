@@ -17,7 +17,7 @@
         tools:layout="@layout/cart_fragment" />
     <fragment
         android:id="@+id/userProfileFragment"
-        android:name="ir.boojanco.onlinefoodorder.ui.fragments.UserProfileFragment"
+        android:name="ir.boojanco.onlinefoodorder.ui.fragments.userProfile.UserProfileFragment"
         android:label="user_profile_fragment"
         tools:layout="@layout/user_profile_fragment">
         <action

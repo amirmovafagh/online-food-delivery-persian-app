@@ -83,12 +83,6 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
-    }
-
-    @Override
     public void onStarted() {
         binding.animationViewLoadRequest.setVisibility(View.VISIBLE);
     }

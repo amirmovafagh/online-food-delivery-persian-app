@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
 import android.view.Menu;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -21,8 +20,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import androidx.navigation.fragment.NavHostFragment;
@@ -36,24 +33,14 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 import javax.inject.Inject;
 
 import ir.boojanco.onlinefoodorder.R;
 
 import ir.boojanco.onlinefoodorder.dagger.App;
-import ir.boojanco.onlinefoodorder.data.database.CartDataSource;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.ActivityMainBinding;
-import ir.boojanco.onlinefoodorder.ui.fragments.CartFragment;
-import ir.boojanco.onlinefoodorder.ui.fragments.home.HomeFragment;
-import ir.boojanco.onlinefoodorder.ui.fragments.restaurants.RestaurantFragment;
-import ir.boojanco.onlinefoodorder.ui.fragments.UserProfileFragment;
 import ir.boojanco.onlinefoodorder.viewmodels.MainViewModel;
-import ir.boojanco.onlinefoodorder.viewmodels.factories.VerificationViewModelFactory;
 
 
 public class MainActivity extends AppCompatActivity  {
@@ -92,9 +79,7 @@ public class MainActivity extends AppCompatActivity  {
         assert navHostFragment != null;
         NavigationUI.setupWithNavController(bottomNavigationView,
                 navHostFragment.getNavController());
-        myToolbar = binding.myToolbar;
-        setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle(null);
+
     }
 
     private boolean checkPermissions(){

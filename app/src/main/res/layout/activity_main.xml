@@ -14,38 +14,6 @@
         android:layoutDirection="rtl"
         >
 
-        <androidx.appcompat.widget.Toolbar
-
-            android:id="@+id/my_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:titleTextColor="@android:color/white"
-            android:background="@android:color/transparent"
-            app:menu="@menu/toolbar_menu"
-            app:theme="@style/Theme.MaterialComponents.NoActionBar"
-            android:elevation="4dp"
-            android:layoutDirection="ltr"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:targetApi="lollipop" >
-            <!-- dummy to catch focus -->
-
-        </androidx.appcompat.widget.Toolbar>
-
-        <!--<com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_app_bar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginEnd="0dp"
-            android:layout_marginStart="0dp"
-            android:background="?android:attr/windowBackground"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:menu="@menu/bottom_navigation_menu" />-->
-
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/cordinate_app_bar"
             android:layout_width="match_parent"
@@ -60,7 +28,6 @@
                 app:defaultNavHost="true"
                 app:layout_constraintBottom_toBottomOf="@id/cordinate_app_bar"
                 app:navGraph="@navigation/bottom_app_bar" />
-            <!-- Other components and views -->
 
             <com.google.android.material.bottomappbar.BottomAppBar
                 android:id="@+id/bottom_app_bar"
@@ -86,8 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:fabSize="normal"
-
-                android:src="@drawable/ic_location"
+                android:src="@drawable/ic_qr_code"
                 app:layout_anchor="@id/bottom_app_bar"/>
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>

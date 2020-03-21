@@ -1,6 +1,8 @@
 package ir.boojanco.onlinefoodorder.ui.fragments.restaurants;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -19,8 +21,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import javax.inject.Inject;
@@ -48,18 +53,38 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
     private RestaurantFragmentBinding binding;
     private RestaurantAdapter restaurantAdapter;
     private RecyclerView recyclerView;
+    private Toolbar toolbar;
+    private SearchView searchView;
+    private EditText searchEditText;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         ((App) getActivity().getApplication()).getComponent().inject(this);
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.restaurant_fragment,container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.restaurant_fragment, container, false);
         restaurantViewModel = new ViewModelProvider(this, factory).get(RestaurantViewModel.class);
         restaurantViewModel.restaurantInterface = this;
         binding.setRestaurantViewModel(restaurantViewModel);
         binding.setLifecycleOwner(this);
+        toolbar = binding.toolbar;
+        searchView = binding.search;
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Toast.makeText(getActivity(), "onQueryTextSubmit: " + query, Toast.LENGTH_SHORT).show();
+                return false;
+            }
 
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Toast.makeText(getActivity(), "onQueryTextChange: " + newText, Toast.LENGTH_SHORT).show();
+
+                return false;
+            }
+        });
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         recyclerView = binding.recyclerViewAllRestaurant;
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplication()));
         recyclerView.setHasFixedSize(true);
@@ -67,6 +92,8 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         restaurantAdapter = new RestaurantAdapter(this);
         recyclerView.setAdapter(restaurantAdapter);
         restaurantViewModel.getAllRestaurant(sharedPreferences.getUserAuthTokenKey());
+
+
         return binding.getRoot();
 
     }
@@ -96,20 +123,20 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
 
     @Override
     public void onFailure(String error) {
-        Log.e(TAG, "onFailure: "+error);
-        Toast.makeText(getActivity(), ""+error, Toast.LENGTH_SHORT).show();
+        Log.e(TAG, "onFailure: " + error);
+        Toast.makeText(getActivity(), "" + error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onRecyclerViewItemClick(View v, LastRestaurantList restaurantList) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.toggle_bookmark:
-                Toast.makeText(getActivity(), "bookmark: "+ restaurantList.getName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "bookmark: " + restaurantList.getName(), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.cons_layout:
 
                 Intent intent = new Intent(getContext(), RestaurantDetailsActivity.class);
-                intent.putExtra("RESTAURANT_ID",restaurantList.getId());
+                intent.putExtra("RESTAURANT_ID", restaurantList.getId());
                 startActivity(intent);
                 break;
         }

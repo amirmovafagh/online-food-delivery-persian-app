@@ -73,7 +73,7 @@
                     android:layout_marginTop="4dp"
                     android:ellipsize="end"
                     android:maxLines="15"
-                    android:inputType="textMultiLine"
+                    android:inputType="textLongMessage"
                     android:text="@{commentItem.userComment, default=@string/comment}"
                     android:textSize="@dimen/body2_paragraph_font_size"
                     app:layout_constraintLeft_toLeftOf="parent"

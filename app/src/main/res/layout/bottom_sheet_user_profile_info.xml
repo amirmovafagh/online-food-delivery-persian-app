@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="ir.boojanco.onlinefoodorder.viewmodels.UserProfileViewModel" />
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_bottom_sheet_user_profile_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableStart="@drawable/ic_edit_user"
+            android:drawablePadding="4dp"
+            android:maxLines="1"
+            android:text="@string/yourInfo"
+            android:textAlignment="center"
+            android:textSize="@dimen/body1_paragraph_font_size" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_sset_default_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="16dp"
+            app:cardCornerRadius="@dimen/card_view_corner_radius">
+
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_inpu_first_name"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:hint="@string/name"
+                app:boxBackgroundColor="@color/transparent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_text_first_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="2dp"
+                    android:ellipsize="end"
+                    android:focusable="false"
+                    android:inputType="none"
+                    android:maxLines="1"
+                    android:text="@={viewModel.firstNameLiveData}"
+                    android:textDirection="rtl"
+                    android:textSize="@dimen/edit_text_font_size" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_view_last_name"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:hint="@string/lastName"
+                app:boxBackgroundColor="@color/transparent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="2dp"
+                    android:ellipsize="end"
+                    android:focusable="false"
+                    android:inputType="none"
+                    android:maxLines="1"
+                    android:text="@={viewModel.lastNameLiveData}"
+                    android:textDirection="rtl"
+                    android:textSize="@dimen/edit_text_font_size" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_view_email"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="@string/email"
+            app:boxBackgroundColor="@color/transparent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ellipsize="end"
+                android:focusable="false"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:text="@={viewModel.emailLiveData}"
+                android:textDirection="rtl"
+                android:textSize="@dimen/edit_text_font_size" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_view_birthdate"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="@string/exactAddress"
+            app:boxBackgroundColor="@color/transparent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ellipsize="end"
+                android:inputType="text"
+                android:maxLines="1"
+                android:text="@={viewModel.birthDateLiveData}"
+                android:textDirection="rtl"
+                android:textSize="@dimen/edit_text_font_size" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btn_accept_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cornerRadius="16dp"
+            android:layout_gravity="center"
+            android:onClick="@{()-> viewModel.acceptAddNewUserAddressOrEditAddressOnClick()}"
+            android:text="ثبت" />
+    </LinearLayout>
+</layout>

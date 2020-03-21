@@ -2,6 +2,9 @@ package ir.boojanco.onlinefoodorder.models.user;
 
 import com.google.gson.annotations.SerializedName;
 
+import ir.boojanco.onlinefoodorder.util.persianDate.PersianDate;
+import ir.boojanco.onlinefoodorder.util.persianDate.PersianDateFormat;
+
 public class UserProfileResponse {
 
     @SerializedName("firstName")
@@ -13,8 +16,20 @@ public class UserProfileResponse {
     @SerializedName("birthDate")
     private long birthDate;
 
+    PersianDate pdate;
+    PersianDateFormat pdformater;
+
+    public UserProfileResponse() {
+        pdformater = new PersianDateFormat("Y/m/d");
+    }
+
     public String getFirstName() {
         return firstName;
+    }
+
+    public String getShamsiDate() {
+        pdate = new PersianDate(birthDate);
+        return pdformater.format(pdate);
     }
 
     public String getLastName() {

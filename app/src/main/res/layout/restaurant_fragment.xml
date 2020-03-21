@@ -9,20 +9,60 @@
             type="ir.boojanco.onlinefoodorder.viewmodels.RestaurantViewModel" />
     </data>
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/wallpaper_restaurant_info"
+        android:fitsSystemWindows="true"
+        android:layoutDirection="rtl"
         tools:context=".ui.fragments.restaurants.RestaurantFragment">
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/backgroundGrayLight_lowAlpha"/>
+            android:background="@color/backgroundGrayLight_lowAlpha" />
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:background="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_scrollFlags="scroll|snap|enterAlways"
+                app:actionViewClass="androidx.appcompat.widget.SearchView"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                >
+                <!-- dummy to catch focus -->
+                <LinearLayout
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:layout_width="0px"
+                    android:layout_height="0px"/>
+
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/search"
+                    android:textDirection="rtl"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    app:defaultQueryHint="@string/search_title"
+                    android:nextFocusUp="@id/search"
+                    android:nextFocusLeft="@id/search"
+                    android:layoutDirection="rtl"
+                    />
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_all_restaurant"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layoutAnimation="@anim/layout_animation_fall_down"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
 
             />
 
@@ -35,5 +75,5 @@
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/waiting_animate_burger" />
 
-    </FrameLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

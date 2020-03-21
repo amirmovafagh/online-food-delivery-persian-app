@@ -125,6 +125,7 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
             case R.id.img_edit_address:
                 viewModel.editUserAddress(userAddress, position);
                 sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
                 break;
             case R.id.img_remove_address:
                 break;
@@ -214,7 +215,7 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
 
     @Override
     public void onEditUserProfile() {
-
+        sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
     @Override

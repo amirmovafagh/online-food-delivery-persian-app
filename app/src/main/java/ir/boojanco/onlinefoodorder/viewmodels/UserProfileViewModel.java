@@ -1,6 +1,8 @@
 package ir.boojanco.onlinefoodorder.viewmodels;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -15,6 +17,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
 import ir.boojanco.onlinefoodorder.data.repositories.UserRepository;
 import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
@@ -55,9 +58,11 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
     public MutableLiveData<String> exactAddress;
     public MutableLiveData<String> addressBottomSheetTitle;
     public MutableLiveData<Boolean> defaultAddress;
+    public MutableLiveData<Boolean> bottomSheetChangeVisibility; //true show addres //false show info
     public MutableLiveData<String> emailLiveData;
     public MutableLiveData<String> lastNameLiveData;
     public MutableLiveData<String> firstNameLiveData;
+    public MutableLiveData<String> birthDateLiveData;
     private double userLatitude;
     private double userLongitude;
     private int addressRecyclerViewPosition;
@@ -92,6 +97,9 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         emailLiveData = new MutableLiveData<>();
         lastNameLiveData = new MutableLiveData<>();
         firstNameLiveData = new MutableLiveData<>();
+        birthDateLiveData = new MutableLiveData<>();
+        bottomSheetChangeVisibility = new MutableLiveData<>();
+        bottomSheetChangeVisibility.setValue(true);//default onView Address
 
     }
 
@@ -369,6 +377,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
 
     public void addMapPositionBtnClick() {
         Toast.makeText(context, "" + state.getValue() + " " + stateId + " " + city.getValue() + " " + cityId, Toast.LENGTH_SHORT).show();
+        bottomSheetChangeVisibility.setValue(true);
         userProfileInterface.showAddressBottomSheet();
     }
 
@@ -406,8 +415,8 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
                     emailLiveData.setValue(profileResponse.getEmail());
                     lastNameLiveData.setValue(profileResponse.getLastName());
                     firstNameLiveData.setValue(profileResponse.getFirstName()+" ");
+                    birthDateLiveData.setValue(profileResponse.getShamsiDate());
                     userProfileInterface.onSuccessGetUserProfileInfo();
-
                 }
             });
         }
@@ -418,7 +427,12 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
     }
 
     public void editUserProfile() {
+        bottomSheetChangeVisibility.setValue(false);
         userProfileInterface.onEditUserProfile();
+    }
+
+    public void birthDatePickerOnClick() {
+
     }
 
     @Override
@@ -437,6 +451,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
     }
 
     public void editUserAddress(UserAddressList userAddress, int position) {
+        bottomSheetChangeVisibility.setValue(true);
         addressRecyclerViewPosition = position;
         addressFunctionFlag = 2; // edit function
         addressBottomSheetTitle.setValue("تغییر آدرس");

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">onlineFoodOrder</string>
+    <string name="app_name">مزه</string>
 
 
     <string name="welcome">خوش آمدید</string>
@@ -21,6 +21,7 @@
     <string name="restaurants">رستوران ها</string>
     <string name="home">خانه</string>
     <string name="search_title">یافتن رستوران…</string>
+    <string name="search">جستوجو</string>
     <string name="drawer">drawer</string>
 
     <string name="tab_berger">برگر</string>
@@ -79,4 +80,8 @@
     <string name="register">عضویت</string>
     <string name="changeUserInfo">ویرایش اطلاعات</string>
     <string name="logout">خروج</string>
+    <string name="yourInfo">اطلاعات شما</string>
+    <string name="lastName">نام خانوادگی</string>
+    <string name="email">ایمیل</string>
+    <string name="birthDate">تاریخ تولد</string>
 </resources>

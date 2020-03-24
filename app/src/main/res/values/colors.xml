@@ -9,7 +9,8 @@
     <color name="colorGold">#ffb601</color>
     <color name="colorLowGold">#fee5a5</color>
 
-
+    <color name="mdtp_accent_color">#639509</color>
+    <color name="mdtp_accent_color_dark">#32660f</color>
 
     <color name="colorEdtTextHalfRounded">#B2FF6659</color>
     <color name="colorBotomNavigationNotSelected">#808080</color>

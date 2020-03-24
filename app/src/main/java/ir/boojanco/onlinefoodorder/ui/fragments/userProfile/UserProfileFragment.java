@@ -21,6 +21,7 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,8 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.snackbar.Snackbar;
+import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog;
+import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 
 import java.util.List;
 
@@ -40,20 +43,21 @@ import ir.boojanco.onlinefoodorder.databinding.UserProfileFragmentBinding;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllCitiesList;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList;
 import ir.boojanco.onlinefoodorder.models.user.UserAddressList;
-import ir.boojanco.onlinefoodorder.ui.activities.cart.AddressAdapter;
-import ir.boojanco.onlinefoodorder.ui.activities.cart.CartActivity;
 import ir.boojanco.onlinefoodorder.ui.activities.cart.CityAdapter;
 import ir.boojanco.onlinefoodorder.ui.activities.cart.CustomStateCityDialog;
 import ir.boojanco.onlinefoodorder.ui.activities.cart.StateAdapter;
 import ir.boojanco.onlinefoodorder.ui.fragments.MapDialogProfileFragment;
+import ir.boojanco.onlinefoodorder.util.persianDate.PersianDate;
+import ir.boojanco.onlinefoodorder.util.persianDate.PersianDateFormat;
 import ir.boojanco.onlinefoodorder.viewmodels.UserProfileViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.UserProfileViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.AddressRecyclerViewInterface;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.StateCityDialogInterface;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.UserProfileInterface;
 
-public class UserProfileFragment extends Fragment implements AddressRecyclerViewInterface, UserProfileInterface, StateCityDialogInterface {
 
+public class UserProfileFragment extends Fragment implements AddressRecyclerViewInterface, UserProfileInterface, StateCityDialogInterface, DatePickerDialog.OnDateSetListener {
+private String TAG = UserProfileFragment.class.getSimpleName();
     private UserProfileFragmentBinding binding;
     private UserProfileViewModel viewModel;
     @Inject
@@ -73,8 +77,10 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
     private AddressProfileAdapter addressAdapter;
     private NestedScrollView bottom_sheet;
     private BottomSheetBehavior sheetBehavior;
-
+    private PersianCalendar persianCalendar;
     private LiveData<PagedList<UserAddressList>> userAddressPaged;
+    private PersianDateFormat pdformater;
+    private PersianDate pdate;
 
     public static UserProfileFragment newInstance() {
         return new UserProfileFragment();
@@ -97,9 +103,9 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
         addressAdapter = new AddressProfileAdapter(this, application);
         recyclerViewUserAddress.setAdapter(addressAdapter);
 
+
         bottom_sheet = binding.bottomSheet;
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
-
         //go to order fragment
         NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
         binding.frameLayoutOrders.setOnClickListener(v -> navController.navigate(R.id.action_userProfileFragment_to_ordersFragment));
@@ -109,6 +115,7 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
         viewModel.getUserProfileInfo(sharedPreferences.getUserAuthTokenKey());
         return binding.getRoot();
     }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -170,6 +177,23 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
         //mapFragment.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Material_Light_Panel);
 
         mapFragment.show(fragmentTransaction, "mapDialogUserProfile");
+    }
+
+    @Override
+    public void showDatePickerDialog(long birthDateTimeMill) {
+
+        pdformater = new PersianDateFormat("Y/m/d");
+        pdate = new PersianDate();
+
+        persianCalendar = new PersianCalendar(birthDateTimeMill);
+        DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
+                this,
+                persianCalendar.getPersianYear(),
+                persianCalendar.getPersianMonth(),
+                persianCalendar.getPersianDay()
+        );
+
+        datePickerDialog.show(getActivity().getFragmentManager(), "Datepickerdialog");
     }
 
     @Override
@@ -236,5 +260,17 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
     public void onCityItemClick(AllCitiesList city) {
         viewModel.setCityId(city.getId());
         viewModel.city.setValue(city.getName());
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog datePickerDialog, int yaer , int month, int day) {
+
+        pdate.setShYear(yaer);
+        pdate.setShMonth(month+1);
+        pdate.setShDay(day);
+        viewModel.setBirthDateTimeMill(pdate.getTime());
+        pdate= new PersianDate(pdate.getTime());
+        viewModel.birthDateLiveData.setValue(""+pdformater.format(pdate));
+        Log.i(TAG,""+pdformater.format(pdate));
     }
 }

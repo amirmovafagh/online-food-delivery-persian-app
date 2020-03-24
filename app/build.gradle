@@ -37,9 +37,9 @@ def lifecycle_version = "2.2.0"
 def retrofit_version = "2.5.0"
 def nav_version = "2.2.1"
 def dagger_version = "2.23.2"
-def fragment_version = "1.2.2"
+def fragment_version = "1.2.3"
 def lottieVersion = "3.3.1"
-def room_version = "2.2.4"
+def room_version = "2.2.5"
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -103,7 +103,7 @@ dependencies {
 
     //custom RatingBar
     implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
-
-    
+    //Persian Date Picker
+    implementation 'com.mohamadamin:persianmaterialdatetimepicker:1.2.1'
 
 }

@@ -63,6 +63,8 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
     public MutableLiveData<String> lastNameLiveData;
     public MutableLiveData<String> firstNameLiveData;
     public MutableLiveData<String> birthDateLiveData;
+
+    public long birthDateTimeMill;
     private double userLatitude;
     private double userLongitude;
     private int addressRecyclerViewPosition;
@@ -81,6 +83,10 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
 
     public void setStateId(long stateId) {
         this.stateId = stateId;
+    }
+
+    public void setBirthDateTimeMill(long birthDateTimeMill) {
+        this.birthDateTimeMill = birthDateTimeMill;
     }
 
     public UserProfileViewModel(Context context, RestaurantRepository restaurantRepository, UserRepository userRepository) {
@@ -115,11 +121,12 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
 
     }
 
-    public void acceptAddNewUserAddressOrEditAddressOnClick(){
-        if (addressFunctionFlag == 1){//add new address
-            if(userLatitude ==0 || userLongitude==0){
+    public void acceptAddNewUserAddressOrEditAddressOnClick() {
+        if (addressFunctionFlag == 1) {//add new address
+            if (userLatitude == 0 || userLongitude == 0) {
                 userProfileInterface.onFailure("لطفا موقعیت دقیق خودرا در نقشه مشخص کنید");
-            return;}
+                return;
+            }
 
             AddUserAddressResponse address = new AddUserAddressResponse(cityId, defaultAddress.getValue(), exactAddress.getValue(), userLatitude, userLongitude, region.getValue(), "WORK");
             Observable<Response<Void>> observable = userRepository.addUserAddressResponseObservable(userAuthToken, address);
@@ -158,9 +165,9 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
                 });
             }
 
-        }else if (addressFunctionFlag == 2){
-            EditUserAddressResponse editedAddress = new EditUserAddressResponse(exactAddress.getValue(),"WORK",cityId, defaultAddress.getValue(),  userLatitude, userLongitude, region.getValue());
-            Observable<Response<Void>> observable = userRepository.getEditUserAddressResponseObservable(userAuthToken,addressId, editedAddress);
+        } else if (addressFunctionFlag == 2) {
+            EditUserAddressResponse editedAddress = new EditUserAddressResponse(exactAddress.getValue(), "WORK", cityId, defaultAddress.getValue(), userLatitude, userLongitude, region.getValue());
+            Observable<Response<Void>> observable = userRepository.getEditUserAddressResponseObservable(userAuthToken, addressId, editedAddress);
             if (observable != null) {
                 observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Response<Void>>() {
                     @Override
@@ -196,7 +203,8 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
             }
         }
     }
-    public void addAddressOnClick(){
+
+    public void addAddressOnClick() {
         addressFunctionFlag = 1; // add function
         addressBottomSheetTitle.setValue("افزودن آدرس");
 
@@ -412,9 +420,10 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
 
                 @Override
                 public void onNext(UserProfileResponse profileResponse) {
+                    birthDateTimeMill = profileResponse.getBirthDate();
                     emailLiveData.setValue(profileResponse.getEmail());
                     lastNameLiveData.setValue(profileResponse.getLastName());
-                    firstNameLiveData.setValue(profileResponse.getFirstName()+" ");
+                    firstNameLiveData.setValue(profileResponse.getFirstName() + " ");
                     birthDateLiveData.setValue(profileResponse.getShamsiDate());
                     userProfileInterface.onSuccessGetUserProfileInfo();
                 }
@@ -422,7 +431,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         }
     }
 
-    public void logoutUser(){
+    public void logoutUser() {
         userProfileInterface.onLogoutUser();
     }
 
@@ -432,7 +441,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
     }
 
     public void birthDatePickerOnClick() {
-
+        userProfileInterface.showDatePickerDialog(birthDateTimeMill);
     }
 
     @Override

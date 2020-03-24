@@ -10,6 +10,7 @@ public interface UserProfileInterface {
     void updateAddressRecyclerView(int position);
     void showAddressBottomSheet();
     void showMapDialogFragment();
+    void showDatePickerDialog(long birthDateTimeMill);
     void showStateCityCustomDialog();
     void onSuccessGetUserProfileInfo();
     void onSuccessGetStates(List<AllStatesList> statesLists);

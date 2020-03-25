@@ -1,6 +1,7 @@
 package ir.boojanco.onlinefoodorder.ui.fragments.home;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.SnapHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.smarteist.autoimageslider.SliderView;
 
@@ -44,6 +46,7 @@ public class HomeFragment extends Fragment {
     private ArrayList<FoodTypeFilterItem> foodTypeFilterItems;
     private FoodTypeSearchFilterAdapter adapter;
     private RecyclerView recyclerViewFoodTypeSearchFilter;
+    private SearchView searchView;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -73,6 +76,8 @@ public class HomeFragment extends Fragment {
         recyclerViewFoodTypeSearchFilter.setAdapter(adapter);
         recyclerViewFoodTypeSearchFilter.setItemViewCacheSize(20);
 
+        searchView = binding.search;
+        searchView.setOnClickListener(v -> searchView.onActionViewExpanded());
         return binding.getRoot();
     }
 

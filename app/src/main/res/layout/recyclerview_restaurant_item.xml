@@ -8,7 +8,7 @@
 
         <variable
             name="restaurant"
-            type="ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantList" />
+            type="ir.boojanco.onlinefoodorder.models.restaurant.RestaurantList" />
     </data>
 
     <androidx.cardview.widget.CardView

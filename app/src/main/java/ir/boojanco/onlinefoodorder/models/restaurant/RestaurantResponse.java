@@ -6,13 +6,13 @@ import java.util.List;
 
 
 
-public class LastRestaurantResponse {
+public class RestaurantResponse {
     @SerializedName("hits")
-    private List<LastRestaurantList> restaurantsList= null;
+    private List<RestaurantList> restaurantsList= null;
     @SerializedName("total")
     private int total;
 
-    public List<LastRestaurantList> getRestaurantsList() {
+    public List<RestaurantList> getRestaurantsList() {
         return restaurantsList;
     }
 

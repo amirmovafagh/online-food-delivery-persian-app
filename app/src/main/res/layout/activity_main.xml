@@ -27,7 +27,7 @@
                 android:layout_height="match_parent"
                 app:defaultNavHost="true"
                 app:layout_constraintBottom_toBottomOf="@id/cordinate_app_bar"
-                app:navGraph="@navigation/bottom_app_bar" />
+                app:navGraph="@navigation/nav_graph" />
 
             <com.google.android.material.bottomappbar.BottomAppBar
                 android:id="@+id/bottom_app_bar"

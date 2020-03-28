@@ -339,8 +339,6 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
                 public void onNext(GetAllStatesResponse getAllStatesResponse) {
                     statesLists = getAllStatesResponse.getAllStatesLists();
                     userProfileInterface.onSuccessGetStates(getAllStatesResponse.getAllStatesLists());
-
-
                 }
             });
         }

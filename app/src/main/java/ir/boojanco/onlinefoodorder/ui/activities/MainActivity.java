@@ -6,12 +6,16 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.Menu;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -32,6 +36,10 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -141,7 +149,7 @@ public class MainActivity extends AppCompatActivity  {
                                 //Toast.makeText(this, ""+location.getLatitude()+"  "+location.getLongitude(), Toast.LENGTH_SHORT).show();
                                 sharedPreferences.setLatitude(location.getLatitude());
                                 sharedPreferences.setLongitud(location.getLongitude());
-
+                                //getCityName(location);
                             }
                         }
                 );
@@ -153,6 +161,23 @@ public class MainActivity extends AppCompatActivity  {
             requestPermissions();
 
         }
+    }
+
+    private void getCityName(Location location) {
+        Geocoder geocoder = new Geocoder(this, new Locale("fa"));
+        List<Address> addresses = null;
+        try {
+
+            addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            String cityName = addresses.get(0).getAddressLine(0);
+            String stateName = addresses.get(0).getAddressLine(1);
+            Toast.makeText(this, "city: "+cityName+" state: "+stateName, Toast.LENGTH_SHORT).show();
+            Log.i(TAG,"city: "+cityName+" state: "+stateName);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e(TAG,""+e.getMessage());
+        }
+
     }
 
     @SuppressLint("MissingPermission")

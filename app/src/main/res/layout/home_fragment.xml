@@ -111,6 +111,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="?android:attr/selectableItemBackground"
+                        android:onClick="@{()-> homeViewModel.selectCityOnClick()}"
                         android:clickable="true"
                         android:focusable="true">
 
@@ -145,7 +146,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
-                                android:text="مجدالعلما"
+                                android:text="@{homeViewModel.stateLiveData}"
                                 android:textColor="@android:color/white"
                                 android:textSize="@dimen/body4_paragraph_font_size" />
 
@@ -155,7 +156,7 @@
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
                                 android:maxLines="1"
-                                android:text="یزد"
+                                android:text="@{homeViewModel.cityLiveData}"
                                 android:textColor="@android:color/white"
                                 android:textSize="@dimen/body3_paragraph_font_size" />
                         </LinearLayout>

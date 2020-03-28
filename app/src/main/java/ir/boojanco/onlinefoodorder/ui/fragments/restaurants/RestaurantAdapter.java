@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.databinding.RecyclerviewRestaurantItemBinding;
-import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantList;
+import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantList;
 
-public class RestaurantAdapter extends PagedListAdapter<LastRestaurantList, RestaurantAdapter.RestaurantViewHolder> {
+public class RestaurantAdapter extends PagedListAdapter<RestaurantList, RestaurantAdapter.RestaurantViewHolder> {
     //private List<LastRestaurantList> restaurants;
     public RecyclerViewRestaurantClickListener clickListener;
 
@@ -33,7 +33,7 @@ public class RestaurantAdapter extends PagedListAdapter<LastRestaurantList, Rest
 
     @Override
     public void onBindViewHolder(@NonNull RestaurantViewHolder holder, int position) {
-        LastRestaurantList currentRestaurant = getItem(position);
+        RestaurantList currentRestaurant = getItem(position);
         if (currentRestaurant != null) {
             holder.binding.setRestaurant(currentRestaurant);
             /*holder.binding.toggleBookmark.setOnClickListener(v -> {
@@ -47,16 +47,16 @@ public class RestaurantAdapter extends PagedListAdapter<LastRestaurantList, Rest
 
     }
 
-    private static DiffUtil.ItemCallback<LastRestaurantList> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<LastRestaurantList>() {
+    private static DiffUtil.ItemCallback<RestaurantList> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<RestaurantList>() {
                 @Override
-                public boolean areItemsTheSame(@NonNull LastRestaurantList oldItem, @NonNull LastRestaurantList newItem) {
+                public boolean areItemsTheSame(@NonNull RestaurantList oldItem, @NonNull RestaurantList newItem) {
                     return oldItem.getId() == newItem.getId();
                 }
 
                 @SuppressLint("DiffUtilEquals")
                 @Override
-                public boolean areContentsTheSame(@NonNull LastRestaurantList oldItem, @NonNull LastRestaurantList newItem) {
+                public boolean areContentsTheSame(@NonNull RestaurantList oldItem, @NonNull RestaurantList newItem) {
                     return oldItem.equals(newItem);
                 }
             };

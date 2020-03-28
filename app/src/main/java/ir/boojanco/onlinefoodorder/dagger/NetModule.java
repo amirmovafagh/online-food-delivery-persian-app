@@ -124,9 +124,9 @@ public class NetModule {
 
     @Provides
     @Singleton
-    HomeViewModelFactory provideHomeViewModelFactory(Application application) {
+    HomeViewModelFactory provideHomeViewModelFactory(Application application, RestaurantRepository restaurantRepository) {
         HomeViewModelFactory factory =
-                new HomeViewModelFactory(application);
+                new HomeViewModelFactory(application, restaurantRepository);
         return factory;
     }
 

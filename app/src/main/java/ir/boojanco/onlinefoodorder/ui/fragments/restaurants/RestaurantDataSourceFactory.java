@@ -5,10 +5,10 @@ import androidx.paging.DataSource;
 import androidx.paging.PageKeyedDataSource;
 
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
-import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantList;
+import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantList;
 
 public class RestaurantDataSourceFactory extends DataSource.Factory {
-    private MutableLiveData<PageKeyedDataSource<Integer, LastRestaurantList>> restaurantLiveDataSource = new MutableLiveData<>();
+    private MutableLiveData<PageKeyedDataSource<Integer, RestaurantList>> restaurantLiveDataSource = new MutableLiveData<>();
     private RestaurantRepository restaurantRepository;
     private RestaurantDataSourceInterface dataSourceInterface;
 
@@ -25,7 +25,7 @@ public class RestaurantDataSourceFactory extends DataSource.Factory {
         return restaurantDataSource;
     }
 
-    public MutableLiveData<PageKeyedDataSource<Integer, LastRestaurantList>> getRestaurantLiveDataSource() {
+    public MutableLiveData<PageKeyedDataSource<Integer, RestaurantList>> getRestaurantLiveDataSource() {
         return restaurantLiveDataSource;
     }
 }

@@ -4,9 +4,11 @@ import ir.boojanco.onlinefoodorder.data.networking.ApiInterface;
 import ir.boojanco.onlinefoodorder.models.food.GetAllFoodResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.DiscountCodeResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.GetRestaurantCommentResponse;
-import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantResponse;
+import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.AllPackagesResponse;
+import ir.boojanco.onlinefoodorder.models.stateCity.GetAllCitiesResponse;
+import ir.boojanco.onlinefoodorder.models.stateCity.GetAllStatesResponse;
 import ir.boojanco.onlinefoodorder.models.user.CartOrderResponse;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -19,8 +21,12 @@ public class RestaurantRepository {
         this.apiInterface = retrofit.create(ApiInterface.class);
     }
 
-    public Observable<LastRestaurantResponse> getLastRestaurant(int page, int size) {
+    public Observable<RestaurantResponse> getLastRestaurant(int page, int size) {
         return apiInterface.getLastRestaurant(page, size);
+    }
+
+    public Observable<RestaurantResponse> searchRestaurantObservable(String query, String city, String region, int page, int size) {
+        return apiInterface.searchRestaurant(query, city, region, page, size);
     }
 
     public Observable<RestaurantInfoResponse> getRestaurantInfo(String authToken, long restaurantId) {
@@ -63,5 +69,12 @@ public class RestaurantRepository {
         return apiInterface.removeFoodFromFavoriteList(authToken, foodId);
     }
 
+    public Observable<GetAllStatesResponse> getAllStatesResponseObservable(String authToken) {
+        return apiInterface.getAllStatesResponseObservable(authToken);
+    }
+
+    public Observable<GetAllCitiesResponse> getAllCitiesResponseObservable(String authToken, long stateId) {
+        return apiInterface.getAllCitiesResponseObservable(authToken, stateId);
+    }
 
 }

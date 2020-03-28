@@ -8,6 +8,8 @@ public class MySharedPreferences {
     private SharedPreferences.Editor editor;
 
     private String userAuthTokenKey = "userAuthTokenKey";
+    private String cityKey = "cityKey";
+    private String stateKey = "stateKey";
     private String latitudeKey = "locationLatitude";
     private String longitudKey = "locationLongitude";
 
@@ -28,6 +30,24 @@ public class MySharedPreferences {
 
     public String getUserAuthTokenKey(){
         return sharedPreferences.getString(userAuthTokenKey,null);
+    }
+
+    public void setCity(String city){
+        editor.putString(cityKey,city);
+        editor.commit();
+    }
+
+    public String getCity(){
+        return sharedPreferences.getString(cityKey,null);
+    }
+
+    public void setState(String state) {
+        editor.putString(stateKey, state);
+        editor.commit();
+    }
+
+    public String getState() {
+        return sharedPreferences.getString(stateKey, null);
     }
 
     public void setLatitude(double latitude){

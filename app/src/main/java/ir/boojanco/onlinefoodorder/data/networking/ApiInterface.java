@@ -6,7 +6,7 @@ import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.DiscountCodeResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.FavoriteRestaurantsResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.GetRestaurantCommentResponse;
-import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantResponse;
+import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.AllPackagesResponse;
 import ir.boojanco.onlinefoodorder.models.stateCity.GetAllCitiesResponse;
@@ -57,7 +57,10 @@ public interface ApiInterface {
 
     /*@Headers("Authorization: 9900a9720d31dfd5fdb4352700c...")*/
     @GET("/api/v1/restaurant/last")
-    Observable<LastRestaurantResponse> getLastRestaurant(/*@Header("Authorization") String authToken,*/ @Query("page") int page, @Query("size") int size);
+    Observable<RestaurantResponse> getLastRestaurant(/*@Header("Authorization") String authToken,*/ @Query("page") int page, @Query("size") int size);
+
+    @GET("/api/v1/restaurant/search")
+    Observable<RestaurantResponse> searchRestaurant(/*@Header("Authorization") String authToken,*/ @Query("query") String query, @Query("city") String city, @Query("region") String region, @Query("page") int page, @Query("size") int size);
 
     @GET("/api/v1/food/restaurant/{restaurantId}")
     Observable<GetAllFoodResponse> getAllFood(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
@@ -105,7 +108,7 @@ public interface ApiInterface {
     Observable<ReverseFindAddressResponse> getReverseAddresse(@Path("latitude") Double latitude, @Path("longitude") Double longitude);
 
     @GET("/api/v1/comment/restaurant/{restaurantId}/all")
-    Observable<GetRestaurantCommentResponse> getRestaurantCommentsResponseObservable(@Header("Authorization") String authToken,@Path("restaurantId")long restaurantId, @Query("page") int page, @Query("size") int size);
+    Observable<GetRestaurantCommentResponse> getRestaurantCommentsResponseObservable(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId, @Query("page") int page, @Query("size") int size);
 
     @GET("/api/v1/order/user/getAll/")
     Observable<GetUserOrdersResponse> getUserOrdersResponseObservable(@Header("Authorization") String authToken, @Query("page") int page, @Query("size") int size);

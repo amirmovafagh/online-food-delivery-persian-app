@@ -2,8 +2,8 @@ package ir.boojanco.onlinefoodorder.ui.fragments.restaurants;
 
 import android.view.View;
 
-import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantList;
+import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantList;
 
 public interface RecyclerViewRestaurantClickListener {
-    void onRecyclerViewItemClick(View v, LastRestaurantList restaurantList);
+    void onRecyclerViewItemClick(View v, RestaurantList restaurantList);
 }

@@ -4,10 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,11 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import javax.inject.Inject;
@@ -35,8 +30,7 @@ import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.RestaurantFragmentBinding;
-import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantList;
-import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantResponse;
+import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantList;
 import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.RestaurantDetailsActivity;
 import ir.boojanco.onlinefoodorder.viewmodels.RestaurantViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantViewModelFactory;
@@ -55,14 +49,12 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
     private RecyclerView recyclerView;
     private Toolbar toolbar;
     private SearchView searchView;
-    private EditText searchEditText;
 
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         ((App) getActivity().getApplication()).getComponent().inject(this);
-
         binding = DataBindingUtil.inflate(inflater, R.layout.restaurant_fragment, container, false);
         restaurantViewModel = new ViewModelProvider(this, factory).get(RestaurantViewModel.class);
         restaurantViewModel.restaurantInterface = this;
@@ -101,12 +93,8 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        restaurantViewModel.restaurantPagedListLiveData.observe(getViewLifecycleOwner(), new Observer<PagedList<LastRestaurantList>>() {
-            @Override
-            public void onChanged(PagedList<LastRestaurantList> lastRestaurantLists) {
-                restaurantAdapter.submitList(lastRestaurantLists);
-            }
-        });
+        Toast.makeText(getContext(), ""+getArguments().getString("restaurantName")+getArguments().getString("cityName"), Toast.LENGTH_SHORT).show();
+        restaurantViewModel.restaurantPagedListLiveData.observe(getViewLifecycleOwner(), restaurantLists -> restaurantAdapter.submitList(restaurantLists));
     }
 
     @Override
@@ -128,7 +116,7 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
     }
 
     @Override
-    public void onRecyclerViewItemClick(View v, LastRestaurantList restaurantList) {
+    public void onRecyclerViewItemClick(View v, RestaurantList restaurantList) {
         switch (v.getId()) {
             case R.id.toggle_bookmark:
                 Toast.makeText(getActivity(), "bookmark: " + restaurantList.getName(), Toast.LENGTH_SHORT).show();

@@ -1,7 +1,6 @@
 package ir.boojanco.onlinefoodorder.viewmodels;
 
 import android.content.Context;
-import android.util.Log;
 
 
 import androidx.lifecycle.LiveData;
@@ -11,22 +10,15 @@ import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PageKeyedDataSource;
 import androidx.paging.PagedList;
 
-import org.json.JSONObject;
-
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
-import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantList;
-import ir.boojanco.onlinefoodorder.models.restaurant.LastRestaurantResponse;
+import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantList;
+import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantResponse;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurants.RestaurantDataSource;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurants.RestaurantDataSourceFactory;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurants.RestaurantDataSourceInterface;
-import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
+import ir.boojanco.onlinefoodorder.ui.fragments.restaurants.SearchRestaurantDataSource;
+import ir.boojanco.onlinefoodorder.ui.fragments.restaurants.SearchRestaurantDataSourceFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantFragmentInterface;
-import retrofit2.HttpException;
-import retrofit2.Response;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class RestaurantViewModel extends ViewModel implements RestaurantDataSourceInterface {
     private static final String TAG = RestaurantViewModel.class.getSimpleName();
@@ -34,10 +26,10 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
     public RestaurantFragmentInterface restaurantInterface;
     private RestaurantRepository restaurantRepository;
     private Context context;
-    public MutableLiveData<LastRestaurantResponse> responseMutableLiveData;
+    public MutableLiveData<RestaurantResponse> responseMutableLiveData;
 
-    public LiveData<PagedList<LastRestaurantList>> restaurantPagedListLiveData;
-    public LiveData<PageKeyedDataSource<Integer, LastRestaurantList>> liveDataSource;
+    public LiveData<PagedList<RestaurantList>> restaurantPagedListLiveData;
+    public LiveData<PageKeyedDataSource<Integer, RestaurantList>> liveDataSource;
 
     public RestaurantViewModel(Context context, RestaurantRepository restaurantRepository) {
         responseMutableLiveData = new MutableLiveData<>();
@@ -55,6 +47,16 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
                         .setEnablePlaceholders(false)).setPageSize(RestaurantDataSource.PAGE_SIZE)
                         .build();
         restaurantPagedListLiveData = (new LivePagedListBuilder(restaurantDataSourceFactory, config)).build();
+    }
+
+    public void getAllSearchedRestaurant(String query, String city, String region) {
+        SearchRestaurantDataSourceFactory searchRestaurantDataSourceFactory = new SearchRestaurantDataSourceFactory(restaurantRepository, this, query, city, region);
+        liveDataSource = searchRestaurantDataSourceFactory.getSearchRestaurantLiveDataSource();
+        PagedList.Config config =
+                (new PagedList.Config.Builder()
+                        .setEnablePlaceholders(false)).setPageSize(SearchRestaurantDataSource.PAGE_SIZE)
+                        .build();
+        restaurantPagedListLiveData = (new LivePagedListBuilder(searchRestaurantDataSourceFactory, config)).build();
     }
 
     @Override

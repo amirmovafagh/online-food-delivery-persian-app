@@ -14,14 +14,18 @@ import java.util.List;
 
 import static ir.boojanco.onlinefoodorder.dagger.App.webServerMediaRoute;
 
-public class LastRestaurantList {
+public class RestaurantList {
 
     @SerializedName("id")
     private long id;
+    @SerializedName("commentCount")
+    private int commentCount;
     @SerializedName("name")
     private String name;
     @SerializedName("address")
     private String address;
+    @SerializedName("branch")
+    private String branch;
     @SerializedName("logo")
     private String logo;
     @SerializedName("cover")
@@ -32,6 +36,14 @@ public class LastRestaurantList {
     private float averageScore;
     @SerializedName("tagList")
     private List<String> tagList;
+
+    public int getCommentCount() {
+        return commentCount;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
 
     public long getId() {
         return id;

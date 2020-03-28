@@ -9,7 +9,11 @@
         android:id="@+id/homeFragment"
         android:name="ir.boojanco.onlinefoodorder.ui.fragments.home.HomeFragment"
         android:label="خانه"
-        tools:layout="@layout/home_fragment" />
+        tools:layout="@layout/home_fragment">
+        <action
+            android:id="@+id/action_homeFragment_to_restaurantFragment"
+            app:destination="@id/restaurantFragment" />
+    </fragment>
     <fragment
         android:id="@+id/cartFragment"
         android:name="ir.boojanco.onlinefoodorder.ui.fragments.CartFragment"
@@ -34,7 +38,14 @@
         android:id="@+id/restaurantFragment"
         android:name="ir.boojanco.onlinefoodorder.ui.fragments.restaurants.RestaurantFragment"
         android:label="restaurant_fragment"
-        tools:layout="@layout/restaurant_fragment" />
+        tools:layout="@layout/restaurant_fragment">
+        <argument
+            android:name="restaurantName"
+            app:argType="string" />
+        <argument
+            android:name="cityName"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/ordersFragment"
         android:name="ir.boojanco.onlinefoodorder.ui.fragments.userorders.OrdersFragment"

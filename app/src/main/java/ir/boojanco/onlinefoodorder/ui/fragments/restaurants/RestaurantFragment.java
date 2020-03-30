@@ -83,7 +83,6 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         recyclerView.setItemViewCacheSize(20);
         restaurantAdapter = new RestaurantAdapter(this);
         recyclerView.setAdapter(restaurantAdapter);
-        restaurantViewModel.getAllRestaurant(sharedPreferences.getUserAuthTokenKey());
 
 
         return binding.getRoot();
@@ -93,7 +92,11 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Toast.makeText(getContext(), ""+getArguments().getString("restaurantName")+getArguments().getString("cityName"), Toast.LENGTH_SHORT).show();
+        assert getArguments() != null;
+        if (getArguments().getString("cityName") == null) {
+            restaurantViewModel.getAllRestaurant(sharedPreferences.getUserAuthTokenKey());
+        } else
+            restaurantViewModel.getAllSearchedRestaurant(getArguments().getString("restaurantName"), getArguments().getString("cityName"), "");
         restaurantViewModel.restaurantPagedListLiveData.observe(getViewLifecycleOwner(), restaurantLists -> restaurantAdapter.submitList(restaurantLists));
     }
 

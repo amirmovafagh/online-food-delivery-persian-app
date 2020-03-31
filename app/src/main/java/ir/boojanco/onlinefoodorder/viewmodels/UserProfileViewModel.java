@@ -32,6 +32,7 @@ import ir.boojanco.onlinefoodorder.models.user.UserProfileResponse;
 import ir.boojanco.onlinefoodorder.ui.activities.cart.AddressDataSource;
 import ir.boojanco.onlinefoodorder.ui.activities.cart.AddressDataSourceFactory;
 import ir.boojanco.onlinefoodorder.ui.activities.cart.AddressDataSourceInterface;
+import ir.boojanco.onlinefoodorder.util.EmailValidator;
 import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.MapDialogInterface;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.UserProfileInterface;
@@ -45,6 +46,7 @@ import rx.schedulers.Schedulers;
 public class UserProfileViewModel extends ViewModel implements AddressDataSourceInterface {
     private static final String TAG = UserProfileViewModel.class.getSimpleName();
     private Context context;
+    private static EmailValidator emailValidator;
     private String userAuthToken;
     private RestaurantRepository restaurantRepository;
     private UserRepository userRepository;
@@ -60,9 +62,13 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
     public MutableLiveData<Boolean> defaultAddress;
     public MutableLiveData<Boolean> bottomSheetChangeVisibility; //true show addres //false show info
     public MutableLiveData<String> emailLiveData;
+    public MutableLiveData<String> emailErrorLiveData;
     public MutableLiveData<String> lastNameLiveData;
+    public MutableLiveData<String> lastNameErrorLiveData;
     public MutableLiveData<String> firstNameLiveData;
+    public MutableLiveData<String> firstNameErrorLiveData;
     public MutableLiveData<String> birthDateLiveData;
+    public MutableLiveData<String> birthDateErrorLiveData;
 
     public long birthDateTimeMill;
     private double userLatitude;
@@ -73,6 +79,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
     private int addressFunctionFlag;
     private List<AllStatesList> statesLists;
     private List<AllCitiesList> citiesLists;
+    private boolean completeUserProfile = false;
 
     public LiveData<PagedList<UserAddressList>> userAddressPagedListLiveData;
     public LiveData<PageKeyedDataSource<Integer, UserAddressList>> userAddressPageKeyedDataSourceLiveData;
@@ -101,9 +108,13 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         defaultAddress = new MutableLiveData<>();
         defaultAddress.setValue(false);
         emailLiveData = new MutableLiveData<>();
+        emailErrorLiveData = new MutableLiveData<>();
         lastNameLiveData = new MutableLiveData<>();
+        lastNameErrorLiveData = new MutableLiveData<>();
         firstNameLiveData = new MutableLiveData<>();
+        firstNameErrorLiveData = new MutableLiveData<>();
         birthDateLiveData = new MutableLiveData<>();
+        birthDateErrorLiveData = new MutableLiveData<>();
         bottomSheetChangeVisibility = new MutableLiveData<>();
         bottomSheetChangeVisibility.setValue(true);//default onView Address
 
@@ -394,7 +405,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
             observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<UserProfileResponse>() {
                 @Override
                 public void onCompleted() {
-
+                    userProfileInterface.onSuccessGetUserProfileInfo();
                 }
 
                 @Override
@@ -418,11 +429,23 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
 
                 @Override
                 public void onNext(UserProfileResponse profileResponse) {
-                    birthDateTimeMill = profileResponse.getBirthDate();
-                    emailLiveData.setValue(profileResponse.getEmail());
-                    lastNameLiveData.setValue(profileResponse.getLastName());
-                    firstNameLiveData.setValue(profileResponse.getFirstName() + " ");
-                    birthDateLiveData.setValue(profileResponse.getShamsiDate());
+
+                    if (profileResponse.getBirthDate() == 0 && profileResponse.getEmail().equals("") &&
+                            profileResponse.getFirstName().equals("") && profileResponse.getLastName().equals("")) {
+                        completeUserProfile = false;
+                        birthDateTimeMill = profileResponse.getBirthDate();
+                        emailLiveData.setValue(profileResponse.getEmail());
+                        lastNameLiveData.setValue(profileResponse.getLastName());
+                        firstNameLiveData.setValue(profileResponse.getFirstName());
+                        birthDateLiveData.setValue(profileResponse.getShamsiDate());
+                    } else {
+                        completeUserProfile = true;
+                        birthDateTimeMill = profileResponse.getBirthDate();
+                        emailLiveData.setValue(profileResponse.getEmail());
+                        lastNameLiveData.setValue(profileResponse.getLastName());
+                        firstNameLiveData.setValue(profileResponse.getFirstName() + " ");
+                        birthDateLiveData.setValue(profileResponse.getShamsiDate());
+                    }
                     userProfileInterface.onSuccessGetUserProfileInfo();
                 }
             });
@@ -434,9 +457,125 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
     }
 
     public void editUserProfile() {
+        emailValidator = new EmailValidator();
         bottomSheetChangeVisibility.setValue(false);
         userProfileInterface.onEditUserProfile();
     }
+
+    public void acceptEditUserProfileOnClick() {
+        if (!isValidEnteredUserInfo()) {
+            return;
+        }
+        UserProfileResponse userProfileBody;
+        if (completeUserProfile) {
+            userProfileBody = new UserProfileResponse(firstNameLiveData.getValue(), lastNameLiveData.getValue(), emailLiveData.getValue(), birthDateTimeMill);
+            rx.Observable<Response<Void>> observable = userRepository.editUserProfileObservable(userAuthToken, userProfileBody);
+            if (observable != null) {
+                userProfileInterface.onStarted();
+                observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<Response<Void>>() {
+                    @Override
+                    public void onCompleted() {
+                        userProfileInterface.onSuccessGetUserProfileInfo();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (e instanceof NoNetworkConnectionException)
+                            userProfileInterface.onFailure(e.getMessage());
+                        if (e instanceof HttpException) {
+                            Response response = ((HttpException) e).response();
+
+                            try {
+                                JSONObject jsonObject = new JSONObject(response.errorBody().string());
+
+                                userProfileInterface.onFailure(jsonObject.getString("message"));
+
+
+                            } catch (Exception d) {
+                                userProfileInterface.onFailure(d.getMessage());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onNext(Response<Void> voidResponse) {
+                        Log.i(TAG, voidResponse.isSuccessful() + "");
+                        userProfileInterface.hideBottomSheet();
+                    }
+                });
+            }
+        } else {
+            userProfileBody = new UserProfileResponse(firstNameLiveData.getValue(), lastNameLiveData.getValue(), emailLiveData.getValue(), birthDateTimeMill);
+            rx.Observable<Response<Void>> observable = userRepository.completeUserProfileObservable(userAuthToken, userProfileBody);
+            if (observable != null) {
+                userProfileInterface.onStarted();
+                observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<Response<Void>>() {
+                    @Override
+                    public void onCompleted() {
+                        userProfileInterface.onSuccessGetUserProfileInfo();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (e instanceof NoNetworkConnectionException)
+                            userProfileInterface.onFailure(e.getMessage());
+                        if (e instanceof HttpException) {
+                            Response response = ((HttpException) e).response();
+
+                            try {
+                                JSONObject jsonObject = new JSONObject(response.errorBody().string());
+
+                                userProfileInterface.onFailure(jsonObject.getString("message"));
+
+
+                            } catch (Exception d) {
+                                userProfileInterface.onFailure(d.getMessage());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onNext(Response<Void> voidResponse) {
+                        Log.i(TAG, voidResponse.isSuccessful() + "");
+                        userProfileInterface.hideBottomSheet();
+                    }
+                });
+            }
+        }
+
+    }
+
+    private boolean isValidEnteredUserInfo() {
+        if (firstNameLiveData.getValue() == null || firstNameLiveData.getValue().equals("")) {
+            firstNameErrorLiveData.setValue("*");
+            return false;
+        } else {
+            firstNameErrorLiveData.setValue(null);
+        }
+        if (lastNameLiveData.getValue() == null || lastNameLiveData.getValue().equals("")) {
+            lastNameErrorLiveData.setValue("*");
+            return false;
+        } else {
+            lastNameErrorLiveData.setValue(null);
+        }
+        if (emailLiveData.getValue() == null || emailLiveData.getValue().equals("")) {
+            emailErrorLiveData.setValue("*");
+            return false;
+        } else if (emailValidator.validateEmail(emailLiveData.getValue())) {// email is valid
+            emailErrorLiveData.setValue(null);
+        } else {// email is not valid
+            emailErrorLiveData.setValue("فرمت ایمیل وارد شده نادرست می باشد");
+            return false;
+        }
+        if (birthDateLiveData.getValue() == null || birthDateLiveData.getValue().equals("")) {
+            birthDateErrorLiveData.setValue("*");
+            return false;
+        } else {
+            birthDateErrorLiveData.setValue(null);
+        }
+        return true;
+    }
+
 
     public void birthDatePickerOnClick() {
         userProfileInterface.showDatePickerDialog(birthDateTimeMill);

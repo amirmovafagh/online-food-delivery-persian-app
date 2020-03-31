@@ -16,6 +16,13 @@ public class UserProfileResponse {
     @SerializedName("birthDate")
     private long birthDate;
 
+    public UserProfileResponse(String firstName, String lastName, String email, long birthDate) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.birthDate = birthDate;
+    }
+
     PersianDate pdate;
     PersianDateFormat pdformater;
 

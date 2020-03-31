@@ -82,6 +82,14 @@ public class UserRepository {
         return apiInterface.getUserProfileResponseObservable(authToken);
     }
 
+    public Observable<Response<Void>> completeUserProfileObservable(String authToken, UserProfileResponse userProfileBody) {
+        return apiInterface.completeUserProfileObservable(authToken, userProfileBody);
+    }
+
+    public Observable<Response<Void>> editUserProfileObservable(String authToken, UserProfileResponse userProfileBody) {
+        return apiInterface.editUserProfileObservable(authToken, userProfileBody);
+    }
+
     public Observable<Response<Void>> addUserOrderCommentResponseObservable(String authToken, GetUserOrderCommentResponse userOrderCommentBody) {
         return apiInterface.addUserOrderCommentObservable(authToken, userOrderCommentBody);
     }

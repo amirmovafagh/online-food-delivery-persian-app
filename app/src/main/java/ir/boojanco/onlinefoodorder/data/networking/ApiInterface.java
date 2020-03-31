@@ -119,6 +119,12 @@ public interface ApiInterface {
     @GET("/api/v1/user/getProfile")
     Observable<UserProfileResponse> getUserProfileResponseObservable(@Header("Authorization") String authToken);
 
+    @POST("/api/v1/user/completeProfile")
+    Observable<Response<Void>> completeUserProfileObservable(@Header("Authorization") String authToken, @Body UserProfileResponse userProfileBody);
+
+    @PUT("/api/v1/user/editProfile")
+    Observable<Response<Void>> editUserProfileObservable(@Header("Authorization") String authToken, @Body UserProfileResponse userProfileBody);
+
     @POST("/api/v1/comment/add")
     Observable<Response<Void>> addUserOrderCommentObservable(@Header("Authorization") String authToken, @Body GetUserOrderCommentResponse userOrderCommentBody);
 

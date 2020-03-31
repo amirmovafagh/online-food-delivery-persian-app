@@ -249,7 +249,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:hint="@string/name"
-                app:boxBackgroundColor="@color/transparent">
+                app:boxBackgroundColor="@color/transparent"
+                app:error="@{viewModel.firstNameErrorLiveData}">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_text_first_name"
@@ -258,8 +259,6 @@
                     android:layout_gravity="center"
                     android:layout_marginEnd="2dp"
                     android:ellipsize="end"
-                    android:focusable="false"
-                    android:inputType="none"
                     android:maxLines="1"
                     android:text="@={viewModel.firstNameLiveData}"
                     android:textDirection="rtl"
@@ -274,7 +273,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:hint="@string/lastName"
-                app:boxBackgroundColor="@color/transparent">
+                app:boxBackgroundColor="@color/transparent"
+                app:error="@{viewModel.lastNameErrorLiveData}">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -282,8 +282,6 @@
                     android:layout_gravity="center"
                     android:layout_marginEnd="2dp"
                     android:ellipsize="end"
-                    android:focusable="false"
-                    android:inputType="none"
                     android:maxLines="1"
                     android:text="@={viewModel.lastNameLiveData}"
                     android:textDirection="rtl"
@@ -301,16 +299,16 @@
             android:layout_marginRight="16dp"
             android:hint="@string/email"
             android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.GONE : View.VISIBLE}"
-            app:boxBackgroundColor="@color/transparent">
+            app:boxBackgroundColor="@color/transparent"
+            app:error="@{viewModel.emailErrorLiveData}">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:ellipsize="end"
-                android:focusable="false"
                 android:inputType="textEmailAddress"
-                android:maxLines="1"
+                android:maxLines="2"
                 android:text="@={viewModel.emailLiveData}"
                 android:textDirection="rtl"
                 android:textSize="@dimen/edit_text_font_size" />
@@ -326,7 +324,8 @@
             android:layout_marginRight="16dp"
             android:hint="@string/birthDate"
             android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.GONE : View.VISIBLE}"
-            app:boxBackgroundColor="@color/transparent">
+            app:boxBackgroundColor="@color/transparent"
+            app:error="@{viewModel.birthDateErrorLiveData}">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -348,6 +347,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:onClick="@{()-> viewModel.acceptEditUserProfileOnClick()}"
             android:text="ثبت"
             android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.GONE : View.VISIBLE}"
             app:cornerRadius="16dp" />

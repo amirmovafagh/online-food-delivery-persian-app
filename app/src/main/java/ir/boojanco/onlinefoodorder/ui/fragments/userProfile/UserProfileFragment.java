@@ -249,6 +249,11 @@ private String TAG = UserProfileFragment.class.getSimpleName();
     }
 
     @Override
+    public void hideBottomSheet() {
+        sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+    }
+
+    @Override
     public void onStateItemClick(AllStatesList state) {
         viewModel.setStateId(state.getId());
         viewModel.state.setValue(state.getName());

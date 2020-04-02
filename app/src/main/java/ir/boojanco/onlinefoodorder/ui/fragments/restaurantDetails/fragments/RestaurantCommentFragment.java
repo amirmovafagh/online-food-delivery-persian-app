@@ -1,4 +1,4 @@
-package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments;
+package ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
@@ -23,7 +23,7 @@ import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.RestaurantCommentFragmentBinding;
-import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.RestaurantCommentAdapter;
+import ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.RestaurantCommentAdapter;
 import ir.boojanco.onlinefoodorder.viewmodels.RestaurantInfoSharedViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantCommentFragmentViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantCommentFragmentInterface;
@@ -57,11 +57,11 @@ public class RestaurantCommentFragment extends Fragment implements RestaurantCom
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
         viewModel.setFragmentInterface(this);
+        Toast.makeText(application, "b"+getArguments().getLong("restaurantID"), Toast.LENGTH_SHORT).show();
 
-
-        Bundle extras = getActivity().getIntent().getExtras();
-        if(extras != null){
-            long extraRestauranId = extras.getLong("RESTAURANT_ID",0);
+        Bundle extras = getArguments();
+        if (extras != null) {
+            long extraRestauranId = extras.getLong("restaurantID");
 
             viewModel.getRestaurantComments(sharedPreferences.getUserAuthTokenKey(),extraRestauranId);
             commentRecyclerView = binding.recyclerViewRestaurantComment;

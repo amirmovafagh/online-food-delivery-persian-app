@@ -4,7 +4,7 @@
 
         <variable
             name="viewModel"
-            type="ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.RestaurantCommentViewModel" />
+            type="ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments.RestaurantCommentViewModel" />
     </data>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/wallpaper_restaurant_info"
         android:layoutDirection="rtl"
-        tools:context=".ui.activities.restaurantDetails.fragments.RestaurantCommentFragment">
+        tools:context=".ui.fragments.restaurantDetails.fragments.RestaurantCommentFragment">
 
         <FrameLayout
             android:layout_width="match_parent"

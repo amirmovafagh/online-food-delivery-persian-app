@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import ir.boojanco.onlinefoodorder.models.food.GetAllFoodResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.AllPackagesResponse;
-import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.ListItemType;
+import ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.ListItemType;
 
 public interface RestaurantFoodMenuInterface {
     void onStarted();

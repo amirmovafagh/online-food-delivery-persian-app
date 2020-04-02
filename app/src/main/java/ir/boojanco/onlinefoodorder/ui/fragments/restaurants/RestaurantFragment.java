@@ -4,16 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.paging.PagedList;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,7 +29,6 @@ import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.RestaurantFragmentBinding;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantList;
-import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.RestaurantDetailsActivity;
 import ir.boojanco.onlinefoodorder.viewmodels.RestaurantViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantFragmentInterface;
@@ -65,13 +62,13 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(getActivity(), "onQueryTextSubmit: " + query, Toast.LENGTH_SHORT).show();
+
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                Toast.makeText(getActivity(), "onQueryTextChange: " + newText, Toast.LENGTH_SHORT).show();
+
 
                 return false;
             }
@@ -125,10 +122,9 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
                 Toast.makeText(getActivity(), "bookmark: " + restaurantList.getName(), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.cons_layout:
-
-                Intent intent = new Intent(getContext(), RestaurantDetailsActivity.class);
-                intent.putExtra("RESTAURANT_ID", restaurantList.getId());
-                startActivity(intent);
+                Bundle bundle = new Bundle();
+                bundle.putLong("restaurantID", restaurantList.getId());
+                Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.action_restaurantFragment_to_restaurantDetailsFragment, bundle);
                 break;
         }
     }

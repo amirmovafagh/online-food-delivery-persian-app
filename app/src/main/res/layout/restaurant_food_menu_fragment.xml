@@ -7,7 +7,7 @@
 
         <variable
             name="foodMenu"
-            type="ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.RestaurantFoodMenuViewModel" />
+            type="ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments.RestaurantFoodMenuViewModel" />
     </data>
 
     <FrameLayout
@@ -15,19 +15,15 @@
         android:layout_height="match_parent"
         android:background="@drawable/wallpaper_restaurant_info"
         android:layoutDirection="rtl">
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/backgroundGrayLight_lowAlpha"
-            >
             <LinearLayout
                 android:id="@+id/linear_layout_main_food_menu"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:animateLayoutChanges="true"
                 android:layoutDirection="rtl"
+                android:background="@color/backgroundGrayLight_lowAlpha"
                 android:orientation="vertical"
-                tools:context=".ui.activities.restaurantDetails.fragments.RestaurantFoodMenuFragment">
+                tools:context=".ui.fragments.restaurantDetails.fragments.RestaurantFoodMenuFragment">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cv_vip_package"
@@ -163,8 +159,6 @@
 
 
             </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
-
 
     </FrameLayout>
 

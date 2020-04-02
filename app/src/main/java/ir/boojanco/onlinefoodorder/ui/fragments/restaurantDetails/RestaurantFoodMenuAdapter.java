@@ -1,10 +1,9 @@
-package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails;
+package ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails;
 
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,7 +21,7 @@ import ir.boojanco.onlinefoodorder.data.database.CartDataSource;
 import ir.boojanco.onlinefoodorder.data.database.CartItem;
 import ir.boojanco.onlinefoodorder.databinding.RecyclerviewFoodTypeHeaderItemBinding;
 import ir.boojanco.onlinefoodorder.databinding.RecyclerviewRestaurantFoodMenuItemBinding;
-import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.FoodItem;
+import ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments.FoodItem;
 
 public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private String TAG = this.getClass().getSimpleName();

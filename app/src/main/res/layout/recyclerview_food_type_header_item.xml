@@ -7,7 +7,7 @@
     <data>
         <variable
             name="header"
-            type="ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.FoodTypeHeader"/>
+            type="ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.FoodTypeHeader"/>
     </data>
 <LinearLayout
     android:orientation="vertical"

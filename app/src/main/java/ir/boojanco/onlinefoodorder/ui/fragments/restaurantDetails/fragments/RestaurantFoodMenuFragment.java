@@ -1,4 +1,4 @@
-package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments;
+package ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.DataBindingUtil;
@@ -41,16 +41,17 @@ import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.AllPackagesResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.RestaurantPackageItem;
 import ir.boojanco.onlinefoodorder.ui.activities.cart.CartActivity;
-import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.ListItemType;
-import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.RecyclerViewRestaurantFoodMenuClickListener;
-import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.RecyclerViewRestaurantFoodTypeClickListener;
-import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.RestaurantFoodMenuAdapter;
-import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.RestaurantFoodTypeAdapter;
+import ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.ListItemType;
+import ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.RecyclerViewRestaurantFoodMenuClickListener;
+import ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.RecyclerViewRestaurantFoodTypeClickListener;
+import ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.RestaurantFoodMenuAdapter;
+import ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.RestaurantFoodTypeAdapter;
 import ir.boojanco.onlinefoodorder.viewmodels.RestaurantInfoSharedViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantFoodMenuViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantFoodMenuInterface;
 
 public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFoodMenuInterface, RecyclerViewRestaurantFoodMenuClickListener, RecyclerViewRestaurantFoodTypeClickListener, RestaurantPackageInterface {
+    private final static String TAG = RestaurantFoodMenuFragment.class.getSimpleName();
     @Inject
     RestaurantFoodMenuViewModelFactory factory;
     @Inject
@@ -102,10 +103,10 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
         expandableView = binding.expandableView;
         arrowBtn = binding.arrowBtn;
         mainLayout = binding.linearLayoutMainFoodMenu;
-
-        Bundle extras = getActivity().getIntent().getExtras();
+        Toast.makeText(application, "a"+getArguments().getLong("restaurantID"), Toast.LENGTH_SHORT).show();
+        Bundle extras = getArguments();
         if (extras != null) {
-            extraRestauranId = extras.getLong("RESTAURANT_ID", 0);
+            extraRestauranId = extras.getLong("restaurantID");
             restaurantFoodMenuViewModel.extraRestaurantId = extraRestauranId;
             RecyclerView recyclerViewFoodType = binding.recyclerViewFoodType;
             RecyclerView recyclerViewRestaurantPackage = binding.recyclerViewRestaurantPackage;

@@ -6,8 +6,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
-import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.RestaurantCommentViewModel;
-import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.RestaurantInfoViewModel;
+import ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments.RestaurantCommentViewModel;
 
 public class RestaurantCommentFragmentViewModelFactory implements ViewModelProvider.Factory {
     private final Context context;

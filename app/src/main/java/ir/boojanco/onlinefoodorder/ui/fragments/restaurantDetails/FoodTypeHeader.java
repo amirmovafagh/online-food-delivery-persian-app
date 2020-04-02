@@ -1,4 +1,4 @@
-package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails;
+package ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails;
 
 public class FoodTypeHeader implements ListItemType {
     String foodTypeName;

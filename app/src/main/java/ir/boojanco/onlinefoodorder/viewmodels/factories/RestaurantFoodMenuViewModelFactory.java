@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import ir.boojanco.onlinefoodorder.data.database.CartDataSource;
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
-import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.RestaurantFoodMenuViewModel;
+import ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments.RestaurantFoodMenuViewModel;
 
 public class RestaurantFoodMenuViewModelFactory implements ViewModelProvider.Factory {
 

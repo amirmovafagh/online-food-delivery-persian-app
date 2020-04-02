@@ -1,4 +1,4 @@
-package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails;
+package ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;

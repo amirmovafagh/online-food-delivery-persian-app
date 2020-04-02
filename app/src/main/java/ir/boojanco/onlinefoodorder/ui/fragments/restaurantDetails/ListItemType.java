@@ -1,4 +1,4 @@
-package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails;
+package ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails;
 
 public interface ListItemType {
     int TYPE_ITEM = 0;

@@ -5,13 +5,13 @@
     <data>
         <variable
             name="infoViewModel"
-            type="ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.RestaurantInfoViewModel" />
+            type="ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments.RestaurantInfoViewModel" />
     </data>
     <FrameLayout
         android:id="@+id/frame_layout_info_restaurant"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.activities.restaurantDetails.fragments.RestaurantInfoFragment"
+        tools:context=".ui.fragments.restaurantDetails.fragments.RestaurantInfoFragment"
         android:layoutDirection="rtl"
         android:background="@drawable/wallpaper_restaurant_info">
 

@@ -1,4 +1,4 @@
-package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments;
+package ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -1,7 +1,6 @@
-package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments;
+package ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
@@ -21,8 +20,8 @@ import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
 import ir.boojanco.onlinefoodorder.models.food.AllFoodList;
 import ir.boojanco.onlinefoodorder.models.food.GetAllFoodResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.AllPackagesResponse;
-import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.FoodTypeHeader;
-import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.ListItemType;
+import ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.FoodTypeHeader;
+import ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.ListItemType;
 import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantFoodMenuInterface;
 import retrofit2.HttpException;

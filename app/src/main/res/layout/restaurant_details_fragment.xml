@@ -4,13 +4,13 @@
     xmlns:bind="http://schemas.android.com/tools">
     <data>
         <variable
-            name="detailsViewModel"
+            name="viewModel"
             type="ir.boojanco.onlinefoodorder.viewmodels.RestaurantDetailsViewModel" />
         <import type="android.view.View" />
 
         <variable
             name="handler"
-            type="ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.RestaurantDetailsActivity" />
+            type="ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.RestaurantDetailsFragment" />
 
         <variable
             name="manager"
@@ -24,7 +24,7 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         android:layoutDirection="rtl">
-        
+
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
@@ -58,7 +58,7 @@
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        bind:image="@{detailsViewModel.restaurantCover}" />
+                        bind:image="@{viewModel.restaurantCover}" />
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -95,7 +95,7 @@
                                 android:textSize="@dimen/body1_paragraph_font_size"
                                 android:textColor="@android:color/black"
                                 android:textStyle="bold"
-                                android:text="@{detailsViewModel.restaurantName}"
+                                android:text="@{viewModel.restaurantName}"
                                 android:layout_marginTop="8dp"
                                 android:paddingEnd="8dp"
                                 android:paddingStart="115dp"
@@ -110,7 +110,7 @@
                                 android:layout_height="24dp"
                                 android:background="@drawable/fav_toggle_selector"
                                 android:layout_marginLeft="8dp"
-                                android:onCheckedChanged="@{(ToggleBottun, checked) -> detailsViewModel.onRestaurantFavoriteCheckedChanged(checked)}"
+                                android:onCheckedChanged="@{(ToggleBottun, checked) -> viewModel.onRestaurantFavoriteCheckedChanged(checked)}"
                                 android:textOff=""
                                 android:textOn=""
                                 app:layout_constraintLeft_toLeftOf="parent"
@@ -121,7 +121,7 @@
                                 android:id="@+id/text_view_restaurant_tag_list"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@{detailsViewModel.restaurantTagList,default=فستفود}"
+                                android:text="@{viewModel.restaurantTagList,default=فستفود}"
                                 android:textSize="@dimen/body4_paragraph_font_size"
                                 android:ellipsize="end"
                                 android:maxLines="1"
@@ -160,7 +160,7 @@
                                 android:textSize="@dimen/body2_paragraph_font_size"
                                 android:textStyle="bold"
                                 android:textColor="@android:color/black"
-                                android:text="@{detailsViewModel.restaurantDeliveryTime, default=@string/delivery_time}"
+                                android:text="@{viewModel.restaurantDeliveryTime, default=@string/delivery_time}"
                                 app:layout_constraintTop_toTopOf="@id/animation_view_delivery_time"
                                 app:layout_constraintRight_toLeftOf="@id/animation_view_delivery_time"
                                 app:layout_constraintBottom_toBottomOf="@id/animation_view_delivery_time"
@@ -193,7 +193,7 @@
                                         android:layout_height="match_parent"
                                         android:isIndicator="true"
                                         android:numStars="5"
-                                        android:rating="@{detailsViewModel.restaurantAverageScore}"
+                                        android:rating="@{viewModel.restaurantAverageScore}"
                                         android:stepSize="0.1" />
 
                                     <TextView
@@ -204,7 +204,7 @@
                                         android:maxLines="1"
                                         android:paddingStart="4dp"
                                         android:paddingEnd="4dp"
-                                        android:text="@{Float.toString(detailsViewModel.restaurantAverageScore)}"
+                                        android:text="@{Float.toString(viewModel.restaurantAverageScore)}"
                                         app:layout_constraintTop_toBottomOf="@id/animation_view_delivery_time" />
 
                                 </LinearLayout>
@@ -253,7 +253,7 @@
                             android:layout_height="match_parent"
                             android:cropToPadding="true"
                             android:scaleType="centerCrop"
-                            bind:image="@{detailsViewModel.restaurantLogo}"
+                            bind:image="@{viewModel.restaurantLogo}"
                             />
                     </androidx.cardview.widget.CardView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -286,7 +286,7 @@
 
 
 
-        <ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.CustomViewPager
+        <ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.CustomViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

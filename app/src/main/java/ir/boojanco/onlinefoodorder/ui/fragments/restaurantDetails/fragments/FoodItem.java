@@ -1,10 +1,10 @@
-package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments;
+package ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 
-import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.ListItemType;
+import ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.ListItemType;
 
 public class FoodItem implements ListItemType {
     private long id;

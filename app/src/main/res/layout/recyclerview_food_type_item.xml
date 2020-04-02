@@ -10,7 +10,7 @@
             type="String"/>
         <variable
             name="viewModel"
-            type="ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.RestaurantFoodMenuViewModel" />
+            type="ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments.RestaurantFoodMenuViewModel" />
     </data>
 <LinearLayout
     android:orientation="horizontal"

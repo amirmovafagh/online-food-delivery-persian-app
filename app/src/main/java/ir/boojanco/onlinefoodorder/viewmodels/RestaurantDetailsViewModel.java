@@ -24,7 +24,7 @@ import rx.schedulers.Schedulers;
 
 public class RestaurantDetailsViewModel extends ViewModel {
     private static final String TAG = RestaurantDetailsViewModel.class.getSimpleName();
-    public RestaurantDetailsInterface detailsInterface;
+    public RestaurantDetailsInterface fragmentInterface;
 
     public MutableLiveData<String> restaurantCover;
     public MutableLiveData<String> restaurantLogo;
@@ -49,6 +49,10 @@ public class RestaurantDetailsViewModel extends ViewModel {
     private String userAuthToken;
     private RestaurantRepository restaurantRepository;
     private CartDataSource cartDataSource;
+
+    public void setFragmentInterface(RestaurantDetailsInterface fragmentInterface) {
+        this.fragmentInterface = fragmentInterface;
+    }
 
     public RestaurantDetailsViewModel(Context context, RestaurantRepository restaurantRepository, CartDataSource cartDataSource) {
         this.context = context;
@@ -91,25 +95,25 @@ public class RestaurantDetailsViewModel extends ViewModel {
                 public void onError(Throwable e) {
                     Log.e(TAG, "" + e.toString());
                     if (e instanceof NoNetworkConnectionException)
-                        detailsInterface.onFailure(e.getMessage());
+                        fragmentInterface.onFailure(e.getMessage());
                     if (e instanceof HttpException) {
                         Response response = ((HttpException) e).response();
 
                         try {
                             JSONObject jsonObject = new JSONObject(response.errorBody().string());
 
-                            detailsInterface.onFailure(jsonObject.getString("message"));
+                            fragmentInterface.onFailure(jsonObject.getString("message"));
 
 
                         } catch (Exception d) {
-                            detailsInterface.onFailure(d.getMessage());
+                            Log.i(TAG,""+d.getMessage());
                         }
                     }
                 }
 
                 @Override
                 public void onNext(RestaurantInfoResponse restaurantInfo) {
-                    detailsInterface.onStarted();
+                    fragmentInterface.onStarted();
 
 
                     restaurantCover.setValue(restaurantInfo.getCover());
@@ -129,7 +133,7 @@ public class RestaurantDetailsViewModel extends ViewModel {
                     restaurantRegion.setValue(restaurantInfo.getRegion());
                     restaurantTagList.setValue(restaurantInfo.getTagList());
 
-                    detailsInterface.onSuccess(restaurantInfo);
+                    fragmentInterface.onSuccess(restaurantInfo);
                 }
             });
         }
@@ -137,12 +141,12 @@ public class RestaurantDetailsViewModel extends ViewModel {
 
     private void addToFavoriteList() {
         Observable<Response<Void>> observable = restaurantRepository.addRestaurantToFavoriteList(userAuthToken, restaurantId);
-        Log.e(TAG, "" + observable);
+
         if (observable != null) {
             observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Response<Void>>() {
                 @Override
                 public void onCompleted() {
-                    detailsInterface.onFailure("به پرمزه ها افزوده شد");
+                    fragmentInterface.onFailure("به پرمزه ها افزوده شد");
 
                 }
 
@@ -150,18 +154,18 @@ public class RestaurantDetailsViewModel extends ViewModel {
                 public void onError(Throwable e) {
 
                     if (e instanceof NoNetworkConnectionException)
-                        detailsInterface.onFailure(e.getMessage());
+                        fragmentInterface.onFailure(e.getMessage());
                     if (e instanceof HttpException) {
                         Response response = ((HttpException) e).response();
 
                         try {
                             JSONObject jsonObject = new JSONObject(response.errorBody().string());
 
-                            detailsInterface.onFailure(jsonObject.getString("message"));
+                            fragmentInterface.onFailure(jsonObject.getString("message"));
 
 
                         } catch (Exception d) {
-                            detailsInterface.onFailure(d.getMessage());
+                            Log.i(TAG,""+d.getMessage());
                         }
                     }
                 }
@@ -182,25 +186,25 @@ public class RestaurantDetailsViewModel extends ViewModel {
             observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Response<Void>>() {
                 @Override
                 public void onCompleted() {
-                    detailsInterface.onFailure("از پرمزه ها حذف شد");
+                    fragmentInterface.onFailure("از پرمزه ها حذف شد");
                 }
 
                 @Override
                 public void onError(Throwable e) {
 
                     if (e instanceof NoNetworkConnectionException)
-                        detailsInterface.onFailure(e.getMessage());
+                        fragmentInterface.onFailure(e.getMessage());
                     if (e instanceof HttpException) {
                         Response response = ((HttpException) e).response();
 
                         try {
                             JSONObject jsonObject = new JSONObject(response.errorBody().string());
 
-                            detailsInterface.onFailure(jsonObject.getString("message"));
+                            fragmentInterface.onFailure(jsonObject.getString("message"));
 
 
                         } catch (Exception d) {
-                            detailsInterface.onFailure(d.getMessage());
+                            Log.i(TAG,""+d.getMessage());
                         }
                     }
                 }

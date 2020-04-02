@@ -1,8 +1,6 @@
-package ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails;
+package ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails;
 
 import android.view.View;
-
-import ir.boojanco.onlinefoodorder.ui.activities.restaurantDetails.fragments.FoodItem;
 
 public interface RecyclerViewRestaurantFoodTypeClickListener {
     void onRecyclerViewTypeItemClick(View v, String foodTypeName);

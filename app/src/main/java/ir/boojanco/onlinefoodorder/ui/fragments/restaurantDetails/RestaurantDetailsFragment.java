@@ -96,18 +96,18 @@ public class RestaurantDetailsFragment extends Fragment implements RestaurantDet
 
     @Override
     public void onStarted() {
-        binding.cvWaitingResponse.setVisibility(View.VISIBLE);
+        viewModel.waitingResponseAnimateLivedata.postValue(true);
     }
 
     @Override
     public void onSuccess(RestaurantInfoResponse restaurantInfo) {
-        binding.cvWaitingResponse.setVisibility(View.GONE);
+        viewModel.waitingResponseAnimateLivedata.postValue(false);
         sharedViewModel.infoResponseMutableLiveData.postValue(restaurantInfo);
     }
 
     @Override
     public void onFailure(String error) {
-        binding.cvWaitingResponse.setVisibility(View.GONE);
+        viewModel.waitingResponseAnimateLivedata.postValue(false);
         Toast.makeText(application, "" + error, Toast.LENGTH_LONG).show();
     }
 }

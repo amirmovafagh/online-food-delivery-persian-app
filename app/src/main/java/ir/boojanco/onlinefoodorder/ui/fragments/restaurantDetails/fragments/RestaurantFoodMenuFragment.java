@@ -171,12 +171,6 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
         });
     }
 
-    @BindingAdapter({"animatedVisibility"})
-    public static void setAnimatedVisibility(View view, boolean isVisible){
-        TransitionManager.beginDelayedTransition((ViewGroup) view.getRootView());
-        view.setVisibility(isVisible ?View.VISIBLE : View.GONE);
-    }
-
     @Override
     public void onStarted() {
 

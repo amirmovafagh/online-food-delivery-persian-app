@@ -43,6 +43,7 @@ public class RestaurantDetailsViewModel extends ViewModel {
     public MutableLiveData<String> restaurantRegion;
     public MutableLiveData<String> restaurantTagList;
     public MutableLiveData<Integer> cartItemCount;
+    public MutableLiveData<Boolean> waitingResponseAnimateLivedata;
 
     private Context context;
     private long restaurantId = 0;
@@ -76,6 +77,8 @@ public class RestaurantDetailsViewModel extends ViewModel {
         restaurantShippingCostOutRegion = new MutableLiveData<>();
         restaurantPhoneNumber = new MutableLiveData<>();
         restaurantRegion = new MutableLiveData<>();
+        waitingResponseAnimateLivedata = new MutableLiveData<>();
+        waitingResponseAnimateLivedata.setValue(true);
     }
 
 

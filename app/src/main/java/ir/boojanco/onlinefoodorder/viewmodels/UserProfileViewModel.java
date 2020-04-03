@@ -66,6 +66,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
     public MutableLiveData<String> firstNameErrorLiveData;
     public MutableLiveData<String> birthDateLiveData;
     public MutableLiveData<String> birthDateErrorLiveData;
+    public MutableLiveData<Boolean> waitingResponseAnimateLivedata;
 
     public long birthDateTimeMill;
     private double userLatitude;
@@ -112,6 +113,8 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         firstNameErrorLiveData = new MutableLiveData<>();
         birthDateLiveData = new MutableLiveData<>();
         birthDateErrorLiveData = new MutableLiveData<>();
+        waitingResponseAnimateLivedata = new MutableLiveData<>();
+        waitingResponseAnimateLivedata.setValue(true);
         bottomSheetChangeVisibility = new MutableLiveData<>();
         bottomSheetChangeVisibility.setValue(true);//default onView Address
 

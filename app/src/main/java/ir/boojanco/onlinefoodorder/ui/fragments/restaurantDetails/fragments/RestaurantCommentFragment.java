@@ -81,15 +81,17 @@ public class RestaurantCommentFragment extends Fragment implements RestaurantCom
 
     @Override
     public void onStarted() {
-
+        viewModel.waitingResponseAnimateLivedata.postValue(true);
     }
 
     @Override
     public void onSuccess() {
+        viewModel.waitingResponseAnimateLivedata.postValue(false);
     }
 
     @Override
     public void onFailure(String error) {
+        viewModel.waitingResponseAnimateLivedata.postValue(false);
         Toast.makeText(application, ""+error, Toast.LENGTH_SHORT).show();
     }
 }

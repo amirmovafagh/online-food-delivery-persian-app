@@ -2,6 +2,7 @@ package ir.boojanco.onlinefoodorder.ui.fragments.userProfile;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
+import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -19,6 +20,7 @@ import androidx.navigation.Navigation;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.TransitionManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -140,7 +142,7 @@ private String TAG = UserProfileFragment.class.getSimpleName();
 
     @Override
     public void onStarted() {
-        binding.cvWaitingResponse.setVisibility(View.VISIBLE);
+        viewModel.waitingResponseAnimateLivedata.postValue(true);
     }
 
     @Override
@@ -205,7 +207,7 @@ private String TAG = UserProfileFragment.class.getSimpleName();
 
     @Override
     public void onSuccessGetUserProfileInfo() {
-        binding.cvWaitingResponse.setVisibility(View.GONE);
+        viewModel.waitingResponseAnimateLivedata.postValue(false);
     }
 
     @Override
@@ -244,7 +246,7 @@ private String TAG = UserProfileFragment.class.getSimpleName();
     @Override
     public void onFailure(String Error) {
         Toast.makeText(application, "" + Error, Toast.LENGTH_SHORT).show();
-        binding.cvWaitingResponse.setVisibility(View.GONE);
+        viewModel.waitingResponseAnimateLivedata.postValue(false);
     }
 
     @Override

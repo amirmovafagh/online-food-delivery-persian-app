@@ -15,6 +15,8 @@ import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,12 +24,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 
 import androidx.lifecycle.ViewModelProvider;
 
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
+import androidx.transition.TransitionManager;
 
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -51,7 +55,7 @@ import ir.boojanco.onlinefoodorder.databinding.ActivityMainBinding;
 import ir.boojanco.onlinefoodorder.viewmodels.MainViewModel;
 
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
     private static String TAG = MainActivity.class.getSimpleName();
     private MainViewModel mainViewModel;
     ActivityMainBinding binding;
@@ -63,7 +67,6 @@ public class MainActivity extends AppCompatActivity  {
 
     @Inject
     MySharedPreferences sharedPreferences;
-
 
 
     @Override
@@ -82,7 +85,7 @@ public class MainActivity extends AppCompatActivity  {
         binding.setLifecycleOwner(this);
 
         bottomNavigationView = binding.bottomNavigation;
-        NavHostFragment navHostFragment = (NavHostFragment)getSupportFragmentManager()
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment);
         assert navHostFragment != null;
         NavigationUI.setupWithNavController(bottomNavigationView,
@@ -90,7 +93,13 @@ public class MainActivity extends AppCompatActivity  {
 
     }
 
-    private boolean checkPermissions(){
+    @BindingAdapter({"animatedVisibility"})
+    public static void setAnimatedVisibility(View view, boolean isVisible) {
+        TransitionManager.beginDelayedTransition((ViewGroup) view.getRootView());
+        view.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+    }
+
+    private boolean checkPermissions() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             return true;
@@ -107,7 +116,7 @@ public class MainActivity extends AppCompatActivity  {
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 
-    private void showSetLocationEnabledAlertDialog(){
+    private void showSetLocationEnabledAlertDialog() {
         // setup the alert builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(false);
@@ -128,8 +137,8 @@ public class MainActivity extends AppCompatActivity  {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == PERMISSION_ID){
-            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (requestCode == PERMISSION_ID) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Granted. Start getting the location information
                 getLastLocation();
             }
@@ -137,7 +146,7 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     @SuppressLint("MissingPermission")
-    private void getLastLocation(){
+    private void getLastLocation() {
         if (checkPermissions()) {
             if (isLocationEnabled()) {
                 locationProviderClient.getLastLocation().addOnCompleteListener(
@@ -171,17 +180,17 @@ public class MainActivity extends AppCompatActivity  {
             addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
             String cityName = addresses.get(0).getAddressLine(0);
             String stateName = addresses.get(0).getAddressLine(1);
-            Toast.makeText(this, "city: "+cityName+" state: "+stateName, Toast.LENGTH_SHORT).show();
-            Log.i(TAG,"city: "+cityName+" state: "+stateName);
+            Toast.makeText(this, "city: " + cityName + " state: " + stateName, Toast.LENGTH_SHORT).show();
+            Log.i(TAG, "city: " + cityName + " state: " + stateName);
         } catch (IOException e) {
             e.printStackTrace();
-            Log.e(TAG,""+e.getMessage());
+            Log.e(TAG, "" + e.getMessage());
         }
 
     }
 
     @SuppressLint("MissingPermission")
-    private void requestNewLocationData(){
+    private void requestNewLocationData() {
 
         LocationRequest mLocationRequest = new LocationRequest();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -201,7 +210,7 @@ public class MainActivity extends AppCompatActivity  {
         @Override
         public void onLocationResult(LocationResult locationResult) {
             Location mLastLocation = locationResult.getLastLocation();
-            if(mLastLocation != null){
+            if (mLastLocation != null) {
                 sharedPreferences.setLatitude(mLastLocation.getLatitude());
                 sharedPreferences.setLongitud(mLastLocation.getLongitude());
             }

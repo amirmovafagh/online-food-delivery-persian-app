@@ -4,11 +4,11 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import ir.boojanco.onlinefoodorder.ui.activities.VerificationActivity;
-import ir.boojanco.onlinefoodorder.ui.activities.cart.CartActivity;
 import ir.boojanco.onlinefoodorder.ui.activities.LoginActivity;
 import ir.boojanco.onlinefoodorder.ui.activities.MainActivity;
 import ir.boojanco.onlinefoodorder.ui.activities.RegisterActivity;
-import ir.boojanco.onlinefoodorder.ui.activities.payment.PaymentActivity;
+import ir.boojanco.onlinefoodorder.ui.fragments.cart.CartFragment;
+import ir.boojanco.onlinefoodorder.ui.fragments.payment.PaymentFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments.RestaurantCommentFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments.RestaurantFoodMenuFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments.RestaurantInfoFragment;
@@ -40,10 +40,10 @@ public interface AppComponent {
     void inject(RestaurantFoodMenuFragment restaurantFoodMenuFragment);
     void inject(RestaurantInfoFragment restaurantInfoFragment);
     void inject(RestaurantCommentFragment restaurantCommentFragment);
-    void inject(CartActivity cartActivity);
+    void inject(CartFragment cartFragment);
     void inject(MapDialogCartFragment mapDialogCartFragment);
     void inject(MapDialogProfileFragment mapDialogProfileFragment);
-    void inject(PaymentActivity paymentActivity);
+    void inject(PaymentFragment paymentFragment);
 
 }
 

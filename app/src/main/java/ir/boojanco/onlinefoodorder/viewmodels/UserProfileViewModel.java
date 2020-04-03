@@ -1,8 +1,6 @@
 package ir.boojanco.onlinefoodorder.viewmodels;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -17,7 +15,6 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
 import ir.boojanco.onlinefoodorder.data.repositories.UserRepository;
 import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
@@ -29,9 +26,9 @@ import ir.boojanco.onlinefoodorder.models.user.AddUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.EditUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.UserAddressList;
 import ir.boojanco.onlinefoodorder.models.user.UserProfileResponse;
-import ir.boojanco.onlinefoodorder.ui.activities.cart.AddressDataSource;
-import ir.boojanco.onlinefoodorder.ui.activities.cart.AddressDataSourceFactory;
-import ir.boojanco.onlinefoodorder.ui.activities.cart.AddressDataSourceInterface;
+import ir.boojanco.onlinefoodorder.ui.fragments.cart.AddressDataSource;
+import ir.boojanco.onlinefoodorder.ui.fragments.cart.AddressDataSourceFactory;
+import ir.boojanco.onlinefoodorder.ui.fragments.cart.AddressDataSourceInterface;
 import ir.boojanco.onlinefoodorder.util.EmailValidator;
 import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.MapDialogInterface;

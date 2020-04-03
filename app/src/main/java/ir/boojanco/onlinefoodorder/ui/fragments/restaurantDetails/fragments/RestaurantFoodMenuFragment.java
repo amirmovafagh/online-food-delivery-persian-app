@@ -13,6 +13,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.SnapHelper;
 import androidx.transition.AutoTransition;
 import androidx.transition.TransitionManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +42,6 @@ import ir.boojanco.onlinefoodorder.models.food.GetAllFoodResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.AllPackagesResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.RestaurantPackageItem;
-import ir.boojanco.onlinefoodorder.ui.activities.cart.CartActivity;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.ListItemType;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.RecyclerViewRestaurantFoodMenuClickListener;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.RecyclerViewRestaurantFoodTypeClickListener;
@@ -72,7 +73,7 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     private RestaurantPackageAdapter adapterPackage;
     private LinearLayoutManager linearLayoutManagerFoodMenu;
     private AutoTransition transition;
-    private Intent goToCartActivityIntent;
+    private Bundle bundleCartFragment;
 
     private long extraRestauranId = 0;
 
@@ -92,10 +93,10 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         ((App) getActivity().getApplication()).getComponent().inject(this);
-        goToCartActivityIntent = new Intent(getContext(), CartActivity.class);
+        bundleCartFragment = new Bundle();
         binding = DataBindingUtil.inflate(inflater, R.layout.restaurant_food_menu_fragment, container, false);
         restaurantFoodMenuViewModel = new ViewModelProvider(this, factory).get(RestaurantFoodMenuViewModel.class);
-        RestaurantInfoSharedViewModel sharedViewModel = new ViewModelProvider(getActivity()).get(RestaurantInfoSharedViewModel.class);
+        RestaurantInfoSharedViewModel sharedViewModel = new ViewModelProvider(getParentFragment()).get(RestaurantInfoSharedViewModel.class);
         restaurantFoodMenuViewModel.foodInterface = this;
         binding.setFoodMenu(restaurantFoodMenuViewModel);
         binding.setLifecycleOwner(this);
@@ -103,11 +104,10 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
         expandableView = binding.expandableView;
         arrowBtn = binding.arrowBtn;
         mainLayout = binding.linearLayoutMainFoodMenu;
-        Toast.makeText(application, "a"+getArguments().getLong("restaurantID"), Toast.LENGTH_SHORT).show();
         Bundle extras = getArguments();
         if (extras != null) {
-            extraRestauranId = extras.getLong("restaurantID");
-            restaurantFoodMenuViewModel.extraRestaurantId = extraRestauranId;
+            extraRestauranId = extras.getLong("restaurantID", 0);
+            restaurantFoodMenuViewModel.setExtraRestaurantId(extraRestauranId);
             RecyclerView recyclerViewFoodType = binding.recyclerViewFoodType;
             RecyclerView recyclerViewRestaurantPackage = binding.recyclerViewRestaurantPackage;
             SnapHelper snapHelper = new PagerSnapHelper(); //for stay on center
@@ -146,7 +146,7 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
                 @Override
                 public void onChanged(RestaurantInfoResponse restaurantInfoResponse) {
                     if (restaurantInfoResponse != null) {
-                        goToCartActivityIntent.putExtra(restaurantInfoResponseExtraName, restaurantInfoResponse);
+                        bundleCartFragment.putSerializable(restaurantInfoResponseExtraName, restaurantInfoResponse);
                     }
                 }
             });
@@ -158,10 +158,9 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         binding.fab.setOnClickListener(v -> {
+            bundleCartFragment.putLong("restaurantID", extraRestauranId);
 
-            goToCartActivityIntent.putExtra("RESTAURANT_ID", extraRestauranId);
-
-            startActivity(goToCartActivityIntent);
+            Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.action_restaurantFoodMenuFragment_to_cartFragment, bundleCartFragment);
         });
 
         arrowBtn.setOnClickListener(v -> {
@@ -273,11 +272,11 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     public void onPackageItemClick(View v, RestaurantPackageItem packageItem) {
         switch (v.getId()) {
             case R.id.cv_main_package_layout:
-                goToCartActivityIntent.putExtra(selectedPackageExtraName, packageItem);
+                bundleCartFragment.putSerializable(selectedPackageExtraName, packageItem);
                 return;
             case R.id.cv_package_name:
-                if (goToCartActivityIntent.getSerializableExtra(selectedPackageExtraName) != null)
-                    goToCartActivityIntent.removeExtra(selectedPackageExtraName);
+                if (bundleCartFragment.getSerializable(selectedPackageExtraName) != null)
+                    bundleCartFragment.remove(selectedPackageExtraName);
                 return;
         }
     }

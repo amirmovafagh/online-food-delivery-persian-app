@@ -23,7 +23,6 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
-        <activity android:name=".ui.activities.payment.PaymentActivity"></activity>
         <activity android:name=".ui.activities.cart.CartActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

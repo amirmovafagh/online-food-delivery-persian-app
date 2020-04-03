@@ -1,4 +1,4 @@
-package ir.boojanco.onlinefoodorder.ui.activities.cart;
+package ir.boojanco.onlinefoodorder.ui.fragments.cart;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.DataSource;

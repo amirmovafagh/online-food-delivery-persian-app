@@ -1,4 +1,4 @@
-package ir.boojanco.onlinefoodorder.ui.activities.payment;
+package ir.boojanco.onlinefoodorder.ui.fragments.payment;
 
 public interface PaymentInterface {
     void onStarted();

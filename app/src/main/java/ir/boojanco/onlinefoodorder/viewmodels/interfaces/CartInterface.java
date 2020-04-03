@@ -8,7 +8,7 @@ import ir.boojanco.onlinefoodorder.data.database.CartItem;
 import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllCitiesList;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList;
-import ir.boojanco.onlinefoodorder.ui.activities.cart.FinalPaymentPrice;
+import ir.boojanco.onlinefoodorder.ui.fragments.cart.FinalPaymentPrice;
 import ir.boojanco.onlinefoodorder.util.OrderType;
 
 public interface CartInterface {
@@ -20,7 +20,7 @@ public interface CartInterface {
 
     void onSuccessGetStates(List<AllStatesList> allStatesLists);
 
-    void onSuccessGetcities(List<AllCitiesList> allStatesLists);
+    void onSuccessGetCities(List<AllCitiesList> allCitiesLists);
 
     void showAddressBottomSheet();
 

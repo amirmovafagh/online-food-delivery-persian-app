@@ -42,10 +42,10 @@ import ir.boojanco.onlinefoodorder.models.stateCity.GetAllCitiesResponse;
 import ir.boojanco.onlinefoodorder.models.stateCity.GetAllStatesResponse;
 import ir.boojanco.onlinefoodorder.models.user.AddUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.UserAddressList;
-import ir.boojanco.onlinefoodorder.ui.activities.cart.AddressDataSource;
-import ir.boojanco.onlinefoodorder.ui.activities.cart.AddressDataSourceFactory;
-import ir.boojanco.onlinefoodorder.ui.activities.cart.AddressDataSourceInterface;
-import ir.boojanco.onlinefoodorder.ui.activities.cart.FinalPaymentPrice;
+import ir.boojanco.onlinefoodorder.ui.fragments.cart.AddressDataSource;
+import ir.boojanco.onlinefoodorder.ui.fragments.cart.AddressDataSourceFactory;
+import ir.boojanco.onlinefoodorder.ui.fragments.cart.AddressDataSourceInterface;
+import ir.boojanco.onlinefoodorder.ui.fragments.cart.FinalPaymentPrice;
 import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
 import ir.boojanco.onlinefoodorder.util.OrderType;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.CartInterface;
@@ -57,7 +57,7 @@ import rx.Subscriber;
 public class CartViewModel extends ViewModel implements AddressDataSourceInterface {
     private String TAG = this.getClass().getSimpleName();
 
-    public CartInterface cartInterface;
+    private CartInterface fragmentInterface;
     public MapDialogInterface mapDialogCartInterface;
     private Context context;
     private CartDataSource cartDataSource;
@@ -109,6 +109,9 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
     private int totalDiscountedPrice = 0;
     private int tempTotalRawPrice = 0;
 
+    public void setFragmentInterface(CartInterface fragmentInterface) {
+        this.fragmentInterface = fragmentInterface;
+    }
 
     public CartViewModel(Context context, CartDataSource cartDataSource, UserRepository userRepository, RestaurantRepository restaurantRepository) {
         this.context = context;
@@ -219,7 +222,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
                 shippingUserAddressId = userAddressId;
             } else {
                 restaurantShippingCostLiveData.setValue("عدم سرویس دهی");
-                cartInterface.onFailure("عدم سرویس دهی در محدوده شما");
+                fragmentInterface.onFailure("عدم سرویس دهی در محدوده شما");
                 orderType = OrderType.DONT_CHOOSE;
             }
         }
@@ -281,15 +284,15 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
 
     public void addMapPositionBtnClick() {
         Toast.makeText(context, "" + state.getValue() + " " + stateId + " " + city.getValue() + " " + cityId, Toast.LENGTH_SHORT).show();
-        cartInterface.showAddressBottomSheet();
+        fragmentInterface.showAddressBottomSheet();
     }
 
     public void showMap() {
-        cartInterface.showMapDialogFragment();
+        fragmentInterface.showMapDialogFragment();
     }
 
     public void showStateCityDialog() {
-        cartInterface.showStateCityCustomDialog();
+        fragmentInterface.showStateCityCustomDialog();
     }
 
     private void checkAddressAndGetStateId(String authToken) {
@@ -351,18 +354,18 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
                 @Override
                 public void onError(Throwable e) {
                     if (e instanceof NoNetworkConnectionException)
-                        cartInterface.onFailure(e.getMessage());
+                        fragmentInterface.onFailure(e.getMessage());
                     if (e instanceof HttpException) {
                         Response response = ((HttpException) e).response();
 
                         try {
                             JSONObject jsonObject = new JSONObject(response.errorBody().string());
 
-                            cartInterface.onFailure(jsonObject.getString("message"));
+                            fragmentInterface.onFailure(jsonObject.getString("message"));
 
 
                         } catch (Exception d) {
-                            cartInterface.onFailure(d.getMessage());
+                            Log.i(TAG,""+d.getMessage());
                         }
                     }
                 }
@@ -386,7 +389,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
                         cartStateLiveData.setValue(context.getString(R.string.empty_cart));
 
                     } else {
-                        cartInterface.onSuccess(cartItems);
+                        fragmentInterface.onSuccess(cartItems);
                         this.cartItems = cartItems;
 
 
@@ -550,7 +553,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
                 @Override
                 public void onNext(GetAllStatesResponse getAllStatesResponse) {
                     statesLists = getAllStatesResponse.getAllStatesLists();
-                    cartInterface.onSuccessGetStates(getAllStatesResponse.getAllStatesLists());
+                    fragmentInterface.onSuccessGetStates(getAllStatesResponse.getAllStatesLists());
 
 
                 }
@@ -570,18 +573,18 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
                 @Override
                 public void onError(Throwable e) {
                     if (e instanceof NoNetworkConnectionException)
-                        cartInterface.onFailure(e.getMessage());
+                        fragmentInterface.onFailure(e.getMessage());
                     if (e instanceof HttpException) {
                         Response response = ((HttpException) e).response();
 
                         try {
                             JSONObject jsonObject = new JSONObject(response.errorBody().string());
 
-                            cartInterface.onFailure(jsonObject.getString("message"));
+                            fragmentInterface.onFailure(jsonObject.getString("message"));
 
 
                         } catch (Exception d) {
-                            cartInterface.onFailure(d.getMessage());
+                            Log.i(TAG,""+d.getMessage());
                         }
                     }
                 }
@@ -589,7 +592,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
                 @Override
                 public void onNext(GetAllCitiesResponse getAllCitiesResponse) {
                     citiesLists = getAllCitiesResponse.getAllCitiesLists();
-                    cartInterface.onSuccessGetcities(getAllCitiesResponse.getAllCitiesLists());
+                    fragmentInterface.onSuccessGetCities(getAllCitiesResponse.getAllCitiesLists());
                 }
             });
         }
@@ -598,11 +601,11 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
     public void acceptOrder() {
         switch (orderType) {
             case DONT_CHOOSE:
-                cartInterface.onFailure("لطفا نحوه دریافت سفارش را مشخص کنید");
+                fragmentInterface.onFailure("لطفا نحوه دریافت سفارش را مشخص کنید");
                 break;
             case GET_BY_CUSTOMER:
             case GET_BY_DELIVERY:
-                cartInterface.acceptOrder(finalPaymentPrices, cartItems, totalAllPrice, totalRawPrice,
+                fragmentInterface.acceptOrder(finalPaymentPrices, cartItems, totalAllPrice, totalRawPrice,
                         totalDiscount, packingCost, taxAndService, shippingCost, orderType, restaurantInfo.getId(), packageId, shippingUserAddressId);
                 break;
             case SERVE_IN_PLACE:
@@ -632,13 +635,13 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
     @Override
     public void onSuccess() {
         initDeliveryType();
-        cartInterface.onSuccessGetAddress();
+        fragmentInterface.onSuccessGetAddress();
 
     }
 
     @Override
     public void onFailure(String error) {
-        cartInterface.onFailure(error);
+        fragmentInterface.onFailure(error);
     }
 
 

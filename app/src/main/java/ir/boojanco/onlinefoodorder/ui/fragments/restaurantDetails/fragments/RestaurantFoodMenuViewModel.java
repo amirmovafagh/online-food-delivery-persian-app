@@ -44,11 +44,14 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
     private FoodTypeHeader foodTypeHeader;
     private ArrayList<ListItemType> items;
     private ArrayList<String> foodTypeIndex;
-    public Long extraRestaurantId;
+    private Long extraRestaurantId;
     public MutableLiveData<GetAllFoodResponse> allFoodMutableLiveData;
     public MutableLiveData<AllPackagesResponse> allPackagesMutableLiveData;
     public MutableLiveData<Integer> cartItemCount;
 
+    public void setExtraRestaurantId(Long extraRestaurantId) {
+        this.extraRestaurantId = extraRestaurantId;
+    }
 
     public RestaurantFoodMenuViewModel(Context context, RestaurantRepository restaurantRepository, CartDataSource cartDataSource) {
         allFoodMutableLiveData = new MutableLiveData<>();

@@ -1,4 +1,4 @@
-package ir.boojanco.onlinefoodorder.ui.activities.cart;
+package ir.boojanco.onlinefoodorder.ui.fragments.cart;
 
 import android.content.Context;
 import android.util.Log;
@@ -15,9 +15,7 @@ import java.util.List;
 
 import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.databinding.RecyclerviewCityItemBinding;
-import ir.boojanco.onlinefoodorder.databinding.RecyclerviewStateItemBinding;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllCitiesList;
-import ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.StateCityDialogInterface;
 
 public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder> {

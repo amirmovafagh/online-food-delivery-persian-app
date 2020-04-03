@@ -16,9 +16,22 @@
     </fragment>
     <fragment
         android:id="@+id/cartFragment"
-        android:name="ir.boojanco.onlinefoodorder.ui.fragments.CartFragment"
+        android:name="ir.boojanco.onlinefoodorder.ui.fragments.cart.CartFragment"
         android:label="cart_fragment"
-        tools:layout="@layout/cart_fragment" />
+        tools:layout="@layout/cart_fragment">
+        <action
+            android:id="@+id/action_cartFragment_to_paymentFragment"
+            app:destination="@id/paymentFragment" />
+        <argument
+            android:name="selectedPackage"
+            app:argType="ir.boojanco.onlinefoodorder.models.restaurantPackage.RestaurantPackageItem" />
+        <argument
+            android:name="restaurantInfoResponse"
+            app:argType="ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse" />
+        <argument
+            android:name="restaurantID"
+            app:argType="long" />
+    </fragment>
     <fragment
         android:id="@+id/userProfileFragment"
         android:name="ir.boojanco.onlinefoodorder.ui.fragments.userProfile.UserProfileFragment"
@@ -52,10 +65,62 @@
     <fragment
         android:id="@+id/restaurantDetailsFragment"
         android:name="ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.RestaurantDetailsFragment"
-        android:label="restaurant_Details_fragment"
+        android:label="restaurant_details_fragment"
         tools:layout="@layout/restaurant_details_fragment">
+        <action
+            android:id="@+id/action_restaurantFoodMenuFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
         <argument
             android:name="restaurantID"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/restaurantFoodMenuFragment"
+        android:name="ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments.RestaurantFoodMenuFragment"
+        android:label="restaurant_food_menu_fragment"
+        tools:layout="@layout/restaurant_food_menu_fragment">
+
+    </fragment>
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="ir.boojanco.onlinefoodorder.ui.fragments.payment.PaymentFragment"
+        android:label="payment_fragment"
+        tools:layout="@layout/fragment_payment">
+        <argument
+            android:name="finalPaymentPrices"
+            app:argType="ir.boojanco.onlinefoodorder.ui.fragments.cart.FinalPaymentPrice" />
+        <argument
+            android:name="cartItem"
+            app:argType="ir.boojanco.onlinefoodorder.data.database.CartItem" />
+        <argument
+            android:name="orderType"
+            app:argType="ir.boojanco.onlinefoodorder.util.OrderType" />
+        <argument
+            android:name="totalAllPrice"
+            app:argType="integer" />
+        <argument
+            android:name="totalRaw"
+            app:argType="integer" />
+        <argument
+            android:name="totalDiscount"
+            app:argType="integer" />
+        <argument
+            android:name="packingCost"
+            app:argType="integer" />
+        <argument
+            android:name="taxAndService"
+            app:argType="integer" />
+        <argument
+            android:name="shippingCost"
+            app:argType="integer" />
+        <argument
+            android:name="restaurantID"
+            app:argType="long" />
+        <argument
+            android:name="restaurantPackageId"
+            app:argType="long" />
+        <argument
+            android:name="shippingAddressId"
             app:argType="long" />
     </fragment>
     <fragment

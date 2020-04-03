@@ -1,4 +1,4 @@
-package ir.boojanco.onlinefoodorder.ui.activities.cart;
+package ir.boojanco.onlinefoodorder.ui.fragments.cart;
 
 public interface AddressDataSourceInterface {
     void onStarted();

@@ -2,7 +2,6 @@ package ir.boojanco.onlinefoodorder.viewmodels;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.RadioGroup;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -11,13 +10,10 @@ import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import ir.boojanco.onlinefoodorder.R;
@@ -25,8 +21,8 @@ import ir.boojanco.onlinefoodorder.data.database.CartItem;
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
 import ir.boojanco.onlinefoodorder.models.restaurant.DiscountCodeResponse;
 import ir.boojanco.onlinefoodorder.models.user.CartOrderResponse;
-import ir.boojanco.onlinefoodorder.ui.activities.cart.FinalPaymentPrice;
-import ir.boojanco.onlinefoodorder.ui.activities.payment.PaymentInterface;
+import ir.boojanco.onlinefoodorder.ui.fragments.cart.FinalPaymentPrice;
+import ir.boojanco.onlinefoodorder.ui.fragments.payment.PaymentInterface;
 import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
 import ir.boojanco.onlinefoodorder.util.OrderType;
 import ir.boojanco.onlinefoodorder.util.PaymentType;
@@ -71,7 +67,11 @@ public class PaymentViewModel extends ViewModel {
     private int taxAndService = 0;
     public MutableLiveData<String> totalRawPriceLiveData;
     private int totalRawPrice = 0;
-    public PaymentInterface paymentInterface;
+    private PaymentInterface paymentInterface;
+
+    public void setPaymentInterface(PaymentInterface paymentInterface) {
+        this.paymentInterface = paymentInterface;
+    }
 
     public PaymentViewModel(Context context, RestaurantRepository restaurantRepository) {
         this.context = context;

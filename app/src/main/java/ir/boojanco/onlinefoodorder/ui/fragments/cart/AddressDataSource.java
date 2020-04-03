@@ -1,4 +1,4 @@
-package ir.boojanco.onlinefoodorder.ui.activities.cart;
+package ir.boojanco.onlinefoodorder.ui.fragments.cart;
 
 import android.util.Log;
 
@@ -55,7 +55,7 @@ public class AddressDataSource extends PageKeyedDataSource<Integer, UserAddressL
             observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetUserAddressResponse>() {
                 @Override
                 public void onCompleted() {
-                    dataSourceInterface.onSuccess();
+
                 }
 
                 @Override
@@ -79,6 +79,7 @@ public class AddressDataSource extends PageKeyedDataSource<Integer, UserAddressL
                 @Override
                 public void onNext(GetUserAddressResponse getUserAddressResponse) {
                     callback.onResult(getUserAddressResponse.getUserAddressLists(), null, FIRST_PAGE + 1);
+                    dataSourceInterface.onSuccess();
                 }
             });
         }

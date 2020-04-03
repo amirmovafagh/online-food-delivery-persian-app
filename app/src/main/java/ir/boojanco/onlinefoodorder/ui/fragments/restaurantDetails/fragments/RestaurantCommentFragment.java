@@ -57,7 +57,6 @@ public class RestaurantCommentFragment extends Fragment implements RestaurantCom
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
         viewModel.setFragmentInterface(this);
-        Toast.makeText(application, "b"+getArguments().getLong("restaurantID"), Toast.LENGTH_SHORT).show();
 
         Bundle extras = getArguments();
         if (extras != null) {

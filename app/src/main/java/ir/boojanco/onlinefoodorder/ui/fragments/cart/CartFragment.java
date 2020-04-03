@@ -1,22 +1,29 @@
-package ir.boojanco.onlinefoodorder.ui.activities.cart;
+package ir.boojanco.onlinefoodorder.ui.fragments.cart;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+
+import android.app.Application;
+import android.content.Intent;
+import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.AutoTransition;
 import androidx.transition.TransitionManager;
 
-import android.app.Application;
-import android.content.Intent;
-import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -31,17 +38,16 @@ import javax.inject.Inject;
 
 import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.dagger.App;
+import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.data.database.CartDataSource;
 import ir.boojanco.onlinefoodorder.data.database.CartItem;
-import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
-import ir.boojanco.onlinefoodorder.databinding.ActivityCartBinding;
+import ir.boojanco.onlinefoodorder.databinding.CartFragmentBinding;
 import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.RestaurantPackageItem;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllCitiesList;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList;
 import ir.boojanco.onlinefoodorder.models.user.UserAddressList;
-import ir.boojanco.onlinefoodorder.ui.activities.payment.PaymentActivity;
 import ir.boojanco.onlinefoodorder.ui.fragments.MapDialogCartFragment;
 import ir.boojanco.onlinefoodorder.util.OrderType;
 import ir.boojanco.onlinefoodorder.viewmodels.CartViewModel;
@@ -50,11 +56,8 @@ import ir.boojanco.onlinefoodorder.viewmodels.interfaces.AddressRecyclerViewInte
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.CartInterface;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.StateCityDialogInterface;
 
-
-public class CartActivity extends AppCompatActivity implements CartInterface, RecyclerViewCartClickListener, StateCityDialogInterface, AddressRecyclerViewInterface {
-    CartViewModel cartViewModel;
-    ActivityCartBinding binding;
-
+public class CartFragment extends Fragment implements CartInterface, RecyclerViewCartClickListener, StateCityDialogInterface, AddressRecyclerViewInterface {
+    private final static String TAG = CartFragment.class.getSimpleName();
     @Inject
     Application application;
     @Inject
@@ -64,11 +67,13 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
     @Inject
     MySharedPreferences sharedPreferences;
 
+    private CartViewModel viewModel;
+    private CartFragmentBinding binding;
+
     private CoordinatorLayout coordinatorLayoutMainContent;
     private ImageButton arrowBtn;
     private LinearLayout expandableLayout;
     private AutoTransition transition;
-
 
     private RecyclerView recyclerViewCart, recyclerViewUserAddress;
     private CartAdapter cartAdapter;
@@ -82,6 +87,7 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
     private DialogFragment mapFragment;
     private CityAdapter cityAdapter;
     private CustomStateCityDialog stateCityDialog;
+    private Bundle bundlePaymentFragment;
     private Intent goToPaymentActivity;
 
     private final String selectedPackageExtraName = "selectedPackage";
@@ -92,22 +98,21 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
     private final String totalRawPriceExtraName = "totalRaw";
     private final String totalDiscountExtraName = "totalDiscount";
     private final String packingCostLiveDataExtraName = "packingCost";
-    private final String restaurantShippingCostExtraName = "restaurantShipping";
     private final String taxAndServiceExtraName = "taxAndService";
     private final String shippingCostExtraName = "shippingCost";
     private final String orderTypeExtraName = "orderType";
-    private final String restaurantIdExtraName = "restaurantId";
+    private final String restaurantIdExtraName = "restaurantID";
     private final String restaurantPackageIdExtraName = "restaurantPackageId";
     private final String shippingAddressIdExtraName = "shippingAddressId";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ((App) getApplicationContext()).getComponent().inject(this);
-        cartViewModel = new ViewModelProvider(this, factory).get(CartViewModel.class);
-        cartViewModel.cartInterface = this;
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_cart);
-        binding.setViewModel(cartViewModel);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        ((App) getActivity().getApplication()).getComponent().inject(this);
+        binding = DataBindingUtil.inflate(inflater, R.layout.cart_fragment, container, false);
+        viewModel = new ViewModelProvider(this, factory).get(CartViewModel.class);
+        viewModel.setFragmentInterface(this);
+        binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
         bottom_sheet = binding.bottomSheet;
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
@@ -133,43 +138,57 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
 
         binding.bottomSheetInclude.switcherDefaultAddress.setOnCheckedChangeListener(aBoolean -> {
             Toast.makeText(application, "" + aBoolean, Toast.LENGTH_SHORT).show();
-            cartViewModel.defaultAddress = aBoolean;
+            viewModel.defaultAddress = aBoolean;
             return null;
         });
 
-        acceptOrder.setOnClickListener(v -> {
-
-        });
-
-        Bundle extras = getIntent().getExtras();
+        Bundle extras = getArguments();
         if (extras != null) {
-            long extraRestauranId = extras.getLong("RESTAURANT_ID", 0);
+            long extraRestauranId = extras.getLong("restaurantID", 0);
             RestaurantPackageItem packageItem = (RestaurantPackageItem) extras.getSerializable(selectedPackageExtraName);
             RestaurantInfoResponse restaurantInfo = (RestaurantInfoResponse) extras.getSerializable(restaurantInfoResponseExtraName);
 
             if (packageItem != null)
-                cartViewModel.setPackageItem(packageItem);
+                viewModel.setPackageItem(packageItem);
             if (restaurantInfo != null)
-                cartViewModel.setRestaurantInfo(restaurantInfo);
+                viewModel.setRestaurantInfo(restaurantInfo);
+
 
             recyclerViewUserAddress = binding.recyclerViewUserAddressHorizontalItems;
-            recyclerViewUserAddress.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+            recyclerViewUserAddress.setLayoutManager(new LinearLayoutManager(application, LinearLayoutManager.HORIZONTAL, false));
             recyclerViewUserAddress.setHasFixedSize(true);
             addressAdapter = new AddressAdapter(this, application, true);
             recyclerViewUserAddress.setAdapter(addressAdapter);
             recyclerViewCart = binding.recyclerViewRestaurantCartItems;
-            recyclerViewCart.setLayoutManager(new LinearLayoutManager(this));
+            recyclerViewCart.setLayoutManager(new LinearLayoutManager(application));
             recyclerViewCart.setHasFixedSize(true);
             cartAdapter = new CartAdapter(this, cartDataSource);
             recyclerViewCart.setAdapter(cartAdapter);
-            cartViewModel.getUserAddress(sharedPreferences.getUserAuthTokenKey());
-            cartViewModel.getAllItemInCart(extraRestauranId);
+            viewModel.getUserAddress(sharedPreferences.getUserAuthTokenKey());
+            viewModel.getAllItemInCart(extraRestauranId);
 
-            cartViewModel.userAddressPagedListLiveData.observe(this, userAddressLists -> addressAdapter.submitList(userAddressLists)); //set PagedList user address
+            viewModel.userAddressPagedListLiveData.observe(getActivity(), userAddressLists -> addressAdapter.submitList(userAddressLists)); //set PagedList user address
 
         }
+
+        return binding.getRoot();
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+    }
+
+    @Override
+    public void onRecyclerViewItemClick(View v, CartItem cartItem) {
+
+    }
+
+    @Override
+    public void onRecyclerViewAddressClick(View v, UserAddressList userAddress, int position) {
+        viewModel.checkUserAddressForService(userAddress.getId(), userAddress.getLatitude(), userAddress.getLongitude());
+    }
 
     @Override
     public void onStarted() {
@@ -184,20 +203,18 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
     @Override
     public void onSuccessGetAddress() {
 
-
     }
 
     @Override
     public void onSuccessGetStates(List<AllStatesList> allStatesLists) {
-
-        StateAdapter stateAdapter = new StateAdapter(this, this);
-        cityAdapter = new CityAdapter(this, this);
-        stateCityDialog = new CustomStateCityDialog(CartActivity.this, stateAdapter, allStatesLists, cityAdapter);
+        StateAdapter stateAdapter = new StateAdapter(this, application);
+        cityAdapter = new CityAdapter(this, application);
+        stateCityDialog = new CustomStateCityDialog(getActivity(), stateAdapter, allStatesLists, cityAdapter);
         stateCityDialog.setCanceledOnTouchOutside(false);
     }
 
     @Override
-    public void onSuccessGetcities(List<AllCitiesList> allCitiesLists) {
+    public void onSuccessGetCities(List<AllCitiesList> allCitiesLists) {
         cityAdapter.setCitiesLists(allCitiesLists);
     }
 
@@ -217,10 +234,10 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
 
     @Override
     public void showMapDialogFragment() {
-        cartViewModel.getStates(sharedPreferences.getUserAuthTokenKey()); //get States once
+        viewModel.getStates(sharedPreferences.getUserAuthTokenKey()); //get States once
 
-        fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragment = getSupportFragmentManager().findFragmentByTag("dialog");
+        fragmentTransaction = getChildFragmentManager().beginTransaction();
+        fragment = getChildFragmentManager().findFragmentByTag("dialog");
         if (fragment != null) {
             fragmentTransaction.remove(fragment);
         }
@@ -232,20 +249,21 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
     @Override
     public void acceptOrder(ArrayList<FinalPaymentPrice> finalPaymentPrices, List<CartItem> cartItems, int totalAllPrice, int totalRawPrice, int totalDiscount, int packingCost, int taxAndService, int shippingCost, OrderType orderType, long restaurantId, long restaurantPackageId, long shippingAddressId) {
         if (cartItems != null) {
-            goToPaymentActivity = new Intent(this, PaymentActivity.class);
-            goToPaymentActivity.putExtra(cartItemExtraName, (Serializable) cartItems);
-            goToPaymentActivity.putExtra(finalPaymentPricesExtraName, finalPaymentPrices);
-            goToPaymentActivity.putExtra(totalAllPriceExtraName, totalAllPrice);
-            goToPaymentActivity.putExtra(totalRawPriceExtraName, totalRawPrice);
-            goToPaymentActivity.putExtra(totalDiscountExtraName, totalDiscount);
-            goToPaymentActivity.putExtra(packingCostLiveDataExtraName, packingCost);
-            goToPaymentActivity.putExtra(taxAndServiceExtraName, taxAndService);
-            goToPaymentActivity.putExtra(shippingCostExtraName, shippingCost);
-            goToPaymentActivity.putExtra(orderTypeExtraName, orderType);
-            goToPaymentActivity.putExtra(restaurantIdExtraName, restaurantId);
-            goToPaymentActivity.putExtra(restaurantPackageIdExtraName, restaurantPackageId);
-            goToPaymentActivity.putExtra(shippingAddressIdExtraName, shippingAddressId);
-            startActivity(goToPaymentActivity);
+            bundlePaymentFragment = new Bundle();
+            bundlePaymentFragment.putSerializable(cartItemExtraName, (Serializable) cartItems);
+            bundlePaymentFragment.putParcelableArrayList(finalPaymentPricesExtraName, finalPaymentPrices);
+            bundlePaymentFragment.putInt(totalAllPriceExtraName,totalAllPrice);
+            bundlePaymentFragment.putInt(totalRawPriceExtraName,totalRawPrice);
+            bundlePaymentFragment.putInt(totalDiscountExtraName,totalDiscount);
+            bundlePaymentFragment.putInt(packingCostLiveDataExtraName,packingCost);
+            bundlePaymentFragment.putInt(taxAndServiceExtraName,taxAndService);
+            bundlePaymentFragment.putInt(shippingCostExtraName, shippingCost);
+            bundlePaymentFragment.putSerializable(orderTypeExtraName, orderType);
+            bundlePaymentFragment.putLong(restaurantIdExtraName, restaurantId);
+            bundlePaymentFragment.putLong(restaurantPackageIdExtraName, restaurantPackageId);
+            bundlePaymentFragment.putLong(shippingAddressIdExtraName, shippingAddressId);
+            Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.action_cartFragment_to_paymentFragment, bundlePaymentFragment);
+
         }
     }
 
@@ -260,36 +278,23 @@ public class CartActivity extends AppCompatActivity implements CartInterface, Re
     }
 
     @Override
-    public void onRecyclerViewItemClick(View v, CartItem cartItem) {
-
-    }
-
-    @Override
-    public void onRecyclerViewAddressClick(View v, UserAddressList userAddress, int position) {
-        cartViewModel.checkUserAddressForService(userAddress.getId(), userAddress.getLatitude(), userAddress.getLongitude());
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (cartViewModel != null)
-            cartViewModel.onStop();
-    }
-
-
-    @Override
     public void onStateItemClick(AllStatesList state) {
-        cartViewModel.stateId = state.getId();
-        cartViewModel.state.setValue(state.getName());
-        cartViewModel.city.setValue(null);
-        cartViewModel.getCities(sharedPreferences.getUserAuthTokenKey(), state.getId());
+        viewModel.stateId = state.getId();
+        viewModel.state.setValue(state.getName());
+        viewModel.city.setValue(null);
+        viewModel.getCities(sharedPreferences.getUserAuthTokenKey(), state.getId());
     }
 
     @Override
     public void onCityItemClick(AllCitiesList city) {
-        cartViewModel.cityId = city.getId();
-        cartViewModel.city.setValue(city.getName());
+        viewModel.cityId = city.getId();
+        viewModel.city.setValue(city.getName());
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (viewModel != null)
+            viewModel.onStop();
+    }
 }

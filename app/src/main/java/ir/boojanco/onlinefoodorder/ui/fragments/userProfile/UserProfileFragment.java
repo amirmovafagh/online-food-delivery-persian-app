@@ -1,6 +1,5 @@
 package ir.boojanco.onlinefoodorder.ui.fragments.userProfile;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
@@ -43,9 +42,9 @@ import ir.boojanco.onlinefoodorder.databinding.UserProfileFragmentBinding;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllCitiesList;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList;
 import ir.boojanco.onlinefoodorder.models.user.UserAddressList;
-import ir.boojanco.onlinefoodorder.ui.activities.cart.CityAdapter;
-import ir.boojanco.onlinefoodorder.ui.activities.cart.CustomStateCityDialog;
-import ir.boojanco.onlinefoodorder.ui.activities.cart.StateAdapter;
+import ir.boojanco.onlinefoodorder.ui.fragments.cart.CityAdapter;
+import ir.boojanco.onlinefoodorder.ui.fragments.cart.CustomStateCityDialog;
+import ir.boojanco.onlinefoodorder.ui.fragments.cart.StateAdapter;
 import ir.boojanco.onlinefoodorder.ui.fragments.MapDialogProfileFragment;
 import ir.boojanco.onlinefoodorder.util.persianDate.PersianDate;
 import ir.boojanco.onlinefoodorder.util.persianDate.PersianDateFormat;
@@ -166,8 +165,8 @@ private String TAG = UserProfileFragment.class.getSimpleName();
 
     @Override
     public void showMapDialogFragment() {
-        fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragment = getActivity().getSupportFragmentManager().findFragmentByTag("mapDialogUserProfile");
+        fragmentTransaction = getChildFragmentManager().beginTransaction();
+        fragment = getChildFragmentManager().findFragmentByTag("mapDialogUserProfile");
         if (fragment != null) {
             fragmentTransaction.remove(fragment);
         }

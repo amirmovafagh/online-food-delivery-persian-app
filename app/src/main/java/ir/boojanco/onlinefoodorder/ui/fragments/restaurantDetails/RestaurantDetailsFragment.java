@@ -63,12 +63,12 @@ public class RestaurantDetailsFragment extends Fragment implements RestaurantDet
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
         binding.setHandler(this);
-        binding.setManager(getActivity().getSupportFragmentManager());
+        binding.setManager(getChildFragmentManager());
         viewModel.setFragmentInterface(this);
 
         assert getArguments() != null;
         if (getArguments().getLong("restaurantID") != 0) {
-            viewModel.getRestaurantInfo(sharedPreferences.getUserAuthTokenKey(), getArguments().getLong("restaurantID"));
+            viewModel.getRestaurantInfo(sharedPreferences.getUserAuthTokenKey(), getArguments().getLong("restaurantID", 0));
 
 
         }
@@ -82,15 +82,13 @@ public class RestaurantDetailsFragment extends Fragment implements RestaurantDet
     }
 
     @BindingAdapter({"handler"})
-    public static void bindViewPagerAdapter(final ViewPager view, final RestaurantDetailsFragment fragment)
-    {
-        final RestaurantDetailsPagerAdapter adapter = new RestaurantDetailsPagerAdapter( fragment.getChildFragmentManager(),0,fragment.getArguments());
+    public static void bindViewPagerAdapter(final ViewPager view, final RestaurantDetailsFragment fragment) {
+        final RestaurantDetailsPagerAdapter adapter = new RestaurantDetailsPagerAdapter(fragment.getChildFragmentManager(), 0, fragment.getArguments());
         view.setAdapter(adapter);
     }
 
     @BindingAdapter({"pager"})
-    public static void bindViewPagerTabs(final TabLayout view, final ViewPager pagerView)
-    {
+    public static void bindViewPagerTabs(final TabLayout view, final ViewPager pagerView) {
         view.setupWithViewPager(pagerView, true);
         pagerView.setCurrentItem(1);
     }
@@ -109,6 +107,6 @@ public class RestaurantDetailsFragment extends Fragment implements RestaurantDet
     @Override
     public void onFailure(String error) {
         binding.cvWaitingResponse.setVisibility(View.GONE);
-        Toast.makeText(application, ""+error, Toast.LENGTH_LONG).show();
+        Toast.makeText(application, "" + error, Toast.LENGTH_LONG).show();
     }
 }

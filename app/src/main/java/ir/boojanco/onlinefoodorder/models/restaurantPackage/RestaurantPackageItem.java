@@ -1,7 +1,5 @@
 package ir.boojanco.onlinefoodorder.models.restaurantPackage;
 
-import android.util.ArrayMap;
-
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;

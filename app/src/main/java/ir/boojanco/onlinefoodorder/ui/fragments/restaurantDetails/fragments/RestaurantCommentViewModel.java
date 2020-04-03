@@ -3,7 +3,6 @@ package ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments;
 import android.content.Context;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PageKeyedDataSource;
@@ -21,15 +20,13 @@ public class RestaurantCommentViewModel extends ViewModel implements RestaurantC
     public void setFragmentInterface(RestaurantCommentFragmentInterface fragmentInterface) {
         this.fragmentInterface = fragmentInterface;
     }
-    public MutableLiveData<Boolean> waitingResponseAnimateLivedata;
+
     public LiveData<PagedList<RestaurantComments>> restaurantCommentsPagedListLiveData;
     public LiveData<PageKeyedDataSource<Integer, RestaurantComments>> restaurantCommentsPageKeyedDataSourceLiveData;
 
     public RestaurantCommentViewModel(Context context, RestaurantRepository restaurantRepository) {
         this.context = context;
         this.restaurantRepository = restaurantRepository;
-        waitingResponseAnimateLivedata = new MutableLiveData<>();
-        waitingResponseAnimateLivedata.setValue(true);
     }
 
     public void getRestaurantComments(String authToken, long restaurantId) {

@@ -10,12 +10,10 @@
         android:icon="@drawable/ic_cutlery"
        />
     <item
-        android:id="@+id/itemEmpty"
-        android:title=""
-        android:checkable="false"
-        android:checked="false"
-        app:showAsAction="always"
-        android:enabled="false"/>
+        android:id="@+id/qrCodeScannerFragment"
+        android:title="@string/mazBin"
+        android:icon="@drawable/ic_qr_scan"
+        />
     <item android:id="@+id/cartFragment"
         android:title="@string/cartItem"
         android:icon="@drawable/ic_shopping_cart"

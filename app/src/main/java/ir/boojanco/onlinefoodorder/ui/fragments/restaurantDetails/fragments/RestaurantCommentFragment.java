@@ -81,17 +81,17 @@ public class RestaurantCommentFragment extends Fragment implements RestaurantCom
 
     @Override
     public void onStarted() {
-        viewModel.waitingResponseAnimateLivedata.postValue(true);
+        binding.animationViewLoadRequest.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onSuccess() {
-        viewModel.waitingResponseAnimateLivedata.postValue(false);
+        binding.animationViewLoadRequest.setVisibility(View.GONE);
     }
 
     @Override
     public void onFailure(String error) {
-        viewModel.waitingResponseAnimateLivedata.postValue(false);
+        binding.animationViewLoadRequest.setVisibility(View.GONE);
         Toast.makeText(application, ""+error, Toast.LENGTH_SHORT).show();
     }
 }

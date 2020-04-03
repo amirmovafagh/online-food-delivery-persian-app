@@ -124,6 +124,11 @@
             app:argType="long" />
     </fragment>
     <fragment
+        android:id="@+id/qrCodeScannerFragment"
+        android:name="ir.boojanco.onlinefoodorder.ui.fragments.qrcode.QrCodeScannerFragment"
+        android:label="qr_code_scanner_fragment"
+        tools:layout="@layout/qr_code_scanner_fragment" />
+    <fragment
         android:id="@+id/ordersFragment"
         android:name="ir.boojanco.onlinefoodorder.ui.fragments.userorders.OrdersFragment"
         android:label="orders_fragment"

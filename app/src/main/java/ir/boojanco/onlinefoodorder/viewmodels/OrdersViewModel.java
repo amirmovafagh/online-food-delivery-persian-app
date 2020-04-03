@@ -33,7 +33,6 @@ public class OrdersViewModel extends ViewModel implements OrdersDataSourceInterf
     private UserRepository userRepository;
     public OrdersFragmentInterface fragmentInterface;
     private String userAuthToken;
-    public MutableLiveData<Boolean> waitingResponseAnimateLivedata;
 
     public LiveData<PagedList<OrderItem>> userOrdersPagedListLiveData;
     public LiveData<PageKeyedDataSource<Integer, OrderItem>> userOrdersPageKeyedDataSourceLiveData;
@@ -41,8 +40,6 @@ public class OrdersViewModel extends ViewModel implements OrdersDataSourceInterf
     public OrdersViewModel(Context context, UserRepository userRepository) {
         this.context = context;
         this.userRepository = userRepository;
-        waitingResponseAnimateLivedata = new MutableLiveData<>();
-        waitingResponseAnimateLivedata.setValue(true);
     }
 
     public void getUserOrders(String authToken) {

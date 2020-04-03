@@ -86,12 +86,12 @@ public class OrdersFragment extends Fragment implements OrdersFragmentInterface,
 
     @Override
     public void onStarted() {
-        viewModel.waitingResponseAnimateLivedata.postValue(true);
+        binding.animationViewLoadRequest.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onSuccess() {
-        viewModel.waitingResponseAnimateLivedata.postValue(false);
+        binding.animationViewLoadRequest.setVisibility(View.GONE);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class OrdersFragment extends Fragment implements OrdersFragmentInterface,
     @Override
     public void onFailure(String error) {
         Toast.makeText(application, "" + error, Toast.LENGTH_SHORT).show();
-        viewModel.waitingResponseAnimateLivedata.postValue(false);
+        binding.animationViewLoadRequest.setVisibility(View.GONE);
     }
 
     @Override

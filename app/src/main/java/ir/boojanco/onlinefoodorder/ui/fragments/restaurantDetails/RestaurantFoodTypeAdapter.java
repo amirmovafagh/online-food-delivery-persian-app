@@ -47,7 +47,7 @@ public class RestaurantFoodTypeAdapter extends RecyclerView.Adapter<RestaurantFo
             holder.binding.tvNameType.setTextColor(context.getResources().getColor(R.color.white));
         } else {//remove selected
             holder.binding.cvFoodTypeTextBackground.setCardBackgroundColor(context.getResources().getColor(R.color.transparent));
-            holder.binding.tvNameType.setTextColor(context.getResources().getColor(R.color.gray));
+            holder.binding.tvNameType.setTextColor(context.getResources().getColor(R.color.detailsTextColor));
         }
 
         holder.binding.tvNameType.setOnClickListener(v -> {

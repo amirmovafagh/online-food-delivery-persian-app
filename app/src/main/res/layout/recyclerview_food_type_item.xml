@@ -2,47 +2,50 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="foodType"
-            type="String"/>
+            type="String" />
+
         <variable
             name="viewModel"
             type="ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments.RestaurantFoodMenuViewModel" />
     </data>
-<LinearLayout
-    android:orientation="horizontal"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"
-    android:layoutDirection="rtl"
-    >
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_food_type_text_background"
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        bind:cardCornerRadius="@dimen/card_view_corner_radius"
-        android:layout_gravity="center"
-        bind:cardElevation="0dp"
-        bind:cardBackgroundColor="@android:color/transparent">
-        <TextView
-            android:id="@+id/tvNameType"
-            android:textSize="@dimen/body3_paragraph_font_size"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layoutDirection="rtl"
+        android:orientation="horizontal">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_food_type_text_background"
             android:layout_width="wrap_content"
-            android:minWidth="60dp"
-            android:padding="4dp"
-            android:layout_gravity="center"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            android:text="@{foodType}"
-            />
-    </androidx.cardview.widget.CardView>
+            android:layout_gravity="center"
+            bind:cardBackgroundColor="@android:color/transparent"
+            bind:cardCornerRadius="@dimen/card_view_corner_radius"
+            bind:cardElevation="0dp">
+
+            <TextView
+                android:id="@+id/tvNameType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:minWidth="60dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:text="@{foodType}"
+                android:textAlignment="center"
+                android:textSize="@dimen/body2_paragraph_font_size" />
+        </androidx.cardview.widget.CardView>
 
 
-</LinearLayout>
+    </LinearLayout>
 </layout>

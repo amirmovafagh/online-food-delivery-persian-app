@@ -1,6 +1,7 @@
 package ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
@@ -8,6 +9,8 @@ import androidx.lifecycle.ViewModel;
 
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 
@@ -48,6 +51,7 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
     public MutableLiveData<GetAllFoodResponse> allFoodMutableLiveData;
     public MutableLiveData<AllPackagesResponse> allPackagesMutableLiveData;
     public MutableLiveData<Integer> cartItemCount;
+    public MutableLiveData<String> totalPriceLiveData;
 
     public void setExtraRestaurantId(Long extraRestaurantId) {
         this.extraRestaurantId = extraRestaurantId;
@@ -57,6 +61,7 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
         allFoodMutableLiveData = new MutableLiveData<>();
         cartItemCount = new MutableLiveData<>();
         allPackagesMutableLiveData = new MutableLiveData<>();
+        totalPriceLiveData = new MutableLiveData<>();
 
 
         items = new ArrayList<>();
@@ -105,6 +110,7 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
             @Override
             public void onSuccess(Integer integer) {
                 cartItemCount.setValue(integer);
+                calculateCartTotalPrice();
             }
 
             @Override
@@ -112,6 +118,57 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
                 Toast.makeText(context, "{count cart}" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void calculateCartTotalPrice() {
+        cartDataSource.sumPrice(extraRestaurantId)
+                .subscribeOn(io.reactivex.schedulers.Schedulers.io())
+                .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new SingleObserver<Long>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(Long aLong) {
+                totalPriceLiveData.setValue(moneyFormat(aLong));
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+                Log.e(TAG, "{UPDATE CART ITEM}-> " + e.getMessage());
+            }
+        });
+    }
+    private String moneyFormat(Long cost){
+        NumberFormat formatter = new DecimalFormat("#,###");
+        String formattedNumber = formatter.format(cost);
+        return formattedNumber+" تومان";
+    }
+
+    public void clearCart(){
+        cartDataSource.cleanCart(extraRestaurantId)
+                .subscribeOn(io.reactivex.schedulers.Schedulers.io())
+                .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<Integer>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(Integer integer) {
+
+                        Toast.makeText(context, ""+integer, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "{DELETE CART ITEM}-> " + e.getMessage());
+                    }
+                });
     }
 
     public void getAllFood(String authToken, long restaurantId) {
@@ -269,6 +326,9 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
                 }
             });
         }
+    }
+    public void goToCartOnClick(){
+        foodInterface.goToCartFragment();
     }
 
     private void addToFavoriteList(long foodId) {

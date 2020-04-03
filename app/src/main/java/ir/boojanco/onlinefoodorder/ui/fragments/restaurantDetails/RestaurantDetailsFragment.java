@@ -89,6 +89,7 @@ public class RestaurantDetailsFragment extends Fragment implements RestaurantDet
 
     @BindingAdapter({"pager"})
     public static void bindViewPagerTabs(final TabLayout view, final ViewPager pagerView) {
+        view.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
         view.setupWithViewPager(pagerView, true);
         pagerView.setCurrentItem(1);
     }

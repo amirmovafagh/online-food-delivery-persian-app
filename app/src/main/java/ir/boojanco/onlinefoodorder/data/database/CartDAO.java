@@ -29,17 +29,19 @@ public interface CartDAO {
     @Query("SELECT * FROM cart_table WHERE foodId=:foodId AND restaurantId=:restaurantId")
     Single<CartItem> getItemInCart(long foodId, long restaurantId);
 
-
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE) //if conflict foodId, we will update information
-    Completable insertOrReplaceAll(CartItem...cartItems);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+        //if conflict foodId, we will update information
+    Completable insertOrReplaceAll(CartItem... cartItems);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     Single<Integer> updateCart(CartItem cart);
 
     @Delete
-    Single<Integer> deleteCart(CartItem cart);
+    Single<Integer> deleteCart(CartItem cart); //delete one row from table
 
     @Query("DELETE FROM cart_table WHERE restaurantId=:restaurantId")
     Single<Integer> cleanCart(long restaurantId);
+
+    @Query("DELETE FROM cart_table")
+    void cleanAllCart();
 }

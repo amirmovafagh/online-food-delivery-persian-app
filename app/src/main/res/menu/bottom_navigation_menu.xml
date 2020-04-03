@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/homeFragment"
         android:title="@string/home"
-        android:icon="@drawable/ic_home_black_24dp"
+        android:icon="@drawable/ic_home"
         />
     <item android:id="@+id/restaurantFragment"
         android:title="@string/restaurants"
-        android:icon="@drawable/ic_restaurant_black_24dp"
+        android:icon="@drawable/ic_cutlery"
        />
     <item
         android:id="@+id/itemEmpty"
@@ -18,11 +18,11 @@
         android:enabled="false"/>
     <item android:id="@+id/cartFragment"
         android:title="@string/cartItem"
-        android:icon="@drawable/ic_shopping_cart_black_24dp"
+        android:icon="@drawable/ic_shopping_cart"
        />
     <item android:id="@+id/userProfileFragment"
     android:title="@string/userProfile"
-        android:icon="@drawable/ic_account_box_black_24dp"
+        android:icon="@drawable/ic_user"
         />
 
 

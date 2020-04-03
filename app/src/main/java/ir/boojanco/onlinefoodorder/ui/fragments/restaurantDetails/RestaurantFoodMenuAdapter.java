@@ -38,8 +38,6 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
         this.clickListener = clickListener;
         this.cartDataSource = cartDataSource;
         this.extraRestaurantId = extraRestaurantId;
-
-
     }
 
     @NonNull
@@ -66,15 +64,16 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
         } else if (holder instanceof RestaurantFoodViewHolder) {
             FoodItem foodItem = (FoodItem) items.get(position);
             ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.setFoodItem(foodItem);
-            ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.toggleBookmark.setOnCheckedChangeListener((buttonView, isChecked) -> clickListener.onRecyclerViewFaveToggleClick( foodItem, isChecked));
+            ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.toggleBookmark.setOnCheckedChangeListener((buttonView, isChecked) -> clickListener.onRecyclerViewFaveToggleClick(foodItem, isChecked));
             getFoodByIdFromDB(foodItem, extraRestaurantId, (RestaurantFoodViewHolder) holder, false, false);
             ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.imgBtnIncrease.setOnClickListener(v -> {
+                ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.setCountVisibility(true);
                 TextView textView = ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.textViewItemCount;
                 int count = Integer.parseInt(textView.getText().toString());
                 if (count == 0) {
+                    textView.setText("1");
                     foodItem.setCount(1);
                     clickListener.onRecyclerViewItemClick(((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.imgBtnIncrease, foodItem);
-                    textView.setText("1");
                 } else
                     getFoodByIdFromDB(foodItem, extraRestaurantId, (RestaurantFoodViewHolder) holder, true, false);
 
@@ -105,9 +104,11 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
                     @Override
                     public void onSuccess(CartItem cartItem) {
 
-                        if (!isDecrease && !isIncrease)
+                        if (!isDecrease && !isIncrease) {
+                            if (cartItem.getFoodQuantity() > 0)
+                                holder.recyclerviewRestaurantFoodMenuBinding.setCountVisibility(true);
                             holder.recyclerviewRestaurantFoodMenuBinding.textViewItemCount.setText(String.valueOf((cartItem.getFoodQuantity())));
-
+                        }
                         if (isIncrease && cartItem.getFoodQuantity() < 99) {
                             currentFood.setCount(cartItem.getFoodQuantity() + 1);
                             clickListener.onRecyclerViewItemClick(holder.recyclerviewRestaurantFoodMenuBinding.imgBtnIncrease, currentFood);
@@ -116,6 +117,7 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
                         }
                         if (isDecrease && cartItem.getFoodQuantity() == 1) {
                             deleteCartItemDatabase(cartItem, holder, 0);
+                            holder.recyclerviewRestaurantFoodMenuBinding.setCountVisibility(false);
                         } else if (isDecrease && cartItem.getFoodQuantity() > 1) {
                             currentFood.setCount(cartItem.getFoodQuantity() - 1);
                             clickListener.onRecyclerViewItemClick(holder.recyclerviewRestaurantFoodMenuBinding.imgBtnIncrease, currentFood);

@@ -1,6 +1,7 @@
 package ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -21,7 +22,6 @@ import androidx.recyclerview.widget.SnapHelper;
 import androidx.transition.AutoTransition;
 import androidx.transition.TransitionManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +65,7 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
 
     private ArrayList<String> foodTypeIndex;
 
-    private RestaurantFoodMenuViewModel restaurantFoodMenuViewModel;
+    private RestaurantFoodMenuViewModel viewModel;
     private RestaurantFoodMenuFragmentBinding binding;
     private RecyclerView recyclerViewFoodMenu;
     private RestaurantFoodMenuAdapter adapterMenu;
@@ -78,7 +78,7 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     private long extraRestauranId = 0;
 
     private ConstraintLayout expandableView;
-    private ImageButton arrowBtn;
+    private ImageButton packageBtn;
     private LinearLayout mainLayout;
 
     private final String selectedPackageExtraName = "selectedPackage";
@@ -95,19 +95,19 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
         ((App) getActivity().getApplication()).getComponent().inject(this);
         bundleCartFragment = new Bundle();
         binding = DataBindingUtil.inflate(inflater, R.layout.restaurant_food_menu_fragment, container, false);
-        restaurantFoodMenuViewModel = new ViewModelProvider(this, factory).get(RestaurantFoodMenuViewModel.class);
+        viewModel = new ViewModelProvider(this, factory).get(RestaurantFoodMenuViewModel.class);
         RestaurantInfoSharedViewModel sharedViewModel = new ViewModelProvider(getParentFragment()).get(RestaurantInfoSharedViewModel.class);
-        restaurantFoodMenuViewModel.foodInterface = this;
-        binding.setFoodMenu(restaurantFoodMenuViewModel);
+        viewModel.foodInterface = this;
+        binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
         transition = new AutoTransition();
         expandableView = binding.expandableView;
-        arrowBtn = binding.arrowBtn;
+        packageBtn = binding.packageBtn;
         mainLayout = binding.linearLayoutMainFoodMenu;
         Bundle extras = getArguments();
         if (extras != null) {
             extraRestauranId = extras.getLong("restaurantID", 0);
-            restaurantFoodMenuViewModel.setExtraRestaurantId(extraRestauranId);
+            viewModel.setExtraRestaurantId(extraRestauranId);
             RecyclerView recyclerViewFoodType = binding.recyclerViewFoodType;
             RecyclerView recyclerViewRestaurantPackage = binding.recyclerViewRestaurantPackage;
             SnapHelper snapHelper = new PagerSnapHelper(); //for stay on center
@@ -132,15 +132,15 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
             recyclerViewFoodType.setItemViewCacheSize(20);
 
 
-            linearLayoutManagerFoodMenu = new LinearLayoutManager(getActivity().getApplication());
+            linearLayoutManagerFoodMenu = new LinearLayoutManager(application);
             recyclerViewFoodMenu = binding.recyclerViewRestauranFood;
             recyclerViewFoodMenu.setLayoutManager(linearLayoutManagerFoodMenu);
             recyclerViewFoodMenu.setHasFixedSize(true);
             recyclerViewFoodMenu.setItemViewCacheSize(20);
             adapterMenu = new RestaurantFoodMenuAdapter(this, cartDataSource, extraRestauranId);
             recyclerViewFoodMenu.setAdapter(adapterMenu);
-            restaurantFoodMenuViewModel.getAllFood(sharedPreferences.getUserAuthTokenKey(), extraRestauranId);
-            restaurantFoodMenuViewModel.getRestaurantPackages(sharedPreferences.getUserAuthTokenKey(), extraRestauranId);
+            viewModel.getAllFood(sharedPreferences.getUserAuthTokenKey(), extraRestauranId);
+            viewModel.getRestaurantPackages(sharedPreferences.getUserAuthTokenKey(), extraRestauranId);
 
             sharedViewModel.infoResponseMutableLiveData.observe(getViewLifecycleOwner(), new Observer<RestaurantInfoResponse>() {
                 @Override
@@ -157,23 +157,24 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        binding.fab.setOnClickListener(v -> {
-            bundleCartFragment.putLong("restaurantID", extraRestauranId);
 
-            Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.action_restaurantFoodMenuFragment_to_cartFragment, bundleCartFragment);
-        });
-
-        arrowBtn.setOnClickListener(v -> {
+        packageBtn.setOnClickListener(v -> {
             if (expandableView.getVisibility() == View.GONE) {
                 TransitionManager.beginDelayedTransition(mainLayout, transition);
                 expandableView.setVisibility(View.VISIBLE);
-                arrowBtn.setBackgroundResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+
             } else {
                 TransitionManager.beginDelayedTransition(mainLayout, transition);
                 expandableView.setVisibility(View.GONE);
-                arrowBtn.setBackgroundResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+
             }
         });
+    }
+
+    @BindingAdapter({"animatedVisibility"})
+    public static void setAnimatedVisibility(View view, boolean isVisible){
+        TransitionManager.beginDelayedTransition((ViewGroup) view.getRootView());
+        view.setVisibility(isVisible ?View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -206,10 +207,17 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     }
 
     @Override
+    public void goToCartFragment() {
+        bundleCartFragment.putLong("restaurantID", extraRestauranId);
+
+        Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.action_restaurantFoodMenuFragment_to_cartFragment, bundleCartFragment);
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
-        if (restaurantFoodMenuViewModel != null) {
-            restaurantFoodMenuViewModel.onStop();
+        if (viewModel != null) {
+            viewModel.onStop();
 
         }
     }
@@ -219,7 +227,8 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     public void onDestroy() {
         super.onDestroy();
         if (adapterFoodType != null)
-            restaurantFoodMenuViewModel.onStop();
+            viewModel.onStop();
+        viewModel.clearCart();
     }
 
     @Override
@@ -227,7 +236,7 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
         switch (v.getId()) {
             case R.id.img_btn_increase:
                 Toast.makeText(application, "" + extraRestauranId, Toast.LENGTH_SHORT).show();
-                restaurantFoodMenuViewModel.addToCartItemDB(items, extraRestauranId);
+                viewModel.addToCartItemDB(items, extraRestauranId);
 
                 break;
             case R.id.ivLogo:
@@ -238,12 +247,12 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
 
     @Override
     public void onRecyclerViewFaveToggleClick(FoodItem items, boolean isChecked) {
-        restaurantFoodMenuViewModel.onFoodFavoriteCheckedChanged(items.getId(), isChecked);
+        viewModel.onFoodFavoriteCheckedChanged(items.getId(), isChecked);
     }
 
     @Override
     public void onCartItemCountUpdate() {
-        restaurantFoodMenuViewModel.getCartCountItem(extraRestauranId);
+        viewModel.getCartCountItem(extraRestauranId);
     }
 
     @Override
@@ -264,7 +273,7 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     @Override
     public void onResume() {
         super.onResume();
-        restaurantFoodMenuViewModel.getCartCountItem(extraRestauranId);
+        viewModel.getCartCountItem(extraRestauranId);
         adapterMenu.notifyDataSetChanged();
     }
 

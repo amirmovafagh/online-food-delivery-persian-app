@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import javax.inject.Inject;
@@ -108,6 +109,7 @@ public class RestaurantDetailsFragment extends Fragment implements RestaurantDet
     @Override
     public void onFailure(String error) {
         binding.cvWaitingResponse.setVisibility(View.GONE);
-        Toast.makeText(application, "" + error, Toast.LENGTH_LONG).show();
+        Snackbar snackbar = Snackbar.make(binding.mainContent, "" + error, Snackbar.LENGTH_SHORT);
+        snackbar.show();
     }
 }

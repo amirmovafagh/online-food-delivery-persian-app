@@ -8,6 +8,7 @@
             type="ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments.RestaurantInfoViewModel" />
     </data>
     <FrameLayout
+
         android:id="@+id/frame_layout_info_restaurant"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

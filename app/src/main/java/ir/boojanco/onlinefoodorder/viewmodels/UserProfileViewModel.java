@@ -164,11 +164,11 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
                     @Override
                     public void onNext(Response<Void> voidResponse) {
 
-                        Toast.makeText(context, "save", Toast.LENGTH_SHORT).show();
+                        if (voidResponse.isSuccessful())
+                            userProfileInterface.onFailure("ذخیره شد");
                         getUserAddress(userAuthToken);
                         userProfileInterface.updateAddressRecyclerView(addressRecyclerViewPosition);
-                        //cartInterface.onSuccessGetAddress(addUserAddressResponse);
-                        //initDeliveryType();
+
                     }
                 });
             }
@@ -269,8 +269,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
                     state.setValue(reverseFindAddressResponse.getResult().get(0).getTitle());
                     city.setValue(reverseFindAddressResponse.getResult().get(3).getTitle());
                     region.setValue(reverseFindAddressResponse.getShortAddress());
-                    Toast.makeText(context, "" + reverseFindAddressResponse.getShortAddress() + "  " + state.getValue() + "  " + city.getValue(), Toast.LENGTH_LONG).show();
-
+                    userProfileInterface.onFailure("" + reverseFindAddressResponse.getShortAddress() + "  " + state.getValue() + "  " + city.getValue());
 
                 }
             });
@@ -390,19 +389,19 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
     }
 
     public void addMapPositionBtnClick() {
-        Toast.makeText(context, "" + state.getValue() + " " + stateId + " " + city.getValue() + " " + cityId, Toast.LENGTH_SHORT).show();
+        onFailure("" + state.getValue() + " " + stateId + " " + city.getValue() + " " + cityId);
         bottomSheetChangeVisibility.setValue(true);
         userProfileInterface.showAddressBottomSheet();
     }
 
     public void getUserProfileInfo(String authToken) {
+        userProfileInterface.onStarted();
         rx.Observable<UserProfileResponse> observable = userRepository.getUserProfileResponseObservable(authToken);
         if (observable != null) {
-            userProfileInterface.onStarted();
             observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<UserProfileResponse>() {
                 @Override
                 public void onCompleted() {
-                    userProfileInterface.onSuccessGetUserProfileInfo();
+
                 }
 
                 @Override
@@ -463,16 +462,17 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         if (!isValidEnteredUserInfo()) {
             return;
         }
+        userProfileInterface.onStarted();
         UserProfileResponse userProfileBody;
         if (completeUserProfile) {
             userProfileBody = new UserProfileResponse(firstNameLiveData.getValue(), lastNameLiveData.getValue(), emailLiveData.getValue(), birthDateTimeMill);
             rx.Observable<Response<Void>> observable = userRepository.editUserProfileObservable(userAuthToken, userProfileBody);
             if (observable != null) {
-                userProfileInterface.onStarted();
+
                 observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<Response<Void>>() {
                     @Override
                     public void onCompleted() {
-                        userProfileInterface.onSuccessGetUserProfileInfo();
+
                     }
 
                     @Override
@@ -498,18 +498,19 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
                     public void onNext(Response<Void> voidResponse) {
                         Log.i(TAG, voidResponse.isSuccessful() + "");
                         userProfileInterface.hideBottomSheet();
+                        userProfileInterface.onSuccessGetUserProfileInfo();
                     }
                 });
             }
         } else {
+            userProfileInterface.onStarted();
             userProfileBody = new UserProfileResponse(firstNameLiveData.getValue(), lastNameLiveData.getValue(), emailLiveData.getValue(), birthDateTimeMill);
             rx.Observable<Response<Void>> observable = userRepository.completeUserProfileObservable(userAuthToken, userProfileBody);
             if (observable != null) {
-                userProfileInterface.onStarted();
+
                 observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<Response<Void>>() {
                     @Override
                     public void onCompleted() {
-                        userProfileInterface.onSuccessGetUserProfileInfo();
                     }
 
                     @Override
@@ -535,6 +536,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
                     public void onNext(Response<Void> voidResponse) {
                         Log.i(TAG, voidResponse.isSuccessful() + "");
                         userProfileInterface.hideBottomSheet();
+                        userProfileInterface.onSuccessGetUserProfileInfo();
                     }
                 });
             }

@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import javax.inject.Inject;
 
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
@@ -46,15 +48,15 @@ public class LoginActivity extends AppCompatActivity implements LoginAuth {
         // We need to cast to `App` in order to get the right method
         ((App) getApplicationContext()).getComponent().inject(this);
 
-        if(sharedPreferences.getUserAuthTokenKey() != null ){
-            Intent i = new Intent(this,MainActivity.class);
+        if (sharedPreferences.getUserAuthTokenKey() != null) {
+            Intent i = new Intent(this, MainActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
         }
 
         // get view model
-        loginViewModel = new ViewModelProvider(this,factory).get(LoginViewModel.class);
+        loginViewModel = new ViewModelProvider(this, factory).get(LoginViewModel.class);
         // Inflate view and obtain an instance of the binding class.
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         binding.setUserLogin(loginViewModel); // connect activity_Main variable to ViewModel class
@@ -78,9 +80,9 @@ public class LoginActivity extends AppCompatActivity implements LoginAuth {
 
     @Override
     public void onSuccess(LoginUserResponse loginUserResponse) {
-        if (loginUserResponse != null){
+        if (loginUserResponse != null) {
             sharedPreferences.setUserAuthTokenKey(loginUserResponse.getId());
-            Intent i = new Intent(this,MainActivity.class);
+            Intent i = new Intent(this, MainActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             binding.cvWaitingResponse.setVisibility(View.GONE);
@@ -92,8 +94,8 @@ public class LoginActivity extends AppCompatActivity implements LoginAuth {
 
     @Override
     public void onFailure(String error) {
-        Toast.makeText(LoginActivity.this, "" + error, Toast.LENGTH_SHORT).show();
         binding.cvWaitingResponse.setVisibility(View.GONE);
-
+        Snackbar snackbar = Snackbar.make(binding.mainContent, "" + error, Snackbar.LENGTH_SHORT);
+        snackbar.show();
     }
 }

@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -102,19 +104,22 @@ public class OrdersFragment extends Fragment implements OrdersFragmentInterface,
             customFoodOrdersDialog.setCanceledOnTouchOutside(true);
             if (customFoodOrdersDialog != null && !customFoodOrdersDialog.isShowing())
                 customFoodOrdersDialog.show();
-            else Toast.makeText(application, "خطا در دریافت اطلاعات ", Toast.LENGTH_LONG).show();
+            else
+                onFailure("خطا در دریافت اطلاعات ");
         }
 
     }
 
     @Override
     public void onFailure(String error) {
-        Toast.makeText(application, "" + error, Toast.LENGTH_SHORT).show();
         binding.animationViewLoadRequest.setVisibility(View.GONE);
+        Snackbar snackbar = Snackbar.make(binding.mainContent, "" + error, Snackbar.LENGTH_SHORT);
+        snackbar.show();
+
     }
 
     @Override
     public void addComment(long orderId, float foodQuality, float systemEx, float arrivalTime, float personnelBehaviour, String userComment) {
-        viewModel.addOrderComment(orderId,foodQuality,systemEx,arrivalTime,personnelBehaviour,userComment);
+        viewModel.addOrderComment(orderId, foodQuality, systemEx, arrivalTime, personnelBehaviour, userComment);
     }
 }

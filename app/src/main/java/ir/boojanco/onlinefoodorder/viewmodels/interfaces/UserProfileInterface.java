@@ -32,5 +32,7 @@ public interface UserProfileInterface {
 
     void onFailure(String Error);
 
+    void showMessage(String msg);
+
     void hideBottomSheet();
 }

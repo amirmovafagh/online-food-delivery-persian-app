@@ -270,20 +270,18 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
 
                 @Override
                 public void onNext(ReverseFindAddressResponse reverseFindAddressResponse) {
-                    Log.i("AMIR", "rev3");
+
                     state.setValue(reverseFindAddressResponse.getResult().get(0).getTitle());
                     city.setValue(reverseFindAddressResponse.getResult().get(3).getTitle());
                     region.setValue(reverseFindAddressResponse.getShortAddress());
-                    Toast.makeText(context, "" + reverseFindAddressResponse.getShortAddress() + "  " + state.getValue() + "  " + city.getValue(), Toast.LENGTH_LONG).show();
-
-                    //cartInterface.onSuccessGetReverseAddress(reverseFindAddressResponse);
+                    fragmentInterface.onFailure("" + reverseFindAddressResponse.getShortAddress() + "  " + state.getValue() + "  " + city.getValue());
                 }
             });
         }
     }
 
     public void addMapPositionBtnClick() {
-        Toast.makeText(context, "" + state.getValue() + " " + stateId + " " + city.getValue() + " " + cityId, Toast.LENGTH_SHORT).show();
+        onFailure("" + state.getValue() + " " + stateId + " " + city.getValue() + " " + cityId);
         fragmentInterface.showAddressBottomSheet();
     }
 
@@ -392,11 +390,10 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
                         fragmentInterface.onSuccess(cartItems);
                         this.cartItems = cartItems;
 
-
                     }
                     calculateCartTotalPrice(restaurantId);
                 }, throwable -> {
-                    Toast.makeText(context, "{GET ALL Cart}" + throwable.getMessage(), Toast.LENGTH_LONG).show();
+                    Log.e(TAG,"{GET ALL Cart}" + throwable.getMessage());
                 }));
     }
 

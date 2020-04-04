@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
 
@@ -15,6 +16,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -118,7 +121,13 @@ public class CustomFoodOrdersDialog extends Dialog {
                     personnelBehaviourLiveData.getValue(), userCommentLiveData.getValue());
             this.cancel();
         } else
-            Toast.makeText(activity, "لطفا فیلد های موردنظر را تکمیل کنید", Toast.LENGTH_SHORT).show();
+            onFailure("لطفا فیلد های موردنظر را تکمیل کنید");
     }
 
+    public void onFailure(String error) {
+
+        Snackbar snackbar = Snackbar.make(binding.consLayoutMainStateCityDialog, "" + error, Snackbar.LENGTH_SHORT);
+        snackbar.show();
+
+    }
 }

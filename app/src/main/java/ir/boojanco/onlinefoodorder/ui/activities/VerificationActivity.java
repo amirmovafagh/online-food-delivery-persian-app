@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import javax.inject.Inject;
 
 import ir.boojanco.onlinefoodorder.R;
@@ -70,7 +72,8 @@ binding.cvWaitingResponse.setVisibility(View.VISIBLE);
 
     @Override
     public void onFailure(String Error) {
-        Toast.makeText(this, ""+Error, Toast.LENGTH_SHORT).show();
         binding.cvWaitingResponse.setVisibility(View.GONE);
+        Snackbar snackbar = Snackbar.make(binding.mainContent, "" + Error, Snackbar.LENGTH_SHORT);
+        snackbar.show();
     }
 }

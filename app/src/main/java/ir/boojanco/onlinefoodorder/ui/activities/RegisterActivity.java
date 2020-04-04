@@ -3,17 +3,16 @@ package ir.boojanco.onlinefoodorder.ui.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Application;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import javax.inject.Inject;
 
@@ -67,8 +66,6 @@ public class RegisterActivity extends AppCompatActivity implements RegisterAuth 
 
     @Override
     public void onSuccess(Long time, String phoneNumber, String password) {
-
-        Toast.makeText(application, "" + time, Toast.LENGTH_SHORT).show();
         Intent i = new Intent(this, VerificationActivity.class);
         i.putExtra(verificationCodeTimerKeyExtra, time);
         i.putExtra(phoneNumberKeyExtra, phoneNumber);
@@ -91,6 +88,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterAuth 
     @Override
     public void onFailure(String Error) {
         binding.cvWaitingResponse.setVisibility(View.GONE);
-        Toast.makeText(application, "" + Error, Toast.LENGTH_SHORT).show();
+        Snackbar snackbar = Snackbar.make(binding.mainContent, "" + Error, Snackbar.LENGTH_SHORT);
+        snackbar.show();
     }
 }

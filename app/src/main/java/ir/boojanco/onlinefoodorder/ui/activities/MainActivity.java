@@ -40,6 +40,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
 import java.util.List;
@@ -155,10 +156,9 @@ public class MainActivity extends AppCompatActivity {
                             if (location == null) {
                                 requestNewLocationData();
                             } else {
-                                //Toast.makeText(this, ""+location.getLatitude()+"  "+location.getLongitude(), Toast.LENGTH_SHORT).show();
                                 sharedPreferences.setLatitude(location.getLatitude());
                                 sharedPreferences.setLongitud(location.getLongitude());
-                                //getCityName(location);
+                                getCityName(location);
                             }
                         }
                 );
@@ -173,19 +173,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getCityName(Location location) {
-        Geocoder geocoder = new Geocoder(this, new Locale("fa"));
+        Geocoder geocoder;
         List<Address> addresses = null;
+        geocoder = new Geocoder(this, new Locale("fa"));
+        Log.i(TAG,""+location.getLatitude()+"   "+ location.getLongitude());
         try {
-
-            addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-            String cityName = addresses.get(0).getAddressLine(0);
-            String stateName = addresses.get(0).getAddressLine(1);
-            Toast.makeText(this, "city: " + cityName + " state: " + stateName, Toast.LENGTH_SHORT).show();
-            Log.i(TAG, "city: " + cityName + " state: " + stateName);
+            addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+            String city = addresses.get(0).getLocality();
+            String state = addresses.get(0).getAdminArea();
+            String country = addresses.get(0).getCountryName();
+            String postalCode = addresses.get(0).getPostalCode();
+            String knownName = addresses.get(0).getFeatureName(); // Only if available else return NULL
+            Toast.makeText(this, "آدرس: " + address, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "استان: " + state, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "شهر: " + city ,Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();
-            Log.e(TAG, "" + e.getMessage());
         }
+
+
 
     }
 
@@ -213,6 +220,7 @@ public class MainActivity extends AppCompatActivity {
             if (mLastLocation != null) {
                 sharedPreferences.setLatitude(mLastLocation.getLatitude());
                 sharedPreferences.setLongitud(mLastLocation.getLongitude());
+                getCityName(mLastLocation);
             }
 
         }

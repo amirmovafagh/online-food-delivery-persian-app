@@ -29,6 +29,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 
 import javax.inject.Inject;
@@ -197,7 +199,8 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
 
     @Override
     public void onFailure(String error) {
-        Toast.makeText(application, "" + error, Toast.LENGTH_SHORT).show();
+        Snackbar snackbar = Snackbar.make(binding.mainContent, "" + error, Snackbar.LENGTH_SHORT);
+        snackbar.show();
     }
 
     @Override
@@ -222,19 +225,15 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
         super.onDestroy();
         if (adapterFoodType != null)
             viewModel.onStop();
-        viewModel.clearCart();
     }
 
     @Override
     public void onRecyclerViewItemClick(View v, FoodItem items) {
         switch (v.getId()) {
             case R.id.img_btn_increase:
-                Toast.makeText(application, "" + extraRestauranId, Toast.LENGTH_SHORT).show();
                 viewModel.addToCartItemDB(items, extraRestauranId);
-
                 break;
             case R.id.ivLogo:
-
                 break;
         }
     }

@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import javax.inject.Inject;
 
 import ir.boojanco.onlinefoodorder.R;
@@ -92,6 +94,7 @@ public class RestaurantCommentFragment extends Fragment implements RestaurantCom
     @Override
     public void onFailure(String error) {
         binding.animationViewLoadRequest.setVisibility(View.GONE);
-        Toast.makeText(application, ""+error, Toast.LENGTH_SHORT).show();
+        Snackbar snackbar = Snackbar.make(binding.mainContent, "" + error, Snackbar.LENGTH_SHORT);
+        snackbar.show();
     }
 }

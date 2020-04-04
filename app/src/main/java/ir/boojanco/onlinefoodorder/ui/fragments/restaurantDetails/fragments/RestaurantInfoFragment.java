@@ -22,6 +22,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.snackbar.Snackbar;
 
 import javax.inject.Inject;
 
@@ -98,37 +99,6 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantInfoFr
             // Zoom out to zoom level 10, animating with a duration of 2 seconds.
             googleMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);*/
 
-            /*Geocoder geocoder;
-            List<Address> addresses = null;
-            geocoder = new Geocoder(getContext(), new Locale("fa"));
-
-            try {
-                addresses = geocoder.getFromLocation(31.839271, 54.361095, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-            String city = addresses.get(0).getLocality();
-            String state = addresses.get(0).getAdminArea();
-            String country = addresses.get(0).getCountryName();
-            String postalCode = addresses.get(0).getPostalCode();
-            String knownName = addresses.get(0).getFeatureName(); // Only if available else return NULL
-            Toast.makeText(application, "آدرس: " + address, Toast.LENGTH_LONG).show();
-            Toast.makeText(application, "استان: " + state, Toast.LENGTH_LONG).show();
-            Toast.makeText(application, "شهر: " + city ,Toast.LENGTH_LONG).show();
-            Toast.makeText(application, "نام شناخته شده: " + knownName ,Toast.LENGTH_LONG).show();
-            Toast.makeText(application, "getPremises: " + addresses.get(0).getPremises() ,Toast.LENGTH_LONG).show();
-            Toast.makeText(application, "getAdminArea: " + addresses.get(0).getAdminArea() ,Toast.LENGTH_LONG).show();
-            Toast.makeText(application, "getPhone: " + addresses.get(0).getPhone() ,Toast.LENGTH_LONG).show();
-            Toast.makeText(application, "getPostalCode: " + addresses.get(0).getPostalCode() ,Toast.LENGTH_LONG).show();
-            Toast.makeText(application, "getSubAdminArea: " + addresses.get(0).getSubAdminArea() ,Toast.LENGTH_LONG).show();
-            Toast.makeText(application, "getSubLocality: " + addresses.get(0).getSubLocality() ,Toast.LENGTH_LONG).show();
-            Toast.makeText(application, "getThoroughfare: " + addresses.get(0).getThoroughfare() ,Toast.LENGTH_LONG).show();
-            Toast.makeText(application, "getUrl: " + addresses.get(0).getUrl() ,Toast.LENGTH_LONG).show();*/
-
-
-
         }
     }
 
@@ -144,7 +114,8 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantInfoFr
 
     @Override
     public void onFailure(String error) {
-        Toast.makeText(application, ""+error, Toast.LENGTH_SHORT).show();
+        Snackbar snackbar = Snackbar.make(binding.frameLayoutInfoRestaurant, "" + error, Snackbar.LENGTH_SHORT);
+        snackbar.show();
     }
 
 

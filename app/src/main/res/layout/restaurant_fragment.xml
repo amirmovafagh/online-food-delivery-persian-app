@@ -10,6 +10,7 @@
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/wallpaper_restaurant_info"
@@ -24,36 +25,33 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
-                android:background="@color/colorPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_scrollFlags="scroll|snap|enterAlways"
+                android:background="@color/colorPrimary"
                 app:actionViewClass="androidx.appcompat.widget.SearchView"
-                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:layout_scrollFlags="scroll|snap|enterAlways"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                >
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
                 <!-- dummy to catch focus -->
                 <LinearLayout
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
                     android:layout_width="0px"
-                    android:layout_height="0px"/>
+                    android:layout_height="0px"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true" />
 
                 <androidx.appcompat.widget.SearchView
                     android:id="@+id/search"
-                    android:textDirection="rtl"
-                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    app:defaultQueryHint="@string/search_title"
-                    android:nextFocusUp="@id/search"
-                    android:nextFocusLeft="@id/search"
+                    android:layout_height="wrap_content"
                     android:layoutDirection="rtl"
-                    />
+                    android:nextFocusLeft="@id/search"
+                    android:nextFocusUp="@id/search"
+                    android:textDirection="rtl"
+                    app:defaultQueryHint="@string/search_title" />
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 

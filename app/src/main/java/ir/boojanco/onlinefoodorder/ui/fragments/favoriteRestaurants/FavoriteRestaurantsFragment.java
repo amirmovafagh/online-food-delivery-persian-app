@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import javax.inject.Inject;
 
 import ir.boojanco.onlinefoodorder.R;
@@ -83,11 +85,12 @@ public class FavoriteRestaurantsFragment extends Fragment implements FavoriteRes
 
     @Override
     public void onFailure(String error) {
-        Toast.makeText(application, "" + error, Toast.LENGTH_SHORT).show();
+        Snackbar snackbar = Snackbar.make(binding.mainContent, "" + error, Snackbar.LENGTH_SHORT);
+        snackbar.show();
     }
 
     @Override
     public void onRecyclerViewFaveRestaurantClick(View v, FavoriteRestaurants favoriteRestaurant) {
-        Toast.makeText(application, "" + favoriteRestaurant.getId(), Toast.LENGTH_SHORT).show();
+        onFailure("" + favoriteRestaurant.getName());
     }
 }

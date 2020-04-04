@@ -94,7 +94,7 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
                     getCartCountItem(extraRestaurantId);
 
                 }, throwable -> {
-                    Toast.makeText(context, "{add Cart throwable}->" + throwable.getMessage(), Toast.LENGTH_LONG).show();
+                    Log.e(TAG,"{add Cart throwable}->" + throwable.getMessage());
                 })
         );
     }
@@ -115,7 +115,7 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
 
             @Override
             public void onError(Throwable e) {
-                Toast.makeText(context, "{count cart}" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e(TAG,"{count cart}" + e.getMessage());
             }
         });
     }
@@ -137,7 +137,6 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
 
             @Override
             public void onError(Throwable e) {
-
                 Log.e(TAG, "{UPDATE CART ITEM}-> " + e.getMessage());
             }
         });
@@ -161,7 +160,6 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
                     @Override
                     public void onSuccess(Integer integer) {
 
-                        Toast.makeText(context, ""+integer, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override

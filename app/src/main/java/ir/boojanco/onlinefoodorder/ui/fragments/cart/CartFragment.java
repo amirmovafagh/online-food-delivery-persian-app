@@ -29,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -137,7 +138,7 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
         });
 
         binding.bottomSheetInclude.switcherDefaultAddress.setOnCheckedChangeListener(aBoolean -> {
-            Toast.makeText(application, "" + aBoolean, Toast.LENGTH_SHORT).show();
+
             viewModel.defaultAddress = aBoolean;
             return null;
         });
@@ -229,7 +230,7 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
         if (stateCityDialog != null)
             stateCityDialog.show();
         else
-            Toast.makeText(application, "خطا در دریافت اطلاعات استان ها", Toast.LENGTH_LONG).show();
+            onFailure("خطا در دریافت اطلاعات استان ها");
     }
 
     @Override
@@ -274,7 +275,8 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
 
     @Override
     public void onFailure(String Error) {
-        Toast.makeText(application, "" + Error, Toast.LENGTH_SHORT).show();
+        Snackbar snackbar = Snackbar.make(binding.mainContent, "" + Error, Snackbar.LENGTH_SHORT);
+        snackbar.show();
     }
 
     @Override

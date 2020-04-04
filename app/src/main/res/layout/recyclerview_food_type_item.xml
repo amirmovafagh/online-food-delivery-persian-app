@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             bind:cardBackgroundColor="@android:color/transparent"
-            bind:cardCornerRadius="@dimen/card_view_corner_radius"
+            bind:cardCornerRadius="12dp"
             bind:cardElevation="0dp">
 
             <TextView

@@ -20,6 +20,8 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,7 +58,7 @@ import ir.boojanco.onlinefoodorder.viewmodels.interfaces.UserProfileInterface;
 
 
 public class UserProfileFragment extends Fragment implements AddressRecyclerViewInterface, UserProfileInterface, StateCityDialogInterface, DatePickerDialog.OnDateSetListener {
-private String TAG = UserProfileFragment.class.getSimpleName();
+    private String TAG = UserProfileFragment.class.getSimpleName();
     private UserProfileFragmentBinding binding;
     private UserProfileViewModel viewModel;
     @Inject
@@ -80,6 +82,8 @@ private String TAG = UserProfileFragment.class.getSimpleName();
     private LiveData<PagedList<UserAddressList>> userAddressPaged;
     private PersianDateFormat pdformater;
     private PersianDate pdate;
+    private Snackbar snackbar;
+
 
     public static UserProfileFragment newInstance() {
         return new UserProfileFragment();
@@ -140,7 +144,13 @@ private String TAG = UserProfileFragment.class.getSimpleName();
 
     @Override
     public void onStarted() {
-        binding.cvWaitingResponse.setVisibility(View.VISIBLE);
+
+        new Runnable() {
+            @Override
+            public void run() {
+                binding.cvWaitingResponse.setVisibility(View.VISIBLE);
+            }
+        };
     }
 
     @Override
@@ -200,7 +210,7 @@ private String TAG = UserProfileFragment.class.getSimpleName();
         if (stateCityDialog != null)
             stateCityDialog.show();
         else
-            Toast.makeText(application, "خطا در دریافت اطلاعات استان ها", Toast.LENGTH_LONG).show();
+            onFailure("خطا در دریافت اطلاعات استان ها");
     }
 
     @Override
@@ -243,8 +253,15 @@ private String TAG = UserProfileFragment.class.getSimpleName();
 
     @Override
     public void onFailure(String Error) {
-        Toast.makeText(application, "" + Error, Toast.LENGTH_SHORT).show();
+        snackbar = Snackbar.make(binding.coordinateLayoutMain, "" + Error, Snackbar.LENGTH_SHORT);
+        snackbar.show();
         binding.cvWaitingResponse.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showMessage(String msg) {
+        snackbar = Snackbar.make(binding.coordinateLayoutMain, "" + msg, Snackbar.LENGTH_SHORT);
+        snackbar.show();
     }
 
     @Override
@@ -267,14 +284,15 @@ private String TAG = UserProfileFragment.class.getSimpleName();
     }
 
     @Override
-    public void onDateSet(DatePickerDialog datePickerDialog, int yaer , int month, int day) {
+    public void onDateSet(DatePickerDialog datePickerDialog, int yaer, int month, int day) {
 
         pdate.setShYear(yaer);
-        pdate.setShMonth(month+1);
+        pdate.setShMonth(month + 1);
         pdate.setShDay(day);
         viewModel.setBirthDateTimeMill(pdate.getTime());
-        pdate= new PersianDate(pdate.getTime());
-        viewModel.birthDateLiveData.setValue(""+pdformater.format(pdate));
-        Log.i(TAG,""+pdformater.format(pdate));
+        pdate = new PersianDate(pdate.getTime());
+        viewModel.birthDateLiveData.setValue("" + pdformater.format(pdate));
+        Log.i(TAG, "" + pdformater.format(pdate));
     }
+
 }

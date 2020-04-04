@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.smarteist.autoimageslider.SliderView;
 
 import java.util.ArrayList;
@@ -127,14 +128,15 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
             @Override
             public boolean onQueryTextSubmit(String query) {
 
-                if(sharedPreferences.getCity() != null ){
+                if (sharedPreferences.getCity() != null) {
                     Bundle bundle = new Bundle();
                     bundle.putString("restaurantName", query);
                     bundle.putString("cityName", sharedPreferences.getCity());
                     Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.action_homeFragment_to_restaurantFragment, bundle);
                     /*  NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
                 navController.navigate(action);*/
-                }else Toast.makeText(application, "لطفا شهر را انتخاب کنید", Toast.LENGTH_SHORT).show();
+                } else
+                    onFailure("لطفا شهر را انتخاب کنید");
                 return false;
             }
 
@@ -171,12 +173,13 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
         if (stateCityDialog != null)
             stateCityDialog.show();
         else
-            Toast.makeText(application, "خطا در دریافت اطلاعات استان ها", Toast.LENGTH_LONG).show();
+            onFailure("خطا در دریافت اطلاعات استان ها");
     }
 
     @Override
     public void onFailure(String error) {
-        Toast.makeText(getContext(), "" + error, Toast.LENGTH_SHORT).show();
+        Snackbar snackbar = Snackbar.make(binding.mainContent, "" + error, Snackbar.LENGTH_SHORT);
+        snackbar.show();
     }
 
     @Override

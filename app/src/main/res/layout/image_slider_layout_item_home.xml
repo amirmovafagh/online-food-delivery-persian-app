@@ -20,26 +20,11 @@
             android:layout_height="0dp"
             android:scaleType="centerCrop"
             app:layout_constraintDimensionRatio="H,16:9"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textViewSliderHome"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:textSize="@dimen/body1_paragraph_font_size"
-            android:textStyle="bold"
-            android:maxLines="1"
-            android:textColor="@android:color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/imageViewSliderHome"
-            app:layout_constraintEnd_toEndOf="@+id/imageViewSliderHome"
-            app:layout_constraintHorizontal_bias="0.494"
-            app:layout_constraintStart_toStartOf="@+id/imageViewSliderHome"
-            app:layout_constraintTop_toTopOf="@+id/imageViewSliderHome"
-            app:layout_constraintVertical_bias="0.722" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

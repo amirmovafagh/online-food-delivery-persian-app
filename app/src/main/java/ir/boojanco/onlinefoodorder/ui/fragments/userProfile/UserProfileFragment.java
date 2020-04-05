@@ -160,8 +160,6 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
             userAddressPaged = viewModel.userAddressPagedListLiveData;
             userAddressPaged.observe(getActivity(), userAddressLists -> addressAdapter.submitList(userAddressLists)); //set PagedList user address
         }
-        Snackbar snackbar = Snackbar.make(binding.coordinateLayoutMain, "This is Simple Snackbar", Snackbar.LENGTH_SHORT);
-        snackbar.show();
         sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 

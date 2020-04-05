@@ -173,7 +173,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
                 });
             }
 
-        } else if (addressFunctionFlag == 2) {
+        } else if (addressFunctionFlag == 2) {//edit address
             EditUserAddressResponse editedAddress = new EditUserAddressResponse(exactAddress.getValue(), "WORK", cityId, defaultAddress.getValue(), userLatitude, userLongitude, region.getValue());
             Observable<Response<Void>> observable = userRepository.getEditUserAddressResponseObservable(userAuthToken, addressId, editedAddress);
             if (observable != null) {
@@ -202,10 +202,11 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
 
                     @Override
                     public void onNext(Response<Void> voidResponse) {
+                        if (voidResponse.isSuccessful())
+                            userProfileInterface.onFailure("تغیرات ثبت شد");
                         getUserAddress(userAuthToken);
                         userProfileInterface.updateAddressRecyclerView(addressRecyclerViewPosition);
-                        //cartInterface.onSuccessGetAddress(addUserAddressResponse);
-                        //initDeliveryType();
+
                     }
                 });
             }

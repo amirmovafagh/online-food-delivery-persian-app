@@ -87,4 +87,6 @@
 
     <string name="showCart">مشاهده سبد خرید</string>
     <string name="mazBin">مزبین</string>
+    <string name="scanMazeeBarcode">اسکن QR کد مزه</string>
+    <string name="qrCodeFragmentDetails">فقط کافیه QR کد رستورانی که اونجا حضور داری رو اسکن کنی تا منو غذاهای خوشمزشون رو ببینی</string>
 </resources>

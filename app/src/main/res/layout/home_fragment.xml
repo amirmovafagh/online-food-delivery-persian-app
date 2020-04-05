@@ -188,7 +188,7 @@
 
             />
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/img_half_pizza"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -207,13 +207,22 @@
             android:src="@drawable/table_half_left"
             app:layout_constraintBottom_toBottomOf="@id/img_half_pizza"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="@id/img_half_pizza" />
+            app:layout_constraintTop_toTopOf="@id/img_half_pizza" />-->
+        <ImageView
+            android:id="@+id/img_half_burger"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/table_half_left"
+            app:layout_constraintBottom_toTopOf="@id/cv_sugest"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recyclerview_food_type_search_filter_home"
+            app:layout_constraintVertical_bias="1" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cv_sugest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="?actionBarSize"
+            android:paddingBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <androidx.cardview.widget.CardView

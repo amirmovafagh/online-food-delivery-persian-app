@@ -156,18 +156,23 @@ public class MainActivity extends AppCompatActivity {
     private void getLastLocation() {
         if (checkPermissions()) {
             if (isLocationEnabled()) {
-                locationProviderClient.getLastLocation().addOnCompleteListener(
-                        task -> {
-                            Location location = task.getResult();
-                            if (location == null) {
-                                requestNewLocationData();
-                            } else {
-                                sharedPreferences.setLatitude(location.getLatitude());
-                                sharedPreferences.setLongitud(location.getLongitude());
-                                getCityName(location);
+
+                    locationProviderClient.getLastLocation().addOnCompleteListener(
+                            task -> {
+                                try {
+                                Location location = task.getResult();
+                                if (location == null) {
+                                    requestNewLocationData();
+                                } else {
+                                    sharedPreferences.setLatitude(location.getLatitude());
+                                    sharedPreferences.setLongitud(location.getLongitude());
+                                    getCityName(location);
+                                }} catch (Exception e) {
+                        Log.e(TAG, e.getMessage() + "");
+                    }
                             }
-                        }
-                );
+                    );
+
             } else {
                 showSetLocationEnabledAlertDialog();
 
@@ -182,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
         Geocoder geocoder;
         List<Address> addresses = null;
         geocoder = new Geocoder(this, new Locale("fa"));
-        Log.i(TAG,""+location.getLatitude()+"   "+ location.getLongitude());
+        Log.i(TAG, "" + location.getLatitude() + "   " + location.getLongitude());
         try {
             addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
             String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
@@ -193,14 +198,14 @@ public class MainActivity extends AppCompatActivity {
             String knownName = addresses.get(0).getFeatureName(); // Only if available else return NULL
             Toast.makeText(this, "آدرس: " + address, Toast.LENGTH_LONG).show();
             Toast.makeText(this, "استان: " + state, Toast.LENGTH_LONG).show();
-            Toast.makeText(this, "شهر: " + city ,Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "شهر: " + city, Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
 
-
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -212,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 //if qr contains data
                 try {
-                    Toast.makeText(this, result.getContents()+"", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, result.getContents() + "", Toast.LENGTH_LONG).show();
 
                     //converting the data to json
                     JSONObject obj = new JSONObject(result.getContents());
@@ -232,6 +237,7 @@ public class MainActivity extends AppCompatActivity {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
     @SuppressLint("MissingPermission")
     private void requestNewLocationData() {
 

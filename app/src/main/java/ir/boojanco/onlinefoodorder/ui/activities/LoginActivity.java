@@ -6,12 +6,16 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -29,9 +33,9 @@ import ir.boojanco.onlinefoodorder.viewmodels.LoginViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.LoginViewModelFactory;
 
 public class LoginActivity extends AppCompatActivity implements LoginAuth {
-    LoginViewModel loginViewModel;
+    LoginViewModel viewModel;
     ActivityLoginBinding binding;
-    EditText password;
+    EditText password, phoneNum;
 
     @Inject
     Application application;
@@ -56,18 +60,30 @@ public class LoginActivity extends AppCompatActivity implements LoginAuth {
         }
 
         // get view model
-        loginViewModel = new ViewModelProvider(this, factory).get(LoginViewModel.class);
+        viewModel = new ViewModelProvider(this, factory).get(LoginViewModel.class);
         // Inflate view and obtain an instance of the binding class.
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
-        binding.setUserLogin(loginViewModel); // connect activity_Main variable to ViewModel class
+        binding.setUserLogin(viewModel); // connect activity_Main variable to ViewModel class
         // Specify the current activity as the lifecycle owner.
         binding.setLifecycleOwner(this);
-        loginViewModel.loginAuth = this;
+        viewModel.loginAuth = this;
 
+        phoneNum = binding.loginPhoneEdtText;
         //set font on password editText
         password = binding.loginPasswordEdtText;
         password.setTypeface(Typeface.DEFAULT);
         password.setTransformationMethod(new PasswordTransformationMethod());
+
+        password.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                if (imm != null)
+                    imm.hideSoftInputFromWindow(password.getWindowToken(), 0);
+                viewModel.onLoginClick();
+                return true;
+            }
+            return false;
+        });
 
         binding.buttonRegisterActivity.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, RegisterActivity.class)));
     }

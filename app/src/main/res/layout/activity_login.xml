@@ -74,12 +74,16 @@
                     app:error="@{userLogin.phoneNumberError}">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/loginPhoneEdtText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="1234567890"
+                        android:imeOptions="actionNext"
                         android:inputType="phone"
                         android:maxLength="11"
+                        android:singleLine="true"
                         android:text="@={userLogin.phoneNumber}"
-                        android:textAlignment="center"
+                        android:textAlignment="viewStart"
                         android:textSize="@dimen/edit_text_font_size" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -99,8 +103,10 @@
                         android:id="@+id/loginPasswordEdtText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:imeOptions="actionDone"
+                        android:singleLine="true"
                         android:text="@={userLogin.password}"
-                        android:textAlignment="center"
+                        android:textAlignment="viewStart"
                         android:textSize="@dimen/edit_text_font_size" />
 
                 </com.google.android.material.textfield.TextInputLayout>

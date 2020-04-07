@@ -121,13 +121,6 @@ public class CustomFoodOrdersDialog extends Dialog {
                     personnelBehaviourLiveData.getValue(), userCommentLiveData.getValue());
             this.cancel();
         } else
-            onFailure("لطفا فیلد های موردنظر را تکمیل کنید");
-    }
-
-    public void onFailure(String error) {
-
-        Snackbar snackbar = Snackbar.make(binding.consLayoutMainStateCityDialog, "" + error, Snackbar.LENGTH_SHORT);
-        snackbar.show();
-
+            dialogInterface.showMessage("لطفا فیلد های موردنظر را تکمیل کنید");
     }
 }

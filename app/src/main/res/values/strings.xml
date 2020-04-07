@@ -13,7 +13,7 @@
     <string name="verify_info_activity">لطفا کد ارسال شده را وارد کنید</string>
     <string name="hint_text_phone_number_edt_text">شماره موبایل</string>
     <string name="hint_text_password_edt_text">کلمه عبور</string>
-    <string name="forgot_password"><u>کلمه عبور را فراموش کرده اید ؟</u></string>
+    <string name="forgot_password">کلمه عبور را فراموش کرده اید ؟</string>
     <string name="already_have_account">قبلا ثبت نام کرده اید ؟</string>
     <string name="send_again_verification_code">دریافت مجدد کد (60)</string>
     <string name="userProfile">پروفایل</string>

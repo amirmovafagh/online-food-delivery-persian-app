@@ -82,7 +82,8 @@ public class LoginViewModel extends ViewModel {
             phoneNumberError.setValue("لطفا شماره موبایل را وارد کنید");
             return false;
         } else {
-            if (Patterns.PHONE.matcher(phone).matches()) {
+           // if ()
+            if (Patterns.PHONE.matcher(phone).matches() && phone.length() > 10) {
                 phoneNumberError.setValue(null);
                 return true;
             } else {

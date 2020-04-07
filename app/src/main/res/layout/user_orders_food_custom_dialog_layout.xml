@@ -159,6 +159,7 @@
                             android:focusable="@{variables.userCommentStateLiveData }"
                             android:focusableInTouchMode="@{variables.userCommentStateLiveData }"
                             android:inputType="textMultiLine"
+                            android:maxLength="999"
                             android:text="@={variables.userCommentLiveData}"
                             android:textAlignment="center"
                             android:textSize="@dimen/edit_text_font_size" />

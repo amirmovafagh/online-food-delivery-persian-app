@@ -43,7 +43,7 @@ public class RegisterViewModel extends ViewModel {
         userRepository = UserRepository.getInstance(context);
     }*/
 
-    public void onRegisterClick(View view) {
+    public void onRegisterClick() {
         if (isValidPhoneNumber(phoneNumber.getValue()) && checkPasswordStrength(password.getValue())) {
             registerAuth.onStarted();
             Observable<Long> observable = userRepository.registerUser(phoneNumber.getValue());

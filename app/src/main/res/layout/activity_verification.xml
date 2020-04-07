@@ -71,6 +71,7 @@
                     android:layout_margin="8dp"
                     android:cursorVisible="true"
                     android:gravity="center"
+                    android:imeOptions="actionDone"
                     android:inputType="number"
                     android:itemBackground="@color/transparent"
                     android:text="@={viewModel.verificationCode}"

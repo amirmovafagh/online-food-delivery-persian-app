@@ -4,9 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -51,6 +54,17 @@ public class VerificationActivity extends AppCompatActivity implements Verificat
             viewModel.setVerificationCodeTimer(extras.getLong(verificationCodeTimerKeyExtra));
             viewModel.setPassword(extras.getString(passwordKeyExtra));
         }
+
+        binding.otpView.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                if (imm != null)
+                    imm.hideSoftInputFromWindow(binding.otpView.getWindowToken(), 0);
+                viewModel.checkVerificationCode();
+                return true;
+            }
+            return false;
+        });
     }
 
     @Override

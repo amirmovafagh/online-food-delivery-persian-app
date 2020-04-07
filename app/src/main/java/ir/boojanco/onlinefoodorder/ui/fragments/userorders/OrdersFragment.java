@@ -122,4 +122,9 @@ public class OrdersFragment extends Fragment implements OrdersFragmentInterface,
     public void addComment(long orderId, float foodQuality, float systemEx, float arrivalTime, float personnelBehaviour, String userComment) {
         viewModel.addOrderComment(orderId, foodQuality, systemEx, arrivalTime, personnelBehaviour, userComment);
     }
+
+    @Override
+    public void showMessage(String msg) {
+        onFailure(msg);
+    }
 }

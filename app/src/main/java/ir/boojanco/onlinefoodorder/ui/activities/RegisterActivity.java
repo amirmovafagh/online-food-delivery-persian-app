@@ -4,12 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -28,7 +31,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterAuth 
     private String verificationCodeTimerKeyExtra = "verificationCodeTimer";
     private String phoneNumberKeyExtra = "phoneNumber";
     private String passwordKeyExtra = "password";
-    RegisterViewModel registerViewModel;
+    RegisterViewModel viewModel;
     ActivityRegisterBinding binding;
 
     @Inject
@@ -45,18 +48,28 @@ public class RegisterActivity extends AppCompatActivity implements RegisterAuth 
         ((App) getApplicationContext()).getComponent().inject(this);
 
         // get view model
-        registerViewModel = new ViewModelProvider(this, factory).get(RegisterViewModel.class);
+        viewModel = new ViewModelProvider(this, factory).get(RegisterViewModel.class);
         // Inflate view and obtain an instance of the binding class.
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register);
-        binding.setUserRegister(registerViewModel); // connect activity_Main variable to ViewModel class
+        binding.setUserRegister(viewModel); // connect activity_Main variable to ViewModel class
         // Specify the current activity as the lifecycle owner.
         binding.setLifecycleOwner(this);
-        registerViewModel.registerAuth = this;
+        viewModel.registerAuth = this;
 
         EditText password = binding.registerPasswordEdtText;
         password.setTypeface(Typeface.DEFAULT);
         password.setTransformationMethod(new PasswordTransformationMethod());
 
+        password.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                if (imm != null)
+                    imm.hideSoftInputFromWindow(password.getWindowToken(), 0);
+                viewModel.onRegisterClick();
+                return true;
+            }
+            return false;
+        });
     }
 
     @Override

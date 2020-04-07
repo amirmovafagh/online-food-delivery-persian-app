@@ -89,4 +89,8 @@
     <string name="mazBin">مزبین</string>
     <string name="scanMazeeBarcode">اسکن QR کد مزه</string>
     <string name="qrCodeFragmentDetails">فقط کافیه QR کد رستورانی که اونجا حضور داری رو اسکن کنی تا منو غذاهای خوشمزشون رو ببینی</string>
+    <string name="workPlace">محل کار</string>
+    <string name="other">سایر</string>
+    <string name="UNIVERSITY">دانشگاه</string>
+    <string name="tagAddress">عنوان آدرس</string>
 </resources>

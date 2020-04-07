@@ -27,6 +27,7 @@
         android:id="@+id/linear_layout_bottom_sheet_add_user_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/gray"
         android:layoutDirection="rtl"
         android:orientation="vertical">
 
@@ -44,36 +45,14 @@
             android:textStyle="bold"
             android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.VISIBLE : View.GONE}" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_sset_default_address"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="16dp"
-            android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.VISIBLE : View.GONE}"
-            app:cardCornerRadius="@dimen/card_view_corner_radius">
+            android:layout_height="1dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:background="?android:attr/listDivider"
+            android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.VISIBLE : View.GONE}" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.85"
-                    android:text="@string/chooseOnDefault" />
-
-                <com.bitvale.switcher.SwitcherX
-                    android:id="@+id/switcher_default_address"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.15"
-                    android:checked="@{viewModel.defaultAddress ,default=false}" />
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -177,6 +156,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:ellipsize="end"
+                android:imeOptions="actionDone"
                 android:inputType="text"
                 android:maxLines="1"
                 android:text="@={viewModel.exactAddress}"
@@ -185,29 +165,88 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/text_view_address_tag"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_sset_default_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:hint="@string/addressTag"
+            android:layout_gravity="center"
+            android:layout_margin="16dp"
             android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.VISIBLE : View.GONE}"
-            app:boxBackgroundColor="@color/transparent">
+            app:cardCornerRadius="@dimen/card_view_corner_radius">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:ellipsize="end"
-                android:inputType="text"
-                android:maxLines="1"
-                android:textDirection="rtl"
-                android:textSize="@dimen/edit_text_font_size" />
+                android:layout_margin="8dp"
+                android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:maxLines="1"
+                    android:text="@string/tagAddress" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chip_group_address_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    android:layout_marginTop="20dp"
+                    android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.VISIBLE : View.GONE}"
+                    app:singleSelection="true">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_home_tag"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/home"
+                        android:textAppearance="@style/ChipTextAppearance" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_work_tag"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/workPlace"
+                        android:textAppearance="@style/ChipTextAppearance" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_university_tag"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/UNIVERSITY"
+                        android:textAppearance="@style/ChipTextAppearance" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_other_tag"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/other"
+                        android:textAppearance="@style/ChipTextAppearance" />
+                </com.google.android.material.chip.ChipGroup>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_btn_online"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    android:checked="@{viewModel.defaultAddress ,default=false}"
+                    android:text="@string/chooseOnDefault"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/ChipTextAppearance"
+                    android:textColor="@color/colorAccent" />
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
 
         <Button
             android:id="@+id/btn_accept_address"
@@ -233,6 +272,14 @@
             android:textStyle="bold"
             android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.GONE : View.VISIBLE}" />
 
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:background="?android:attr/listDivider"
+            android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.GONE : View.VISIBLE}" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -259,6 +306,7 @@
                     android:layout_gravity="center"
                     android:layout_marginEnd="2dp"
                     android:ellipsize="end"
+                    android:imeOptions="actionNext"
                     android:maxLines="1"
                     android:text="@={viewModel.firstNameLiveData}"
                     android:textDirection="rtl"
@@ -282,6 +330,7 @@
                     android:layout_gravity="center"
                     android:layout_marginEnd="2dp"
                     android:ellipsize="end"
+                    android:imeOptions="actionNext"
                     android:maxLines="1"
                     android:text="@={viewModel.lastNameLiveData}"
                     android:textDirection="rtl"
@@ -307,6 +356,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:ellipsize="end"
+                android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
                 android:maxLines="2"
                 android:text="@={viewModel.emailLiveData}"

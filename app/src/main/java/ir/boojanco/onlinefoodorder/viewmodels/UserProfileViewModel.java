@@ -58,6 +58,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
     public MutableLiveData<String> addressBottomSheetTitle;
     public MutableLiveData<Boolean> defaultAddress;
     public MutableLiveData<Boolean> bottomSheetChangeVisibility; //true show addres //false show info
+    public MutableLiveData<String> phoneNumberLiveData;
     public MutableLiveData<String> emailLiveData;
     public MutableLiveData<String> emailErrorLiveData;
     public MutableLiveData<String> lastNameLiveData;
@@ -72,7 +73,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
     private double userLongitude;
     private int addressRecyclerViewPosition;
     private long addressId;
-    private String addressTag;
+    private String addressTag = "OTHER";
     private int addressFunctionFlag;
     private List<AllStatesList> statesLists;
     private List<AllCitiesList> citiesLists;
@@ -93,6 +94,11 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         this.birthDateTimeMill = birthDateTimeMill;
     }
 
+    public void setAddressTag(String addressTag) {
+        Toast.makeText(context, "" + addressTag, Toast.LENGTH_SHORT).show();
+        this.addressTag = addressTag;
+    }
+
     public UserProfileViewModel(Context context, RestaurantRepository restaurantRepository, UserRepository userRepository) {
         this.context = context;
         this.restaurantRepository = restaurantRepository;
@@ -104,6 +110,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         addressBottomSheetTitle = new MutableLiveData<>();
         defaultAddress = new MutableLiveData<>();
         defaultAddress.setValue(false);
+        phoneNumberLiveData = new MutableLiveData<>();
         emailLiveData = new MutableLiveData<>();
         emailErrorLiveData = new MutableLiveData<>();
         lastNameLiveData = new MutableLiveData<>();
@@ -454,8 +461,8 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
     }
 
     public void editUserProfile() {
-        emailValidator = new EmailValidator();
         bottomSheetChangeVisibility.setValue(false);
+        emailValidator = new EmailValidator();
         userProfileInterface.onEditUserProfile();
     }
 

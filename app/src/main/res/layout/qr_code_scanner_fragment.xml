@@ -56,7 +56,6 @@
             android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/button_font_size"
             app:cornerRadius="16dp"
-
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

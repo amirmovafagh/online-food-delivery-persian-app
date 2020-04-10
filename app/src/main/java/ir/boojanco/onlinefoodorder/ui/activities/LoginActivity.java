@@ -98,6 +98,7 @@ public class LoginActivity extends AppCompatActivity implements LoginAuth {
     public void onSuccess(LoginUserResponse loginUserResponse) {
         if (loginUserResponse != null) {
             sharedPreferences.setUserAuthTokenKey(loginUserResponse.getId());
+            sharedPreferences.setPhoneNumber(loginUserResponse.getMobile());
             Intent i = new Intent(this, MainActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

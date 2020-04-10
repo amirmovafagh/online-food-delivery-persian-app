@@ -69,7 +69,9 @@ public class LoginViewModel extends ViewModel {
 
                     @Override
                     public void onNext(LoginUserResponse loginUserResponse) {
+                        loginUserResponse.setMobile(phoneNumber.getValue());
                         loginAuth.onSuccess(loginUserResponse);
+
                     }
                 });
             }

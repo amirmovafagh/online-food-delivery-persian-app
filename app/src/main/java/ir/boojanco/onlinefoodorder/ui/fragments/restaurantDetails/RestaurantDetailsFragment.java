@@ -5,6 +5,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Application;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,8 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.Random;
+
 import javax.inject.Inject;
 
 import ir.boojanco.onlinefoodorder.R;
@@ -28,6 +31,8 @@ import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.data.database.CartDataSource;
 import ir.boojanco.onlinefoodorder.databinding.RestaurantDetailsFragmentBinding;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
+import ir.boojanco.onlinefoodorder.util.reviewratings.BarLabels;
+import ir.boojanco.onlinefoodorder.util.reviewratings.RatingReviews;
 import ir.boojanco.onlinefoodorder.viewmodels.RestaurantDetailsViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.RestaurantInfoSharedViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantDetailsViewModelFactory;
@@ -49,6 +54,7 @@ public class RestaurantDetailsFragment extends Fragment implements RestaurantDet
     private RestaurantInfoSharedViewModel sharedViewModel;
     private RestaurantDetailsViewModel viewModel;
     private RestaurantDetailsFragmentBinding binding;
+    private RatingReviews ratingReviews;
 
     public static RestaurantDetailsFragment newInstance() {
         return new RestaurantDetailsFragment();
@@ -67,6 +73,8 @@ public class RestaurantDetailsFragment extends Fragment implements RestaurantDet
         binding.setManager(getChildFragmentManager());
         viewModel.setFragmentInterface(this);
 
+        ratingReviews = binding.ratingReviews;
+
         assert getArguments() != null;
         if (getArguments().getLong("restaurantID") != 0) {
             viewModel.getRestaurantInfo(sharedPreferences.getUserAuthTokenKey(), getArguments().getLong("restaurantID", 0));
@@ -74,12 +82,30 @@ public class RestaurantDetailsFragment extends Fragment implements RestaurantDet
 
         }
 
+        int colors[] = new int[]{
+                Color.parseColor("#0e9d58"),
+                Color.parseColor("#bfd047"),
+                Color.parseColor("#ffc105"),
+                };
+
+        int raters[] = new int[]{
+                new Random().nextInt(5),
+                new Random().nextInt(5),
+                new Random().nextInt(5)
+        };
+
+        ratingReviews.createRatingBars(5, BarLabels.STYPE_CUSTOM, colors, raters);
+
         return binding.getRoot();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+
+
+
     }
 
     @BindingAdapter({"handler"})

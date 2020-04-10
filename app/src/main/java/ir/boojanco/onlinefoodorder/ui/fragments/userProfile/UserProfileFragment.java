@@ -26,9 +26,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
 import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
@@ -76,13 +78,14 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
     private CustomStateCityDialog stateCityDialog;
     private RecyclerView recyclerViewUserAddress;
     private AddressProfileAdapter addressAdapter;
-    private NestedScrollView bottom_sheet;
-    private BottomSheetBehavior sheetBehavior;
+    private NestedScrollView bottom_sheet, bottom_sheet_profile;
+    private BottomSheetBehavior sheetBehavior, sheetBehaviorProfile;
     private PersianCalendar persianCalendar;
     private LiveData<PagedList<UserAddressList>> userAddressPaged;
     private PersianDateFormat pdformater;
     private PersianDate pdate;
     private Snackbar snackbar;
+    private ChipGroup chipGroup;
 
 
     public static UserProfileFragment newInstance() {
@@ -107,8 +110,12 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
         recyclerViewUserAddress.setAdapter(addressAdapter);
 
 
+        chipGroup = binding.bottomSheetAddressInclude.chipGroupAddressTag;
         bottom_sheet = binding.bottomSheet;
+        bottom_sheet_profile = binding.bottomSheetProfile;
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
+        sheetBehaviorProfile = BottomSheetBehavior.from(bottom_sheet_profile);
+
         //go to order fragment
         NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
         binding.frameLayoutOrders.setOnClickListener(v -> navController.navigate(R.id.action_userProfileFragment_to_ordersFragment));
@@ -123,9 +130,29 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        viewModel.phoneNumberLiveData.postValue(sharedPreferences.getPhoneNumber());
 
         userAddressPaged = viewModel.userAddressPagedListLiveData;
         userAddressPaged.observe(getActivity(), userAddressLists -> addressAdapter.submitList(userAddressLists)); //set PagedList user address
+
+
+        chipGroup.setOnCheckedChangeListener((chipGroup, i) -> {
+            switch (i) {
+                case R.id.chip_home_tag:
+                    viewModel.setAddressTag("HOME");
+                    break;
+                case R.id.chip_work_tag:
+                    viewModel.setAddressTag("WORK");
+                    break;
+                case R.id.chip_university_tag:
+                    viewModel.setAddressTag("UNIVERSITY");
+                    break;
+                case R.id.chip_other_tag:
+                default:
+                    viewModel.setAddressTag("OTHER");
+                    break;
+            }
+        });
 
     }
 
@@ -134,6 +161,7 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
         switch (v.getId()) {
             case R.id.img_edit_address:
                 viewModel.editUserAddress(userAddress, position);
+                sheetBehaviorProfile.setState(BottomSheetBehavior.STATE_HIDDEN);
                 sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
                 break;
@@ -160,7 +188,7 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
             userAddressPaged = viewModel.userAddressPagedListLiveData;
             userAddressPaged.observe(getActivity(), userAddressLists -> addressAdapter.submitList(userAddressLists)); //set PagedList user address
         }
-        sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
 
@@ -168,6 +196,7 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
     public void showAddressBottomSheet() {
         if (mapFragment.isVisible())
             mapFragment.dismiss();
+        sheetBehaviorProfile.setState(BottomSheetBehavior.STATE_HIDDEN);
         sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
@@ -238,6 +267,7 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
     @Override
     public void onLogoutUser() {
         sharedPreferences.removeUserAuthTokenKey();
+        sharedPreferences.removePhoneNumber();
         if (getActivity() != null)
             getActivity().moveTaskToBack(true);
         android.os.Process.killProcess(android.os.Process.myPid());
@@ -246,7 +276,8 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
 
     @Override
     public void onEditUserProfile() {
-        sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        sheetBehaviorProfile.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
     @Override
@@ -264,7 +295,8 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
 
     @Override
     public void hideBottomSheet() {
-        sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        sheetBehaviorProfile.setState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
     @Override

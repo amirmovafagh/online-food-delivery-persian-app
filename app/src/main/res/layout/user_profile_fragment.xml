@@ -4,6 +4,7 @@
 
     <data>
 
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
             type="ir.boojanco.onlinefoodorder.viewmodels.UserProfileViewModel" />
@@ -62,9 +63,9 @@
                                 android:id="@+id/cv_profile_photo"
                                 android:layout_width="85dp"
                                 android:layout_height="85dp"
+                                android:layout_marginTop="8dp"
                                 android:layout_marginRight="8dp"
                                 app:cardCornerRadius="@dimen/card_view_corner_radius"
-                                app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintRight_toRightOf="parent"
                                 app:layout_constraintTop_toTopOf="parent">
 
@@ -97,11 +98,28 @@
                                 android:textAlignment="textStart"
                                 android:textSize="@dimen/body2_paragraph_font_size"
                                 android:textStyle="bold"
-                                app:layout_constraintBottom_toTopOf="@id/text_view_user_email"
+                                app:layout_constraintBottom_toTopOf="@id/text_view_user_phone"
                                 app:layout_constraintHorizontal_bias="1"
                                 app:layout_constraintLeft_toLeftOf="parent"
                                 app:layout_constraintRight_toLeftOf="@id/cv_profile_photo"
                                 app:layout_constraintTop_toTopOf="@id/cv_profile_photo" />
+
+                            <TextView
+                                android:id="@+id/text_view_user_phone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp"
+                                android:text="@{viewModel.phoneNumberLiveData ,default=موبایل}"
+                                android:textAlignment="textStart"
+                                android:textSize="@dimen/body2_paragraph_font_size"
+                                app:layout_constraintBottom_toTopOf="@id/text_view_user_email"
+                                app:layout_constraintHorizontal_bias="1.0"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintRight_toLeftOf="@id/cv_profile_photo"
+                                app:layout_constraintTop_toBottomOf="@id/text_user_name" />
 
                             <TextView
                                 android:id="@+id/text_view_user_email"
@@ -118,7 +136,7 @@
                                 app:layout_constraintHorizontal_bias="1.0"
                                 app:layout_constraintLeft_toLeftOf="parent"
                                 app:layout_constraintRight_toLeftOf="@id/cv_profile_photo"
-                                app:layout_constraintTop_toBottomOf="@id/text_user_name" />
+                                app:layout_constraintTop_toBottomOf="@id/text_view_user_phone" />
 
                             <Button
                                 android:id="@+id/btn_edit_user"
@@ -286,54 +304,68 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
-                    app:cardBackgroundColor="@color/colorLowGold"
-                    app:cardCornerRadius="@dimen/card_view_corner_radius"
-                    app:cardElevation="0dp">
+                    app:cardBackgroundColor="@color/gray"
+                    app:cardCornerRadius="@dimen/card_view_corner_radius">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="8dp"
-                            android:layout_marginRight="8dp"
-                            android:orientation="horizontal">
+                            android:layout_height="wrap_content">
 
                             <TextView
-                                android:id="@+id/textViewCategoryTitle"
-                                android:layout_width="0dp"
+                                android:id="@+id/text_view_addresses"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="0.7"
+                                android:layout_margin="8dp"
                                 android:drawableStart="@drawable/ic_deliver_in_my_address"
                                 android:drawablePadding="8dp"
                                 android:maxLines="1"
                                 android:text="@string/your_addresses"
                                 android:textAlignment="textStart"
-                                android:textSize="@dimen/body1_paragraph_font_size" />
+                                android:textSize="@dimen/body1_paragraph_font_size"
+                                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                                app:layout_constraintLeft_toRightOf="@id/btn_add_address"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recycler_view_user_address_horizontal_items"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginBottom="8dp"
+                                android:layoutAnimation="@anim/layout_animation_fall_down"
+                                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/text_view_addresses" />
 
                             <Button
                                 android:id="@+id/btn_add_address"
                                 style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
-                                android:layout_width="0dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="0.3"
+                                android:layout_margin="8dp"
                                 android:drawablePadding="8dp"
+                                android:drawableTint="@color/colorSecondPrimary"
                                 android:onClick="@{()-> viewModel.addAddressOnClick()}"
                                 android:text="افزودن"
                                 android:textAlignment="textStart"
+                                android:textColor="@color/colorSecondPrimary"
                                 android:textSize="@dimen/button_font_size"
                                 app:cornerRadius="16dp"
-                                app:icon="@drawable/ic_add_location" />
-                        </LinearLayout>
+                                app:icon="@drawable/ic_add_location"
+                                app:layout_constraintBottom_toBottomOf="@id/text_view_addresses"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintRight_toLeftOf="@id/text_view_addresses"
+                                app:layout_constraintTop_toTopOf="@id/text_view_addresses"
+                                tools:ignore="RtlCompat" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recycler_view_user_address_horizontal_items"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layoutAnimation="@anim/layout_animation_fall_down" />
+
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
@@ -344,7 +376,7 @@
             android:id="@+id/cv_waiting_response"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
+            android:visibility="visible"
             app:cardBackgroundColor="@color/gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -367,18 +399,22 @@
             android:layout_width="match_parent"
             android:layout_height="24dp"
             android:background="@drawable/bottom_sheet_shadow"
-            app:layout_anchor="@+id/bottom_sheet" />
+            app:layout_anchor="@+id/bottom_sheet"
+            android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.VISIBLE : View.GONE}"
+            />
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/bottom_sheet"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="50dp"
             android:background="@drawable/bg_bottom_sheet"
             android:fitsSystemWindows="true"
             android:layoutDirection="rtl"
             android:orientation="vertical"
-            android:padding="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp"
             app:behavior_hideable="true"
             app:behavior_peekHeight="0dp"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
@@ -388,6 +424,37 @@
                 layout="@layout/bottom_sheet_add_user_address_profile"
                 app:viewModel="@{viewModel}" />
 
+        </androidx.core.widget.NestedScrollView>
+
+        <View
+            android:id="@+id/bottom_sheet_shadow_prof"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:background="@drawable/bottom_sheet_shadow"
+            app:layout_anchor="@+id/bottom_sheet_profile"
+            android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.GONE : View.VISIBLE}"
+            />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/bottom_sheet_profile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/bg_bottom_sheet"
+            android:fitsSystemWindows="true"
+            android:layoutDirection="rtl"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp"
+            app:behavior_hideable="true"
+            app:behavior_peekHeight="0dp"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+            <include
+                android:id="@+id/bottom_sheet_edit_profile_include"
+                layout="@layout/bottom_sheet_edit_profile"
+                app:viewModel="@{viewModel}" />
 
         </androidx.core.widget.NestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -234,7 +234,7 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_btn_online"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -253,154 +253,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
             android:onClick="@{()-> viewModel.acceptAddNewUserAddressOrEditAddressOnClick()}"
             android:text="ثبت"
             android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.VISIBLE : View.GONE}"
             app:cornerRadius="16dp" />
 
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:drawableStart="@drawable/ic_edit_user"
-            android:drawablePadding="4dp"
-            android:maxLines="1"
-            android:text="@string/yourInfo"
-            android:textAlignment="center"
-            android:textSize="@dimen/body1_paragraph_font_size"
-            android:textStyle="bold"
-            android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.GONE : View.VISIBLE}" />
-
-        <View
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            android:background="?android:attr/listDivider"
-            android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.GONE : View.VISIBLE}" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:orientation="horizontal"
-            android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.GONE : View.VISIBLE}">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_inpu_first_name"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:hint="@string/name"
-                app:boxBackgroundColor="@color/transparent"
-                app:error="@{viewModel.firstNameErrorLiveData}">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_text_first_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="2dp"
-                    android:ellipsize="end"
-                    android:imeOptions="actionNext"
-                    android:maxLines="1"
-                    android:text="@={viewModel.firstNameLiveData}"
-                    android:textDirection="rtl"
-                    android:textSize="@dimen/edit_text_font_size" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_view_last_name"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:hint="@string/lastName"
-                app:boxBackgroundColor="@color/transparent"
-                app:error="@{viewModel.lastNameErrorLiveData}">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="2dp"
-                    android:ellipsize="end"
-                    android:imeOptions="actionNext"
-                    android:maxLines="1"
-                    android:text="@={viewModel.lastNameLiveData}"
-                    android:textDirection="rtl"
-                    android:textSize="@dimen/edit_text_font_size" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/text_view_email"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:hint="@string/email"
-            android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.GONE : View.VISIBLE}"
-            app:boxBackgroundColor="@color/transparent"
-            app:error="@{viewModel.emailErrorLiveData}">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:ellipsize="end"
-                android:imeOptions="actionNext"
-                android:inputType="textEmailAddress"
-                android:maxLines="2"
-                android:text="@={viewModel.emailLiveData}"
-                android:textDirection="rtl"
-                android:textSize="@dimen/edit_text_font_size" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/text_view_birthdate"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:hint="@string/birthDate"
-            android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.GONE : View.VISIBLE}"
-            app:boxBackgroundColor="@color/transparent"
-            app:error="@{viewModel.birthDateErrorLiveData}">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:ellipsize="end"
-                android:focusable="false"
-                android:inputType="none"
-                android:maxLines="1"
-                android:onClick="@{()-> viewModel.birthDatePickerOnClick()}"
-                android:text="@={viewModel.birthDateLiveData}"
-                android:textDirection="rtl"
-                android:textSize="@dimen/edit_text_font_size" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <Button
-            android:id="@+id/btn_accept_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:onClick="@{()-> viewModel.acceptEditUserProfileOnClick()}"
-            android:text="ثبت"
-            android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.GONE : View.VISIBLE}"
-            app:cornerRadius="16dp" />
     </LinearLayout>
 
 

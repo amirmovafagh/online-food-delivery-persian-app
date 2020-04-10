@@ -24,7 +24,7 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_main_address_layout"
-                android:layout_width="170dp"
+                android:layout_width="180dp"
                 android:layout_height="80dp"
 
                 app:cardCornerRadius="@dimen/card_view_corner_radius"

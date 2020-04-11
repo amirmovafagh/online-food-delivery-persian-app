@@ -1,6 +1,7 @@
 package ir.boojanco.onlinefoodorder.viewmodels;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
@@ -9,8 +10,11 @@ import androidx.lifecycle.ViewModel;
 
 import org.json.JSONObject;
 
+import java.util.Random;
+
 import ir.boojanco.onlinefoodorder.data.database.CartDataSource;
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
+import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantAssessmentResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantDetailsInterface;
@@ -33,6 +37,7 @@ public class RestaurantDetailsViewModel extends ViewModel {
     public MutableLiveData<String> restaurantAddress;
     public MutableLiveData<String> restaurantBranch;
     public MutableLiveData<Boolean> restaurantDelivery;
+    public MutableLiveData<Boolean> restaurantWorking;
     public MutableLiveData<String> restaurantDeliveryTime;
     public MutableLiveData<Boolean> restaurantGetInPlace;
     public MutableLiveData<String> restaurantMinimumOrder;
@@ -42,6 +47,7 @@ public class RestaurantDetailsViewModel extends ViewModel {
     public MutableLiveData<String> restaurantPhoneNumber;
     public MutableLiveData<String> restaurantRegion;
     public MutableLiveData<String> restaurantTagList;
+    public MutableLiveData<String> restaurantcommentCount;
     public MutableLiveData<Integer> cartItemCount;
 
     private Context context;
@@ -68,6 +74,7 @@ public class RestaurantDetailsViewModel extends ViewModel {
         restaurantAddress = new MutableLiveData<>();
         restaurantBranch = new MutableLiveData<>();
         restaurantDelivery = new MutableLiveData<>();
+        restaurantWorking = new MutableLiveData<>();
         restaurantDeliveryTime = new MutableLiveData<>();
         restaurantGetInPlace = new MutableLiveData<>();
         restaurantMinimumOrder = new MutableLiveData<>();
@@ -76,6 +83,7 @@ public class RestaurantDetailsViewModel extends ViewModel {
         restaurantShippingCostOutRegion = new MutableLiveData<>();
         restaurantPhoneNumber = new MutableLiveData<>();
         restaurantRegion = new MutableLiveData<>();
+        restaurantcommentCount = new MutableLiveData<>();
     }
 
 
@@ -83,7 +91,7 @@ public class RestaurantDetailsViewModel extends ViewModel {
         userAuthToken = authToken;
         this.restaurantId = restaurantId;
         Observable<RestaurantInfoResponse> observable = restaurantRepository.getRestaurantInfo(authToken, restaurantId);
-        Log.e(TAG, "" + observable);
+
         if (observable != null) {
             observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<RestaurantInfoResponse>() {
                 @Override
@@ -106,7 +114,7 @@ public class RestaurantDetailsViewModel extends ViewModel {
 
 
                         } catch (Exception d) {
-                            Log.i(TAG,""+d.getMessage());
+                            Log.i(TAG, "" + d.getMessage());
                         }
                     }
                 }
@@ -115,7 +123,8 @@ public class RestaurantDetailsViewModel extends ViewModel {
                 public void onNext(RestaurantInfoResponse restaurantInfo) {
                     fragmentInterface.onStarted();
 
-
+                    getRestaurantAssessment();
+                    restaurantWorking.setValue(restaurantInfo.isWorking());
                     restaurantCover.setValue(restaurantInfo.getCover());
                     restaurantLogo.setValue(restaurantInfo.getLogo());
                     restaurantAverageScore.setValue(restaurantInfo.getAverageScore());
@@ -134,6 +143,57 @@ public class RestaurantDetailsViewModel extends ViewModel {
                     restaurantTagList.setValue(restaurantInfo.getTagList());
 
                     fragmentInterface.onSuccess(restaurantInfo);
+                }
+            });
+        }
+    }
+
+    private void getRestaurantAssessment() {
+        Observable<RestaurantAssessmentResponse> observable = restaurantRepository.getRestaurantAssessment( restaurantId);
+        if (observable != null) {
+            observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<RestaurantAssessmentResponse>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                    if (e instanceof NoNetworkConnectionException)
+                        fragmentInterface.onFailure(e.getMessage());
+                    if (e instanceof HttpException) {
+                        Response response = ((HttpException) e).response();
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
+
+                            fragmentInterface.onFailure(jsonObject.getString("message"));
+
+
+                        } catch (Exception d) {
+                            Log.i(TAG, "" + d.getMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onNext(RestaurantAssessmentResponse assessmentResponse) {
+                    restaurantcommentCount.setValue(String.valueOf(assessmentResponse.getCommentCount()));
+
+                    int colors[] = new int[]{
+                            Color.parseColor("#0e9d58"),
+                            Color.parseColor("#bfd047"),
+                            Color.parseColor("#ffc105"),
+                    };
+
+                    int raters[] = new int[]{
+                            (int) (assessmentResponse.getFoodQuality()*10),
+                            (int) (assessmentResponse.getArrivalTime()*10),
+                            (int) (assessmentResponse.getPersonnelBehaviour()*10)
+                    };
+
+                    fragmentInterface.initRatingViews(colors, raters);
                 }
             });
         }
@@ -165,7 +225,7 @@ public class RestaurantDetailsViewModel extends ViewModel {
 
 
                         } catch (Exception d) {
-                            Log.i(TAG,""+d.getMessage());
+                            Log.i(TAG, "" + d.getMessage());
                         }
                     }
                 }
@@ -204,7 +264,7 @@ public class RestaurantDetailsViewModel extends ViewModel {
 
 
                         } catch (Exception d) {
-                            Log.i(TAG,""+d.getMessage());
+                            Log.i(TAG, "" + d.getMessage());
                         }
                     }
                 }

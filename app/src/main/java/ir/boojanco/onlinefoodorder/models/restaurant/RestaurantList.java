@@ -26,6 +26,8 @@ public class RestaurantList {
     private String address;
     @SerializedName("branch")
     private String branch;
+    @SerializedName("working")
+    private Boolean working;
     @SerializedName("logo")
     private String logo;
     @SerializedName("cover")
@@ -39,6 +41,10 @@ public class RestaurantList {
 
     public int getCommentCount() {
         return commentCount;
+    }
+
+    public Boolean getWorking() {
+        return working;
     }
 
     public String getBranch() {
@@ -58,15 +64,15 @@ public class RestaurantList {
     }
 
     public String getLogo() {
-        return webServerMediaRoute+logo;
+        return webServerMediaRoute + logo;
     }
 
-    public float getAverageScore() {
-        return averageScore;
+    public double getAverageScore() {
+        return Math.round(averageScore * 10) / 10.0;
     }
 
     public String getCover() {
-        return webServerMediaRoute+cover;
+        return webServerMediaRoute + cover;
     }
 
     public String getDeliveryTime() {
@@ -74,17 +80,17 @@ public class RestaurantList {
     }
 
     public String getTagList() {
-        StringBuilder tagListString= new StringBuilder();
+        StringBuilder tagListString = new StringBuilder();
         tagListString.append(" ");
-        if(tagList != null)
-            for(String t : tagList){
+        if (tagList != null)
+            for (String t : tagList) {
                 tagListString.append("(").append(t).append(")").append(" ");
             }
         return tagListString.toString();
     }
 
     // important code for loading image here
-    @BindingAdapter({ "image" })
+    @BindingAdapter({"image"})
     public static void loadImage(ImageView imageView, String imageURL) {
         CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(imageView.getContext());
         circularProgressDrawable.setStrokeWidth(5f);

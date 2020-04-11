@@ -35,7 +35,7 @@ public class RestaurantAdapter extends PagedListAdapter<RestaurantList, Restaura
     public void onBindViewHolder(@NonNull RestaurantViewHolder holder, int position) {
         RestaurantList currentRestaurant = getItem(position);
         if (currentRestaurant != null) {
-            holder.binding.setRestaurant(currentRestaurant);
+            holder.binding.setViewModel(currentRestaurant);
             /*holder.binding.toggleBookmark.setOnClickListener(v -> {
                 clickListener.onRecyclerViewItemClick(holder.binding.toggleBookmark, currentRestaurant);
             });*/

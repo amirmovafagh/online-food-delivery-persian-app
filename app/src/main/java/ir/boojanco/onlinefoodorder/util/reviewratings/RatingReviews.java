@@ -287,7 +287,10 @@ public class RatingReviews extends FrameLayout {
             TextView raters = view.findViewById(R.id.text_view_raters);
 
             if (bar.getStarLabel() != null) {
-                raters.setText(String.format(Locale.getDefault(), "%s", bar.getRaters()));
+                /*raters.setText(String.format(Locale.getDefault(), "%s", bar.getRaters()));*/
+                raters.setText(String.valueOf((float) bar.getRaters()/10) );
+                //TODO: need tochange for show value as float
+
             }
         }
 

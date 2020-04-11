@@ -82,29 +82,12 @@ public class RestaurantDetailsFragment extends Fragment implements RestaurantDet
 
         }
 
-        int colors[] = new int[]{
-                Color.parseColor("#0e9d58"),
-                Color.parseColor("#bfd047"),
-                Color.parseColor("#ffc105"),
-                };
-
-        int raters[] = new int[]{
-                new Random().nextInt(5),
-                new Random().nextInt(5),
-                new Random().nextInt(5)
-        };
-
-        ratingReviews.createRatingBars(5, BarLabels.STYPE_CUSTOM, colors, raters);
-
         return binding.getRoot();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-
-
 
     }
 
@@ -124,6 +107,11 @@ public class RestaurantDetailsFragment extends Fragment implements RestaurantDet
     @Override
     public void onStarted() {
         binding.cvWaitingResponse.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void initRatingViews(int[] colors, int[] raters) {
+        ratingReviews.createRatingBars(100, BarLabels.STYPE_CUSTOM, colors, raters);
     }
 
     @Override

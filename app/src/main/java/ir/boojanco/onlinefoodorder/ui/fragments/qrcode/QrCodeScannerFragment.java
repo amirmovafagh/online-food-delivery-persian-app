@@ -51,7 +51,10 @@ public class QrCodeScannerFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         IntentIntegrator qrScan = new IntentIntegrator(getActivity());
-
+        qrScan.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
+        qrScan.setPrompt("لطفا QR کد را اسکن کنید");
+        qrScan.setOrientationLocked(false);
+        qrScan.setBarcodeImageEnabled(true);
         binding.buttonScanQr.setOnClickListener(v -> {
             //initiating the qr code scan
             qrScan.initiateScan();

@@ -6,6 +6,7 @@ import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.DiscountCodeResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.FavoriteRestaurantsResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.GetRestaurantCommentResponse;
+import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantAssessmentResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.AllPackagesResponse;
@@ -58,6 +59,9 @@ public interface ApiInterface {
     /*@Headers("Authorization: 9900a9720d31dfd5fdb4352700c...")*/
     @GET("/api/v1/restaurant/last")
     Observable<RestaurantResponse> getLastRestaurant(/*@Header("Authorization") String authToken,*/ @Query("page") int page, @Query("size") int size);
+
+    @GET("/api/v1/restaurant/{restaurantId}/assessment")
+    Observable<RestaurantAssessmentResponse> getRestaurantAssessment(@Path("restaurantId") long restaurantId);
 
     @GET("/api/v1/restaurant/search")
     Observable<RestaurantResponse> searchRestaurant(/*@Header("Authorization") String authToken,*/ @Query("query") String query, @Query("city") String city, @Query("region") String region, @Query("page") int page, @Query("size") int size);

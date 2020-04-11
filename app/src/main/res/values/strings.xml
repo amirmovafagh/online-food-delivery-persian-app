@@ -23,6 +23,7 @@
     <string name="search_title">یافتن رستوران…</string>
     <string name="search">جستوجو</string>
     <string name="drawer">drawer</string>
+    <string name="score">امتیاز</string>
 
     <string name="tab_berger">برگر</string>
     <string name="tab_hotdog">هات داگ</string>
@@ -31,6 +32,7 @@
     <string name="popular_categories">دسته بندی های پرطرفدار</string>
     <string name="delicious">خوشمزه ها</string>
     <string name="new_restaurants">جدید ترین رستوران ها</string>
+    <string name="new_res">جدید</string>
     <string name="delivery_time">پیک (60 دقیقه)</string>
     <string name="region">محله</string>
     <string name="minimum_order">حداقل سفارش</string>
@@ -93,4 +95,6 @@
     <string name="other">سایر</string>
     <string name="UNIVERSITY">دانشگاه</string>
     <string name="tagAddress">عنوان آدرس</string>
+    <string name="close">بسته</string>
+    <string name="lackOfService">عدم سرویس دهی</string>
 </resources>

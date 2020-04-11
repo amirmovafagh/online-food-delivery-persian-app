@@ -41,7 +41,7 @@
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="310dp"
+                android:layout_height="320dp"
                 android:fitsSystemWindows="true"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:titleEnabled="false">
@@ -78,11 +78,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:layout_marginLeft="16dp"
+                        android:layout_marginTop="16dp"
                         android:layout_marginRight="16dp"
                         app:cardBackgroundColor="@color/restaurantDetailsCardViewBackground"
                         app:cardCornerRadius="@dimen/card_view_corner_radius"
                         app:cardElevation="0dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
@@ -149,7 +149,7 @@
                                 android:layout_marginTop="4dp"
                                 android:ellipsize="end"
                                 android:maxLines="1"
-                                android:paddingStart="16dp"
+                                android:paddingStart="8dp"
                                 android:paddingEnd="8dp"
                                 android:text="@{viewModel.restaurantTagList,default=فستفود}"
                                 android:textAlignment="textStart"
@@ -176,29 +176,57 @@
                                 android:textAlignment="center"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/body3_paragraph_font_size"
+                                android:visibility="@{viewModel.restaurantWorking ? View.VISIBLE : View.GONE}"
                                 app:layout_constraintRight_toLeftOf="@id/cv_logo"
                                 app:layout_constraintTop_toBottomOf="@id/text_view_restaurant_tag_list" />
 
+                            <com.airbnb.lottie.LottieAnimationView
+                                android:id="@+id/lottie_red_dot"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="8dp"
+                                android:visibility="@{viewModel.restaurantWorking ? View.GONE : View.VISIBLE ,default=gone}"
+                                app:layout_constraintRight_toLeftOf="@id/cv_logo"
+                                app:layout_constraintTop_toBottomOf="@id/text_view_restaurant_tag_list"
+                                app:lottie_autoPlay="true"
+                                app:lottie_loop="true"
+                                app:lottie_rawRes="@raw/red_dot_animate" />
+
                             <TextView
-                                android:id="@+id/text_view_region"
+                                android:id="@+id/text_view_lack_of_service"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="8dp"
-                                android:background="@drawable/textview_shape_ready_time"
-                                android:drawableStart="@drawable/ic_location"
-                                android:drawablePadding="2dp"
-                                android:drawableTint="@color/colorPrimary"
                                 android:ellipsize="end"
-                                android:gravity="center"
                                 android:maxLines="1"
-                                android:padding="2dp"
-                                android:text="@{viewModel.restaurantDeliveryTime, default=@string/delivery_time}"
-                                android:textAlignment="center"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/body3_paragraph_font_size"
-                                app:layout_constraintBottom_toBottomOf="@id/text_view_ready_time"
-                                app:layout_constraintRight_toLeftOf="@id/text_view_ready_time"
-                                app:layout_constraintTop_toTopOf="@id/text_view_ready_time" />
+                                android:text="@string/lackOfService"
+                                android:textColor="@color/colorPrimary"
+                                android:textStyle="bold"
+                                android:textSize="@dimen/body1_paragraph_font_size"
+                                android:visibility="@{viewModel.restaurantWorking ? View.GONE : View.VISIBLE ,default=gone}"
+                                app:layout_constraintBottom_toBottomOf="@id/lottie_red_dot"
+                                app:layout_constraintRight_toLeftOf="@id/lottie_red_dot"
+                                app:layout_constraintTop_toTopOf="@id/lottie_red_dot" />
+                            <!-- <TextView
+                                 android:id="@+id/text_view_region"
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:layout_margin="8dp"
+                                 android:background="@drawable/textview_shape_ready_time"
+                                 android:drawableStart="@drawable/ic_location"
+                                 android:drawablePadding="2dp"
+                                 android:drawableTint="@color/colorPrimary"
+                                 android:ellipsize="end"
+                                 android:gravity="center"
+                                 android:maxLines="1"
+                                 android:padding="2dp"
+                                 android:text="@{viewModel.restaurantRegion, default=@string/delivery_time}"
+                                 android:textAlignment="center"
+                                 android:textColor="@color/black"
+                                 android:textSize="@dimen/body3_paragraph_font_size"
+                                 app:layout_constraintBottom_toBottomOf="@id/text_view_ready_time"
+                                 app:layout_constraintRight_toLeftOf="@id/text_view_ready_time"
+                                 app:layout_constraintTop_toTopOf="@id/text_view_ready_time" />-->
 
 
                             <LinearLayout
@@ -223,7 +251,7 @@
                                     android:text="@{Float.toString(viewModel.restaurantAverageScore), default=@string/delivery_time}"
                                     android:textAlignment="center"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/body2_paragraph_font_size"
+                                    android:textSize="@dimen/body1_paragraph_font_size"
                                     android:textStyle="bold" />
 
                                 <androidx.appcompat.widget.AppCompatRatingBar
@@ -241,13 +269,15 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
-                                    android:drawableEnd="@drawable/ic_person"
+                                    android:drawableEnd="@drawable/ic_insert_comment"
+                                    android:drawablePadding="2dp"
                                     android:gravity="center"
                                     android:maxLines="1"
-                                    android:paddingStart="4dp"
-                                    android:paddingEnd="4dp"
-                                    android:text="@{Float.toString(viewModel.restaurantAverageScore)}"
-                                    android:textAlignment="center" />
+                                    android:paddingStart="1dp"
+                                    android:paddingEnd="1dp"
+                                    android:text="@{viewModel.restaurantcommentCount}"
+                                    android:textAlignment="center"
+                                    android:textSize="@dimen/body2_paragraph_font_size" />
                             </LinearLayout>
 
                             <ir.boojanco.onlinefoodorder.util.reviewratings.RatingReviews xmlns:bar="http://schemas.android.com/apk/res-auto"
@@ -261,7 +291,7 @@
                                 bar:layout_constraintHorizontal_weight="7"
                                 bar:layout_constraintLeft_toLeftOf="parent"
                                 bar:layout_constraintRight_toLeftOf="@id/lin_rating"
-                                bar:max_value="5"
+                                bar:max_value="50"
                                 bar:rounded="true"
                                 bar:show_label="true"
                                 bar:show_raters="true"

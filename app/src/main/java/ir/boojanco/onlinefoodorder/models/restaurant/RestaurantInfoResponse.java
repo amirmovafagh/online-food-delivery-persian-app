@@ -65,6 +65,10 @@ public class RestaurantInfoResponse implements Serializable {
         this.shippingCostInCloseRegions = shippingCostInCloseRegions;
     }
 
+    public boolean isWorking() {
+        return working;
+    }
+
     public int getShippingCostInServiceArea() {
         return shippingCostInServiceArea;
     }

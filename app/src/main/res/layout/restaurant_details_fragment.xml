@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools">
+    xmlns:bind="http://schemas.android.com/tools"
+    xmlns:bar="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -280,7 +281,7 @@
                                     android:textSize="@dimen/body2_paragraph_font_size" />
                             </LinearLayout>
 
-                            <ir.boojanco.onlinefoodorder.util.reviewratings.RatingReviews xmlns:bar="http://schemas.android.com/apk/res-auto"
+                            <ir.boojanco.onlinefoodorder.util.reviewratings.RatingReviews
                                 android:id="@+id/rating_reviews"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"

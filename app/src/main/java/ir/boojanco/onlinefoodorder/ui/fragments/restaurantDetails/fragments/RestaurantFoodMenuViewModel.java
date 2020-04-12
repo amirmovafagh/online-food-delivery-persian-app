@@ -139,22 +139,24 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
             @Override
             public void onSuccess(Long aLong) {
                 totalPriceLiveData.setValue(moneyFormat(aLong));
+                if (restaurantInfoResponse != null){
+                    RestaurantItem restaurantItem =new RestaurantItem();
+                    restaurantItem.setRestaurantName(restaurantInfoResponse.getName());
+                    restaurantItem.setRestaurantId(extraRestaurantId);
+                    restaurantItem.setRestaurantCover(restaurantInfoResponse.getCover());
+                    restaurantItem.setRestaurantLogo(restaurantInfoResponse.getLogo());
+                    restaurantItem.setTotalPrice(moneyFormat(aLong));
+                    compositeDisposable.add((Disposable) cartDataSource.insertOrReplaceAllRestaurants(restaurantItem)
+                            .subscribeOn(io.reactivex.schedulers.Schedulers.io())
+                            .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                            .subscribe(() -> {
 
-                RestaurantItem restaurantItem =new RestaurantItem();
-                restaurantItem.setRestaurantName(restaurantInfoResponse.getName());
-                restaurantItem.setRestaurantId(extraRestaurantId);
-                restaurantItem.setRestaurantCover(restaurantInfoResponse.getCover());
-                restaurantItem.setRestaurantLogo(restaurantInfoResponse.getLogo());
-                restaurantItem.setTotalPrice(moneyFormat(aLong));
-                compositeDisposable.add((Disposable) cartDataSource.insertOrReplaceAllRestaurants(restaurantItem)
-                        .subscribeOn(io.reactivex.schedulers.Schedulers.io())
-                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
-                        .subscribe(() -> {
+                            }, throwable -> {
+                                Log.e(TAG,"{add Restaurant item table throwable}->" + throwable.getMessage());
+                            })
+                    );
+                }
 
-                        }, throwable -> {
-                            Log.e(TAG,"{add Restaurant item table throwable}->" + throwable.getMessage());
-                        })
-                );
             }
 
             @Override

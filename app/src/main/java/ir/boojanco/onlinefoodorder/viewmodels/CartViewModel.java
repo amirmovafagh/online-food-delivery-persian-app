@@ -81,6 +81,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
 
 
     private OrderType orderType = OrderType.DONT_CHOOSE;
+    public MutableLiveData<Boolean> changeViewLiveData;
     public MutableLiveData<Long> totalRawPriceLiveData;
     private int totalRawPrice = 0;
     public MutableLiveData<String> cartStateLiveData;
@@ -119,6 +120,8 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
         this.userRepository = userRepository;
         this.restaurantRepository = restaurantRepository;
 
+        changeViewLiveData = new MutableLiveData<>();
+        changeViewLiveData.setValue(false);//false: show restaurants carts //true: show only one restaurant cart
         city = new MutableLiveData<>();
         state = new MutableLiveData<>();
         region = new MutableLiveData<>();
@@ -384,13 +387,24 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
                         cartStateLiveData.setValue(context.getString(R.string.empty_cart));
 
                     } else {
-                        fragmentInterface.onSuccess(cartItems);
+                        fragmentInterface.onSuccessCartItems(cartItems);
                         this.cartItems = cartItems;
 
                     }
                     calculateCartTotalPrice(restaurantId);
                 }, throwable -> {
                     Log.e(TAG,"{GET ALL Cart}" + throwable.getMessage());
+                }));
+    }
+
+    public void getAllRestaurantsCart() {
+        compositeDisposableGetAllItems.add(cartDataSource.getAllRestaurantsCart()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(restaurantItems -> {
+                    fragmentInterface.onSuccessRestaurantsCarts(restaurantItems);
+                }, throwable -> {
+                    Log.e(TAG, "{GET Restaurants Cart}" + throwable.getMessage());
                 }));
     }
 

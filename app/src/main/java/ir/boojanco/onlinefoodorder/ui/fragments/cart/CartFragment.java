@@ -1,5 +1,7 @@
 package ir.boojanco.onlinefoodorder.ui.fragments.cart;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
@@ -42,6 +44,7 @@ import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.data.database.CartDataSource;
 import ir.boojanco.onlinefoodorder.data.database.CartItem;
+import ir.boojanco.onlinefoodorder.data.database.RestaurantItem;
 import ir.boojanco.onlinefoodorder.databinding.CartFragmentBinding;
 import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
@@ -76,8 +79,9 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
     private LinearLayout expandableLayout;
     private AutoTransition transition;
 
-    private RecyclerView recyclerViewCart, recyclerViewUserAddress;
+    private RecyclerView recyclerViewCart, recyclerViewUserAddress,recyclerViewRestaurantsCart;
     private CartAdapter cartAdapter;
+    private RestaurantsCartAdapter restaurantsCartAdapter;
     private AddressAdapter addressAdapter;
 
     private BottomSheetBehavior sheetBehavior;
@@ -89,8 +93,8 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
     private CityAdapter cityAdapter;
     private CustomStateCityDialog stateCityDialog;
     private Bundle bundlePaymentFragment;
-    private Intent goToPaymentActivity;
 
+    private Toolbar toolbar;
     private final String selectedPackageExtraName = "selectedPackage";
     private final String restaurantInfoResponseExtraName = "restaurantInfoResponse";
     private final String cartItemExtraName = "cartItem";
@@ -122,7 +126,12 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
         arrowBtn = binding.imgBtnExpandArrow;
         expandableLayout = binding.linearLayoutCartDetailsView;
         acceptOrder = binding.linearLayoutAcceptOrder;
-
+        toolbar = binding.toolbar;
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        toolbar.setTitle("سبد خرید");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(v -> getActivity().getSupportFragmentManager().popBackStack() );
         arrowBtn.setOnClickListener(v -> {
             if (expandableLayout.getVisibility() == View.GONE) {
                 TransitionManager.beginDelayedTransition(coordinatorLayoutMainContent, transition);
@@ -144,7 +153,9 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
         });
 
         Bundle extras = getArguments();
-        if (extras != null) {
+        assert extras != null;
+        if (extras.getLong("restaurantID", 0) != 0) {
+            viewModel.changeViewLiveData.postValue(true);
             long extraRestauranId = extras.getLong("restaurantID", 0);
             RestaurantPackageItem packageItem = (RestaurantPackageItem) extras.getSerializable(selectedPackageExtraName);
             RestaurantInfoResponse restaurantInfo = (RestaurantInfoResponse) extras.getSerializable(restaurantInfoResponseExtraName);
@@ -170,6 +181,16 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
 
             viewModel.userAddressPagedListLiveData.observe(getActivity(), userAddressLists -> addressAdapter.submitList(userAddressLists)); //set PagedList user address
 
+        } else {
+            viewModel.changeViewLiveData.postValue(false);
+            recyclerViewRestaurantsCart = binding.recyclerViewRestaurantsCartItems;
+            recyclerViewRestaurantsCart.setLayoutManager(new LinearLayoutManager(application));
+            recyclerViewRestaurantsCart.setHasFixedSize(true);
+            restaurantsCartAdapter = new RestaurantsCartAdapter(this, cartDataSource);
+            recyclerViewRestaurantsCart.setAdapter(restaurantsCartAdapter);
+
+            viewModel.getAllRestaurantsCart();
+
         }
 
         return binding.getRoot();
@@ -187,6 +208,13 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
     }
 
     @Override
+    public void onRecyclerViewRestaurantCartItemClick(View v, RestaurantItem restaurantItem) {
+        Bundle bundle = new Bundle();
+        bundle.putLong("restaurantID", restaurantItem.getRestaurantId());
+        Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.action_cartFragment_to_restaurantDetailsFragment, bundle);
+    }
+
+    @Override
     public void onRecyclerViewAddressClick(View v, UserAddressList userAddress, int position) {
         viewModel.checkUserAddressForService(userAddress.getId(), userAddress.getLatitude(), userAddress.getLongitude());
     }
@@ -197,8 +225,13 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
     }
 
     @Override
-    public void onSuccess(List<CartItem> cartItems) {
+    public void onSuccessCartItems(List<CartItem> cartItems) {
         cartAdapter.setCartItems(cartItems);
+    }
+
+    @Override
+    public void onSuccessRestaurantsCarts(List<RestaurantItem> restaurantItems) {
+        restaurantsCartAdapter.setRestaurantItems(restaurantItems);
     }
 
     @Override
@@ -253,11 +286,11 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
             bundlePaymentFragment = new Bundle();
             bundlePaymentFragment.putSerializable(cartItemExtraName, (Serializable) cartItems);
             bundlePaymentFragment.putParcelableArrayList(finalPaymentPricesExtraName, finalPaymentPrices);
-            bundlePaymentFragment.putInt(totalAllPriceExtraName,totalAllPrice);
-            bundlePaymentFragment.putInt(totalRawPriceExtraName,totalRawPrice);
-            bundlePaymentFragment.putInt(totalDiscountExtraName,totalDiscount);
-            bundlePaymentFragment.putInt(packingCostLiveDataExtraName,packingCost);
-            bundlePaymentFragment.putInt(taxAndServiceExtraName,taxAndService);
+            bundlePaymentFragment.putInt(totalAllPriceExtraName, totalAllPrice);
+            bundlePaymentFragment.putInt(totalRawPriceExtraName, totalRawPrice);
+            bundlePaymentFragment.putInt(totalDiscountExtraName, totalDiscount);
+            bundlePaymentFragment.putInt(packingCostLiveDataExtraName, packingCost);
+            bundlePaymentFragment.putInt(taxAndServiceExtraName, taxAndService);
             bundlePaymentFragment.putInt(shippingCostExtraName, shippingCost);
             bundlePaymentFragment.putSerializable(orderTypeExtraName, orderType);
             bundlePaymentFragment.putLong(restaurantIdExtraName, restaurantId);

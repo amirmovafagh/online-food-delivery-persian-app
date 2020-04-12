@@ -17,7 +17,7 @@
     <string name="already_have_account">قبلا ثبت نام کرده اید ؟</string>
     <string name="send_again_verification_code">دریافت مجدد کد (60)</string>
     <string name="userProfile">پروفایل</string>
-    <string name="cartItem">سفارشات</string>
+    <string name="cartItem">سبد خرید</string>
     <string name="restaurants">رستوران ها</string>
     <string name="home">خانه</string>
     <string name="search_title">یافتن رستوران…</string>

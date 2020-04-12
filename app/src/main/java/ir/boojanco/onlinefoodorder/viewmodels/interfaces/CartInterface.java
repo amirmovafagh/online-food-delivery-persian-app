@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ir.boojanco.onlinefoodorder.data.database.CartItem;
+import ir.boojanco.onlinefoodorder.data.database.RestaurantItem;
 import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllCitiesList;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList;
@@ -14,7 +15,8 @@ import ir.boojanco.onlinefoodorder.util.OrderType;
 public interface CartInterface {
     void onStarted();
 
-    void onSuccess(List<CartItem> cartItems);
+    void onSuccessCartItems(List<CartItem> cartItems);
+    void onSuccessRestaurantsCarts(List<RestaurantItem> restaurantItems);
 
     void onSuccessGetAddress();
 

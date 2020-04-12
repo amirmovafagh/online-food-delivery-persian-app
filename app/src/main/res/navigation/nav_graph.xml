@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_cartFragment_to_paymentFragment"
             app:destination="@id/paymentFragment" />
+        <action
+            android:id="@+id/action_cartFragment_to_restaurantDetailsFragment"
+            app:destination="@id/restaurantDetailsFragment" />
         <argument
             android:name="selectedPackage"
             app:argType="ir.boojanco.onlinefoodorder.models.restaurantPackage.RestaurantPackageItem" />

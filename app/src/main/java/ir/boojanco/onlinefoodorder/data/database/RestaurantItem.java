@@ -17,7 +17,7 @@ public class RestaurantItem {
     private long restaurantId;
 
     @ColumnInfo(name = "restaurantName")
-    private String restaurant;
+    private String restaurantName;
 
     @ColumnInfo(name = "restaurantLogo")
     private String restaurantLogo;
@@ -25,6 +25,16 @@ public class RestaurantItem {
     @ColumnInfo(name = "restaurantCover")
     private String restaurantCover;
 
+    @ColumnInfo(name = "totalPrice")
+    private String totalPrice;
+
+    public String getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(String totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 
     public RestaurantItem() {
     }
@@ -37,12 +47,12 @@ public class RestaurantItem {
         this.restaurantId = restaurantId;
     }
 
-    public String getRestaurant() {
-        return restaurant;
+    public String getRestaurantName() {
+        return restaurantName;
     }
 
-    public void setRestaurant(String restaurant) {
-        this.restaurant = restaurant;
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
     }
 
     public String getRestaurantLogo() {

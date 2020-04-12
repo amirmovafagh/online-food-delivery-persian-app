@@ -53,4 +53,19 @@ public class LocalCartDataSource implements CartDataSource {
     public Single<Integer> cleanCart(long restaurantId) {
         return cartDAO.cleanCart(restaurantId);
     }
+
+    @Override
+    public Flowable<List<RestaurantItem>> getAllRestaurantsCart() {
+        return cartDAO.getAllRestaurantsCart();
+    }
+
+    @Override
+    public Completable insertOrReplaceAllRestaurants(RestaurantItem... restaurantItems) {
+        return cartDAO.insertOrReplaceAllRestaurants(restaurantItems);
+    }
+
+    @Override
+    public Single<Integer> cleanRestaurantCart(long restaurantId) {
+        return cartDAO.cleanRestaurantCart(restaurantId);
+    }
 }

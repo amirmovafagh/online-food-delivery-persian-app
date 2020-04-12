@@ -42,6 +42,17 @@ public interface CartDAO {
     @Query("DELETE FROM cart_table WHERE restaurantId=:restaurantId")
     Single<Integer> cleanCart(long restaurantId);
 
-    @Query("DELETE FROM cart_table")
-    void cleanAllCart();
+
+    //Restaurant_table queries
+
+    @Query("SELECT * FROM restaurant_table")
+    Flowable<List<RestaurantItem>> getAllRestaurantsCart();
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+        //if conflict restaurantId, we will update information
+    Completable insertOrReplaceAllRestaurants(RestaurantItem... restaurantItems);
+
+    @Query("DELETE FROM restaurant_table WHERE restaurantId=:restaurantId")
+    Single<Integer> cleanRestaurantCart(long restaurantId);
+
 }

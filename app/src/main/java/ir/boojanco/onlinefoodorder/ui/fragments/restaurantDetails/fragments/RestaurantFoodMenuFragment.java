@@ -1,14 +1,12 @@
 package ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Application;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -27,7 +25,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -148,6 +145,7 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
                 @Override
                 public void onChanged(RestaurantInfoResponse restaurantInfoResponse) {
                     if (restaurantInfoResponse != null) {
+                        viewModel.setRestaurantInfoResponse(restaurantInfoResponse);
                         bundleCartFragment.putSerializable(restaurantInfoResponseExtraName, restaurantInfoResponse);
                     }
                 }

@@ -23,4 +23,12 @@ public interface CartDataSource {
 
     Single<Integer> cleanCart(long restaurantId);
 
+    //Restaurant_table interfaces
+
+    Flowable<List<RestaurantItem>> getAllRestaurantsCart();
+
+    Completable insertOrReplaceAllRestaurants(RestaurantItem...restaurantItems);
+
+    Single<Integer> cleanRestaurantCart(long restaurantId);
+
 }

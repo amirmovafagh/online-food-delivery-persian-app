@@ -231,10 +231,9 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
 
 
     public void getReverseAddressParsiMap(Double latitude, Double longitude, String authToken) {
-        Log.i("AMIR", "rev");
         rx.Observable<ReverseFindAddressResponse> observable = userRepository.getReverseFindAddressResponse(latitude, longitude);
         if (observable != null) {
-            Log.i("AMIR", "rev1");
+
             observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<ReverseFindAddressResponse>() {
                 @Override
                 public void onCompleted() {
@@ -248,8 +247,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
 
                 @Override
                 public void onError(Throwable e) {
-                    Log.i("AMIR", "rev " + e.getMessage());
-                    mapDialogCartInterface.onFailure(e.getMessage());
+
                     if (e instanceof NoNetworkConnectionException)
                         mapDialogCartInterface.onFailure(e.getMessage());
                     if (e instanceof HttpException) {
@@ -262,8 +260,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
 
 
                         } catch (Exception d) {
-                            Log.i("AMIR", "rev " + d.getMessage());
-                            mapDialogCartInterface.onFailure(d.getMessage());
+                            Log.i(TAG,  ""+ d.getMessage());
                         }
                     }
                 }

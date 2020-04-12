@@ -19,9 +19,11 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import ir.boojanco.onlinefoodorder.data.database.CartDataSource;
 import ir.boojanco.onlinefoodorder.data.database.CartItem;
+import ir.boojanco.onlinefoodorder.data.database.RestaurantItem;
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
 import ir.boojanco.onlinefoodorder.models.food.AllFoodList;
 import ir.boojanco.onlinefoodorder.models.food.GetAllFoodResponse;
+import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.AllPackagesResponse;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.FoodTypeHeader;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.ListItemType;
@@ -48,6 +50,7 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
     private ArrayList<ListItemType> items;
     private ArrayList<String> foodTypeIndex;
     private Long extraRestaurantId;
+    private RestaurantInfoResponse restaurantInfoResponse;
     public MutableLiveData<GetAllFoodResponse> allFoodMutableLiveData;
     public MutableLiveData<AllPackagesResponse> allPackagesMutableLiveData;
     public MutableLiveData<Integer> cartItemCount;
@@ -55,6 +58,10 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
 
     public void setExtraRestaurantId(Long extraRestaurantId) {
         this.extraRestaurantId = extraRestaurantId;
+    }
+
+    public void setRestaurantInfoResponse(RestaurantInfoResponse restaurantInfoResponse) {
+        this.restaurantInfoResponse = restaurantInfoResponse;
     }
 
     public RestaurantFoodMenuViewModel(Context context, RestaurantRepository restaurantRepository, CartDataSource cartDataSource) {
@@ -133,6 +140,21 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
             public void onSuccess(Long aLong) {
                 totalPriceLiveData.setValue(moneyFormat(aLong));
 
+                RestaurantItem restaurantItem =new RestaurantItem();
+                restaurantItem.setRestaurantName(restaurantInfoResponse.getName());
+                restaurantItem.setRestaurantId(extraRestaurantId);
+                restaurantItem.setRestaurantCover(restaurantInfoResponse.getCover());
+                restaurantItem.setRestaurantLogo(restaurantInfoResponse.getLogo());
+                restaurantItem.setTotalPrice(moneyFormat(aLong));
+                compositeDisposable.add((Disposable) cartDataSource.insertOrReplaceAllRestaurants(restaurantItem)
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.io())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribe(() -> {
+
+                        }, throwable -> {
+                            Log.e(TAG,"{add Restaurant item table throwable}->" + throwable.getMessage());
+                        })
+                );
             }
 
             @Override

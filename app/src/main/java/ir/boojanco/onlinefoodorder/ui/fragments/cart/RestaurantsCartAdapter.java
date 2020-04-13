@@ -63,8 +63,8 @@ class RestaurantsCartAdapter extends RecyclerView.Adapter<RestaurantsCartAdapter
                     @Override
                     public void onSuccess(Integer integer) {
                         if (restaurantItems != null) {
-                            restaurantItems.remove(position);
-                            notifyItemRemoved(position);
+
+                            notifyDataSetChanged();
                             clearCart(currentItem.getRestaurantId());
                         }
 

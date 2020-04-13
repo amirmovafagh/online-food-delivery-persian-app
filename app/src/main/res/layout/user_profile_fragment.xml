@@ -4,7 +4,8 @@
 
     <data>
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="ir.boojanco.onlinefoodorder.viewmodels.UserProfileViewModel" />
@@ -300,74 +301,59 @@
                     </FrameLayout>
                 </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_marginTop="8dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    app:cardBackgroundColor="@color/gray"
-                    app:cardCornerRadius="@dimen/card_view_corner_radius">
+                    android:layout_height="wrap_content">
 
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/text_view_addresses"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:drawableStart="@drawable/ic_deliver_in_my_address"
+                        android:maxLines="1"
+                        android:text="@string/your_addresses"
+                        android:textAlignment="textStart"
+                        android:textSize="@dimen/body1_paragraph_font_size"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        app:layout_constraintLeft_toRightOf="@id/btn_add_address"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view_user_address_horizontal_items"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:layoutAnimation="@anim/layout_animation_fall_down"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/text_view_addresses" />
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                    <Button
+                        android:id="@+id/btn_add_address"
+                        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:drawablePadding="8dp"
+                        android:drawableTint="@color/colorSecondPrimary"
+                        android:onClick="@{()-> viewModel.addAddressOnClick()}"
+                        android:text="افزودن"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/colorSecondPrimary"
+                        android:textSize="@dimen/button_font_size"
+                        app:cornerRadius="16dp"
+                        app:icon="@drawable/ic_add_location"
+                        app:layout_constraintBottom_toBottomOf="@id/text_view_addresses"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/text_view_addresses"
+                        app:layout_constraintTop_toTopOf="@id/text_view_addresses"
+                        tools:ignore="RtlCompat" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                            <TextView
-                                android:id="@+id/text_view_addresses"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="8dp"
-                                android:drawableStart="@drawable/ic_deliver_in_my_address"
-                                android:drawablePadding="8dp"
-                                android:maxLines="1"
-                                android:text="@string/your_addresses"
-                                android:textAlignment="textStart"
-                                android:textSize="@dimen/body1_paragraph_font_size"
-                                app:layout_constraintHorizontal_chainStyle="spread_inside"
-                                app:layout_constraintLeft_toRightOf="@id/btn_add_address"
-                                app:layout_constraintRight_toRightOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/recycler_view_user_address_horizontal_items"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:layout_marginBottom="8dp"
-                                android:layoutAnimation="@anim/layout_animation_fall_down"
-                                app:layout_constraintHorizontal_chainStyle="spread_inside"
-                                app:layout_constraintRight_toRightOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/text_view_addresses" />
-
-                            <Button
-                                android:id="@+id/btn_add_address"
-                                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="8dp"
-                                android:drawablePadding="8dp"
-                                android:drawableTint="@color/colorSecondPrimary"
-                                android:onClick="@{()-> viewModel.addAddressOnClick()}"
-                                android:text="افزودن"
-                                android:textAlignment="textStart"
-                                android:textColor="@color/colorSecondPrimary"
-                                android:textSize="@dimen/button_font_size"
-                                app:cornerRadius="16dp"
-                                app:icon="@drawable/ic_add_location"
-                                app:layout_constraintBottom_toBottomOf="@id/text_view_addresses"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintRight_toLeftOf="@id/text_view_addresses"
-                                app:layout_constraintTop_toTopOf="@id/text_view_addresses"
-                                tools:ignore="RtlCompat" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
@@ -399,9 +385,8 @@
             android:layout_width="match_parent"
             android:layout_height="24dp"
             android:background="@drawable/bottom_sheet_shadow"
-            app:layout_anchor="@+id/bottom_sheet"
             android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.VISIBLE : View.GONE}"
-            />
+            app:layout_anchor="@+id/bottom_sheet" />
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/bottom_sheet"
@@ -431,9 +416,8 @@
             android:layout_width="match_parent"
             android:layout_height="24dp"
             android:background="@drawable/bottom_sheet_shadow"
-            app:layout_anchor="@+id/bottom_sheet_profile"
             android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.GONE : View.VISIBLE}"
-            />
+            app:layout_anchor="@+id/bottom_sheet_profile" />
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/bottom_sheet_profile"

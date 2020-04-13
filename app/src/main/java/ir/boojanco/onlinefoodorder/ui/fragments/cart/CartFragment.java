@@ -16,6 +16,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -131,7 +132,9 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
         toolbar.setTitle("سبد خرید");
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(v -> getActivity().getSupportFragmentManager().popBackStack() );
+        toolbar.setNavigationOnClickListener(v -> {
+            Navigation.findNavController(getActivity(), R.id.nav_host_fragment).popBackStack();
+        });
         arrowBtn.setOnClickListener(v -> {
             if (expandableLayout.getVisibility() == View.GONE) {
                 TransitionManager.beginDelayedTransition(coordinatorLayoutMainContent, transition);

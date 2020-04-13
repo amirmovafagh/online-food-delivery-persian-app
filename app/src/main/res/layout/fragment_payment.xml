@@ -101,6 +101,7 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:background="@color/transparent"
                             android:ellipsize="end"
                             android:inputType="text"
                             android:maxLines="1"
@@ -113,17 +114,17 @@
                         android:id="@+id/radio_group_toggle_pament_type"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
-                        android:onCheckedChanged="@{(RadioGroup, id) -> viewModel.onPaymentTypeCheckedChanged(id)}"
                         android:background="@drawable/payment_type_radio_group_bg"
                         android:checkedButton="@+id/r_btn_online"
+                        android:onCheckedChanged="@{(RadioGroup, id) -> viewModel.onPaymentTypeCheckedChanged(id)}"
                         android:orientation="horizontal">
 
                         <RadioButton
                             android:id="@+id/r_btn_online"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_marginRight="2dp"
                             android:layout_marginTop="2dp"
+                            android:layout_marginRight="2dp"
                             android:layout_marginBottom="2dp"
                             android:layout_weight="0.5"
                             android:background="@drawable/toggle_widget_background"
@@ -136,8 +137,8 @@
                             android:id="@+id/r_btn_in_place"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_marginTop="2dp"
                             android:layout_marginLeft="2dp"
+                            android:layout_marginTop="2dp"
                             android:layout_marginBottom="2dp"
                             android:layout_weight="0.5"
                             android:background="@drawable/toggle_widget_background"

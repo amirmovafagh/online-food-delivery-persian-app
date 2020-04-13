@@ -61,6 +61,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginEnd="2dp"
+                    android:background="@color/transparent"
                     android:ellipsize="end"
                     android:focusable="false"
                     android:inputType="none"
@@ -85,6 +86,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginEnd="2dp"
+                    android:background="@color/transparent"
                     android:ellipsize="end"
                     android:focusable="false"
                     android:inputType="none"
@@ -110,6 +112,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:background="@color/transparent"
                 android:ellipsize="end"
                 android:focusable="false"
                 android:inputType="textEmailAddress"
@@ -134,6 +137,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:background="@color/transparent"
                 android:ellipsize="end"
                 android:inputType="text"
                 android:maxLines="1"
@@ -147,9 +151,9 @@
             android:id="@+id/btn_accept_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cornerRadius="16dp"
             android:layout_gravity="center"
             android:onClick="@{()-> viewModel.acceptAddNewUserAddressOrEditAddressOnClick()}"
-            android:text="ثبت" />
+            android:text="ثبت"
+            app:cornerRadius="16dp" />
     </LinearLayout>
 </layout>

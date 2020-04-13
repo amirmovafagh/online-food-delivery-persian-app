@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.Random;
 
@@ -55,6 +57,7 @@ public class RestaurantDetailsFragment extends Fragment implements RestaurantDet
     private RestaurantDetailsViewModel viewModel;
     private RestaurantDetailsFragmentBinding binding;
     private RatingReviews ratingReviews;
+    private TabLayout tabLayout;
 
     public static RestaurantDetailsFragment newInstance() {
         return new RestaurantDetailsFragment();
@@ -72,7 +75,7 @@ public class RestaurantDetailsFragment extends Fragment implements RestaurantDet
         binding.setHandler(this);
         binding.setManager(getChildFragmentManager());
         viewModel.setFragmentInterface(this);
-
+        tabLayout = binding.tabs;
         ratingReviews = binding.ratingReviews;
 
         assert getArguments() != null;
@@ -92,17 +95,18 @@ public class RestaurantDetailsFragment extends Fragment implements RestaurantDet
     }
 
     @BindingAdapter({"handler"})
-    public static void bindViewPagerAdapter(final ViewPager view, final RestaurantDetailsFragment fragment) {
-        final RestaurantDetailsPagerAdapter adapter = new RestaurantDetailsPagerAdapter(fragment.getChildFragmentManager(), 0, fragment.getArguments());
-        view.setAdapter(adapter);
+    public static void bindViewPagerAdapter(final ViewPager2 viewPager2, final RestaurantDetailsFragment fragment) {
+        final RestaurantDetailsPagerAdapter adapter = new RestaurantDetailsPagerAdapter(fragment, fragment.getArguments());
+        viewPager2.setAdapter(adapter);
     }
 
     @BindingAdapter({"pager"})
-    public static void bindViewPagerTabs(final TabLayout view, final ViewPager pagerView) {
-        view.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-        view.setupWithViewPager(pagerView, true);
-        pagerView.setCurrentItem(1);
+    public static void bindViewPagerTabs(final TabLayout tabLayout, final ViewPager2 viewPager) {
+        new TabLayoutMediator(tabLayout, viewPager,
+                (tab, position) -> tab.setText(RestaurantDetailsPagerAdapter.getPageTitle(position))
+        ).attach();
     }
+
 
     @Override
     public void onStarted() {

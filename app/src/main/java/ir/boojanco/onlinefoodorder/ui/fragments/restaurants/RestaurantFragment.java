@@ -11,7 +11,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -48,6 +51,7 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
     private RecyclerView recyclerView;
     private Toolbar toolbar;
     private SearchView searchView;
+    private NavController navController;
 
 
     @Override
@@ -60,6 +64,13 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         binding.setRestaurantViewModel(restaurantViewModel);
         binding.setLifecycleOwner(this);
         toolbar = binding.toolbar;
+
+        navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+        AppBarConfiguration appBarConfiguration =
+                new AppBarConfiguration.Builder(navController.getGraph()).build();
+        NavigationUI.setupWithNavController(
+                toolbar, navController, appBarConfiguration);
+
         searchView = binding.search;
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -75,7 +86,7 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
                 return false;
             }
         });
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+
         recyclerView = binding.recyclerViewAllRestaurant;
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplication()));
         recyclerView.setHasFixedSize(true);
@@ -126,7 +137,7 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
             case R.id.cons_layout:
                 Bundle bundle = new Bundle();
                 bundle.putLong("restaurantID", restaurantList.getId());
-                Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.action_restaurantFragment_to_restaurantDetailsFragment, bundle);
+                navController.navigate(R.id.action_restaurantFragment_to_restaurantDetailsFragment, bundle);
                 break;
         }
     }

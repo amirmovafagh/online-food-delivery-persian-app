@@ -18,6 +18,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.AutoTransition;
@@ -96,6 +98,7 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
     private Bundle bundlePaymentFragment;
 
     private Toolbar toolbar;
+    private NavController navController;
     private final String selectedPackageExtraName = "selectedPackage";
     private final String restaurantInfoResponseExtraName = "restaurantInfoResponse";
     private final String cartItemExtraName = "cartItem";
@@ -128,13 +131,12 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
         expandableLayout = binding.linearLayoutCartDetailsView;
         acceptOrder = binding.linearLayoutAcceptOrder;
         toolbar = binding.toolbar;
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        toolbar.setTitle("سبد خرید");
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(v -> {
-            Navigation.findNavController(getActivity(), R.id.nav_host_fragment).popBackStack();
-        });
+        navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+        AppBarConfiguration appBarConfiguration =
+                new AppBarConfiguration.Builder(navController.getGraph()).build();
+        NavigationUI.setupWithNavController(
+                toolbar, navController, appBarConfiguration);
+
         arrowBtn.setOnClickListener(v -> {
             if (expandableLayout.getVisibility() == View.GONE) {
                 TransitionManager.beginDelayedTransition(coordinatorLayoutMainContent, transition);
@@ -214,7 +216,7 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
     public void onRecyclerViewRestaurantCartItemClick(View v, RestaurantItem restaurantItem) {
         Bundle bundle = new Bundle();
         bundle.putLong("restaurantID", restaurantItem.getRestaurantId());
-        Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.action_cartFragment_to_restaurantDetailsFragment, bundle);
+        navController.navigate(R.id.action_cartFragment_to_restaurantDetailsFragment, bundle);
     }
 
     @Override

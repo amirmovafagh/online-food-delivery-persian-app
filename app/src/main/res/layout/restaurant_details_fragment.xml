@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools"
-    xmlns:bar="http://schemas.android.com/apk/res-auto">
+    xmlns:bar="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
 
@@ -26,7 +26,6 @@
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
         android:layoutDirection="rtl">
 
 
@@ -133,7 +132,7 @@
                                 android:id="@+id/toggle_bookmark"
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
-                                android:layout_marginLeft="8dp"
+                                android:layout_marginEnd="8dp"
                                 android:background="@drawable/fav_toggle_selector"
                                 android:onCheckedChanged="@{(ToggleBottun, checked) -> viewModel.onRestaurantFavoriteCheckedChanged(checked)}"
                                 android:textOff=""
@@ -166,9 +165,9 @@
                                 android:layout_height="wrap_content"
                                 android:layout_margin="8dp"
                                 android:background="@drawable/textview_shape_ready_time"
-                                android:drawableStart="@drawable/ic_time_24dp"
+                                app:drawableStartCompat="@drawable/ic_time_24dp"
                                 android:drawablePadding="2dp"
-                                android:drawableTint="@color/colorPrimary"
+                                app:drawableTint="@color/colorPrimary"
                                 android:ellipsize="end"
                                 android:gravity="center"
                                 android:maxLines="1"
@@ -202,8 +201,8 @@
                                 android:maxLines="1"
                                 android:text="@string/lackOfService"
                                 android:textColor="@color/colorPrimary"
-                                android:textStyle="bold"
                                 android:textSize="@dimen/body1_paragraph_font_size"
+                                android:textStyle="bold"
                                 android:visibility="@{viewModel.restaurantWorking ? View.GONE : View.VISIBLE ,default=gone}"
                                 app:layout_constraintBottom_toBottomOf="@id/lottie_red_dot"
                                 app:layout_constraintRight_toLeftOf="@id/lottie_red_dot"
@@ -316,33 +315,26 @@
                     android:textAlignment="center"
                     app:pager="@{pager}"
                     app:tabGravity="center"
+                    app:tabMode="scrollable"
                     bind:ignore="RtlCompat" />
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
 
 
-        <ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.CustomViewPager
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:handler="@{handler}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cons_layout_waiting_response"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/detailsTextColor"
-            android:visibility="gone">
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_waiting_response"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
+            android:visibility="visible"
             app:cardBackgroundColor="@color/gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

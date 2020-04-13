@@ -302,9 +302,9 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_marginTop="8dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
 
                     <TextView
                         android:id="@+id/text_view_addresses"
@@ -339,7 +339,6 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="16dp"
                         android:drawablePadding="8dp"
-                        android:drawableTint="@color/colorSecondPrimary"
                         android:onClick="@{()-> viewModel.addAddressOnClick()}"
                         android:text="افزودن"
                         android:textAlignment="textStart"

@@ -30,7 +30,11 @@ import androidx.databinding.DataBindingUtil;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.transition.TransitionManager;
 
@@ -40,6 +44,7 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -64,11 +69,10 @@ import ir.boojanco.onlinefoodorder.viewmodels.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {
     private static String TAG = MainActivity.class.getSimpleName();
-    private MainViewModel mainViewModel;
+    private MainViewModel viewModel;
     ActivityMainBinding binding;
     BottomNavigationView bottomNavigationView;
-    Toolbar myToolbar;
-
+    private NavController navController;
     private int PERMISSION_ID = 17;
     private FusedLocationProviderClient locationProviderClient;
 
@@ -84,19 +88,31 @@ public class MainActivity extends AppCompatActivity {
 
         getLastLocation();
         // get view model
-        mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         // Inflate view and obtain an instance of the binding class.
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        binding.setMain(mainViewModel); // connect activity_Main variable to ViewModel class
+        binding.setViewModel(viewModel); // connect activity_Main variable to ViewModel class
         // Specify the current activity as the lifecycle owner.
         binding.setLifecycleOwner(this);
-
         bottomNavigationView = binding.bottomNavigation;
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.nav_host_fragment);
-        assert navHostFragment != null;
-        NavigationUI.setupWithNavController(bottomNavigationView,
-                navHostFragment.getNavController());
+
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+
+        AppBarConfiguration appBarConfiguration =
+                new AppBarConfiguration.Builder(navController.getGraph()).build();
+
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+
+
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            if(destination.getId() == R.id.restaurantDetailsFragment) {
+                //toolbar.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.GONE);
+            } else {
+                //toolbar.setVisibility(View.VISIBLE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+            }
+        });
 
     }
 
@@ -157,9 +173,9 @@ public class MainActivity extends AppCompatActivity {
         if (checkPermissions()) {
             if (isLocationEnabled()) {
 
-                    locationProviderClient.getLastLocation().addOnCompleteListener(
-                            task -> {
-                                try {
+                locationProviderClient.getLastLocation().addOnCompleteListener(
+                        task -> {
+                            try {
                                 Location location = task.getResult();
                                 if (location == null) {
                                     requestNewLocationData();
@@ -167,11 +183,12 @@ public class MainActivity extends AppCompatActivity {
                                     sharedPreferences.setLatitude(location.getLatitude());
                                     sharedPreferences.setLongitud(location.getLongitude());
                                     getCityName(location);
-                                }} catch (Exception e) {
-                        Log.e(TAG, e.getMessage() + "");
-                    }
+                                }
+                            } catch (Exception e) {
+                                Log.e(TAG, e.getMessage() + "");
                             }
-                    );
+                        }
+                );
 
             } else {
                 showSetLocationEnabledAlertDialog();

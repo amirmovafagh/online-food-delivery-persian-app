@@ -51,7 +51,7 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.StateViewHol
             holder.binding.textViewState.setTextColor(context.getResources().getColor(R.color.white));
         } else {//remove selected
             holder.binding.cvStateTextBackground.setCardBackgroundColor(context.getResources().getColor(R.color.transparent));
-            holder.binding.textViewState.setTextColor(context.getResources().getColor(R.color.gray));
+            holder.binding.textViewState.setTextColor(context.getResources().getColor(R.color.materialGray900));
         }
         holder.binding.linearLayoutState.setOnClickListener(v -> {
             dialogInterface.onStateItemClick(currentState);

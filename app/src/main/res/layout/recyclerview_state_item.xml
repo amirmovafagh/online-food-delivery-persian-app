@@ -19,8 +19,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center">
-
-
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_state_text_background"
                 android:layout_width="wrap_content"

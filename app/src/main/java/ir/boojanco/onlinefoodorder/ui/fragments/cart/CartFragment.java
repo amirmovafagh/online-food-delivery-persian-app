@@ -27,6 +27,9 @@ import androidx.transition.TransitionManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -82,7 +85,7 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
     private LinearLayout expandableLayout;
     private AutoTransition transition;
 
-    private RecyclerView recyclerViewCart, recyclerViewUserAddress,recyclerViewRestaurantsCart;
+    private RecyclerView recyclerViewCart, recyclerViewUserAddress, recyclerViewRestaurantsCart;
     private CartAdapter cartAdapter;
     private RestaurantsCartAdapter restaurantsCartAdapter;
     private AddressAdapter addressAdapter;
@@ -134,6 +137,7 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
         navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
         AppBarConfiguration appBarConfiguration =
                 new AppBarConfiguration.Builder(navController.getGraph()).build();
+
         NavigationUI.setupWithNavController(
                 toolbar, navController, appBarConfiguration);
 
@@ -160,15 +164,18 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
         Bundle extras = getArguments();
         assert extras != null;
         if (extras.getLong("restaurantID", 0) != 0) {
+
             viewModel.changeViewLiveData.postValue(true);
             long extraRestauranId = extras.getLong("restaurantID", 0);
             RestaurantPackageItem packageItem = (RestaurantPackageItem) extras.getSerializable(selectedPackageExtraName);
             RestaurantInfoResponse restaurantInfo = (RestaurantInfoResponse) extras.getSerializable(restaurantInfoResponseExtraName);
-
+            toolbar.setTitle(restaurantInfo.getName());
             if (packageItem != null)
                 viewModel.setPackageItem(packageItem);
-            if (restaurantInfo != null)
+            if (restaurantInfo != null) {
                 viewModel.setRestaurantInfo(restaurantInfo);
+                toolbar.setTitle("سبد خرید " + restaurantInfo.getName());
+            }
 
 
             recyclerViewUserAddress = binding.recyclerViewUserAddressHorizontalItems;
@@ -200,6 +207,8 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
 
         return binding.getRoot();
     }
+
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

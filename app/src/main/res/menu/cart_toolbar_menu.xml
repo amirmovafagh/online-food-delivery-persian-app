@@ -3,5 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     >
-
+    <item
+        android:id="@+id/action_remove_all_carts"
+        android:icon="@drawable/ic_delete"
+        app:showAsAction="always"
+        android:title="حذف تمام سبد های خرید">
+    </item>
 </menu>

@@ -23,7 +23,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
@@ -31,9 +30,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.transition.TransitionManager;
@@ -44,9 +41,7 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -105,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-            if(destination.getId() == R.id.restaurantDetailsFragment) {
+            if (destination.getId() == R.id.restaurantDetailsFragment) {
                 //toolbar.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.GONE);
             } else {
@@ -210,12 +205,11 @@ public class MainActivity extends AppCompatActivity {
             String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
             String city = addresses.get(0).getLocality();
             String state = addresses.get(0).getAdminArea();
-            String country = addresses.get(0).getCountryName();
-            String postalCode = addresses.get(0).getPostalCode();
-            String knownName = addresses.get(0).getFeatureName(); // Only if available else return NULL
-            Toast.makeText(this, "آدرس: " + address, Toast.LENGTH_LONG).show();
-            Toast.makeText(this, "استان: " + state, Toast.LENGTH_LONG).show();
-            Toast.makeText(this, "شهر: " + city, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, ""+address, Toast.LENGTH_SHORT).show();
+            if (city != null)
+                sharedPreferences.setCity(city);
+            if (state != null)
+                sharedPreferences.setState(state);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -288,7 +282,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.restaurants_toolbar_menu, menu);
+        getMenuInflater().inflate(R.menu.cart_toolbar_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

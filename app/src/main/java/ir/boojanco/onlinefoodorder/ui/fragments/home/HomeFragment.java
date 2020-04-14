@@ -190,7 +190,8 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
     @Override
     public void onStateItemClick(AllStatesList state) {
         sharedPreferences.setState(state.getName());
-        homeViewModel.stateLiveData.setValue(state.getName());
+        homeViewModel.stateLiveData.postValue(state.getName());
+        homeViewModel.cityLiveData.setValue("شهر را انتخاب کنید");
         homeViewModel.getCities(sharedPreferences.getUserAuthTokenKey(), state.getId());
     }
 

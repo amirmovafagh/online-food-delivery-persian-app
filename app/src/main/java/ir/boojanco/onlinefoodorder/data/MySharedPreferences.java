@@ -53,7 +53,7 @@ public class MySharedPreferences {
     }
 
     public String getCity(){
-        return sharedPreferences.getString(cityKey,null);
+        return sharedPreferences.getString(cityKey,"تهران");
     }
 
     public void setState(String state) {
@@ -62,7 +62,7 @@ public class MySharedPreferences {
     }
 
     public String getState() {
-        return sharedPreferences.getString(stateKey, null);
+        return sharedPreferences.getString(stateKey, "تهران");
     }
 
     public void setLatitude(double latitude){

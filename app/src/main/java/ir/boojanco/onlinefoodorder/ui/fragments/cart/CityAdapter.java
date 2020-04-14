@@ -49,7 +49,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder
             holder.binding.textViewCity.setTextColor(context.getResources().getColor(R.color.white));
         } else {//remove selected
             holder.binding.cvCityTextBackground.setCardBackgroundColor(context.getResources().getColor(R.color.transparent));
-            holder.binding.textViewCity.setTextColor(context.getResources().getColor(R.color.gray));
+            holder.binding.textViewCity.setTextColor(context.getResources().getColor(R.color.materialGray900));
         }
         holder.binding.linearLayoutCity.setOnClickListener(v -> {
             dialogInterface.onCityItemClick(currentCity);

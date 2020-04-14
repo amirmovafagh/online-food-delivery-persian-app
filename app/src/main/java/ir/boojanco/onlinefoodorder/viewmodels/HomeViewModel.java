@@ -40,7 +40,7 @@ public class HomeViewModel extends ViewModel {
         this.restaurantRepository = restaurantRepository;
         stateLiveData = new MutableLiveData<>();
         cityLiveData = new MutableLiveData<>();
-        stateLiveData.setValue("موقعیت شما");
+        stateLiveData.setValue("انتخاب شهر");
 
     }
 

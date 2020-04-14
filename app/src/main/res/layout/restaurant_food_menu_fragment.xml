@@ -102,6 +102,7 @@
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
                 android:layout_gravity="center"
                 android:background="@color/transparent">
 
@@ -203,7 +204,6 @@
                 android:id="@+id/recycler_view_restauran_food"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layoutAnimation="@anim/layout_animation_fall_down"
                 android:overScrollMode="never"
 

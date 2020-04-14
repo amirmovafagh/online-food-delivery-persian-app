@@ -41,15 +41,14 @@
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="320dp"
+                android:layout_height="230dp"
                 android:fitsSystemWindows="true"
+                android:background="@android:color/transparent"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:titleEnabled="false">
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="?actionBarSize"
                     android:background="@drawable/curve_background"
                     app:layout_collapseMode="parallax">
 
@@ -306,30 +305,34 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tabs"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_gravity="bottom"
-                    android:background="@color/gray"
-                    android:textAlignment="center"
-                    app:pager="@{pager}"
-                    app:tabGravity="center"
-                    app:tabMode="scrollable"
-                    bind:ignore="RtlCompat" />
+
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
-
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/pager"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:handler="@{handler}"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="bottom"
+                android:background="@color/gray"
+                android:textAlignment="center"
+                app:pager="@{pager}"
+                app:tabGravity="center"
+                app:tabMode="scrollable"
+                bind:ignore="RtlCompat" />
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:handler="@{handler}"
+                />
+        </LinearLayout>
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_waiting_response"
             android:layout_width="match_parent"

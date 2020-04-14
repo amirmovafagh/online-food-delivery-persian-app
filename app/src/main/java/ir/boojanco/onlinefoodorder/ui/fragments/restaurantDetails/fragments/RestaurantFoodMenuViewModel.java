@@ -162,17 +162,41 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
             @Override
             public void onError(Throwable e) {
                 Log.e(TAG, "{UPDATE CART ITEM}-> " + e.getMessage());
+                cleanRestaurantCart(extraRestaurantId);
             }
         });
     }
+
+    private void clearCart(long restaurantId){
+        cartDataSource.cleanCart(restaurantId)
+                .subscribeOn(io.reactivex.schedulers.Schedulers.io())
+                .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<Integer>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(Integer integer) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "{DELETE CART ITEM}-> " + e.getMessage());
+                    }
+                });
+    }
+
     private String moneyFormat(Long cost){
         NumberFormat formatter = new DecimalFormat("#,###");
         String formattedNumber = formatter.format(cost);
         return formattedNumber+" تومان";
     }
 
-    public void clearCart(){
-        cartDataSource.cleanCart(extraRestaurantId)
+    public void cleanRestaurantCart(long restaurantId){
+        cartDataSource.cleanRestaurantCart(extraRestaurantId)
                 .subscribeOn(io.reactivex.schedulers.Schedulers.io())
                 .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<Integer>() {

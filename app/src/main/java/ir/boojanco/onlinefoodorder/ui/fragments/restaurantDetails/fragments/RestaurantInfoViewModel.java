@@ -2,6 +2,7 @@ package ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModel;
 import org.json.JSONObject;
 
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
+import ir.boojanco.onlinefoodorder.models.restaurant.MenuTypesInfoResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantInfoFragmentInterface;
@@ -40,12 +42,15 @@ public class RestaurantInfoViewModel extends ViewModel {
     public MutableLiveData<String> restaurantPhoneNumber;
     public MutableLiveData<String> restaurantRegion;
     public MutableLiveData<String> restaurantTagList;
+    public MutableLiveData<String> restaurantMenuEndTimeLiveData;
+    public MutableLiveData<String> restaurantMenuStartTimeLiveData;
+    public MutableLiveData<String> restaurantMenuTypeNameLiveData;
+    public MutableLiveData<String> restaurantMenuTypeDaysLiveData;
     public RestaurantInfoFragmentInterface infoFragmentInterface;
 
     public RestaurantInfoViewModel(Context context, RestaurantRepository restaurantRepository) {
         this.context = context;
         this.restaurantRepository = restaurantRepository;
-
 
         restaurantCover = new MutableLiveData<>();
         restaurantLogo = new MutableLiveData<>();
@@ -63,6 +68,10 @@ public class RestaurantInfoViewModel extends ViewModel {
         restaurantShippingCostOutRegion = new MutableLiveData<>();
         restaurantPhoneNumber = new MutableLiveData<>();
         restaurantRegion = new MutableLiveData<>();
+        restaurantMenuEndTimeLiveData = new MutableLiveData<>();
+        restaurantMenuStartTimeLiveData = new MutableLiveData<>();
+        restaurantMenuTypeNameLiveData = new MutableLiveData<>();
+        restaurantMenuTypeDaysLiveData = new MutableLiveData<>();
     }
 
     public void setRestaurantInfo(RestaurantInfoResponse restaurantInfo) {
@@ -82,14 +91,15 @@ public class RestaurantInfoViewModel extends ViewModel {
         restaurantPhoneNumber.setValue(restaurantInfo.getPhoneNumber());
         restaurantRegion.setValue(restaurantInfo.getRegion());
         restaurantTagList.setValue(restaurantInfo.getTagList());
+        getRestaurantMenuTypesInfo(restaurantInfo.getId());
     }
 
-    public void getRestaurantInfo(String authToken, long restaurantId) {
+    private void getRestaurantMenuTypesInfo(long restaurantId) {
+        Toast.makeText(context, ""+restaurantId, Toast.LENGTH_SHORT).show();
         infoFragmentInterface.onStarted();
-        Observable<RestaurantInfoResponse> observable = restaurantRepository.getRestaurantInfo(authToken, restaurantId);
-        Log.e(TAG, "" + observable);
+        Observable<MenuTypesInfoResponse> observable = restaurantRepository.getMenuTypesInfo(restaurantId);
         if (observable != null) {
-            observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<RestaurantInfoResponse>() {
+            observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<MenuTypesInfoResponse>() {
                 @Override
                 public void onCompleted() {
 
@@ -110,31 +120,17 @@ public class RestaurantInfoViewModel extends ViewModel {
 
 
                         } catch (Exception d) {
-                            infoFragmentInterface.onFailure(d.getMessage());
+                            Log.e(TAG, "" + d.getMessage());
                         }
                     }
                 }
 
                 @Override
-                public void onNext(RestaurantInfoResponse restaurantInfo) {
-                    restaurantCover.setValue(restaurantInfo.getCover());
-                    restaurantLogo.setValue(restaurantInfo.getLogo());
-                    restaurantAverageScore.setValue(restaurantInfo.getAverageScore());
-                    restaurantName.setValue(restaurantInfo.getName());
-                    restaurantAddress.setValue(restaurantInfo.getAddress());
-                    restaurantBranch.setValue(restaurantInfo.getBranch());
-                    restaurantDelivery.setValue(restaurantInfo.isDelivery());
-                    restaurantDeliveryTime.setValue(restaurantInfo.getDeliveryTime());
-                    restaurantGetInPlace.setValue(restaurantInfo.isGetInPlace());
-                    restaurantMinimumOrder.setValue(restaurantInfo.getMinimumOrder());
-                    restaurantPackingCost.setValue(restaurantInfo.getPackingCost());
-                    restaurantShippingCostInRegion.setValue(restaurantInfo.getShippingCostInRegion());
-                    restaurantShippingCostOutRegion.setValue(restaurantInfo.getShippingCostOutRegion());
-                    restaurantPhoneNumber.setValue(restaurantInfo.getPhoneNumber());
-                    restaurantRegion.setValue(restaurantInfo.getRegion());
-                    restaurantTagList.setValue(restaurantInfo.getTagList());
-
-                    infoFragmentInterface.onSuccess();
+                public void onNext(MenuTypesInfoResponse typesInfoResponse) {
+                    restaurantMenuStartTimeLiveData.setValue(typesInfoResponse.getMenuType().get(0).getStart());
+                    restaurantMenuEndTimeLiveData.setValue(typesInfoResponse.getMenuType().get(0).getEnd());
+                    restaurantMenuTypeNameLiveData.setValue(typesInfoResponse.getMenuType().get(0).getName());
+                    restaurantMenuTypeDaysLiveData.setValue(typesInfoResponse.getMenuType().get(0).getDaysList());
                 }
             });
         }

@@ -6,6 +6,7 @@ import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.DiscountCodeResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.FavoriteRestaurantsResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.GetRestaurantCommentResponse;
+import ir.boojanco.onlinefoodorder.models.restaurant.MenuTypesInfoResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantAssessmentResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
@@ -72,6 +73,9 @@ public interface ApiInterface {
 
     @GET("/api/v1/restaurant/{restaurantId}/info")
     Observable<RestaurantInfoResponse> getRestaurantInfo(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
+
+    @GET("/api/v1/menu/{restaurantId}/menuType/info")
+    Observable<MenuTypesInfoResponse> getMenuTypesInfo(@Path("restaurantId") long restaurantId);
 
     @GET("/api/v1/restaurant/{restaurantId}/addToFavoriteList")
     Observable<Response<Void>> addRestaurantToFavoriteList(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);

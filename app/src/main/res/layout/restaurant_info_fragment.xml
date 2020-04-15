@@ -36,7 +36,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/cv_map_icon"
+                    app:layout_constraintBottom_toTopOf="@id/cv_menu_type_icon"
                     app:layout_constraintVertical_chainStyle="spread"
                     >
                     <LinearLayout
@@ -168,6 +168,140 @@
                         android:src="@drawable/ic_restaurant_order_food_rules"/>
                 </androidx.cardview.widget.CardView>
 
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_menu_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/restaurantDetailsCardViewBackground"
+                    app:cardCornerRadius="@dimen/card_view_corner_radius"
+                    app:cardElevation="0dp"
+                    app:layout_constraintTop_toBottomOf="@id/cv_food_order_rules"
+                    app:layout_constraintRight_toRightOf="@id/cv_food_order_rules"
+                    app:layout_constraintLeft_toLeftOf="@id/cv_food_order_rules"
+                    app:layout_constraintBottom_toTopOf="@id/cv_map_icon"
+                    >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="8dp"
+                            android:layout_margin="16dp"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:id="@+id/text_view_name_type"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/body2_paragraph_font_size"
+                                android:text="@string/type_food_name"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:textDirection="ltr"
+                                android:textSize="@dimen/body3_paragraph_font_size"
+                                android:text="@{infoViewModel.restaurantMenuTypeNameLiveData , default=آزاد}"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="16dp"
+                            android:orientation="horizontal"
+                            android:paddingTop="8dp">
+
+                            <TextView
+                                android:id="@+id/text_view_start_time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:text="@string/start_time"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/body2_paragraph_font_size" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:text="@{infoViewModel.restaurantMenuStartTimeLiveData , default=آزاد}"
+                                android:textDirection="ltr"
+                                android:textSize="@dimen/body3_paragraph_font_size" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="16dp"
+                            android:orientation="horizontal"
+                            android:paddingTop="8dp">
+
+                            <TextView
+                                android:id="@+id/text_view_end_time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:text="@string/end_time"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/body2_paragraph_font_size" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:text="@{infoViewModel.restaurantMenuEndTimeLiveData , default=آزاد}"
+                                android:textDirection="ltr"
+                                android:textSize="@dimen/body3_paragraph_font_size" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="16dp"
+                            android:orientation="horizontal"
+                            android:paddingTop="8dp">
+
+                            <TextView
+                                android:id="@+id/text_view_days"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:text="@string/days_work"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/body2_paragraph_font_size" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:text="@{infoViewModel.restaurantMenuTypeDaysLiveData , default=آزاد}"
+                                android:textDirection="ltr"
+                                android:textSize="@dimen/body3_paragraph_font_size" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_menu_type_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="@dimen/card_view_corner_radius"
+                    app:layout_constraintTop_toTopOf="@id/cv_menu_type"
+                    app:layout_constraintBottom_toTopOf="@id/cv_menu_type"
+                    app:layout_constraintRight_toRightOf="@id/cv_menu_type"
+                    app:layout_constraintLeft_toLeftOf="@id/cv_menu_type"
+                    >
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:padding="4dp"
+                        app:srcCompat="@drawable/ic_waiting"/>
+                </androidx.cardview.widget.CardView>
+
                 <!--location map layout-->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cv_map_location"
@@ -176,7 +310,7 @@
                     app:cardBackgroundColor="@color/restaurantDetailsCardViewBackground"
                     app:cardCornerRadius="@dimen/card_view_corner_radius"
                     app:cardElevation="0dp"
-                    app:layout_constraintTop_toBottomOf="@id/cv_food_order_rules"
+                    app:layout_constraintTop_toBottomOf="@id/cv_menu_type"
                     app:layout_constraintRight_toRightOf="@id/cv_food_order_rules"
                     app:layout_constraintLeft_toLeftOf="@id/cv_food_order_rules"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -209,11 +343,16 @@
                             android:drawablePadding="8dp"
                             android:textSize="@dimen/body2_paragraph_font_size"
                             android:text="@{infoViewModel.restaurantPhoneNumber,default=تماس}"/>
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_margin="8dp"
+                            app:cardCornerRadius="@dimen/card_view_corner_radius"
+                            android:layout_height="wrap_content">
                         <com.google.android.gms.maps.MapView
                             android:id="@+id/map_view_restaurant_location"
                             android:layout_width="match_parent"
                             android:layout_height="180dp"/>
-
+                        </androidx.cardview.widget.CardView>
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>

@@ -143,7 +143,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
                 return;
             }
 
-            AddUserAddressResponse address = new AddUserAddressResponse(cityId, defaultAddress.getValue(), exactAddress.getValue(), userLatitude, userLongitude, region.getValue(), "WORK");
+            AddUserAddressResponse address = new AddUserAddressResponse(cityId, defaultAddress.getValue(), exactAddress.getValue(), userLatitude, userLongitude, region.getValue(), addressTag);
             Observable<Response<Void>> observable = userRepository.addUserAddressResponseObservable(userAuthToken, address);
             if (observable != null) {
                 observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Response<Void>>() {
@@ -181,7 +181,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
             }
 
         } else if (addressFunctionFlag == 2) {//edit address
-            EditUserAddressResponse editedAddress = new EditUserAddressResponse(exactAddress.getValue(), "WORK", cityId, defaultAddress.getValue(), userLatitude, userLongitude, region.getValue());
+            EditUserAddressResponse editedAddress = new EditUserAddressResponse(exactAddress.getValue(), addressTag, cityId, defaultAddress.getValue(), userLatitude, userLongitude, region.getValue());
             Observable<Response<Void>> observable = userRepository.getEditUserAddressResponseObservable(userAuthToken, addressId, editedAddress);
             if (observable != null) {
                 observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Response<Void>>() {
@@ -312,12 +312,13 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
             }
     }
 
-    private void getStateId() {
+    private void getStateId(String authToken) {
 
         if (state.getValue() != null)
             for (AllStatesList item : statesLists) {
                 if (item.getName().contains(state.getValue())) {
                     stateId = item.getId();
+                    getCities(authToken, stateId);
                 }
             }
     }
@@ -328,7 +329,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
             observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetAllStatesResponse>() {
                 @Override
                 public void onCompleted() {
-                    getStateId();
+                    getStateId(authToken);
                 }
 
                 @Override

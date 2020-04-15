@@ -263,7 +263,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
 
 
                         } catch (Exception d) {
-                            Log.i(TAG,  ""+ d.getMessage());
+                            Log.i(TAG, "" + d.getMessage());
                         }
                     }
                 }
@@ -317,12 +317,13 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
             }
     }
 
-    private void getStateId() {
+    private void getStateId(String authToken) {
 
         if (state.getValue() != null)
             for (AllStatesList item : statesLists) {
                 if (item.getName().contains(state.getValue())) {
                     stateId = item.getId();
+                    getCities(authToken, stateId);
                 }
             }
     }
@@ -363,7 +364,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
 
 
                         } catch (Exception d) {
-                            Log.i(TAG,""+d.getMessage());
+                            Log.i(TAG, "" + d.getMessage());
                         }
                     }
                 }
@@ -393,7 +394,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
                     }
                     calculateCartTotalPrice(restaurantId);
                 }, throwable -> {
-                    Log.e(TAG,"{GET ALL Cart}" + throwable.getMessage());
+                    Log.e(TAG, "{GET ALL Cart}" + throwable.getMessage());
                 }));
     }
 
@@ -536,7 +537,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
             observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetAllStatesResponse>() {
                 @Override
                 public void onCompleted() {
-                    getStateId();
+                    getStateId(authToken);
                 }
 
                 @Override
@@ -592,7 +593,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
 
 
                         } catch (Exception d) {
-                            Log.i(TAG,""+d.getMessage());
+                            Log.i(TAG, "" + d.getMessage());
                         }
                     }
                 }

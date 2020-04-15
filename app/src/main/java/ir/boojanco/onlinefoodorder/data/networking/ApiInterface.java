@@ -20,6 +20,7 @@ import ir.boojanco.onlinefoodorder.models.user.GetUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.GetUserOrderCommentResponse;
 import ir.boojanco.onlinefoodorder.models.user.GetUserOrdersResponse;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
+import ir.boojanco.onlinefoodorder.models.user.UserPointRestaurantClubResponse;
 import ir.boojanco.onlinefoodorder.models.user.UserProfileResponse;
 import ir.boojanco.onlinefoodorder.models.user.VerificationNewUserResponse;
 import retrofit2.Response;
@@ -86,6 +87,9 @@ public interface ApiInterface {
 
     @GET("/api/v1/package/{restaurantId}/valid")
     Observable<AllPackagesResponse> getAllPackagesResponseObservable(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
+
+    @GET("/api/v1/club/restaurant/{restaurantId}/user/points")
+    Observable<UserPointRestaurantClubResponse> getUserPointInRestaurantClub(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
 
     @GET("/api/v1/discountCode/validate/{code}")
     Observable<DiscountCodeResponse> getDiscountCodeResponseObservable(@Header("Authorization") String authToken, @Path("code") String code, @Query("restaurantId") Long restaurantId, @Query("totalCost") int totalCost);

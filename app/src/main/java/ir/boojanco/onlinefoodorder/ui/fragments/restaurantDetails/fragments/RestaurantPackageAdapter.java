@@ -17,10 +17,11 @@ import ir.boojanco.onlinefoodorder.models.restaurantPackage.RestaurantPackageIte
 class RestaurantPackageAdapter extends RecyclerView.Adapter<RestaurantPackageAdapter.PackageViewHolder> {
     private List<RestaurantPackageItem> packageItems;
     private int selectedPosition = 1000;
+    private int userpoint = 0;
     private RestaurantPackageInterface packageInterface;
     private Context context;
 
-    public RestaurantPackageAdapter(RestaurantPackageInterface packageInterface,Context context) {
+    public RestaurantPackageAdapter(RestaurantPackageInterface packageInterface, Context context) {
         this.context = context;
         this.packageInterface = packageInterface;
     }
@@ -46,18 +47,24 @@ class RestaurantPackageAdapter extends RecyclerView.Adapter<RestaurantPackageAda
 
         holder.binding.cvMainPackageLayout.setOnClickListener(v -> {
             //is select
-            holder.binding.cvMainPackageLayout.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
-            packageInterface.onPackageItemClick(holder.binding.cvMainPackageLayout,currentPackageItem);
-            selectedPosition = position;
-            notifyDataSetChanged();
+            if (currentPackageItem.getRequiredPoint() <= userpoint){
+                holder.binding.cvMainPackageLayout.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
+                packageInterface.onPackageItemClick(holder.binding.cvMainPackageLayout, currentPackageItem);
+                selectedPosition = position;
+                notifyDataSetChanged();
+            }else packageInterface.onPackageMessage("امتیاز کلاب شما کافی نیست");
         });
         holder.binding.cvPackageName.setOnClickListener(v -> {
             //is select
             holder.binding.cvMainPackageLayout.setCardBackgroundColor(context.getResources().getColor(R.color.white));
-            packageInterface.onPackageItemClick(holder.binding.cvPackageName,currentPackageItem);
+            packageInterface.onPackageItemClick(holder.binding.cvPackageName, currentPackageItem);
 
         });
 
+    }
+
+    public void setUserClubPoint(int point){
+        this.userpoint = point;
     }
 
     @Override
@@ -74,8 +81,9 @@ class RestaurantPackageAdapter extends RecyclerView.Adapter<RestaurantPackageAda
         notifyDataSetChanged();
     }
 
-    class PackageViewHolder extends RecyclerView.ViewHolder{
+    class PackageViewHolder extends RecyclerView.ViewHolder {
         private RecyclerviewRestaurantPackageItemBinding binding;
+
         public PackageViewHolder(@NonNull RecyclerviewRestaurantPackageItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;

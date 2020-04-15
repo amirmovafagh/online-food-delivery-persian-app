@@ -7,4 +7,6 @@ public interface RestaurantDetailsInterface {
     void initRatingViews( int colors[], int raters[]);
     void onSuccess(RestaurantInfoResponse restaurantInfo );
     void onFailure(String error);
+
+    void setUserClubPoint(int points);
 }

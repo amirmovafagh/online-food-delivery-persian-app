@@ -141,14 +141,15 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
             viewModel.getAllFood(sharedPreferences.getUserAuthTokenKey(), extraRestauranId);
             viewModel.getRestaurantPackages(sharedPreferences.getUserAuthTokenKey(), extraRestauranId);
 
-            sharedViewModel.infoResponseMutableLiveData.observe(getViewLifecycleOwner(), new Observer<RestaurantInfoResponse>() {
-                @Override
-                public void onChanged(RestaurantInfoResponse restaurantInfoResponse) {
-                    if (restaurantInfoResponse != null) {
-                        viewModel.setRestaurantInfoResponse(restaurantInfoResponse);
-                        bundleCartFragment.putSerializable(restaurantInfoResponseExtraName, restaurantInfoResponse);
-                    }
+            sharedViewModel.infoResponseMutableLiveData.observe(getViewLifecycleOwner(), restaurantInfoResponse -> {
+                if (restaurantInfoResponse != null) {
+                    viewModel.setRestaurantInfoResponse(restaurantInfoResponse);
+                    bundleCartFragment.putSerializable(restaurantInfoResponseExtraName, restaurantInfoResponse);
                 }
+            });
+            sharedViewModel.userRestaurantClubPointLivedata.observe(getViewLifecycleOwner(), userClubPoint -> {
+                viewModel.setUserRestaurantClubPoint(userClubPoint);
+                adapterPackage.setUserClubPoint(userClubPoint);
             });
         }
         return binding.getRoot();
@@ -282,7 +283,7 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     }
 
     @Override
-    public void removeSelectedPackage() {
-
+    public void onPackageMessage(String msg) {
+        onFailure(msg);
     }
 }

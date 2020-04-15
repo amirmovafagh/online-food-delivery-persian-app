@@ -50,6 +50,7 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
     private ArrayList<ListItemType> items;
     private ArrayList<String> foodTypeIndex;
     private Long extraRestaurantId;
+    private int userRestaurantClubPoint = 0 ;
     private RestaurantInfoResponse restaurantInfoResponse;
     public MutableLiveData<GetAllFoodResponse> allFoodMutableLiveData;
     public MutableLiveData<AllPackagesResponse> allPackagesMutableLiveData;
@@ -62,6 +63,10 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
 
     public void setRestaurantInfoResponse(RestaurantInfoResponse restaurantInfoResponse) {
         this.restaurantInfoResponse = restaurantInfoResponse;
+    }
+
+    public void setUserRestaurantClubPoint(int userRestaurantClubPoint) {
+        this.userRestaurantClubPoint = userRestaurantClubPoint;
     }
 
     public RestaurantFoodMenuViewModel(Context context, RestaurantRepository restaurantRepository, CartDataSource cartDataSource) {

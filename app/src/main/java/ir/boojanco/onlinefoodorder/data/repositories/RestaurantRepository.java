@@ -11,6 +11,7 @@ import ir.boojanco.onlinefoodorder.models.restaurantPackage.AllPackagesResponse;
 import ir.boojanco.onlinefoodorder.models.stateCity.GetAllCitiesResponse;
 import ir.boojanco.onlinefoodorder.models.stateCity.GetAllStatesResponse;
 import ir.boojanco.onlinefoodorder.models.user.CartOrderResponse;
+import ir.boojanco.onlinefoodorder.models.user.UserPointRestaurantClubResponse;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Observable;
@@ -80,6 +81,10 @@ public class RestaurantRepository {
 
     public Observable<GetAllCitiesResponse> getAllCitiesResponseObservable(String authToken, long stateId) {
         return apiInterface.getAllCitiesResponseObservable(authToken, stateId);
+    }
+
+    public Observable<UserPointRestaurantClubResponse> getUserPointInRestaurantClub(String authToken, long restaurantId) {
+        return apiInterface.getUserPointInRestaurantClub(authToken, restaurantId);
     }
 
 }

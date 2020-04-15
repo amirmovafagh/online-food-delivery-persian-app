@@ -82,7 +82,6 @@ public class RestaurantDetailsFragment extends Fragment implements RestaurantDet
         if (getArguments().getLong("restaurantID") != 0) {
             viewModel.getRestaurantInfo(sharedPreferences.getUserAuthTokenKey(), getArguments().getLong("restaurantID", 0));
 
-
         }
 
         return binding.getRoot();
@@ -129,5 +128,10 @@ public class RestaurantDetailsFragment extends Fragment implements RestaurantDet
         binding.cvWaitingResponse.setVisibility(View.GONE);
         Snackbar snackbar = Snackbar.make(binding.mainContent, "" + error, Snackbar.LENGTH_SHORT);
         snackbar.show();
+    }
+
+    @Override
+    public void setUserClubPoint(int points) {
+        sharedViewModel.userRestaurantClubPointLivedata.postValue(points);
     }
 }

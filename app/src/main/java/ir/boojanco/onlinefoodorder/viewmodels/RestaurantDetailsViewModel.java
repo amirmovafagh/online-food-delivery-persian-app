@@ -16,6 +16,7 @@ import ir.boojanco.onlinefoodorder.data.database.CartDataSource;
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantAssessmentResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
+import ir.boojanco.onlinefoodorder.models.user.UserPointRestaurantClubResponse;
 import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantDetailsInterface;
 import retrofit2.HttpException;
@@ -122,7 +123,8 @@ public class RestaurantDetailsViewModel extends ViewModel {
                 @Override
                 public void onNext(RestaurantInfoResponse restaurantInfo) {
                     fragmentInterface.onStarted();
-
+                    if (authToken != null)
+                        getUserRestaurantClubPoint(authToken, restaurantId);
                     getRestaurantAssessment();
                     restaurantWorking.setValue(restaurantInfo.isWorking());
                     restaurantCover.setValue(restaurantInfo.getCover());
@@ -149,7 +151,7 @@ public class RestaurantDetailsViewModel extends ViewModel {
     }
 
     private void getRestaurantAssessment() {
-        Observable<RestaurantAssessmentResponse> observable = restaurantRepository.getRestaurantAssessment( restaurantId);
+        Observable<RestaurantAssessmentResponse> observable = restaurantRepository.getRestaurantAssessment(restaurantId);
         if (observable != null) {
             observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<RestaurantAssessmentResponse>() {
                 @Override
@@ -188,12 +190,49 @@ public class RestaurantDetailsViewModel extends ViewModel {
                     };
 
                     int raters[] = new int[]{
-                            (int) (assessmentResponse.getFoodQuality()*10),
-                            (int) (assessmentResponse.getArrivalTime()*10),
-                            (int) (assessmentResponse.getPersonnelBehaviour()*10)
+                            (int) (assessmentResponse.getFoodQuality() * 10),
+                            (int) (assessmentResponse.getArrivalTime() * 10),
+                            (int) (assessmentResponse.getPersonnelBehaviour() * 10)
                     };
 
                     fragmentInterface.initRatingViews(colors, raters);
+                }
+            });
+        }
+    }
+
+    private void getUserRestaurantClubPoint(String authToken, long restaurantId) {
+        Observable<UserPointRestaurantClubResponse> observable = restaurantRepository.getUserPointInRestaurantClub(authToken, restaurantId);
+        if (observable != null) {
+            observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<UserPointRestaurantClubResponse>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                    if (e instanceof NoNetworkConnectionException)
+                        fragmentInterface.onFailure(e.getMessage());
+                    if (e instanceof HttpException) {
+                        Response response = ((HttpException) e).response();
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
+
+                            fragmentInterface.onFailure(jsonObject.getString("message"));
+
+
+                        } catch (Exception d) {
+                            Log.i(TAG, "" + d.getMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onNext(UserPointRestaurantClubResponse clubResponse) {
+                    fragmentInterface.setUserClubPoint(clubResponse.getPoints());
                 }
             });
         }

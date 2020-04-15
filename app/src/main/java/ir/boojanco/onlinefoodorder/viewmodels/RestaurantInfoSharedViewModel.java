@@ -7,9 +7,10 @@ import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 
 public class RestaurantInfoSharedViewModel extends ViewModel {
     public MutableLiveData<RestaurantInfoResponse> infoResponseMutableLiveData ;
-    public MutableLiveData<Integer> updateCartCountItem;
+    public MutableLiveData<Integer> userRestaurantClubPointLivedata;
     public RestaurantInfoSharedViewModel(){
         infoResponseMutableLiveData = new MutableLiveData<>();
-
+        userRestaurantClubPointLivedata = new MutableLiveData<>();
+        userRestaurantClubPointLivedata.setValue(0);
     }
 }

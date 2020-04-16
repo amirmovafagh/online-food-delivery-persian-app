@@ -35,6 +35,15 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="CollapsingToolbarLayoutExpandedTextStyle" parent="AppTheme">
+        <item name="android:textColor">@android:color/transparent</item>
+        <item name="android:textSize">0.1sp</item>
+    </style>
+
+    <style name="CollapsingToolbarLayoutCollapsedTextStyle" parent="AppTheme">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
     <style name="My_Widget.MaterialComponents.Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
         <!-- Chip background color selector -->
         <!--<item name="chipBackgroundColor">@color/my_choice_chip_background_color</item>-->

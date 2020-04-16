@@ -22,10 +22,10 @@
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
         android:layoutDirection="rtl">
 
 
@@ -33,19 +33,19 @@
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
             android:fitsSystemWindows="true"
-
-            >
+            app:theme="@style/ToolbarColoredBackArrow">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="230dp"
-                android:background="@android:color/transparent"
+                android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-                app:titleEnabled="false">
+                app:contentScrim="?attr/colorPrimary"
+                app:expandedTitleGravity="top|right"
+                app:collapsedTitleTextAppearance="@style/CollapsingToolbarLayoutCollapsedTextStyle"
+                app:expandedTitleTextAppearance="@style/CollapsingToolbarLayoutExpandedTextStyle"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -78,7 +78,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:layout_marginLeft="16dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="?actionBarSize"
                         android:layout_marginRight="16dp"
                         app:cardBackgroundColor="@color/restaurantDetailsCardViewBackground"
                         app:cardCornerRadius="@dimen/card_view_corner_radius"
@@ -305,6 +305,12 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:titleTextColor="@color/white" />
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -320,15 +326,15 @@
                 android:id="@+id/tabs"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:layout_margin="8dp"
                 android:layout_gravity="center"
+                android:layout_margin="8dp"
                 android:background="@drawable/tab_layout_background"
                 app:pager="@{pager}"
                 app:tabBackground="@drawable/tab_layout_selector"
                 app:tabIndicatorHeight="0dp"
                 app:tabMode="scrollable"
-                app:tabPaddingStart="8dp"
                 app:tabPaddingEnd="8dp"
+                app:tabPaddingStart="8dp"
                 app:tabRippleColor="@null"
                 app:tabSelectedTextColor="@color/colorPrimaryDark"
                 app:tabTextAppearance="@style/TabTextAppearance"

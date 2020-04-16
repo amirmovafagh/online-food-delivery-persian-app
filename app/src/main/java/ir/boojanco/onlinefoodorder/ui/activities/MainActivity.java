@@ -92,10 +92,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = binding.bottomNavigation;
 
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-
-        AppBarConfiguration appBarConfiguration =
-                new AppBarConfiguration.Builder(navController.getGraph()).build();
-
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
 

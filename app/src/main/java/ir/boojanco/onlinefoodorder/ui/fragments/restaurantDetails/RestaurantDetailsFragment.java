@@ -1,5 +1,6 @@
 package ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
@@ -11,14 +12,23 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -57,7 +67,7 @@ public class RestaurantDetailsFragment extends Fragment implements RestaurantDet
     private RestaurantDetailsViewModel viewModel;
     private RestaurantDetailsFragmentBinding binding;
     private RatingReviews ratingReviews;
-    private TabLayout tabLayout;
+    private Toolbar toolbar;
 
     public static RestaurantDetailsFragment newInstance() {
         return new RestaurantDetailsFragment();
@@ -75,8 +85,15 @@ public class RestaurantDetailsFragment extends Fragment implements RestaurantDet
         binding.setHandler(this);
         binding.setManager(getChildFragmentManager());
         viewModel.setFragmentInterface(this);
-        tabLayout = binding.tabs;
         ratingReviews = binding.ratingReviews;
+
+        CollapsingToolbarLayout layout = binding.collapsingToolbar;
+        toolbar = binding.toolbar;
+
+        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+        AppBarConfiguration appBarConfiguration =
+                new AppBarConfiguration.Builder(navController.getGraph()).build();
+        NavigationUI.setupWithNavController(layout, toolbar, navController, appBarConfiguration);
 
         assert getArguments() != null;
         if (getArguments().getLong("restaurantID") != 0) {
@@ -88,6 +105,13 @@ public class RestaurantDetailsFragment extends Fragment implements RestaurantDet
     }
 
     @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Toast.makeText(application, ""+item.getItemId(), Toast.LENGTH_SHORT).show();
+        return NavigationUI.onNavDestinationSelected(item, Navigation.findNavController(getActivity(), R.id.nav_host_fragment))
+                || super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -96,6 +120,7 @@ public class RestaurantDetailsFragment extends Fragment implements RestaurantDet
     @BindingAdapter({"handler"})
     public static void bindViewPagerAdapter(final ViewPager2 viewPager2, final RestaurantDetailsFragment fragment) {
         final RestaurantDetailsPagerAdapter adapter = new RestaurantDetailsPagerAdapter(fragment, fragment.getArguments());
+        viewPager2.setUserInputEnabled(false);
         viewPager2.setAdapter(adapter);
     }
 
@@ -120,6 +145,7 @@ public class RestaurantDetailsFragment extends Fragment implements RestaurantDet
     @Override
     public void onSuccess(RestaurantInfoResponse restaurantInfo) {
         binding.cvWaitingResponse.setVisibility(View.GONE);
+        toolbar.setTitle(restaurantInfo.getName());
         sharedViewModel.infoResponseMutableLiveData.postValue(restaurantInfo);
     }
 

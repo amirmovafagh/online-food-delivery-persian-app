@@ -77,7 +77,7 @@
     <fragment
         android:id="@+id/restaurantFragment"
         android:name="ir.boojanco.onlinefoodorder.ui.fragments.restaurants.RestaurantFragment"
-        android:label="رستوران ها"
+        android:label="@null"
         tools:layout="@layout/restaurant_fragment">
         <argument
             android:name="restaurantName"

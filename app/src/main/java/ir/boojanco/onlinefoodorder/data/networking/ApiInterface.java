@@ -1,5 +1,6 @@
 package ir.boojanco.onlinefoodorder.data.networking;
 
+import ir.boojanco.onlinefoodorder.models.food.CategoriesResponse;
 import ir.boojanco.onlinefoodorder.models.food.FavoriteFoodsResponse;
 import ir.boojanco.onlinefoodorder.models.food.GetAllFoodResponse;
 import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
@@ -145,4 +146,7 @@ public interface ApiInterface {
 
     @GET("/api/v1/user/getFaveFoods")
     Observable<FavoriteFoodsResponse> getFavoriteFoodsResponseObservable(@Header("Authorization") String authToken, @Query("page") int page, @Query("size") int size);
+
+    @GET("/api/v1/restaurant/categories")
+    Observable<CategoriesResponse> getCategoriesResponse();
 }

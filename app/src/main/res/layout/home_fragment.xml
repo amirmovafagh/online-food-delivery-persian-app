@@ -76,7 +76,7 @@
                     android:id="@+id/search"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.7"
+                    android:layout_weight="0.6"
                     android:ellipsize="end"
                     android:layoutDirection="rtl"
                     android:maxLines="1"
@@ -93,14 +93,14 @@
                     android:id="@+id/layout_search"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.3"
+                    android:layout_weight="0.4"
                     android:background="@color/colorPrimary">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/cons_layout_location"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="?android:attr/selectableItemBackground"
+                        android:foreground="?android:attr/selectableItemBackground"
                         android:clickable="true"
                         android:focusable="true"
                         android:onClick="@{()-> homeViewModel.selectCityOnClick()}">
@@ -127,7 +127,7 @@
                             android:orientation="vertical"
                             app:layout_constraintBottom_toBottomOf="@id/cons_layout_location"
                             app:layout_constraintHorizontal_weight="7.5"
-                            app:layout_constraintLeft_toLeftOf="@id/cons_layout_location"
+                            app:layout_constraintLeft_toRightOf="@id/img_down_arrow"
                             app:layout_constraintRight_toLeftOf="@+id/lottie_location_animate"
                             app:layout_constraintTop_toTopOf="@id/cons_layout_location">
 
@@ -150,6 +150,16 @@
                                 android:textColor="@android:color/white"
                                 android:textSize="@dimen/body3_paragraph_font_size" />
                         </LinearLayout>
+                        <ImageView
+                            android:id="@+id/img_down_arrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="4dp"
+                            app:srcCompat="@drawable/ic_keyboard_arrow_down_white_24dp"
+                            app:layout_constraintRight_toLeftOf="@id/lin_location"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -329,7 +339,7 @@
             android:id="@+id/cv_waiting_response"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible"
+            android:visibility="gone"
             app:cardBackgroundColor="@color/materialGray100"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

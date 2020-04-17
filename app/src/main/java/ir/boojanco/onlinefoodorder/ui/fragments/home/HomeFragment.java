@@ -144,12 +144,13 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
 
     @Override
     public void onStarted() {
-
+        binding.cvWaitingResponse.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onSuccess(List<FoodCategories> categories) {
         adapter.setFoodCategoryItems(categories);
+        binding.cvWaitingResponse.setVisibility(View.GONE);
     }
 
     @Override
@@ -168,6 +169,7 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
     public void onFailure(String error) {
         Snackbar snackbar = Snackbar.make(binding.mainContent, "" + error, Snackbar.LENGTH_SHORT);
         snackbar.show();
+        binding.cvWaitingResponse.setVisibility(View.GONE);
     }
 
     @Override

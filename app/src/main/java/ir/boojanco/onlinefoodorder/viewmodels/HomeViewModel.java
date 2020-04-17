@@ -121,6 +121,7 @@ public class HomeViewModel extends ViewModel {
     public void getCategories() {
         rx.Observable<FoodCategoriesResponse> observable = restaurantRepository.getCategoriesResponseObservable();
         if (observable != null) {
+            fragmentInterface.onStarted();
             observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<FoodCategoriesResponse>() {
                 @Override
                 public void onCompleted() {

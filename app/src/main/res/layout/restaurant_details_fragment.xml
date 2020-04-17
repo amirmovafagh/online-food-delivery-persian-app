@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bar="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools">
+    xmlns:bind="http://schemas.android.com/tools"
+    xmlns:bar="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -85,7 +85,8 @@
                         app:cardElevation="0dp"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        >
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -285,9 +286,9 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="4dp"
-                                app:animation="true"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/cv_logo"
+                                bar:animation="true"
+                                bar:layout_constraintBottom_toBottomOf="parent"
+                                bar:layout_constraintTop_toBottomOf="@id/cv_logo"
                                 bar:layout_constraintHorizontal_weight="7"
                                 bar:layout_constraintLeft_toLeftOf="parent"
                                 bar:layout_constraintRight_toLeftOf="@id/lin_rating"
@@ -352,7 +353,7 @@
             android:id="@+id/cv_waiting_response"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
+            android:visibility="visible"
             app:cardBackgroundColor="@color/materialGray100"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

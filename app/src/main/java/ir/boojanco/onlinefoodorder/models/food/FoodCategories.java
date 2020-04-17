@@ -2,7 +2,7 @@ package ir.boojanco.onlinefoodorder.models.food;
 
 import com.google.gson.annotations.SerializedName;
 
-class Categories {
+public class FoodCategories {
     @SerializedName("name")
     private String name;
 

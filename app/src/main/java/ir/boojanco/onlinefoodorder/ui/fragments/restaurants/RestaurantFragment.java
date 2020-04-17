@@ -103,10 +103,15 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         assert getArguments() != null;
+        Log.i(TAG, getArguments() + "");
         if (getArguments().getString("cityName") == null) {
             restaurantViewModel.getAllRestaurant(sharedPreferences.getUserAuthTokenKey());
-        } else
+        } else if (getArguments().getString("restaurantName") != null) {
+
             restaurantViewModel.getAllSearchedRestaurant(getArguments().getString("restaurantName"), getArguments().getString("cityName"), "");
+        } else {
+            restaurantViewModel.getAllSearchedByCategory(getArguments().getString("categoryName"), getArguments().getString("cityName"));
+        }
         restaurantViewModel.restaurantPagedListLiveData.observe(getViewLifecycleOwner(), restaurantLists -> restaurantAdapter.submitList(restaurantLists));
     }
 

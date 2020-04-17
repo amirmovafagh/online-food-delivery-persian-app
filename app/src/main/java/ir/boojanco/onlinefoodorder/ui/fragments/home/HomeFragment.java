@@ -32,6 +32,7 @@ import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.HomeFragmentBinding;
+import ir.boojanco.onlinefoodorder.models.food.FoodCategories;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllCitiesList;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList;
 import ir.boojanco.onlinefoodorder.ui.fragments.cart.CityAdapter;
@@ -42,7 +43,7 @@ import ir.boojanco.onlinefoodorder.viewmodels.factories.HomeViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.HomeFragmentInterface;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.StateCityDialogInterface;
 
-public class HomeFragment extends Fragment implements HomeFragmentInterface, StateCityDialogInterface {
+public class HomeFragment extends Fragment implements HomeFragmentInterface, StateCityDialogInterface,FoodCategorySearchInterface {
     private static final String TAG = HomeFragment.class.getSimpleName();
 
     @Inject
@@ -52,11 +53,10 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
     @Inject
     MySharedPreferences sharedPreferences;
 
-    private HomeViewModel homeViewModel;
+    private HomeViewModel viewModel;
     private HomeFragmentBinding binding;
     private SliderView sliderView;
-    private ArrayList<FoodTypeFilterItem> foodTypeFilterItems;
-    private FoodTypeSearchFilterAdapter adapter;
+    private FoodCategorySearchAdapter adapter;
     private RecyclerView recyclerViewFoodTypeSearchFilter;
     private SearchView searchView;
     private CityAdapter cityAdapter;
@@ -76,18 +76,18 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
                              @Nullable Bundle savedInstanceState) {
         ((App) getActivity().getApplication()).getComponent().inject(this);
         binding = DataBindingUtil.inflate(inflater, R.layout.home_fragment, container, false);
-        homeViewModel = new ViewModelProvider(this, factory).get(HomeViewModel.class);
-        binding.setHomeViewModel(homeViewModel);
+        viewModel = new ViewModelProvider(this, factory).get(HomeViewModel.class);
+        binding.setHomeViewModel(viewModel);
         binding.setLifecycleOwner(this);
         sliderView = binding.imageSlider;
-        homeViewModel.setFragmentInterface(this);
-        homeViewModel.setUserAuthToken(sharedPreferences.getUserAuthTokenKey());
+        viewModel.setFragmentInterface(this);
+        viewModel.setUserAuthToken(sharedPreferences.getUserAuthTokenKey());
         recyclerViewFoodTypeSearchFilter = binding.recyclerviewFoodTypeSearchFilterHome;
 
         recyclerViewFoodTypeSearchFilter.setLayoutManager(new LinearLayoutManager(getActivity().getApplication(), LinearLayoutManager.HORIZONTAL, false));
         recyclerViewFoodTypeSearchFilter.canScrollHorizontally(0);
         recyclerViewFoodTypeSearchFilter.setHasFixedSize(true);
-        adapter = new FoodTypeSearchFilterAdapter();
+        adapter = new FoodCategorySearchAdapter(this);
         recyclerViewFoodTypeSearchFilter.setAdapter(adapter);
         recyclerViewFoodTypeSearchFilter.setItemViewCacheSize(20);
         searchView = binding.search;
@@ -99,23 +99,11 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         sliderView.setSliderAdapter(new SliderAdapterHome(getContext()));
-        foodTypeFilterItems = new ArrayList<>();
-        foodTypeFilterItems.add(new FoodTypeFilterItem("برگر", getResources().getIdentifier("@drawable/burger", "drawable", getActivity().getPackageName())));
-        foodTypeFilterItems.add(new FoodTypeFilterItem("چینی", getResources().getIdentifier("@drawable/chinese", "drawable", getActivity().getPackageName())));
-        foodTypeFilterItems.add(new FoodTypeFilterItem("غذای اصلی", getResources().getIdentifier("@drawable/main_course", "drawable", getActivity().getPackageName())));
-        foodTypeFilterItems.add(new FoodTypeFilterItem("پیتزا", getResources().getIdentifier("@drawable/pizza", "drawable", getActivity().getPackageName())));
-        foodTypeFilterItems.add(new FoodTypeFilterItem("سوپ", getResources().getIdentifier("@drawable/soup", "drawable", getActivity().getPackageName())));
-        foodTypeFilterItems.add(new FoodTypeFilterItem("برگر", getResources().getIdentifier("@drawable/burger", "drawable", getActivity().getPackageName())));
-        foodTypeFilterItems.add(new FoodTypeFilterItem("چینی", getResources().getIdentifier("@drawable/chinese", "drawable", getActivity().getPackageName())));
-        foodTypeFilterItems.add(new FoodTypeFilterItem("غذای اصلی", getResources().getIdentifier("@drawable/main_course", "drawable", getActivity().getPackageName())));
-        foodTypeFilterItems.add(new FoodTypeFilterItem("پیتزا", getResources().getIdentifier("@drawable/pizza", "drawable", getActivity().getPackageName())));
-        foodTypeFilterItems.add(new FoodTypeFilterItem("سوپ", getResources().getIdentifier("@drawable/soup", "drawable", getActivity().getPackageName())));
-
-        adapter.setFoodTypeFilterItems(foodTypeFilterItems);
+        viewModel.getCategories();
 
         if (sharedPreferences.getCity() != null && sharedPreferences.getState() != null) {
-            homeViewModel.cityLiveData.setValue(sharedPreferences.getCity());
-            homeViewModel.stateLiveData.setValue(sharedPreferences.getState());
+            viewModel.cityLiveData.setValue(sharedPreferences.getCity());
+            viewModel.stateLiveData.setValue(sharedPreferences.getState());
         }
 
         searchView.setOnClickListener(v -> {
@@ -160,8 +148,8 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
     }
 
     @Override
-    public void onSuccess() {
-
+    public void onSuccess(List<FoodCategories> categories) {
+        adapter.setFoodCategoryItems(categories);
     }
 
     @Override
@@ -183,22 +171,36 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
     }
 
     @Override
-    public void onSuccessGetcities(List<AllCitiesList> allCitiesLists) {
+    public void onSuccessGetCities(List<AllCitiesList> allCitiesLists) {
         cityAdapter.setCitiesLists(allCitiesLists);
     }
+
 
     @Override
     public void onStateItemClick(AllStatesList state) {
         sharedPreferences.setState(state.getName());
-        homeViewModel.stateLiveData.postValue(state.getName());
-        homeViewModel.cityLiveData.setValue("شهر را انتخاب کنید");
-        homeViewModel.getCities(sharedPreferences.getUserAuthTokenKey(), state.getId());
+        viewModel.stateLiveData.postValue(state.getName());
+        viewModel.cityLiveData.setValue("شهر را انتخاب کنید");
+        viewModel.getCities(sharedPreferences.getUserAuthTokenKey(), state.getId());
     }
 
     @Override
     public void onCityItemClick(AllCitiesList city) {
         sharedPreferences.setCity(city.getName());
-        homeViewModel.cityLiveData.setValue(city.getName());
+        viewModel.cityLiveData.setValue(city.getName());
         stateCityDialog.dismiss();
+    }
+
+    @Override
+    public void onCategoryClick(String name) {
+        if (sharedPreferences.getCity() != null) {
+            Bundle bundle = new Bundle();
+            bundle.putString("categoryName", name);
+            bundle.putString("cityName", sharedPreferences.getCity());
+            Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.action_homeFragment_to_restaurantFragment, bundle);
+                    /*  NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+                navController.navigate(action);*/
+        } else
+            onFailure("لطفا شهر را انتخاب کنید");
     }
 }

@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 import org.json.JSONObject;
 
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
+import ir.boojanco.onlinefoodorder.models.food.FoodCategoriesResponse;
 import ir.boojanco.onlinefoodorder.models.stateCity.GetAllCitiesResponse;
 import ir.boojanco.onlinefoodorder.models.stateCity.GetAllStatesResponse;
 import ir.boojanco.onlinefoodorder.ui.fragments.home.HomeFragment;
@@ -111,7 +112,45 @@ public class HomeViewModel extends ViewModel {
                 @Override
                 public void onNext(GetAllCitiesResponse getAllCitiesResponse) {
 
-                    fragmentInterface.onSuccessGetcities(getAllCitiesResponse.getAllCitiesLists());
+                    fragmentInterface.onSuccessGetCities(getAllCitiesResponse.getAllCitiesLists());
+                }
+            });
+        }
+    }
+
+    public void getCategories() {
+        rx.Observable<FoodCategoriesResponse> observable = restaurantRepository.getCategoriesResponseObservable();
+        if (observable != null) {
+            observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<FoodCategoriesResponse>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    if (e instanceof NoNetworkConnectionException)
+                        fragmentInterface.onFailure(e.getMessage());
+                    if (e instanceof HttpException) {
+                        Response response = ((HttpException) e).response();
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
+
+                            fragmentInterface.onFailure(jsonObject.getString("message"));
+
+
+                        } catch (Exception d) {
+                            fragmentInterface.onFailure(d.getMessage());
+                            Log.i(TAG, "" + d.getMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onNext(FoodCategoriesResponse categoriesResponse) {
+
+                    fragmentInterface.onSuccess(categoriesResponse.getCategories());
                 }
             });
         }

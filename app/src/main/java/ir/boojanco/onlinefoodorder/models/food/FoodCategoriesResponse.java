@@ -4,14 +4,14 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class CategoriesResponse {
+public class FoodCategoriesResponse {
     @SerializedName("hits")
-    private List<Categories> categories;
+    private List<FoodCategories> categories;
 
     @SerializedName("total")
     private int total;
 
-    public List<Categories> getCategories() {
+    public List<FoodCategories> getCategories() {
         return categories;
     }
 

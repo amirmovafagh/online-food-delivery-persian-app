@@ -16,6 +16,8 @@ import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantResponse;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurants.RestaurantDataSource;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurants.RestaurantDataSourceFactory;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurants.RestaurantDataSourceInterface;
+import ir.boojanco.onlinefoodorder.ui.fragments.restaurants.SearchRestaurantByCategoryDataSource;
+import ir.boojanco.onlinefoodorder.ui.fragments.restaurants.SearchRestaurantByCategoryDataSourceFactory;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurants.SearchRestaurantDataSource;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurants.SearchRestaurantDataSourceFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantFragmentInterface;
@@ -72,5 +74,15 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
     @Override
     public void onFailure(String error) {
         restaurantInterface.onFailure(error);
+    }
+
+    public void getAllSearchedByCategory(String categoryName, String cityName) {
+        SearchRestaurantByCategoryDataSourceFactory searchRestaurantByCategoryDataSourceFactory = new SearchRestaurantByCategoryDataSourceFactory(restaurantRepository, this, categoryName, cityName);
+        liveDataSource = searchRestaurantByCategoryDataSourceFactory.getSearchRestaurantByCategoryLiveDataSource();
+        PagedList.Config config =
+                (new PagedList.Config.Builder()
+                        .setEnablePlaceholders(false)).setPageSize(SearchRestaurantByCategoryDataSource.PAGE_SIZE)
+                        .build();
+        restaurantPagedListLiveData = (new LivePagedListBuilder(searchRestaurantByCategoryDataSourceFactory, config)).build();
     }
 }

@@ -1,7 +1,7 @@
 package ir.boojanco.onlinefoodorder.data.repositories;
 
 import ir.boojanco.onlinefoodorder.data.networking.ApiInterface;
-import ir.boojanco.onlinefoodorder.models.food.CategoriesResponse;
+import ir.boojanco.onlinefoodorder.models.food.FoodCategoriesResponse;
 import ir.boojanco.onlinefoodorder.models.food.GetAllFoodResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.DiscountCodeResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.GetRestaurantCommentResponse;
@@ -35,6 +35,10 @@ public class RestaurantRepository {
 
     public Observable<RestaurantResponse> searchRestaurantObservable(String query, String city, String region, int page, int size) {
         return apiInterface.searchRestaurant(query, city, region, page, size);
+    }
+
+    public Observable<RestaurantResponse> searchByCategoryObservable(String category, String city, int page, int size) {
+        return apiInterface.searchByFoodCategory(category, city, page, size);
     }
 
     public Observable<RestaurantInfoResponse> getRestaurantInfo(String authToken, long restaurantId) {
@@ -93,7 +97,7 @@ public class RestaurantRepository {
         return apiInterface.getUserPointInRestaurantClub(authToken, restaurantId);
     }
 
-    public Observable<CategoriesResponse> getCategoriesResponseObservable() {
+    public Observable<FoodCategoriesResponse> getCategoriesResponseObservable() {
         return apiInterface.getCategoriesResponse();
     }
 

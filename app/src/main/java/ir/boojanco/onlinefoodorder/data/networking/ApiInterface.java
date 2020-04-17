@@ -1,6 +1,6 @@
 package ir.boojanco.onlinefoodorder.data.networking;
 
-import ir.boojanco.onlinefoodorder.models.food.CategoriesResponse;
+import ir.boojanco.onlinefoodorder.models.food.FoodCategoriesResponse;
 import ir.boojanco.onlinefoodorder.models.food.FavoriteFoodsResponse;
 import ir.boojanco.onlinefoodorder.models.food.GetAllFoodResponse;
 import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
@@ -68,6 +68,9 @@ public interface ApiInterface {
 
     @GET("/api/v1/restaurant/search")
     Observable<RestaurantResponse> searchRestaurant(/*@Header("Authorization") String authToken,*/ @Query("query") String query, @Query("city") String city, @Query("region") String region, @Query("page") int page, @Query("size") int size);
+
+    @GET("/api/v1/restaurant/category/search")
+    Observable<RestaurantResponse> searchByFoodCategory( @Query("category") String category, @Query("city") String city, @Query("page") int page, @Query("size") int size);
 
     @GET("/api/v1/food/restaurant/{restaurantId}")
     Observable<GetAllFoodResponse> getAllFood(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
@@ -148,5 +151,5 @@ public interface ApiInterface {
     Observable<FavoriteFoodsResponse> getFavoriteFoodsResponseObservable(@Header("Authorization") String authToken, @Query("page") int page, @Query("size") int size);
 
     @GET("/api/v1/restaurant/categories")
-    Observable<CategoriesResponse> getCategoriesResponse();
+    Observable<FoodCategoriesResponse> getCategoriesResponse();
 }

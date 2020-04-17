@@ -16,7 +16,7 @@
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out"/>
+            app:popExitAnim="@anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/cartFragment"
@@ -29,14 +29,14 @@
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out"/>
+            app:popExitAnim="@anim/fade_out" />
         <action
             android:id="@+id/action_cartFragment_to_restaurantDetailsFragment"
             app:destination="@id/restaurantDetailsFragment"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out"/>
+            app:popExitAnim="@anim/fade_out" />
         <argument
             android:name="selectedPackage"
             app:argType="ir.boojanco.onlinefoodorder.models.restaurantPackage.RestaurantPackageItem" />
@@ -58,21 +58,21 @@
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out"/>
+            app:popExitAnim="@anim/fade_out" />
         <action
             android:id="@+id/action_userProfileFragment_to_faveRestaurantsFragment"
             app:destination="@id/faveRestaurantsFragment"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out"/>
+            app:popExitAnim="@anim/fade_out" />
         <action
             android:id="@+id/action_userProfileFragment_to_faveFoodsFragment"
             app:destination="@id/faveFoodsFragment"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out"/>
+            app:popExitAnim="@anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/restaurantFragment"
@@ -83,6 +83,9 @@
             android:name="restaurantName"
             app:argType="string" />
         <argument
+            android:name="categoryName"
+            app:argType="string" />
+        <argument
             android:name="cityName"
             app:argType="string" />
         <action
@@ -91,7 +94,7 @@
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out"/>
+            app:popExitAnim="@anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/restaurantDetailsFragment"
@@ -104,7 +107,7 @@
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out"/>
+            app:popExitAnim="@anim/fade_out" />
         <argument
             android:name="restaurantID"
             app:argType="long" />

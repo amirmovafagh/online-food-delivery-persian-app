@@ -209,7 +209,6 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
     }
 
 
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -245,12 +244,17 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
 
     @Override
     public void onSuccessRestaurantsCarts(List<RestaurantItem> restaurantItems) {
+        if (restaurantItems.isEmpty()) {
+            binding.imgEmptyCart.setVisibility(View.VISIBLE);
+            toolbar.setTitle("سبد خرید شما خالی است!");
+        }
         restaurantsCartAdapter.setRestaurantItems(restaurantItems);
+        binding.animationViewLoadRequest.setVisibility(View.GONE);
     }
 
     @Override
     public void onSuccessGetAddress() {
-
+        binding.animationViewLoadRequest.setVisibility(View.GONE);
     }
 
     @Override

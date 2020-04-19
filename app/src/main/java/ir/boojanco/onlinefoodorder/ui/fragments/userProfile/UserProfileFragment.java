@@ -157,10 +157,10 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
     }
 
     @Override
-    public void onRecyclerViewAddressClick(View v, UserAddressList userAddress, int position) {
+    public void onRecyclerViewAddressClick(View v, UserAddressList userAddress) {
         switch (v.getId()) {
             case R.id.img_edit_address:
-                viewModel.editUserAddress(userAddress, position);
+                viewModel.editUserAddress(userAddress);
                 sheetBehaviorProfile.setState(BottomSheetBehavior.STATE_HIDDEN);
                 sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
@@ -182,7 +182,7 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
     }
 
     @Override
-    public void updateAddressRecyclerView(int position) {
+    public void updateAddressRecyclerView() {
         if (userAddressPaged.hasObservers()) {
             userAddressPaged.removeObservers(getActivity());
             userAddressPaged = viewModel.userAddressPagedListLiveData;

@@ -71,7 +71,6 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
     public long birthDateTimeMill;
     private double userLatitude;
     private double userLongitude;
-    private int addressRecyclerViewPosition;
     private long addressId;
     private String addressTag = "OTHER";
     private int addressFunctionFlag;
@@ -174,7 +173,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
                         if (voidResponse.isSuccessful())
                             userProfileInterface.onFailure("ذخیره شد");
                         getUserAddress(userAuthToken);
-                        userProfileInterface.updateAddressRecyclerView(addressRecyclerViewPosition);
+                        userProfileInterface.updateAddressRecyclerView();
 
                     }
                 });
@@ -212,7 +211,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
                         if (voidResponse.isSuccessful())
                             userProfileInterface.onFailure("تغیرات ثبت شد");
                         getUserAddress(userAuthToken);
-                        userProfileInterface.updateAddressRecyclerView(addressRecyclerViewPosition);
+                        userProfileInterface.updateAddressRecyclerView();
 
                     }
                 });
@@ -604,9 +603,8 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         userProfileInterface.onFailure(error);
     }
 
-    public void editUserAddress(UserAddressList userAddress, int position) {
+    public void editUserAddress(UserAddressList userAddress) {
         bottomSheetChangeVisibility.setValue(true);
-        addressRecyclerViewPosition = position;
         addressFunctionFlag = 2; // edit function
         addressBottomSheetTitle.setValue("تغییر آدرس");
         addressId = userAddress.getId();

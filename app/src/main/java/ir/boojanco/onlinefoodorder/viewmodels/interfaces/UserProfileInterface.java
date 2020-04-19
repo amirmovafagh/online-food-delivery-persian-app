@@ -8,7 +8,7 @@ import ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList;
 public interface UserProfileInterface {
     void onStarted();
 
-    void updateAddressRecyclerView(int position);
+    void updateAddressRecyclerView();
 
     void showAddressBottomSheet();
 

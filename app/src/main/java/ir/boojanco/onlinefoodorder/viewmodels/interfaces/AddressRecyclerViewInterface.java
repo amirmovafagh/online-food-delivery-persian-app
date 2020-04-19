@@ -5,5 +5,5 @@ import android.view.View;
 import ir.boojanco.onlinefoodorder.models.user.UserAddressList;
 
 public interface AddressRecyclerViewInterface {
-    void onRecyclerViewAddressClick(View v, UserAddressList userAddress, int position);
+    void onRecyclerViewAddressClick(View v, UserAddressList userAddress);
 }

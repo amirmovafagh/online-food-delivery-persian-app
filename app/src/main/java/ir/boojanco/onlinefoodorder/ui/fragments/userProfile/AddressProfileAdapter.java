@@ -42,12 +42,8 @@ public class AddressProfileAdapter extends PagedListAdapter<UserAddressList, Add
         UserAddressList currentAddress = getItem(position);
         holder.binding.setAddressList(currentAddress);
 
-        holder.binding.imgEditAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickListener.onRecyclerViewAddressClick(holder.binding.imgEditAddress, currentAddress, position);
-            }
-        });
+        holder.binding.imgEditAddress.setOnClickListener(v -> clickListener.onRecyclerViewAddressClick(holder.binding.imgEditAddress, currentAddress));
+        holder.binding.imgRemoveAddress.setOnClickListener(v -> clickListener.onRecyclerViewAddressClick(holder.binding.imgRemoveAddress, currentAddress));
     }
 
     private static DiffUtil.ItemCallback<UserAddressList> DIFF_CALLBACK =

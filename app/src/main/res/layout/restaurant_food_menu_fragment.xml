@@ -40,35 +40,60 @@
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_view_food_type"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:overScrollMode="never"
                         app:layout_constraintBottom_toBottomOf="@id/cv_package_btn"
-                        app:layout_constraintHorizontal_chainStyle="spread_inside"
-                        app:layout_constraintHorizontal_weight="9"
-                        app:layout_constraintLeft_toRightOf="@id/cv_package_btn"
-                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/cv_package_btn"
                         app:layout_constraintTop_toTopOf="@id/cv_package_btn" />
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cv_package_btn"
-                        android:layout_width="45dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="45dp"
                         android:layout_margin="8dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:padding="5dp"
                         app:cardBackgroundColor="@color/materialGray300"
-                        app:cardCornerRadius="23dp"
+                        app:cardCornerRadius="@dimen/little_view_corner_radius"
                         app:layout_constraintBottom_toTopOf="@id/expandable_view"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toLeftOf="@id/recycler_view_food_type"
+                        app:layout_constraintLeft_toRightOf="@id/recycler_view_food_type"
+                        app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <ImageButton
-                            android:id="@+id/package_btn"
-                            android:layout_width="39dp"
-                            android:layout_height="39dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/ic_restaurant_package" />
+                        <LinearLayout
+                            android:id="@+id/lin_package_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:layout_gravity="center"
+                                android:layout_margin="4dp"
+                                app:srcCompat="@drawable/ic_restaurant_package" />
+
+                            <TextView
+                                android:id="@+id/text_view_club_score"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="4dp"
+                                android:gravity="center"
+                                android:maxLines="3"
+                                android:text="امتیاز شما"
+
+                                android:visibility="gone" />
+
+
+                        </LinearLayout>
+
                     </androidx.cardview.widget.CardView>
 
 
@@ -77,6 +102,7 @@
                         android:id="@+id/expandable_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:visibility="gone"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
@@ -102,8 +128,8 @@
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
                 android:layout_gravity="center"
+                android:layout_marginBottom="2dp"
                 android:background="@color/transparent">
 
                 <androidx.cardview.widget.CardView
@@ -181,9 +207,9 @@
                                     android:layout_height="50dp"
                                     android:gravity="center"
                                     android:maxLines="1"
+                                    android:onClick="@{()->viewModel.goToCartOnClick()}"
                                     android:padding="4dp"
                                     android:text="@string/showCart"
-                                    android:onClick="@{()->viewModel.goToCartOnClick()}"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/body2_paragraph_font_size" />
 

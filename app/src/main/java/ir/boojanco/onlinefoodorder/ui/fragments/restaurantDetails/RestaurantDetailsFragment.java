@@ -159,5 +159,6 @@ public class RestaurantDetailsFragment extends Fragment implements RestaurantDet
     @Override
     public void setUserClubPoint(int points) {
         sharedViewModel.userRestaurantClubPointLivedata.postValue(points);
+
     }
 }

@@ -1,5 +1,6 @@
 package ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments;
 
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.MutableLiveData;
@@ -77,7 +78,7 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     private long extraRestauranId = 0;
 
     private ConstraintLayout expandableView;
-    private ImageButton packageBtn;
+    private CardView packageBtn;
     private LinearLayout mainLayout;
 
     private final String selectedPackageExtraName = "selectedPackage";
@@ -101,7 +102,7 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
         binding.setLifecycleOwner(this);
         transition = new AutoTransition();
         expandableView = binding.expandableView;
-        packageBtn = binding.packageBtn;
+        packageBtn = binding.cvPackageBtn;
         mainLayout = binding.linearLayoutMainFoodMenu;
         Bundle extras = getArguments();
         if (extras != null) {
@@ -148,8 +149,13 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
                 }
             });
             sharedViewModel.userRestaurantClubPointLivedata.observe(getViewLifecycleOwner(), userClubPoint -> {
-                viewModel.setUserRestaurantClubPoint(userClubPoint);
-                adapterPackage.setUserClubPoint(userClubPoint);
+                if (userClubPoint != null) {
+                    viewModel.setUserRestaurantClubPoint(userClubPoint);
+                    adapterPackage.setUserClubPoint(userClubPoint);
+                    String point = "امتیاز شما" + System.lineSeparator() + userClubPoint;
+                    binding.textViewClubScore.setText(point);
+                }
+
             });
         }
         return binding.getRoot();
@@ -163,11 +169,12 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
             if (expandableView.getVisibility() == View.GONE) {
                 TransitionManager.beginDelayedTransition(mainLayout, transition);
                 expandableView.setVisibility(View.VISIBLE);
+                binding.textViewClubScore.setVisibility(View.VISIBLE);
 
             } else {
                 TransitionManager.beginDelayedTransition(mainLayout, transition);
                 expandableView.setVisibility(View.GONE);
-
+                binding.textViewClubScore.setVisibility(View.GONE);
             }
         });
     }

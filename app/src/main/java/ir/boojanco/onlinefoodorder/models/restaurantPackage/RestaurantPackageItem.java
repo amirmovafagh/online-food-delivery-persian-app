@@ -40,7 +40,7 @@ public class RestaurantPackageItem implements Serializable {
     private boolean discountForAllFoods;
 
     @SerializedName("foodList")
-    Map<Long , String> foodList;
+    Map<Long, String> foodList;
 
     public long getId() {
         return id;
@@ -63,7 +63,7 @@ public class RestaurantPackageItem implements Serializable {
     }
 
     public String getRequiredPointString() {
-        return "امتیاز مورد نیاز " + requiredPoint;
+        return "امتیاز لازم: " + requiredPoint;
     }
 
     public void setRequiredPoint(int requiredPoint) {
@@ -123,7 +123,7 @@ public class RestaurantPackageItem implements Serializable {
     }
 
     public String getDiscountPercentString() {
-        return "میزان تخفیف " + discountPercent + " درصد";
+        return "درصد تخفیف: " + "%" + discountPercent;
     }
 
     public void setDiscountPercent(int discountPercent) {

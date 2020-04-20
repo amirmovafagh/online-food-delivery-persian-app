@@ -44,15 +44,18 @@ public class RestaurantFoodTypeAdapter extends RecyclerView.Adapter<RestaurantFo
         holder.binding.setFoodType(foodTypeLists.get(position));
         if (selectedPosition == position) {// is selected
             holder.binding.cvFoodTypeTextBackground.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
+            holder.binding.cvFoodTypeTextBackground.setCardElevation(4);
             holder.binding.tvNameType.setTextColor(context.getResources().getColor(R.color.white));
         } else {//remove selected
             holder.binding.cvFoodTypeTextBackground.setCardBackgroundColor(context.getResources().getColor(R.color.transparent));
+            holder.binding.cvFoodTypeTextBackground.setCardElevation(0);
             holder.binding.tvNameType.setTextColor(context.getResources().getColor(R.color.detailsTextColor));
         }
 
         holder.binding.tvNameType.setOnClickListener(v -> {
             //is select
             holder.binding.cvFoodTypeTextBackground.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
+            holder.binding.cvFoodTypeTextBackground.setCardElevation(4);
             holder.binding.tvNameType.setTextColor(context.getResources().getColor(R.color.white));
             clickListener.onRecyclerViewTypeItemClick(holder.binding.tvNameType, foodTypeLists.get(position));
             selectedPosition = position;

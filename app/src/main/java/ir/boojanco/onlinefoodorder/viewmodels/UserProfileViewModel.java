@@ -219,6 +219,44 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         }
     }
 
+    public void deleteUserAddress(long addressId){
+        Observable<Response<Void>> observable = userRepository.deleteUserAddress(userAuthToken, addressId);
+        if (observable != null) {
+            observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Response<Void>>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    userProfileInterface.onFailure(e.getMessage());
+                    if (e instanceof NoNetworkConnectionException)
+                        userProfileInterface.onFailure(e.getMessage());
+                    if (e instanceof HttpException) {
+                        Response response = ((HttpException) e).response();
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                            userProfileInterface.onFailure(jsonObject.getString("message"));
+                        } catch (Exception d) {
+                            userProfileInterface.onFailure(d.getMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onNext(Response<Void> voidResponse) {
+                    if (voidResponse.isSuccessful())
+                        userProfileInterface.onFailure("آدرس حذف شد");
+                    getUserAddress(userAuthToken);
+                    userProfileInterface.updateAddressRecyclerView();
+
+                }
+            });
+        }
+    }
+
     public void addAddressOnClick() {
         addressFunctionFlag = 1; // add function
         addressBottomSheetTitle.setValue("افزودن آدرس");
@@ -604,6 +642,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
     }
 
     public void editUserAddress(UserAddressList userAddress) {
+        getStates(userAuthToken);
         bottomSheetChangeVisibility.setValue(true);
         addressFunctionFlag = 2; // edit function
         addressBottomSheetTitle.setValue("تغییر آدرس");

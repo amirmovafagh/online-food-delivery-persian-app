@@ -228,7 +228,7 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
     }
 
     @Override
-    public void onRecyclerViewAddressClick(View v, UserAddressList userAddress, int position) {
+    public void onRecyclerViewAddressClick(View v, UserAddressList userAddress) {
         viewModel.checkUserAddressForService(userAddress.getId(), userAddress.getLatitude(), userAddress.getLongitude());
     }
 

@@ -27,6 +27,7 @@ import ir.boojanco.onlinefoodorder.models.user.UserProfileResponse;
 import ir.boojanco.onlinefoodorder.models.user.VerificationNewUserResponse;
 import retrofit2.Response;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -113,6 +114,9 @@ public interface ApiInterface {
 
     @PUT("/api/v1/address/{addressId}/edit")
     Observable<Response<Void>> editUserAddress(@Header("Authorization") String authToken, @Path("addressId") long addressId, @Body EditUserAddressResponse editedAddressBody);
+
+    @DELETE("/api/v1/address/{addressId}/delete")
+    Observable<Response<Void>> deleteUserAddress(@Header("Authorization") String authToken, @Path("addressId") long addressId);
 
     @GET("/api/v1/state/state/all")
     Observable<GetAllStatesResponse> getAllStatesResponseObservable(@Header("Authorization") String authToken);

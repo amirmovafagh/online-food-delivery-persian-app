@@ -166,6 +166,7 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
 
                 break;
             case R.id.img_remove_address:
+                viewModel.deleteUserAddress(userAddress.getId());
                 break;
         }
     }
@@ -302,8 +303,8 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
     @Override
     public void onStateItemClick(AllStatesList state) {
         viewModel.setStateId(state.getId());
-        viewModel.state.setValue(state.getName());
-        viewModel.city.setValue(null);
+        viewModel.state.postValue(state.getName());
+        viewModel.city.postValue(null);
         viewModel.getCities(sharedPreferences.getUserAuthTokenKey(), state.getId());
     }
 

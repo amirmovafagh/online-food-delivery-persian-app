@@ -54,6 +54,10 @@ public class UserRepository {
         return apiInterface.editUserAddress(authToken, addressId, editedAddressBody);
     }
 
+    public Observable<Response<Void>> deleteUserAddress(String authToken, long addressId) {
+        return apiInterface.deleteUserAddress(authToken, addressId);
+    }
+
     public Observable<Response<Void>> addUserAddressResponseObservable(String authToken, AddUserAddressResponse addUserAddressResponse) {
         return apiInterface.addUserAddress(authToken, addUserAddressResponse);
     }

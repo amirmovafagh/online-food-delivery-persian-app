@@ -390,17 +390,16 @@
         <androidx.core.widget.NestedScrollView
             android:id="@+id/bottom_sheet"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="50dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/bg_bottom_sheet"
             android:fitsSystemWindows="true"
             android:layoutDirection="rtl"
-            android:orientation="vertical"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingBottom="16dp"
             app:behavior_hideable="true"
             app:behavior_peekHeight="0dp"
+            android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.VISIBLE : View.GONE}"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
             <include
@@ -421,8 +420,7 @@
         <androidx.core.widget.NestedScrollView
             android:id="@+id/bottom_sheet_profile"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="50dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/bg_bottom_sheet"
             android:fitsSystemWindows="true"
             android:layoutDirection="rtl"
@@ -432,6 +430,7 @@
             android:paddingBottom="16dp"
             app:behavior_hideable="true"
             app:behavior_peekHeight="0dp"
+            android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.GONE : View.VISIBLE}"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
             <include

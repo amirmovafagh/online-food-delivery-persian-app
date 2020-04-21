@@ -2,9 +2,11 @@ package ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,10 +22,12 @@ class RestaurantPackageAdapter extends RecyclerView.Adapter<RestaurantPackageAda
     private int userpoint = 0;
     private RestaurantPackageInterface packageInterface;
     private Context context;
+    private ResourcesCompat resourcesCompat;
 
     public RestaurantPackageAdapter(RestaurantPackageInterface packageInterface, Context context) {
         this.context = context;
         this.packageInterface = packageInterface;
+        this.resourcesCompat = resourcesCompat;
     }
 
     @NonNull
@@ -37,33 +41,38 @@ class RestaurantPackageAdapter extends RecyclerView.Adapter<RestaurantPackageAda
     @Override
     public void onBindViewHolder(@NonNull PackageViewHolder holder, int position) {
         RestaurantPackageItem currentPackageItem = packageItems.get(position);
+        holder.binding.btnShowDiscountItems.setOnClickListener(v -> packageInterface.onPackageItemClick(holder.binding.btnShowDiscountItems, currentPackageItem));
+
         holder.binding.setPackageItem(currentPackageItem);
         if (selectedPosition == position) {// is selected
-            holder.binding.cvMainPackageLayout.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
-
+            holder.binding.linearPackageContent.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.cardview_border_restaurant_package_on_select, null));
+            holder.binding.imgClose.setVisibility(View.VISIBLE);
         } else {//remove selected
-            holder.binding.cvMainPackageLayout.setCardBackgroundColor(context.getResources().getColor(R.color.white));
+            holder.binding.linearPackageContent.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.color.white, null));
+            holder.binding.imgClose.setVisibility(View.GONE);
         }
 
         holder.binding.cvMainPackageLayout.setOnClickListener(v -> {
             //is select
-            if (currentPackageItem.getRequiredPoint() <= userpoint){
-                holder.binding.cvMainPackageLayout.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
+            if (currentPackageItem.getRequiredPoint() <= userpoint) {
+                holder.binding.linearPackageContent.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.cardview_border_restaurant_package_on_select, null));
+                holder.binding.imgClose.setVisibility(View.VISIBLE);
                 packageInterface.onPackageItemClick(holder.binding.cvMainPackageLayout, currentPackageItem);
                 selectedPosition = position;
                 notifyDataSetChanged();
-            }else packageInterface.onPackageMessage("امتیاز کلاب شما کافی نیست");
+            } else packageInterface.onPackageMessage("امتیاز کلاب شما کافی نیست");
         });
         holder.binding.cvPackageName.setOnClickListener(v -> {
-            //is select
-            holder.binding.cvMainPackageLayout.setCardBackgroundColor(context.getResources().getColor(R.color.white));
+            //remove selected item
+            holder.binding.imgClose.setVisibility(View.GONE);
+            holder.binding.linearPackageContent.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.color.white, null));
             packageInterface.onPackageItemClick(holder.binding.cvPackageName, currentPackageItem);
 
         });
 
     }
 
-    public void setUserClubPoint(int point){
+    public void setUserClubPoint(int point) {
         this.userpoint = point;
     }
 

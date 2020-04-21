@@ -1,10 +1,10 @@
 package ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Application;
@@ -24,12 +24,13 @@ import androidx.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -39,7 +40,6 @@ import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.data.database.CartDataSource;
 import ir.boojanco.onlinefoodorder.databinding.RestaurantFoodMenuFragmentBinding;
 import ir.boojanco.onlinefoodorder.models.food.GetAllFoodResponse;
-import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.AllPackagesResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.RestaurantPackageItem;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.ListItemType;
@@ -286,7 +286,23 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
                 if (bundleCartFragment.getSerializable(selectedPackageExtraName) != null)
                     bundleCartFragment.remove(selectedPackageExtraName);
                 return;
+            case R.id.btn_show_discount_items:
+                packageFoodsAlertDialog(packageItem.getFoodList());
+                return;
         }
+    }
+
+    private void packageFoodsAlertDialog(Map<Long, String> map) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AlertDialogCustomRTL);
+        builder.setTitle("غذا های دارای تخفیف");
+        String[] foodList = map.values().toArray(new String[0]);
+        // add a list
+
+        builder.setItems(foodList, null);
+        builder.setNegativeButton("بستن", (dialog, which) -> dialog.cancel());
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override

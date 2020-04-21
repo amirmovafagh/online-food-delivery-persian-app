@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void showSetLocationEnabledAlertDialog() {
         // setup the alert builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogCustomRTL);
         builder.setCancelable(false);
         builder.setTitle("تنظیمات موقعیت یاب");
         builder.setMessage("در صورت تمایل به استفاده از سیستم موقعیت یاب به منظور یافتن نزدیکترین رستوران ها این بخش را فعال کنید.");
@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
             String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
             String city = addresses.get(0).getLocality();
             String state = addresses.get(0).getAdminArea();
-            Toast.makeText(this, ""+address, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "" + address, Toast.LENGTH_SHORT).show();
             if (city != null)
                 sharedPreferences.setCity(city);
             if (state != null)

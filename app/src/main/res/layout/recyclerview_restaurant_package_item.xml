@@ -97,7 +97,7 @@
 
                     <Button
                         android:id="@+id/btn_show_discount_items"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="0.55"

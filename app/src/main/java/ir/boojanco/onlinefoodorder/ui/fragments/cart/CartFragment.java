@@ -294,7 +294,7 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
             fragmentTransaction.remove(fragment);
         }
         fragmentTransaction.addToBackStack(null);
-        mapFragment = new MapDialogCartFragment();
+        mapFragment = new MapDialogCartFragment(viewModel);
         mapFragment.show(fragmentTransaction, "dialog");
     }
 

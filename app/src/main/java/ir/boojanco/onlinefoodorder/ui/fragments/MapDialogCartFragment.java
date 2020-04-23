@@ -41,6 +41,10 @@ public class MapDialogCartFragment extends DialogFragment implements OnMapReadyC
     MySharedPreferences sharedPreferences;
 
 
+    public MapDialogCartFragment(CartViewModel cartViewModel) {
+        this.cartViewModel = cartViewModel;
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -59,7 +63,6 @@ public class MapDialogCartFragment extends DialogFragment implements OnMapReadyC
         }
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map_dialog, container,false);
-        cartViewModel= new ViewModelProvider(getActivity()).get(CartViewModel.class);
         cartViewModel.mapDialogCartInterface = this;
         binding.setViewModel(cartViewModel);
         binding.setLifecycleOwner(this);

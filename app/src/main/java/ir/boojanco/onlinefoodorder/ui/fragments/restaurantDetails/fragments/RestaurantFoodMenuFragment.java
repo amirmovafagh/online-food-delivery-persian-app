@@ -295,9 +295,13 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     private void packageFoodsAlertDialog(Map<Long, String> map) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AlertDialogCustomRTL);
         builder.setTitle("غذا های دارای تخفیف");
+
+        // set the custom layout
+        /*final View customLayout = getLayoutInflater().inflate(R.layout.custom_alert_dialog_package_foods, null);
+        builder.setView(customLayout);*/
+
         String[] foodList = map.values().toArray(new String[0]);
         // add a list
-
         builder.setItems(foodList, null);
         builder.setNegativeButton("بستن", (dialog, which) -> dialog.cancel());
         // create and show the alert dialog

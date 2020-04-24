@@ -1,10 +1,19 @@
 package ir.boojanco.onlinefoodorder.dagger;
 
 import android.app.Application;
+import android.widget.ImageView;
+
+import androidx.databinding.BindingAdapter;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
+
+import com.bumptech.glide.Glide;
+
+import com.bumptech.glide.request.RequestOptions;
 
 public class App extends Application {
     public final static String webServerMediaRoute = "http://198.143.180.86:8080/api/v1/media/download/";
     private AppComponent component;
+
     //Instantiating the component
     @Override
     public void onCreate() {
@@ -25,5 +34,20 @@ public class App extends Application {
     public AppComponent getComponent() {
         return component;
     }
+
+    // important code for loading image here
+    @BindingAdapter({"image"})
+    public static void loadImage(ImageView imageView, String imageURL) {
+        CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(imageView.getContext());
+        circularProgressDrawable.setStrokeWidth(5f);
+        circularProgressDrawable.setCenterRadius(30f);
+        circularProgressDrawable.start();
+        Glide.with(imageView.getContext())
+                .setDefaultRequestOptions(new RequestOptions())
+                .load(imageURL)
+                .placeholder(circularProgressDrawable)
+                .into(imageView);
+    }
+
 }
 

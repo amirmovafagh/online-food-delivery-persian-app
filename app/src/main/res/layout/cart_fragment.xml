@@ -30,9 +30,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:layout_gravity="top"
                 android:fitsSystemWindows="true"
-                app:layout_collapseMode="parallax"
                 app:subtitleTextColor="@color/white"
                 app:theme="@style/ToolbarColoredBackArrow"
                 app:titleTextColor="@color/white">
@@ -75,7 +73,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="24dp"
-                            android:visibility="@{viewModel.deliveryTypeViewLiveData== 2 ? View.VISIBLE : View.GONE}"
+                            android:visibility="@{viewModel.deliveryTypeViewLiveData== 2 ? View.VISIBLE : View.GONE,default=gone }"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
@@ -101,7 +99,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="24dp"
-                            android:visibility="@{viewModel.deliveryTypeViewLiveData== 1 ? View.VISIBLE : View.GONE}"
+                            android:visibility="@{viewModel.deliveryTypeViewLiveData== 1 ? View.VISIBLE : View.GONE ,default=gone }"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
@@ -135,52 +133,79 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cv_delivery_state_icon"
+
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/materialDeliveryBtnGroup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="@{viewModel.changeViewLiveData ? View.VISIBLE : View.GONE , default=gone}"
+                    android:visibility="@{viewModel.changeViewLiveData ? View.VISIBLE : View.GONE , default=visible}"
                     app:cardCornerRadius="@dimen/card_view_corner_radius"
                     app:layout_constraintBottom_toTopOf="@id/cv_delivery_property"
                     app:layout_constraintLeft_toLeftOf="@id/cv_delivery_property"
                     app:layout_constraintRight_toRightOf="@id/cv_delivery_property"
-                    app:layout_constraintTop_toTopOf="@id/cv_delivery_property">
+                    app:layout_constraintTop_toTopOf="@id/cv_delivery_property"
+                    app:selectionRequired="true"
+                    app:singleSelection="true">
 
-                    <LinearLayout
+                    <Button
+                        android:id="@+id/btn_at_restaurant"
+                        style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:backgroundTint="@color/white"
+                        android:enabled="@{viewModel.deliveryTypeButtonVisibilityLiveData == 1 ? false : true}"
+                        android:onClick="@{(v) -> viewModel.OnButtonDeliveryChecked(v)}"
+                        android:text="@{viewModel.deliveryTypeButtonVisibilityLiveData == 2 ? viewModel.deliveryTypeTextLiveData : @string/deliverInRestaurant ,default=@string/deliverInRestaurant}"
+                        android:textSize="@dimen/body2_paragraph_font_size"
+                        app:cornerRadius="@dimen/little_view_corner_radius" />
 
-                        <ImageView
-                            android:layout_width="45dp"
-                            android:layout_height="45dp"
-                            android:padding="4dp"
-                            app:srcCompat="@drawable/ic_delivery_situation" />
+                    <Button
+                        android:id="@+id/btn_your_address"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/white"
+                        android:enabled="@{viewModel.deliveryTypeButtonVisibilityLiveData == 2 ? false : true}"
+                        android:onClick="@{(v) -> viewModel.OnButtonDeliveryChecked(v)}"
+                        android:text="@{viewModel.deliveryTypeButtonVisibilityLiveData == 1 ? viewModel.deliveryTypeTextLiveData : @string/deliverInMyAddress ,default=@string/deliverInMyAddress}"
+                        android:textSize="@dimen/body2_paragraph_font_size"
+                        app:cornerRadius="@dimen/little_view_corner_radius" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="50dp"
-                            android:gravity="center"
-                            android:maxLines="1"
-                            android:padding="4dp"
-                            android:text="@{viewModel.deliveryTypeTextLiveData ,default=@string/determineDeliveryType}"
-                            android:textSize="@dimen/body2_paragraph_font_size"
-                            bind:ignore="RtlCompat" />
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+                <!--<LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-                        <androidx.appcompat.widget.SwitchCompat
-                            android:id="@+id/toggle_bookmark"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:onCheckedChanged="@{(switch, checked) -> viewModel.onCheckedChanged(checked)}"
-                            android:padding="4dp"
-                            android:textOff="@string/deliverInMyAddress"
-                            android:textOn="@string/deliverInRestaurant"
-                            android:visibility="@{viewModel.deliveryTypeSelectLiveData ==1 ? View.VISIBLE : View.GONE}"
+                    <ImageView
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:padding="4dp"
+                        app:srcCompat="@drawable/ic_delivery_situation" />
 
-                            />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:padding="4dp"
+                        android:text="@{viewModel.deliveryTypeTextLiveData ,default=@string/determineDeliveryType}"
+                        android:textSize="@dimen/body2_paragraph_font_size"
+                        bind:ignore="RtlCompat" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/toggle_bookmark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:onCheckedChanged="@{(switch, checked) -> viewModel.onCheckedChanged(checked)}"
+                        android:padding="4dp"
+                        android:textOff="@string/deliverInMyAddress"
+                        android:textOn="@string/deliverInRestaurant"
+                        android:visibility="@{viewModel.deliveryTypeSelectLiveData ==1 ? View.VISIBLE : View.GONE}"
+
+                        />
+                </LinearLayout>-->
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cv_cart_items"

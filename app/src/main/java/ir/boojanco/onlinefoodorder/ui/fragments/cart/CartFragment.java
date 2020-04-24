@@ -37,6 +37,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.Serializable;
@@ -80,6 +81,7 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
     private CartViewModel viewModel;
     private CartFragmentBinding binding;
 
+    private MaterialButtonToggleGroup materialDeliveryBtnGroup;
     private CoordinatorLayout coordinatorLayoutMainContent;
     private ImageButton arrowBtn;
     private LinearLayout expandableLayout;
@@ -129,6 +131,7 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
         bottom_sheet = binding.bottomSheet;
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
         transition = new AutoTransition();
+        materialDeliveryBtnGroup = binding.materialDeliveryBtnGroup;
         coordinatorLayoutMainContent = binding.mainContent;
         arrowBtn = binding.imgBtnExpandArrow;
         expandableLayout = binding.linearLayoutCartDetailsView;
@@ -141,6 +144,7 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
         NavigationUI.setupWithNavController(
                 toolbar, navController, appBarConfiguration);
 
+        viewModel.setMaterialDeliveryBtnGroup(materialDeliveryBtnGroup);
         arrowBtn.setOnClickListener(v -> {
             if (expandableLayout.getVisibility() == View.GONE) {
                 TransitionManager.beginDelayedTransition(coordinatorLayoutMainContent, transition);
@@ -154,6 +158,7 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
                 arrowBtn.setBackgroundResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
             }
         });
+
 
         binding.bottomSheetInclude.switcherDefaultAddress.setOnCheckedChangeListener(aBoolean -> {
 

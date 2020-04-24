@@ -2,6 +2,7 @@ package ir.boojanco.onlinefoodorder.viewmodels;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
@@ -13,6 +14,7 @@ import androidx.paging.PagedList;
 
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.maps.android.PolyUtil;
 
 import org.json.JSONObject;
@@ -102,10 +104,15 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
     private int taxAndService = 0;
     public MutableLiveData<String> deliveryTypeTextLiveData;
     public MutableLiveData<String> restaurantAddressLiveData;
-    public MutableLiveData<Integer> deliveryTypeSelectLiveData;
+    public MutableLiveData<Integer> deliveryTypeButtonVisibilityLiveData;
     public MutableLiveData<Integer> deliveryTypeViewLiveData;
     public LiveData<PagedList<UserAddressList>> userAddressPagedListLiveData;
     public LiveData<PageKeyedDataSource<Integer, UserAddressList>> userAddressPageKeyedDataSourceLiveData;
+    private MaterialButtonToggleGroup materialDeliveryBtnGroup;
+
+    public void setMaterialDeliveryBtnGroup(MaterialButtonToggleGroup materialDeliveryBtnGroup) {
+        this.materialDeliveryBtnGroup = materialDeliveryBtnGroup;
+    }
 
     private int totalDiscountedPrice = 0;
     private int tempTotalRawPrice = 0;
@@ -133,7 +140,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
         packingCostLiveData = new MutableLiveData<>();
         taxAndServiceLivedata = new MutableLiveData<>();
         deliveryTypeTextLiveData = new MutableLiveData<>();
-        deliveryTypeSelectLiveData = new MutableLiveData<>();
+        deliveryTypeButtonVisibilityLiveData = new MutableLiveData<>();
         deliveryTypeViewLiveData = new MutableLiveData<>();
         restaurantAddressLiveData = new MutableLiveData<>();
         restaurantShippingCostLiveData = new MutableLiveData<>();
@@ -157,12 +164,22 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
 
     }
 
-    public void onCheckedChanged(boolean checked) {
+    /*public void onCheckedChanged(boolean checked) {
         if (!checked) {
             deliveryTypeTextLiveData.setValue("ارسال به آدرس شما");
             deliveryTypeViewLiveData.setValue(1);
         } else {
             deliveryTypeTextLiveData.setValue("دریافت در رستوران");
+            deliveryTypeViewLiveData.setValue(2);
+            orderType = OrderType.GET_BY_CUSTOMER;
+        }
+    }*/
+
+    public void OnButtonDeliveryChecked(View view) {
+        if (view.getId() == R.id.btn_your_address) {
+            deliveryTypeViewLiveData.setValue(1);
+            orderType = OrderType.DONT_CHOOSE;
+        } else {
             deliveryTypeViewLiveData.setValue(2);
             orderType = OrderType.GET_BY_CUSTOMER;
         }
@@ -177,18 +194,20 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
         boolean deliverInDestination = restaurantInfo.isDelivery();
         if (deliverInDestination && deliverInPlace) {
             deliveryTypeTextLiveData.setValue("نحوه دریافت سفارش");
-            deliveryTypeSelectLiveData.setValue(1); //show switch button
+            deliveryTypeButtonVisibilityLiveData.setValue(0); //show switch button
             deliveryTypeViewLiveData.setValue(1);
+            materialDeliveryBtnGroup.check(R.id.btn_your_address);
         } else if (deliverInDestination) {
             deliveryTypeTextLiveData.setValue("فقط ارسال به آدرس شما");
-            deliveryTypeSelectLiveData.setValue(0); //hide switch button
+            deliveryTypeButtonVisibilityLiveData.setValue(1); //hide switch button
             deliveryTypeViewLiveData.setValue(1);   //just show deliver in address destination
-
+            materialDeliveryBtnGroup.check(R.id.btn_your_address);
         } else {
             deliveryTypeTextLiveData.setValue("فقط دریافت در رستوران");
-            deliveryTypeSelectLiveData.setValue(0); //hide switch button
+            deliveryTypeButtonVisibilityLiveData.setValue(2); //hide switch button
             deliveryTypeViewLiveData.setValue(2);   //just show deliver in place
             orderType = OrderType.GET_BY_CUSTOMER;
+            materialDeliveryBtnGroup.check(R.id.btn_at_restaurant);
         }
     }
 
@@ -610,7 +629,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
     public void acceptOrder() {
         switch (orderType) {
             case DONT_CHOOSE:
-                fragmentInterface.onFailure("لطفا نحوه دریافت سفارش را مشخص کنید");
+                fragmentInterface.onFailure("لطفا آدرس دریافت سفارش را مشخص کنید");
                 break;
             case GET_BY_CUSTOMER:
             case GET_BY_DELIVERY:

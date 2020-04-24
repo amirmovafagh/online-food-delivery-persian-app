@@ -114,8 +114,9 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
         bottom_sheet = binding.bottomSheet;
         bottom_sheet_profile = binding.bottomSheetProfile;
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
+        sheetBehavior.setGestureInsetBottomIgnored(true);
         sheetBehaviorProfile = BottomSheetBehavior.from(bottom_sheet_profile);
-
+        sheetBehaviorProfile.setGestureInsetBottomIgnored(true);
         //go to order fragment
         NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
         binding.frameLayoutOrders.setOnClickListener(v -> navController.navigate(R.id.action_userProfileFragment_to_ordersFragment));

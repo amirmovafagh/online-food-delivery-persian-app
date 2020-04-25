@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -293,12 +294,12 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     }
 
     private void packageFoodsAlertDialog(Map<Long, String> map) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AlertDialogCustomRTL);
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity(), R.style.AlertDialogCustomRTL);
         builder.setTitle("غذا های دارای تخفیف");
 
         // set the custom layout
-        /*final View customLayout = getLayoutInflater().inflate(R.layout.custom_alert_dialog_package_foods, null);
-        builder.setView(customLayout);*/
+        //final View customLayout = getLayoutInflater().inflate(R.layout.custom_rounded_alert_dialog, null);
+        //builder.setView(customLayout);
 
         String[] foodList = map.values().toArray(new String[0]);
         // add a list
@@ -306,6 +307,7 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
         builder.setNegativeButton("بستن", (dialog, which) -> dialog.cancel());
         // create and show the alert dialog
         AlertDialog dialog = builder.create();
+        //dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.show();
     }
 

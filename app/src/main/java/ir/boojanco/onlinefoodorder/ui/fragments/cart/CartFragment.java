@@ -186,7 +186,7 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
             recyclerViewUserAddress = binding.recyclerViewUserAddressHorizontalItems;
             recyclerViewUserAddress.setLayoutManager(new LinearLayoutManager(application, LinearLayoutManager.HORIZONTAL, false));
             recyclerViewUserAddress.setHasFixedSize(true);
-            addressAdapter = new AddressAdapter(this, application, true);
+            addressAdapter = new AddressAdapter(this, application);
             recyclerViewUserAddress.setAdapter(addressAdapter);
             recyclerViewCart = binding.recyclerViewRestaurantCartItems;
             recyclerViewCart.setLayoutManager(new LinearLayoutManager(application));

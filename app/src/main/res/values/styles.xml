@@ -68,7 +68,13 @@
         <item name="android:windowMinWidthMinor">90%</item>
     </style>
 
-    <style name="AlertDialogCustomRTL" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+    <style name="AlertDialogCustomRTL" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="android:layoutDirection">rtl</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MyApp.Dialog.Rounded</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.MyApp.Dialog.Rounded" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/card_view_corner_radius</item>
     </style>
 </resources>

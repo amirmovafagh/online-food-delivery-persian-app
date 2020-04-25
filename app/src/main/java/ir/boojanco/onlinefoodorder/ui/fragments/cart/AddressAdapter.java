@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
@@ -23,13 +24,13 @@ public class AddressAdapter extends PagedListAdapter<UserAddressList, AddressAda
     private int selectedPosition = 100000;
     public AddressRecyclerViewInterface clickListener;
     private Context context;
-    private boolean runFromCartActivity = false;
 
-    public AddressAdapter(AddressRecyclerViewInterface clickListener, Context context, boolean runFromCartActivity) {
+
+    public AddressAdapter(AddressRecyclerViewInterface clickListener, Context context) {
         super(DIFF_CALLBACK);
         this.clickListener = clickListener;
         this.context = context;
-        this.runFromCartActivity = runFromCartActivity;
+
     }
 
     @NonNull
@@ -44,29 +45,21 @@ public class AddressAdapter extends PagedListAdapter<UserAddressList, AddressAda
     public void onBindViewHolder(@NonNull AddressViewHolder holder, int position) {
         UserAddressList currentAddress = getItem(position);
         holder.binding.setAddressList(currentAddress);
-        if (runFromCartActivity)
-            holder.binding.linearLayoutControlButtons.setVisibility(View.GONE);
-        if (selectedPosition == position && runFromCartActivity) {// is selected
-            holder.binding.cvMainAddressLayout.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
 
+        if (selectedPosition == position) {// is selected
+            holder.binding.frameLayout.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.cardview_border_restaurant_package_on_select, null));
         } else {//remove selected
-            holder.binding.cvMainAddressLayout.setCardBackgroundColor(context.getResources().getColor(R.color.white));
+            holder.binding.frameLayout.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.color.white, null));
         }
-        if (runFromCartActivity)
+
             holder.binding.cvMainAddressLayout.setOnClickListener(v -> {
                 //is select
-                holder.binding.cvMainAddressLayout.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
+                holder.binding.frameLayout.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.cardview_border_restaurant_package_on_select, null));
                 clickListener.onRecyclerViewAddressClick(holder.binding.cvMainAddressLayout, currentAddress);
                 selectedPosition = position;
                 notifyDataSetChanged();
             });
 
-        holder.binding.imgEditAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickListener.onRecyclerViewAddressClick(holder.binding.imgEditAddress, currentAddress);
-            }
-        });
     }
 
     private static DiffUtil.ItemCallback<UserAddressList> DIFF_CALLBACK =

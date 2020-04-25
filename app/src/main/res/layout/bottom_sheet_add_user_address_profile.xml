@@ -208,6 +208,7 @@
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="@{(v)-> viewModel.setAddressTagOnClick(v)}"
                         android:text="@string/home"
                         android:textAppearance="@style/ChipTextAppearance" />
 
@@ -216,6 +217,7 @@
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="@{(v)-> viewModel.setAddressTagOnClick(v)}"
                         android:text="@string/workPlace"
                         android:textAppearance="@style/ChipTextAppearance" />
 
@@ -224,6 +226,7 @@
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="@{(v)-> viewModel.setAddressTagOnClick(v)}"
                         android:text="@string/UNIVERSITY"
                         android:textAppearance="@style/ChipTextAppearance" />
 
@@ -246,8 +249,7 @@
                     android:checked="@={viewModel.defaultAddress ,default=false}"
                     android:text="@string/chooseOnDefault"
                     android:textAlignment="center"
-                    android:textAppearance="@style/ChipTextAppearance"
-                     />
+                    android:textAppearance="@style/ChipTextAppearance" />
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>

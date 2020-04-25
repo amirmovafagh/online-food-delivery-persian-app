@@ -2,6 +2,7 @@ package ir.boojanco.onlinefoodorder.viewmodels;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
@@ -11,10 +12,13 @@ import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PageKeyedDataSource;
 import androidx.paging.PagedList;
 
+import com.google.android.material.chip.ChipGroup;
+
 import org.json.JSONObject;
 
 import java.util.List;
 
+import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
 import ir.boojanco.onlinefoodorder.data.repositories.UserRepository;
 import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
@@ -77,9 +81,14 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
     private List<AllStatesList> statesLists;
     private List<AllCitiesList> citiesLists;
     private boolean completeUserProfile = false;
+    private ChipGroup chipGroup;
 
     public LiveData<PagedList<UserAddressList>> userAddressPagedListLiveData;
     public LiveData<PageKeyedDataSource<Integer, UserAddressList>> userAddressPageKeyedDataSourceLiveData;
+
+    public void setChipGroup(ChipGroup chipGroup) {
+        this.chipGroup = chipGroup;
+    }
 
     public void setCityId(long cityId) {
         this.cityId = cityId;
@@ -93,9 +102,23 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         this.birthDateTimeMill = birthDateTimeMill;
     }
 
-    public void setAddressTag(String addressTag) {
-        Toast.makeText(context, "" + addressTag, Toast.LENGTH_SHORT).show();
-        this.addressTag = addressTag;
+    public void setAddressTagOnClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.chip_home_tag:
+                addressTag = "HOME";
+                break;
+            case R.id.chip_work_tag:
+                addressTag = "WORK";
+                break;
+            case R.id.chip_university_tag:
+                addressTag = "UNIVERSITY";
+                break;
+            case R.id.chip_other_tag:
+            default:
+                addressTag = "OTHER";
+                break;
+        }
     }
 
     public UserProfileViewModel(Context context, RestaurantRepository restaurantRepository, UserRepository userRepository) {
@@ -118,6 +141,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         firstNameErrorLiveData = new MutableLiveData<>();
         birthDateLiveData = new MutableLiveData<>();
         birthDateErrorLiveData = new MutableLiveData<>();
+
         bottomSheetChangeVisibility = new MutableLiveData<>();
         bottomSheetChangeVisibility.setValue(true);//default onView Address
 
@@ -219,7 +243,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         }
     }
 
-    public void deleteUserAddress(long addressId){
+    public void deleteUserAddress(long addressId) {
         Observable<Response<Void>> observable = userRepository.deleteUserAddress(userAuthToken, addressId);
         if (observable != null) {
             observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Response<Void>>() {
@@ -656,5 +680,20 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         addressTag = userAddress.getTag();
         region.setValue(userAddress.getRegion());
         defaultAddress.setValue(userAddress.isDefaultAddress());
+
+        switch (userAddress.getTag()) {
+            case "خانه":
+                chipGroup.check(R.id.chip_home_tag);
+                return;
+            case "محل کار":
+                chipGroup.check(R.id.chip_work_tag);
+                return;
+            case "دانشگاه":
+                chipGroup.check(R.id.chip_university_tag);
+                return;
+            case "سایر":
+                chipGroup.check(R.id.chip_other_tag);
+                return;
+        }
     }
 }

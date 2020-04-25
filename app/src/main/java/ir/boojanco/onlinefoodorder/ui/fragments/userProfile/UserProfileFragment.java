@@ -136,24 +136,7 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
         userAddressPaged = viewModel.userAddressPagedListLiveData;
         userAddressPaged.observe(getActivity(), userAddressLists -> addressAdapter.submitList(userAddressLists)); //set PagedList user address
 
-
-        chipGroup.setOnCheckedChangeListener((chipGroup, i) -> {
-            switch (i) {
-                case R.id.chip_home_tag:
-                    viewModel.setAddressTag("HOME");
-                    break;
-                case R.id.chip_work_tag:
-                    viewModel.setAddressTag("WORK");
-                    break;
-                case R.id.chip_university_tag:
-                    viewModel.setAddressTag("UNIVERSITY");
-                    break;
-                case R.id.chip_other_tag:
-                default:
-                    viewModel.setAddressTag("OTHER");
-                    break;
-            }
-        });
+        viewModel.setChipGroup(chipGroup);
 
     }
 

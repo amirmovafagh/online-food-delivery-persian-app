@@ -4,17 +4,6 @@
 
     <data>
 
-        <!--<variable
-            name="state"
-            type="String" />
-
-        <variable
-            name="city"
-            type="String" />
-
-        <variable
-            name="region"
-            type="String" />-->
         <import type="android.view.View" />
 
         <variable

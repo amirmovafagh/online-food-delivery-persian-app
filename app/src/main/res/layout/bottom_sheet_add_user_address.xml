@@ -4,17 +4,6 @@
 
     <data>
 
-        <variable
-            name="state"
-            type="String" />
-
-        <variable
-            name="city"
-            type="String" />
-
-        <variable
-            name="region"
-            type="String" />
 
         <variable
             name="viewModel"
@@ -41,35 +30,12 @@
             android:textAlignment="center"
             android:textSize="@dimen/body1_paragraph_font_size" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_sset_default_address"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="16dp"
-            app:cardCornerRadius="@dimen/card_view_corner_radius">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.85"
-                    android:text="@string/chooseOnDefault" />
-
-                <com.bitvale.switcher.SwitcherX
-                    android:id="@+id/switcher_default_address"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.15"
-                    android:checked="false" />
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
+            android:layout_height="1dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:background="?android:attr/listDivider" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -99,7 +65,7 @@
                     android:inputType="none"
                     android:maxLines="1"
                     android:onClick="@{()-> viewModel.showStateCityDialog()}"
-                    android:text="@={state}"
+                    android:text="@={viewModel.state}"
                     android:textDirection="rtl"
                     android:textSize="@dimen/edit_text_font_size" />
 
@@ -125,7 +91,7 @@
                     android:inputType="none"
                     android:maxLines="1"
                     android:onClick="@{()-> viewModel.showStateCityDialog()}"
-                    android:text="@={city}"
+                    android:text="@={viewModel.city}"
                     android:textDirection="rtl"
                     android:textSize="@dimen/edit_text_font_size" />
 
@@ -152,7 +118,7 @@
                 android:inputType="none"
                 android:maxLines="1"
                 android:onClick="@{()-> viewModel.showMap()}"
-                android:text="@={region}"
+                android:text="@={viewModel.region}"
                 android:textDirection="rtl"
                 android:textSize="@dimen/edit_text_font_size" />
 
@@ -174,6 +140,7 @@
                 android:layout_gravity="center"
                 android:background="@color/transparent"
                 android:ellipsize="end"
+                android:imeOptions="actionDone"
                 android:inputType="text"
                 android:maxLines="1"
                 android:text="@={viewModel.exactAddress}"
@@ -182,36 +149,97 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/text_view_address_tag"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_sset_default_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:hint="@string/addressTag"
-            app:boxBackgroundColor="@color/transparent">
+            android:layout_gravity="center"
+            android:layout_margin="16dp"
+            app:cardCornerRadius="@dimen/card_view_corner_radius">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@color/transparent"
-                android:ellipsize="end"
-                android:inputType="text"
-                android:maxLines="1"
-                android:textDirection="rtl"
-                android:textSize="@dimen/edit_text_font_size" />
+                android:layout_margin="8dp"
+                android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btn_accept_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{()-> viewModel.addUserAddress()}"
-                android:text="ثبت"
-                app:cornerRadius="16dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:maxLines="1"
+                    android:text="@string/tagAddress" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chip_group_address_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    android:layout_marginTop="20dp"
+                    app:singleSelection="true">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_home_tag"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{(v)-> viewModel.setAddressTagOnClick(v)}"
+                        android:text="@string/home"
+                        android:textAppearance="@style/ChipTextAppearance" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_work_tag"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{(v)-> viewModel.setAddressTagOnClick(v)}"
+                        android:text="@string/workPlace"
+                        android:textAppearance="@style/ChipTextAppearance" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_university_tag"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{(v)-> viewModel.setAddressTagOnClick(v)}"
+                        android:text="@string/UNIVERSITY"
+                        android:textAppearance="@style/ChipTextAppearance" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_other_tag"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/other"
+                        android:textAppearance="@style/ChipTextAppearance" />
+                </com.google.android.material.chip.ChipGroup>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_btn_online"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    android:checked="@={viewModel.defaultAddress ,default=false}"
+                    android:text="@string/chooseOnDefault"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/ChipTextAppearance" />
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+        <Button
+            android:id="@+id/btn_accept_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
+            android:onClick="@{()-> viewModel.addUserAddress()}"
+            android:text="ثبت"
+            app:cornerRadius="16dp" />
 
     </LinearLayout>
 </layout>

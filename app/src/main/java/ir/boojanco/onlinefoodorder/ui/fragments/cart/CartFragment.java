@@ -130,6 +130,7 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
         binding.setLifecycleOwner(this);
         bottom_sheet = binding.bottomSheet;
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
+        sheetBehavior.setGestureInsetBottomIgnored(true);
         transition = new AutoTransition();
         materialDeliveryBtnGroup = binding.materialDeliveryBtnGroup;
         coordinatorLayoutMainContent = binding.mainContent;
@@ -160,11 +161,11 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
         });
 
 
-        binding.bottomSheetInclude.switcherDefaultAddress.setOnCheckedChangeListener(aBoolean -> {
+        /*binding.bottomSheetInclude.switcherDefaultAddress.setOnCheckedChangeListener(aBoolean -> {
 
             viewModel.defaultAddress = aBoolean;
             return null;
-        });
+        });*/
 
         Bundle extras = getArguments();
         assert extras != null;
@@ -333,6 +334,12 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
     public void onFailure(String Error) {
         Snackbar snackbar = Snackbar.make(binding.mainContent, "" + Error, Snackbar.LENGTH_SHORT);
         snackbar.show();
+    }
+
+    @Override
+    public void hideAddressBottomSheet(String msg) {
+        sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        onFailure(msg);
     }
 
     @Override

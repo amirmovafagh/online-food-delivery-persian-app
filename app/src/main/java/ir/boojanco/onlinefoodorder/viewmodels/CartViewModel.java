@@ -70,7 +70,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
     public long cityId, stateId;
     private double userLatitude;
     private double userLongitude;
-    public boolean defaultAddress = false;
+    public MutableLiveData<Boolean> defaultAddress;
     private RestaurantPackageItem packageItem;
     private long packageId = 0;
     private RestaurantInfoResponse restaurantInfo;
@@ -80,6 +80,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
     private ArrayList<FinalPaymentPrice> finalPaymentPrices;
     public String userAuthToken;
     private long shippingUserAddressId = 0;
+    private String addressTag = "OTHER";
 
 
     private OrderType orderType = OrderType.DONT_CHOOSE;
@@ -144,7 +145,8 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
         deliveryTypeViewLiveData = new MutableLiveData<>();
         restaurantAddressLiveData = new MutableLiveData<>();
         restaurantShippingCostLiveData = new MutableLiveData<>();
-
+        defaultAddress = new MutableLiveData<>();
+        defaultAddress.setValue(false);
         compositeDisposableGetAllItems = new CompositeDisposable();
     }
 
@@ -358,9 +360,28 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
         userAddressPagedListLiveData = (new LivePagedListBuilder(addressDataSourceFactory, config)).build();
     }
 
+    public void setAddressTagOnClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.chip_home_tag:
+                addressTag = "HOME";
+                break;
+            case R.id.chip_work_tag:
+                addressTag = "WORK";
+                break;
+            case R.id.chip_university_tag:
+                addressTag = "UNIVERSITY";
+                break;
+            case R.id.chip_other_tag:
+            default:
+                addressTag = "OTHER";
+                break;
+        }
+    }
+
     public void addUserAddress() {
 
-        AddUserAddressResponse address = new AddUserAddressResponse(cityId, defaultAddress, exactAddress.getValue(), userLatitude, userLongitude, region.getValue(), "WORK");
+        AddUserAddressResponse address = new AddUserAddressResponse(cityId, defaultAddress.getValue(), exactAddress.getValue(), userLatitude, userLongitude, region.getValue(), addressTag);
         rx.Observable<Response<Void>> observable = userRepository.addUserAddressResponseObservable(userAuthToken, address);
         if (observable != null) {
             observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<Response<Void>>() {
@@ -390,9 +411,8 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
 
                 @Override
                 public void onNext(Response<Void> voidResponse) {
-
-                    //cartInterface.onSuccessGetAddress(addUserAddressResponse);
-                    //initDeliveryType();
+                    if (voidResponse.isSuccessful())
+                    fragmentInterface.hideAddressBottomSheet("آدرس ثبت شد");
                 }
             });
         }

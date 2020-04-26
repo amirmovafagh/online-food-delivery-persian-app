@@ -195,7 +195,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
                     public void onNext(Response<Void> voidResponse) {
 
                         if (voidResponse.isSuccessful())
-                            userProfileInterface.onFailure("ذخیره شد");
+                            userProfileInterface.onFailure("آدرس ثبت شد");
                         getUserAddress(userAuthToken);
                         userProfileInterface.updateAddressRecyclerView();
 

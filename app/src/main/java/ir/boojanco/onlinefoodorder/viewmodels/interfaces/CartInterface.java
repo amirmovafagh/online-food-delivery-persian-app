@@ -37,4 +37,6 @@ public interface CartInterface {
     void onSuccessGetReverseAddress(ReverseFindAddressResponse reverseFindAddressResponses);
 
     void onFailure(String Error);
+
+    void hideAddressBottomSheet(String msg);
 }

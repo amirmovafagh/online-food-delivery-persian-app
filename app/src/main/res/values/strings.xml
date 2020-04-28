@@ -101,4 +101,5 @@
     <string name="start_time">زمان شروع به کار</string>
     <string name="end_time">زمان پایان کار</string>
     <string name="days_work">روز های کاری</string>
+    <string name="enterAsGuest">مشاهده منو</string>
 </resources>

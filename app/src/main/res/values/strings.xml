@@ -102,4 +102,5 @@
     <string name="end_time">زمان پایان کار</string>
     <string name="days_work">روز های کاری</string>
     <string name="enterAsGuest">مشاهده منو</string>
+    <string name="loginOrRegister">ورود/ثبتنام</string>
 </resources>

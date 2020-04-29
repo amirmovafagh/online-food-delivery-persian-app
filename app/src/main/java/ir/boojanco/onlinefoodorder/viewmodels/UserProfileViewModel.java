@@ -62,6 +62,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
     public MutableLiveData<String> addressBottomSheetTitle;
     public MutableLiveData<Boolean> defaultAddress;
     public MutableLiveData<Boolean> bottomSheetChangeVisibility; //true show addres //false show info
+    public MutableLiveData<Boolean> profileChangeVisibility; //true show profile //false show loginRegisterButton
     public MutableLiveData<String> phoneNumberLiveData;
     public MutableLiveData<String> emailLiveData;
     public MutableLiveData<String> emailErrorLiveData;
@@ -144,6 +145,8 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
 
         bottomSheetChangeVisibility = new MutableLiveData<>();
         bottomSheetChangeVisibility.setValue(true);//default onView Address
+        profileChangeVisibility = new MutableLiveData<>();
+        profileChangeVisibility.setValue(false);//default onView loginButton
 
     }
 

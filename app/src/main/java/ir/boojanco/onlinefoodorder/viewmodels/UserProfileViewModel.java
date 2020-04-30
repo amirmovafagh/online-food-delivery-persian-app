@@ -699,4 +699,8 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
                 return;
         }
     }
+
+    public void goToLoginRegisterActivity(){
+        userProfileInterface.goToLoginRegisterActivity();
+    }
 }

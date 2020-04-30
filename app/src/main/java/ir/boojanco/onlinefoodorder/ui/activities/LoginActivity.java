@@ -86,7 +86,13 @@ public class LoginActivity extends AppCompatActivity implements LoginAuth {
         });
 
         binding.buttonRegisterActivity.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, RegisterActivity.class)));
-        binding.buttonEnterAsGuest.setOnClickListener(v-> startActivity(new Intent(LoginActivity.this, MainActivity.class)));
+        binding.buttonEnterAsGuest.setOnClickListener(v -> {
+            Intent i = new Intent(this, MainActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            binding.cvWaitingResponse.setVisibility(View.GONE);
+            startActivity(i);
+        });
     }
 
 

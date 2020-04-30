@@ -35,4 +35,6 @@ public interface UserProfileInterface {
     void showMessage(String msg);
 
     void hideBottomSheet();
+
+    void goToLoginRegisterActivity();
 }

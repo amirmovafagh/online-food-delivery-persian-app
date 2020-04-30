@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Application;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -46,6 +47,7 @@ import ir.boojanco.onlinefoodorder.databinding.UserProfileFragmentBinding;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllCitiesList;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList;
 import ir.boojanco.onlinefoodorder.models.user.UserAddressList;
+import ir.boojanco.onlinefoodorder.ui.activities.LoginActivity;
 import ir.boojanco.onlinefoodorder.ui.fragments.cart.CityAdapter;
 import ir.boojanco.onlinefoodorder.ui.fragments.cart.CustomStateCityDialog;
 import ir.boojanco.onlinefoodorder.ui.fragments.cart.StateAdapter;
@@ -102,6 +104,12 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
 
+        if (sharedPreferences.getUserAuthTokenKey() == null || sharedPreferences.getUserAuthTokenKey().isEmpty()) {//when user is not login in the system
+            viewModel.profileChangeVisibility.postValue(false); // show login reg button
+            return binding.getRoot();
+        }
+        viewModel.profileChangeVisibility.postValue(true); // show profile
+
         viewModel.getUserAddress(sharedPreferences.getUserAuthTokenKey());
         recyclerViewUserAddress = binding.recyclerViewUserAddressHorizontalItems;
         recyclerViewUserAddress.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
@@ -122,8 +130,15 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
         binding.frameLayoutOrders.setOnClickListener(v -> navController.navigate(R.id.action_userProfileFragment_to_ordersFragment));
         binding.frameLayoutFaveRestaurants.setOnClickListener(v -> navController.navigate(R.id.action_userProfileFragment_to_faveRestaurantsFragment));
         binding.frameLayoutFaveFoods.setOnClickListener(v -> navController.navigate(R.id.action_userProfileFragment_to_faveFoodsFragment));
-
         viewModel.getUserProfileInfo(sharedPreferences.getUserAuthTokenKey());
+
+        viewModel.phoneNumberLiveData.postValue(sharedPreferences.getPhoneNumber());
+
+        userAddressPaged = viewModel.userAddressPagedListLiveData;
+        userAddressPaged.observe(getActivity(), userAddressLists -> addressAdapter.submitList(userAddressLists)); //set PagedList user address
+
+        viewModel.setChipGroup(chipGroup);
+
         return binding.getRoot();
     }
 
@@ -131,12 +146,7 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        viewModel.phoneNumberLiveData.postValue(sharedPreferences.getPhoneNumber());
 
-        userAddressPaged = viewModel.userAddressPagedListLiveData;
-        userAddressPaged.observe(getActivity(), userAddressLists -> addressAdapter.submitList(userAddressLists)); //set PagedList user address
-
-        viewModel.setChipGroup(chipGroup);
 
     }
 
@@ -282,6 +292,15 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
     public void hideBottomSheet() {
         sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         sheetBehaviorProfile.setState(BottomSheetBehavior.STATE_HIDDEN);
+    }
+
+    @Override
+    public void goToLoginRegisterActivity() {
+        Intent i = new Intent(getActivity(), LoginActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        binding.cvWaitingResponse.setVisibility(View.GONE);
+        startActivity(i);
     }
 
     @Override

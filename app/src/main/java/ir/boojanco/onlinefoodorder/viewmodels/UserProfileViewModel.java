@@ -473,9 +473,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         if (observable != null) {
             observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<UserProfileResponse>() {
                 @Override
-                public void onCompleted() {
-
-                }
+                public void onCompleted() {}
 
                 @Override
                 public void onError(Throwable e) {
@@ -486,9 +484,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
 
                         try {
                             JSONObject jsonObject = new JSONObject(response.errorBody().string());
-
                             userProfileInterface.onFailure(jsonObject.getString("message"));
-
 
                         } catch (Exception d) {
                             userProfileInterface.onFailure(d.getMessage());
@@ -569,9 +565,10 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
 
                     @Override
                     public void onNext(Response<Void> voidResponse) {
-                        Log.i(TAG, voidResponse.isSuccessful() + "");
-                        userProfileInterface.hideBottomSheet();
-                        userProfileInterface.onSuccessGetUserProfileInfo();
+                        if (voidResponse.isSuccessful()) {
+                            userProfileInterface.hideBottomSheet();
+                            userProfileInterface.onSuccessGetUserProfileInfo();
+                        }
                     }
                 });
             }
@@ -607,9 +604,10 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
 
                     @Override
                     public void onNext(Response<Void> voidResponse) {
-                        Log.i(TAG, voidResponse.isSuccessful() + "");
-                        userProfileInterface.hideBottomSheet();
-                        userProfileInterface.onSuccessGetUserProfileInfo();
+                        if (voidResponse.isSuccessful()) {
+                            userProfileInterface.hideBottomSheet();
+                            userProfileInterface.onSuccessGetUserProfileInfo();
+                        }
                     }
                 });
             }
@@ -655,7 +653,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
 
     @Override
     public void onStarted() {
-        userProfileInterface.onStarted();
+        //userProfileInterface.onStarted();
     }
 
     @Override
@@ -680,27 +678,30 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         userLatitude = userAddress.getLatitude();
         userLongitude = userAddress.getLongitude();
         exactAddress.setValue(userAddress.getExactAddress());
-        addressTag = userAddress.getTag();
         region.setValue(userAddress.getRegion());
         defaultAddress.setValue(userAddress.isDefaultAddress());
 
         switch (userAddress.getTag()) {
             case "خانه":
                 chipGroup.check(R.id.chip_home_tag);
+                addressTag = "HOME";
                 return;
             case "محل کار":
                 chipGroup.check(R.id.chip_work_tag);
+                addressTag = "WORK";
                 return;
             case "دانشگاه":
                 chipGroup.check(R.id.chip_university_tag);
+                addressTag = "UNIVERSITY";
                 return;
             case "سایر":
                 chipGroup.check(R.id.chip_other_tag);
+                addressTag = "OTHER";
                 return;
         }
     }
 
-    public void goToLoginRegisterActivity(){
+    public void goToLoginRegisterActivity() {
         userProfileInterface.goToLoginRegisterActivity();
     }
 }

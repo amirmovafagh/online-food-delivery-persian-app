@@ -168,12 +168,7 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
     @Override
     public void onStarted() {
 
-        new Runnable() {
-            @Override
-            public void run() {
-                binding.cvWaitingResponse.setVisibility(View.VISIBLE);
-            }
-        };
+        binding.cvWaitingResponse.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -277,13 +272,15 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
 
     @Override
     public void onFailure(String Error) {
+        binding.cvWaitingResponse.setVisibility(View.GONE);
         snackbar = Snackbar.make(binding.coordinateLayoutMain, "" + Error, Snackbar.LENGTH_SHORT);
         snackbar.show();
-        binding.cvWaitingResponse.setVisibility(View.GONE);
+
     }
 
     @Override
     public void showMessage(String msg) {
+        binding.cvWaitingResponse.setVisibility(View.GONE);
         snackbar = Snackbar.make(binding.coordinateLayoutMain, "" + msg, Snackbar.LENGTH_SHORT);
         snackbar.show();
     }
@@ -299,7 +296,6 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
         Intent i = new Intent(getActivity(), LoginActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        binding.cvWaitingResponse.setVisibility(View.GONE);
         startActivity(i);
     }
 

@@ -131,6 +131,7 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
     public void onFailure(String error) {
         Snackbar snackbar = Snackbar.make(binding.mainContent, "" + error, Snackbar.LENGTH_SHORT);
         snackbar.show();
+        binding.animationViewLoadRequest.setVisibility(View.GONE);
     }
 
     @Override

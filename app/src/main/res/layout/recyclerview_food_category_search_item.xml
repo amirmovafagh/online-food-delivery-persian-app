@@ -36,13 +36,13 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/category_food_cardview_gradient"/>
+                android:background="@color/backgroundGrayLight_lowAlpha_test"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:layout_gravity="center|bottom"
+                android:layout_gravity="center"
                 android:textSize="@dimen/h7_title_font_size"
                 android:text="@{item.name ,default=غذا}"/>
 

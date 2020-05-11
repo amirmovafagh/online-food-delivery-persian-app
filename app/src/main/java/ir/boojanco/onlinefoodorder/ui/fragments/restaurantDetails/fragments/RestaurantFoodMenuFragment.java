@@ -77,6 +77,7 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     private Bundle bundleCartFragment;
 
     private long extraRestauranId = 0;
+    private boolean isLogin = false;
 
     private ConstraintLayout expandableView;
     private CardView packageBtn;
@@ -107,6 +108,8 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
         mainLayout = binding.linearLayoutMainFoodMenu;
         Bundle extras = getArguments();
         if (extras != null) {
+            if (sharedPreferences.getUserAuthTokenKey() != null)
+                isLogin = true;
             extraRestauranId = extras.getLong("restaurantID", 0);
             viewModel.setExtraRestaurantId(extraRestauranId);
             RecyclerView recyclerViewFoodType = binding.recyclerViewFoodType;
@@ -167,6 +170,10 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
         super.onActivityCreated(savedInstanceState);
 
         packageBtn.setOnClickListener(v -> {
+            if (!isLogin) {
+                onFailure("لطفا وارد شوید");
+                return;
+            }
             if (expandableView.getVisibility() == View.GONE) {
                 TransitionManager.beginDelayedTransition(mainLayout, transition);
                 expandableView.setVisibility(View.VISIBLE);
@@ -236,6 +243,10 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
 
     @Override
     public void onRecyclerViewItemClick(View v, FoodItem items) {
+        if (!isLogin) {
+            onFailure("لطفا وارد شوید");
+            return;
+        }
         switch (v.getId()) {
             case R.id.img_btn_increase:
                 viewModel.addToCartItemDB(items, extraRestauranId);
@@ -247,6 +258,10 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
 
     @Override
     public void onRecyclerViewFaveToggleClick(FoodItem items, boolean isChecked) {
+        if (!isLogin) {
+            onFailure("لطفا وارد شوید");
+            return;
+        }
         viewModel.onFoodFavoriteCheckedChanged(items.getId(), isChecked);
     }
 
@@ -279,6 +294,10 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
 
     @Override
     public void onPackageItemClick(View v, RestaurantPackageItem packageItem) {
+        if (!isLogin) {
+            onFailure("لطفا وارد شوید");
+            return;
+        }
         switch (v.getId()) {
             case R.id.cv_main_package_layout:
                 bundleCartFragment.putSerializable(selectedPackageExtraName, packageItem);

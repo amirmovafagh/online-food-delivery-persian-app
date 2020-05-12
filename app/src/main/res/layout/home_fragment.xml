@@ -24,33 +24,43 @@
             android:layout_height="match_parent"
             android:background="@color/backgroundGrayLight_lowAlpha" />
 
+
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardViewImageSlider"
+            android:id="@+id/cv_mazze_logo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            bind:layout_constraintEnd_toEndOf="parent"
-            bind:layout_constraintStart_toStartOf="parent"
-            bind:layout_constraintTop_toTopOf="parent">
+            android:layout_margin="32dp"
+            app:cardCornerRadius="@dimen/card_view_corner_radius"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <com.smarteist.autoimageslider.SliderView
-                android:id="@+id/imageSlider"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="210dp"
-                bind:sliderAnimationDuration="600"
-                bind:sliderAutoCycleDirection="back_and_forth"
-                bind:sliderAutoCycleEnabled="true"
-                bind:sliderCircularHandlerEnabled="false"
-                bind:sliderIndicatorAnimationDuration="600"
-                bind:sliderIndicatorGravity="center_horizontal|bottom"
-                bind:sliderIndicatorMargin="35dp"
-                bind:sliderIndicatorOrientation="horizontal"
-                bind:sliderIndicatorPadding="3dp"
-                bind:sliderIndicatorRadius="0dp"
-                bind:sliderIndicatorRtlMode="on"
-                bind:sliderIndicatorSelectedColor="@color/colorAccent"
-                bind:sliderIndicatorUnselectedColor="#FFF"
-                bind:sliderScrollTimeInSec="5"
-                bind:sliderStartAutoCycle="true" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/home_logo_cardview_gradient"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.5"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/trash_hand"
+                    android:text="MAZeeH.ir"
+                    android:textSize="45sp" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.5"
+                    android:src="@drawable/mazze_home_logo" />
+
+
+            </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -58,12 +68,12 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
-            bind:cardCornerRadius="23dp"
-            bind:layout_constraintBottom_toBottomOf="@id/cardViewImageSlider"
-            bind:layout_constraintEnd_toEndOf="@id/cardViewImageSlider"
-            bind:layout_constraintStart_toStartOf="@id/cardViewImageSlider"
-            bind:layout_constraintTop_toBottomOf="@id/cardViewImageSlider">
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cv_mazze_logo"
+            bind:cardCornerRadius="23dp">
 
             <!--search and location layout-->
             <LinearLayout
@@ -74,13 +84,13 @@
 
                 <androidx.appcompat.widget.SearchView
                     android:id="@+id/search"
+                    style="@style/MySearchViewStyle"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.65"
                     android:ellipsize="end"
                     android:layoutDirection="rtl"
                     android:maxLines="1"
-                    style="@style/MySearchViewStyle"
                     android:nextFocusLeft="@id/search"
                     android:nextFocusUp="@id/search"
                     android:textDirection="rtl"
@@ -100,9 +110,9 @@
                         android:id="@+id/cons_layout_location"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:foreground="?android:attr/selectableItemBackground"
                         android:clickable="true"
                         android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
                         android:onClick="@{()-> homeViewModel.selectCityOnClick()}">
 
                         <com.airbnb.lottie.LottieAnimationView
@@ -150,16 +160,17 @@
                                 android:textColor="@android:color/white"
                                 android:textSize="@dimen/body3_paragraph_font_size" />
                         </LinearLayout>
+
                         <ImageView
                             android:id="@+id/img_down_arrow"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="4dp"
-                            app:srcCompat="@drawable/ic_keyboard_arrow_down_white_24dp"
-                            app:layout_constraintRight_toLeftOf="@id/lin_location"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toLeftOf="@id/lin_location"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"/>
+                            app:srcCompat="@drawable/ic_keyboard_arrow_down_white_24dp" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -169,23 +180,6 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!--<TextView
-            android:id="@+id/textViewCategoryTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:maxLines="1"
-            android:textColor="@android:color/black"
-            android:textAlignment="textStart"
-            android:textSize="@dimen/body1_paragraph_font_size"
-            android:text="@string/popular_categories"
-            app:layout_constraintVertical_bias="0"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cv_search_layout"/>-->
-
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_food_type_search_filter_home"
             android:layout_width="match_parent"
@@ -193,9 +187,7 @@
             android:layout_marginTop="25dp"
             android:orientation="horizontal"
             android:overScrollMode="never"
-            app:layout_constraintLeft_toLeftOf="@id/cardViewImageSlider"
-            app:layout_constraintRight_toRightOf="@id/cardViewImageSlider"
-            app:layout_constraintTop_toBottomOf="@id/cardViewImageSlider"
+            app:layout_constraintTop_toBottomOf="@id/cv_search_layout"
 
             />
 
@@ -225,17 +217,17 @@
             android:layout_height="0dp"
             android:scaleType="matrix"
             android:src="@drawable/table_half_left_pizza"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cv_sugest"
-            app:layout_constraintVertical_bias="0"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintVertical_bias="0" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cv_sugest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/recyclerview_food_type_search_filter_home">
 
             <androidx.cardview.widget.CardView
@@ -337,6 +329,7 @@
             </androidx.cardview.widget.CardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_waiting_response"
             android:layout_width="match_parent"

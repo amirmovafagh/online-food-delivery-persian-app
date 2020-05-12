@@ -55,7 +55,6 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
 
     private HomeViewModel viewModel;
     private HomeFragmentBinding binding;
-    private SliderView sliderView;
     private FoodCategorySearchAdapter adapter;
     private RecyclerView recyclerViewFoodTypeSearchFilter;
     private SearchView searchView;
@@ -79,7 +78,7 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
         viewModel = new ViewModelProvider(this, factory).get(HomeViewModel.class);
         binding.setHomeViewModel(viewModel);
         binding.setLifecycleOwner(this);
-        sliderView = binding.imageSlider;
+
         viewModel.setFragmentInterface(this);
         viewModel.setUserAuthToken(sharedPreferences.getUserAuthTokenKey());
         recyclerViewFoodTypeSearchFilter = binding.recyclerviewFoodTypeSearchFilterHome;
@@ -98,7 +97,6 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        sliderView.setSliderAdapter(new SliderAdapterHome(getContext()));
         viewModel.getCategories();
 
         if (sharedPreferences.getCity() != null && sharedPreferences.getState() != null) {

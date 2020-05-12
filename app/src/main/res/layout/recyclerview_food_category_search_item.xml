@@ -4,11 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="item"
             type="ir.boojanco.onlinefoodorder.models.food.FoodCategories" />
-
     </data>
 
     <FrameLayout

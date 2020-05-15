@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="item"
             type="ir.boojanco.onlinefoodorder.models.food.FoodCategories" />
@@ -12,39 +13,39 @@
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_margin="8dp"
-        android:layoutDirection="rtl"
-        >
+        android:gravity="center"
+        android:layoutDirection="rtl">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_view"
-            android:layout_width="95dp"
-            android:layout_height="95dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            app:cardCornerRadius="@dimen/card_view_corner_radius">
+            app:cardCornerRadius="40dp">
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
                 android:layout_gravity="center"
+                android:scaleType="centerCrop"
                 android:src="@drawable/wallpaper_dark_dish" />
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/backgroundGrayLight_lowAlpha_test"/>
+                android:background="@color/backgroundGrayLight_lowAlpha_test" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
                 android:layout_gravity="center"
-                android:textSize="@dimen/h7_title_font_size"
-                android:text="@{item.name ,default=غذا}"/>
-
-
+                android:text="@{item.name ,default=غذا}"
+                android:textColor="@color/white"
+                android:textSize="@dimen/h7_title_font_size" />
 
 
         </androidx.cardview.widget.CardView>

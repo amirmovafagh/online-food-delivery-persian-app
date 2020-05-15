@@ -33,12 +33,16 @@ public class RestaurantRepository {
         return apiInterface.getRestaurantAssessment(restaurantId);
     }
 
-    public Observable<RestaurantResponse> searchRestaurantObservable(String query, String city, String region, int page, int size) {
-        return apiInterface.searchRestaurant(query, city, region, page, size);
+    public Observable<RestaurantResponse> searchRestaurantObservable(String name, String city, String region, int page, int size) {
+        return apiInterface.searchRestaurant(name, city, region, page, size);
     }
 
     public Observable<RestaurantResponse> searchByCategoryObservable(String category, String city, int page, int size) {
         return apiInterface.searchByFoodCategory(category, city, page, size);
+    }
+
+    public Observable<RestaurantResponse> searchRestaurantBaseOnCoordinate(double latitude, double longitude, int page, int size) {
+        return apiInterface.searchRestaurantBaseOnCoordinate(latitude, longitude, page, size);
     }
 
     public Observable<RestaurantInfoResponse> getRestaurantInfo(String authToken, long restaurantId) {

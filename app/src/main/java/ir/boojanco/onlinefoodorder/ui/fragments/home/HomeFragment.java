@@ -1,9 +1,15 @@
 package ir.boojanco.onlinefoodorder.ui.fragments.home;
 
 import androidx.appcompat.widget.SearchView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
@@ -14,10 +20,15 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.AutoTransition;
+import androidx.transition.TransitionManager;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -25,6 +36,8 @@ import com.smarteist.autoimageslider.SliderView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.inject.Inject;
 
@@ -43,7 +56,7 @@ import ir.boojanco.onlinefoodorder.viewmodels.factories.HomeViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.HomeFragmentInterface;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.StateCityDialogInterface;
 
-public class HomeFragment extends Fragment implements HomeFragmentInterface, StateCityDialogInterface,FoodCategorySearchInterface {
+public class HomeFragment extends Fragment implements HomeFragmentInterface, StateCityDialogInterface, FoodCategorySearchInterface {
     private static final String TAG = HomeFragment.class.getSimpleName();
 
     @Inject
@@ -58,8 +71,11 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
     private FoodCategorySearchAdapter adapter;
     private RecyclerView recyclerViewFoodTypeSearchFilter;
     private SearchView searchView;
+    private Button searchButton;
+    private boolean btnSearchColor = false;
     private CityAdapter cityAdapter;
     private CustomStateCityDialog stateCityDialog;
+    private ValueAnimator colorAnimationButtonBackground, colorAnimationButtonText;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -82,6 +98,7 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
         viewModel.setFragmentInterface(this);
         viewModel.setUserAuthToken(sharedPreferences.getUserAuthTokenKey());
         recyclerViewFoodTypeSearchFilter = binding.recyclerviewFoodTypeSearchFilterHome;
+        searchButton = binding.buttonSearchRestaurant;
 
         recyclerViewFoodTypeSearchFilter.setLayoutManager(new LinearLayoutManager(getActivity().getApplication(), LinearLayoutManager.HORIZONTAL, false));
         recyclerViewFoodTypeSearchFilter.canScrollHorizontally(0);
@@ -90,6 +107,10 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
         recyclerViewFoodTypeSearchFilter.setAdapter(adapter);
         recyclerViewFoodTypeSearchFilter.setItemViewCacheSize(20);
         searchView = binding.search;
+        colorAnimationButtonText = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(R.color.colorPrimaryDark), getResources().getColor(R.color.white));
+        colorAnimationButtonBackground = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(R.color.colorGold), getResources().getColor(R.color.colorSecondPrimary));
+        colorAnimationButtonBackground.setDuration(1000);
+        colorAnimationButtonText.setDuration(1000);
 
         return binding.getRoot();
     }
@@ -99,10 +120,23 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
         super.onActivityCreated(savedInstanceState);
         viewModel.getCategories();
 
+        colorAnimationButtonBackground.addUpdateListener(animator -> searchButton.setBackgroundColor((int) animator.getAnimatedValue()));
+        colorAnimationButtonText.addUpdateListener(animator -> {
+            searchButton.setTextColor((int) animator.getAnimatedValue());
+
+        });
+
         if (sharedPreferences.getCity() != null && sharedPreferences.getState() != null) {
             viewModel.cityLiveData.setValue(sharedPreferences.getCity());
             viewModel.stateLiveData.setValue(sharedPreferences.getState());
         }
+
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            if (sharedPreferences.getCity() != null && sharedPreferences.getState() != null) {
+                viewModel.cityLiveData.setValue(sharedPreferences.getCity());
+                viewModel.stateLiveData.setValue(sharedPreferences.getState());
+            }
+        }, 5000);
 
         searchView.setOnClickListener(v -> {
             searchView.onActionViewExpanded();
@@ -128,6 +162,20 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                if (btnSearchColor)
+                    return false;
+                btnSearchColor = true;
+                colorAnimationButtonBackground.start();
+                colorAnimationButtonText.start();
+                searchButton.animate().setDuration(500).setListener(new AnimatorListenerAdapter() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        searchButton.setText("یافتن رستوران" + " های " + sharedPreferences.getCity());
+                        searchButton.animate().setListener(null).setDuration(500).alpha(1);
+                    }
+                }).alpha(1);
                 return false;
             }
         });

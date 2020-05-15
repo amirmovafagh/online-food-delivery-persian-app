@@ -48,7 +48,7 @@ public class HomeViewModel extends ViewModel {
     public void selectCityOnClick() {
         rx.Observable<GetAllStatesResponse> observable = restaurantRepository.getAllStatesResponseObservable(userAuthToken);
         if (observable != null) {
-            observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetAllStatesResponse>() {
+            observable.retry(3).subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetAllStatesResponse>() {
                 @Override
                 public void onCompleted(){
                 }
@@ -83,7 +83,7 @@ public class HomeViewModel extends ViewModel {
     public void getCities(String userAuthTokenKey, long stateId) {
         rx.Observable<GetAllCitiesResponse> observable = restaurantRepository.getAllCitiesResponseObservable(userAuthToken, stateId);
         if (observable != null) {
-            observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetAllCitiesResponse>() {
+            observable.retry(3).subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetAllCitiesResponse>() {
                 @Override
                 public void onCompleted() {
 
@@ -122,7 +122,7 @@ public class HomeViewModel extends ViewModel {
         rx.Observable<FoodCategoriesResponse> observable = restaurantRepository.getCategoriesResponseObservable();
         if (observable != null) {
             fragmentInterface.onStarted();
-            observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<FoodCategoriesResponse>() {
+            observable.retry(3).subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<FoodCategoriesResponse>() {
                 @Override
                 public void onCompleted() {
 

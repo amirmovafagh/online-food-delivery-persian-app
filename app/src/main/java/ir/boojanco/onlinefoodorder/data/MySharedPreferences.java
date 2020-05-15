@@ -71,7 +71,7 @@ public class MySharedPreferences {
     }
 
     public double getLatitude(){
-        return Double.longBitsToDouble(sharedPreferences.getLong(latitudeKey, Double.doubleToLongBits(35.686955)));
+        return Double.longBitsToDouble(sharedPreferences.getLong(latitudeKey, Double.doubleToLongBits(0)));
     }
 
     public void setLongitud(double longitude){
@@ -80,6 +80,6 @@ public class MySharedPreferences {
     }
 
     public double getLongitud(){
-        return Double.longBitsToDouble(sharedPreferences.getLong(longitudKey, Double.doubleToLongBits(51.387134)));
+        return Double.longBitsToDouble(sharedPreferences.getLong(longitudKey, Double.doubleToLongBits(0)));
     }
 }

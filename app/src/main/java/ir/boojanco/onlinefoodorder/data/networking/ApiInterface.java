@@ -64,14 +64,17 @@ public interface ApiInterface {
     @GET("/api/v1/restaurant/last")
     Observable<RestaurantResponse> getLastRestaurant(/*@Header("Authorization") String authToken,*/ @Query("page") int page, @Query("size") int size);
 
+    @GET("/api/v1/search/coords")
+    Observable<RestaurantResponse> searchRestaurantBaseOnCoordinate(@Query("lat") double latitude, @Query("lon") double longitude, @Query("page") int page, @Query("size") int size);
+
     @GET("/api/v1/restaurant/{restaurantId}/assessment")
     Observable<RestaurantAssessmentResponse> getRestaurantAssessment(@Path("restaurantId") long restaurantId);
 
-    @GET("/api/v1/restaurant/search")
-    Observable<RestaurantResponse> searchRestaurant(/*@Header("Authorization") String authToken,*/ @Query("query") String query, @Query("city") String city, @Query("region") String region, @Query("page") int page, @Query("size") int size);
+    @GET("/api/v1/search/base")
+    Observable<RestaurantResponse> searchRestaurant(@Query("name") String name, @Query("city") String city, @Query("region") String region, @Query("page") int page, @Query("size") int size);
 
-    @GET("/api/v1/restaurant/category/search")
-    Observable<RestaurantResponse> searchByFoodCategory( @Query("category") String category, @Query("city") String city, @Query("page") int page, @Query("size") int size);
+    @GET("/api/v1/search/category")
+    Observable<RestaurantResponse> searchByFoodCategory(@Query("category") String category, @Query("city") String city, @Query("page") int page, @Query("size") int size);
 
     @GET("/api/v1/food/restaurant/{restaurantId}")
     Observable<GetAllFoodResponse> getAllFood(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);

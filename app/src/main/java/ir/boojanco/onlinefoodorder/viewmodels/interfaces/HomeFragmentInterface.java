@@ -17,5 +17,5 @@ public interface HomeFragmentInterface {
 
     void onSuccessGetCities(List<AllCitiesList> allCitiesLists);
 
-
+    void searchRestaurantOnClick();
 }

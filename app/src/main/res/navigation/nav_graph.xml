@@ -80,6 +80,10 @@
         android:label="@null"
         tools:layout="@layout/restaurant_fragment">
         <argument
+            android:name="isSearchByLocation"
+            app:argType="boolean"
+            android:defaultValue="false"/>
+        <argument
             android:name="restaurantName"
             app:argType="string" />
         <argument

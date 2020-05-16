@@ -45,6 +45,10 @@ public class HomeViewModel extends ViewModel {
 
     }
 
+    public void searchRestaurantOnClick(){
+        fragmentInterface.searchRestaurantOnClick();
+    }
+
     public void selectCityOnClick() {
         rx.Observable<GetAllStatesResponse> observable = restaurantRepository.getAllStatesResponseObservable(userAuthToken);
         if (observable != null) {

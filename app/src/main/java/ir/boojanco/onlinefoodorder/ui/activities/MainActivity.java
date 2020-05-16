@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
                                 } else {
                                     sharedPreferences.setLatitude(location.getLatitude());
                                     sharedPreferences.setLongitud(location.getLongitude());
-                                    getCityName(location);
+                                    /*getCityName(location);*/
                                 }
                             } catch (Exception e) {
                                 Log.e(TAG, e.getMessage() + "");
@@ -272,7 +272,7 @@ public class MainActivity extends AppCompatActivity {
             if (mLastLocation != null) {
                 sharedPreferences.setLatitude(mLastLocation.getLatitude());
                 sharedPreferences.setLongitud(mLastLocation.getLongitude());
-                getCityName(mLastLocation);
+               /* getCityName(mLastLocation);*/
             }
 
         }

@@ -112,6 +112,7 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         ((App) getActivity().getApplication()).getComponent().inject(this);
+        locationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
         binding = DataBindingUtil.inflate(inflater, R.layout.home_fragment, container, false);
         viewModel = new ViewModelProvider(this, factory).get(HomeViewModel.class);
         binding.setHomeViewModel(viewModel);
@@ -153,12 +154,6 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
             viewModel.stateLiveData.setValue(sharedPreferences.getState());
         }
 
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            if (sharedPreferences.getCity() != null && sharedPreferences.getState() != null) {
-                viewModel.cityLiveData.setValue(sharedPreferences.getCity());
-                viewModel.stateLiveData.setValue(sharedPreferences.getState());
-            }
-        }, 5000);
 
         searchView.setOnClickListener(v -> {
             searchView.onActionViewExpanded();
@@ -185,6 +180,7 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                searchQuery = newText;
                 //dont search restaurant name and set button on location mode
                 if (btnSearchColor && newText.length() == 0) {
                     colorAnimationButtonText.reverse();
@@ -219,7 +215,6 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
                 return false;
             }
         });
-
 
 
     }
@@ -267,15 +262,28 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
 
     @Override
     public void searchRestaurantOnClick() {
-        if (btnSearchColor){
+        if (btnSearchColor) {
             Bundle bundle = new Bundle();
             bundle.putBoolean("isSearchByLocation", btnSearchColor);
             bundle.putString("restaurantName", searchQuery);
             bundle.putString("cityName", sharedPreferences.getCity());
             Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.action_homeFragment_to_restaurantFragment, bundle);
-        }else {
+        } else {
             getLastLocation();
         }
+
+    }
+
+    @Override
+    public void setCityAndState(String state, String city) {
+        if (city != null) {
+            sharedPreferences.setCity(city);
+            viewModel.cityLiveData.setValue(city);
+        }else onFailure("خطا در دریافت اطلاعت موقعیت شما");
+        if (state != null){
+            sharedPreferences.setState(state);
+            viewModel.stateLiveData.setValue(state);}
+        else onFailure("خطا در دریافت اطلاعت موقعیت شما");
 
     }
 
@@ -416,24 +424,6 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
     }
 
     private void getCityName(Location location) {
-        Geocoder geocoder;
-        List<Address> addresses = null;
-        geocoder = new Geocoder(getContext(), new Locale("fa"));
-        Log.i(TAG, "" + location.getLatitude() + "   " + location.getLongitude());
-        try {
-            addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-            String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-            String city = addresses.get(0).getLocality();
-            String state = addresses.get(0).getAdminArea();
-            Toast.makeText(getContext(), "" + address, Toast.LENGTH_SHORT).show();
-            if (city != null)
-                sharedPreferences.setCity(city);
-            if (state != null)
-                sharedPreferences.setState(state);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
+        viewModel.getReverseAddressParsimap(location.getLatitude(), location.getLongitude());
     }
 }

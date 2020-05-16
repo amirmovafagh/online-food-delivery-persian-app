@@ -18,4 +18,6 @@ public interface HomeFragmentInterface {
     void onSuccessGetCities(List<AllCitiesList> allCitiesLists);
 
     void searchRestaurantOnClick();
+
+    void setCityAndState(String state, String city);
 }

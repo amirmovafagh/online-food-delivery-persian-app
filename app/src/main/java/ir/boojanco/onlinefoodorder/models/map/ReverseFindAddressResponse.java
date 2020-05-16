@@ -26,6 +26,22 @@ public class ReverseFindAddressResponse {
         return result;
     }
 
+    public String getCity() {
+        for (Result item : result) {
+            if (item.getType() == 9004)
+                return item.getTitle();
+        }
+        return null;
+    }
+
+    public String getState() {
+        for (Result item : result) {
+            if (item.getType() == 9002)
+                return item.getTitle();
+        }
+        return null;
+    }
+
     public void setResult(List<Result> result) {
         this.result = result;
     }

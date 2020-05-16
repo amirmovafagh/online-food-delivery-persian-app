@@ -3,6 +3,7 @@ package ir.boojanco.onlinefoodorder.data.repositories;
 import ir.boojanco.onlinefoodorder.data.networking.ApiInterface;
 import ir.boojanco.onlinefoodorder.models.food.FoodCategoriesResponse;
 import ir.boojanco.onlinefoodorder.models.food.GetAllFoodResponse;
+import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.DiscountCodeResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.GetRestaurantCommentResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.MenuTypesInfoResponse;
@@ -43,6 +44,10 @@ public class RestaurantRepository {
 
     public Observable<RestaurantResponse> searchRestaurantBaseOnCoordinate(double latitude, double longitude, int page, int size) {
         return apiInterface.searchRestaurantBaseOnCoordinate(latitude, longitude, page, size);
+    }
+
+    public Observable<ReverseFindAddressResponse> getReverseFindAddressResponse(Double latitude, Double longitude) {
+        return apiInterface.getReverseAddresse(latitude, longitude);
     }
 
     public Observable<RestaurantInfoResponse> getRestaurantInfo(String authToken, long restaurantId) {

@@ -189,7 +189,7 @@
             android:layout_margin="24dp"
             android:backgroundTint="@color/colorGold"
             android:text="رستوران های نزدیک من"
-            android:onClick="@{homeViewModel.searchRestaurantOnClick}"
+            android:onClick="@{()->homeViewModel.searchRestaurantOnClick()}"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/body1_paragraph_font_size"
             app:cornerRadius="@dimen/card_view_corner_radius"

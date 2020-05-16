@@ -131,8 +131,8 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
         searchView = binding.search;
         colorAnimationButtonText = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(R.color.colorPrimaryDark), getResources().getColor(R.color.white));
         colorAnimationButtonBackground = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(R.color.colorGold), getResources().getColor(R.color.colorSecondPrimary));
-        colorAnimationButtonBackground.setDuration(1000);
-        colorAnimationButtonText.setDuration(1000);
+        colorAnimationButtonBackground.setDuration(600);
+        colorAnimationButtonText.setDuration(600);
 
         return binding.getRoot();
     }
@@ -190,13 +190,13 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
                     colorAnimationButtonText.reverse();
                     colorAnimationButtonBackground.reverse();
                     btnSearchColor = false;
-                    searchButton.animate().setDuration(500).setListener(new AnimatorListenerAdapter() {
+                    searchButton.animate().setDuration(300).setListener(new AnimatorListenerAdapter() {
                         @SuppressLint("SetTextI18n")
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             super.onAnimationEnd(animation);
                             searchButton.setText("رستوران های نزدیک من");
-                            searchButton.animate().setListener(null).setDuration(500).alpha(1);
+                            searchButton.animate().setListener(null).setDuration(300).alpha(1);
                         }
                     }).alpha(1);
                     return false;
@@ -206,13 +206,13 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
                     btnSearchColor = true;
                     colorAnimationButtonBackground.start();
                     colorAnimationButtonText.start();
-                    searchButton.animate().setDuration(500).setListener(new AnimatorListenerAdapter() {
+                    searchButton.animate().setDuration(300).setListener(new AnimatorListenerAdapter() {
                         @SuppressLint("SetTextI18n")
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             super.onAnimationEnd(animation);
-                            searchButton.setText("یافتن رستوران" + " های " + sharedPreferences.getCity());
-                            searchButton.animate().setListener(null).setDuration(500).alpha(1);
+                            searchButton.setText("جستجو در رستوران" + " های " + sharedPreferences.getCity());
+                            searchButton.animate().setListener(null).setDuration(300).alpha(1);
                         }
                     }).alpha(1);
                 }

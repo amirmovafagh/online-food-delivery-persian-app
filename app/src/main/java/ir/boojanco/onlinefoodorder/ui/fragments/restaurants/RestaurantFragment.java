@@ -103,15 +103,23 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         assert getArguments() != null;
-        Log.i(TAG, getArguments() + "");
-        if (getArguments().getString("cityName") == null) {
-            restaurantViewModel.getAllRestaurant(sharedPreferences.getUserAuthTokenKey());
-        } else if (getArguments().getString("restaurantName") != null) {
+        boolean searchByLocation = getArguments().getBoolean("isSearchByLocation");
+        boolean searchByCategory = getArguments().getBoolean("isSearchByCategory");
+        boolean searchByRestaurantName = getArguments().getBoolean("isSearchByName");
+        String cityName = sharedPreferences.getCity();
+        if (!searchByCategory && !searchByLocation && !searchByRestaurantName) //show all restaurants in the city
+            restaurantViewModel.getAllSearchedRestaurant("", cityName, "");
+        else {
 
-            restaurantViewModel.getAllSearchedRestaurant(getArguments().getString("restaurantName"), getArguments().getString("cityName"), "");
-        } else {
-            restaurantViewModel.getAllSearchedByCategory(getArguments().getString("categoryName"), getArguments().getString("cityName"));
+            if (searchByLocation)//search restaurants by location
+                restaurantViewModel.getAllSearchedByLocation(sharedPreferences.getLatitude(), sharedPreferences.getLongitud());
+            else if (searchByCategory) //search restaurants by category
+                restaurantViewModel.getAllSearchedByCategory(getArguments().getString("categoryName"), cityName);
+            else //search restaurants by restaurant name
+                restaurantViewModel.getAllSearchedRestaurant(getArguments().getString("restaurantName"), cityName, "");
+
         }
+
         restaurantViewModel.restaurantPagedListLiveData.observe(getViewLifecycleOwner(), restaurantLists -> restaurantAdapter.submitList(restaurantLists));
     }
 

@@ -24,56 +24,29 @@
             android:layout_height="match_parent"
             android:background="@color/backgroundGrayLight_lowAlpha" />
 
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_mazze_logo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="32dp"
-            app:cardBackgroundColor="@color/transparent"
-            app:cardCornerRadius="@dimen/card_view_corner_radius"
-            app:cardElevation="0dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="0.5"
-                    android:fontFamily="@font/trash_hand"
-                    android:text="MAZeeH.ir"
-                    android:textColor="@color/black"
-                    android:textSize="45sp" />
-
                 <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/img_mazeeh_logo"
+                    android:layout_marginTop="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="190dp"
+                    android:elevation="3dp"
                     android:layout_gravity="center"
-                    android:layout_weight="0.5"
-                    android:src="@drawable/mazze_home_logo" />
+                    android:src="@drawable/mazze_home_logo"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_search_layout"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="50dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cv_mazze_logo"
+            app:layout_constraintTop_toBottomOf="@id/img_mazeeh_logo"
             bind:cardCornerRadius="@dimen/card_view_corner_radius">
 
             <!--search and location layout-->
@@ -136,6 +109,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
+                            android:layout_margin="2dp"
                             app:layout_constraintBottom_toBottomOf="@id/cons_layout_location"
                             app:layout_constraintHorizontal_weight="7.5"
                             app:layout_constraintLeft_toRightOf="@id/img_down_arrow"
@@ -149,7 +123,7 @@
                                 android:ellipsize="end"
                                 android:text="@{homeViewModel.stateLiveData}"
                                 android:textColor="@android:color/white"
-                                android:textSize="@dimen/body4_paragraph_font_size" />
+                                android:textSize="@dimen/body3_paragraph_font_size" />
 
                             <TextView
                                 android:id="@+id/city"
@@ -159,7 +133,7 @@
                                 android:maxLines="1"
                                 android:text="@{homeViewModel.cityLiveData}"
                                 android:textColor="@android:color/white"
-                                android:textSize="@dimen/body3_paragraph_font_size" />
+                                android:textSize="@dimen/body2_paragraph_font_size" />
                         </LinearLayout>
 
                         <ImageView
@@ -186,12 +160,12 @@
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="24dp"
+            android:layout_margin="16dp"
             android:backgroundTint="@color/colorGold"
             android:text="رستوران های نزدیک من"
             android:onClick="@{()->homeViewModel.searchRestaurantOnClick()}"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/body1_paragraph_font_size"
+            android:textSize="@dimen/h7_title_font_size"
             app:cornerRadius="@dimen/card_view_corner_radius"
             app:layout_constraintLeft_toLeftOf="@id/cv_search_layout"
             app:layout_constraintRight_toRightOf="@id/cv_search_layout"
@@ -259,121 +233,13 @@
             android:orientation="horizontal"
             android:overScrollMode="never"
             app:layout_constraintBottom_toBottomOf="parent" />
-        <!--
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cv_sugest"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/recyclerview_food_type_search_filter_home">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cv_new_restaurants"
-                        android:layout_width="0dp"
-                        android:layout_height="85dp"
-                        android:layout_margin="16dp"
-                        app:cardCornerRadius="@dimen/card_view_corner_radius"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintHorizontal_weight="5"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toLeftOf="@id/cv_popular_foods"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/new_restaurants_image" />
-
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/new_rstaurant_cardview_gradient" />
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="?attr/selectableItemBackground"
-                            android:clickable="true"
-                            android:focusable="true">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/textview_shape_white_rounded"
-                                android:elevation="1dp"
-                                android:padding="5dp"
-                                android:text="@string/new_restaurants"
-                                android:textAlignment="center"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/body4_paragraph_font_size"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.2" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cv_popular_foods"
-                        android:layout_width="0dp"
-                        android:layout_height="85dp"
-                        android:layout_margin="16dp"
-                        app:cardCornerRadius="@dimen/card_view_corner_radius"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintHorizontal_weight="5"
-                        app:layout_constraintLeft_toRightOf="@+id/cv_new_restaurants"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/delicious_image" />
-
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/popuular_food_cardview_gradient" />
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="?attr/selectableItemBackground"
-                            android:clickable="true"
-                            android:focusable="true">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/textview_shape_white_rounded"
-                                android:elevation="1dp"
-                                android:padding="5dp"
-                                android:text="@string/delicious"
-                                android:textAlignment="center"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/body4_paragraph_font_size"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.2" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </androidx.cardview.widget.CardView>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-        -->
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_waiting_response"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone"
+            app:cardElevation="4dp"
             app:cardBackgroundColor="@color/materialGray100"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

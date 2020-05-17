@@ -131,7 +131,7 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
         recyclerViewFoodTypeSearchFilter.setItemViewCacheSize(20);
         searchView = binding.search;
         colorAnimationButtonText = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(R.color.colorPrimaryDark), getResources().getColor(R.color.white));
-        colorAnimationButtonBackground = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(R.color.colorGold), getResources().getColor(R.color.colorSecondPrimary));
+        colorAnimationButtonBackground = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(R.color.colorGold), getResources().getColor(R.color.colorPrimary));
         colorAnimationButtonBackground.setDuration(600);
         colorAnimationButtonText.setDuration(600);
 
@@ -169,7 +169,7 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
                     searchQuery = query;
                     Bundle bundle = new Bundle();
                     bundle.putString("restaurantName", query);
-                    bundle.putString("cityName", sharedPreferences.getCity());
+                    bundle.putBoolean("isSearchByName", true);
                     Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.action_homeFragment_to_restaurantFragment, bundle);
                     /*  NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
                 navController.navigate(action);*/
@@ -262,13 +262,13 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
 
     @Override
     public void searchRestaurantOnClick() {
-        if (btnSearchColor) {
+        if (btnSearchColor) {//search restaurant name
             Bundle bundle = new Bundle();
-            bundle.putBoolean("isSearchByLocation", btnSearchColor);
+            bundle.putBoolean("isSearchByName", true);
             bundle.putString("restaurantName", searchQuery);
-            bundle.putString("cityName", sharedPreferences.getCity());
             Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.action_homeFragment_to_restaurantFragment, bundle);
-        } else {
+        } else {//searchBy location
+            binding.cvWaitingResponse.setVisibility(View.VISIBLE);
             getLastLocation();
         }
 
@@ -276,14 +276,16 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
 
     @Override
     public void setCityAndState(String state, String city) {
-        if (city != null) {
+        if (city != null && state != null) {
             sharedPreferences.setCity(city);
             viewModel.cityLiveData.setValue(city);
-        }else onFailure("خطا در دریافت اطلاعت موقعیت شما");
-        if (state != null){
             sharedPreferences.setState(state);
-            viewModel.stateLiveData.setValue(state);}
-        else onFailure("خطا در دریافت اطلاعت موقعیت شما");
+            viewModel.stateLiveData.setValue(state);
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("isSearchByLocation", true);
+            Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.action_homeFragment_to_restaurantFragment, bundle);
+        } else onFailure("خطا در دریافت اطلاعت موقعیت شما");
+        binding.cvWaitingResponse.setVisibility(View.GONE);
 
     }
 
@@ -307,11 +309,10 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
     public void onCategoryClick(String name) {
         if (sharedPreferences.getCity() != null) {
             Bundle bundle = new Bundle();
+            bundle.putBoolean("isSearchByCategory", true);
             bundle.putString("categoryName", name);
             bundle.putString("cityName", sharedPreferences.getCity());
             Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.action_homeFragment_to_restaurantFragment, bundle);
-                    /*  NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
-                navController.navigate(action);*/
         } else
             onFailure("لطفا شهر را انتخاب کنید");
     }

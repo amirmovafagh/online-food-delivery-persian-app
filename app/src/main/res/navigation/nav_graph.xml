@@ -81,16 +81,21 @@
         tools:layout="@layout/restaurant_fragment">
         <argument
             android:name="isSearchByLocation"
-            app:argType="boolean"
-            android:defaultValue="false"/>
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <argument
+            android:name="isSearchByName"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <argument
+            android:name="isSearchByCategory"
+            android:defaultValue="false"
+            app:argType="boolean" />
         <argument
             android:name="restaurantName"
             app:argType="string" />
         <argument
             android:name="categoryName"
-            app:argType="string" />
-        <argument
-            android:name="cityName"
             app:argType="string" />
         <action
             android:id="@+id/action_restaurantFragment_to_restaurantDetailsFragment"

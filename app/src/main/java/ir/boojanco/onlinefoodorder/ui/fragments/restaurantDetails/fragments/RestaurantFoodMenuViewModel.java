@@ -50,7 +50,7 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
     private ArrayList<ListItemType> items;
     private ArrayList<String> foodTypeIndex;
     private Long extraRestaurantId;
-    private int userRestaurantClubPoint = 0 ;
+    private int userRestaurantClubPoint = 0;
     private RestaurantInfoResponse restaurantInfoResponse;
     public MutableLiveData<GetAllFoodResponse> allFoodMutableLiveData;
     public MutableLiveData<AllPackagesResponse> allPackagesMutableLiveData;
@@ -106,7 +106,7 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
                     getCartCountItem(extraRestaurantId);
 
                 }, throwable -> {
-                    Log.e(TAG,"{add Cart throwable}->" + throwable.getMessage());
+                    Log.e(TAG, "{add Cart throwable}->" + throwable.getMessage());
                 })
         );
     }
@@ -127,7 +127,7 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
 
             @Override
             public void onError(Throwable e) {
-                Log.e(TAG,"{count cart}" + e.getMessage());
+                Log.e(TAG, "{count cart}" + e.getMessage());
             }
         });
     }
@@ -144,8 +144,8 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
             @Override
             public void onSuccess(Long aLong) {
                 totalPriceLiveData.setValue(moneyFormat(aLong));
-                if (restaurantInfoResponse != null){
-                    RestaurantItem restaurantItem =new RestaurantItem();
+                if (restaurantInfoResponse != null) {
+                    RestaurantItem restaurantItem = new RestaurantItem();
                     restaurantItem.setRestaurantName(restaurantInfoResponse.getName());
                     restaurantItem.setRestaurantId(extraRestaurantId);
                     restaurantItem.setRestaurantCover(restaurantInfoResponse.getCover());
@@ -157,7 +157,7 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
                             .subscribe(() -> {
 
                             }, throwable -> {
-                                Log.e(TAG,"{add Restaurant item table throwable}->" + throwable.getMessage());
+                                Log.e(TAG, "{add Restaurant item table throwable}->" + throwable.getMessage());
                             })
                     );
                 }
@@ -172,7 +172,7 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
         });
     }
 
-    private void clearCart(long restaurantId){
+    private void clearCart(long restaurantId) {
         cartDataSource.cleanCart(restaurantId)
                 .subscribeOn(io.reactivex.schedulers.Schedulers.io())
                 .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
@@ -194,13 +194,13 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
                 });
     }
 
-    private String moneyFormat(Long cost){
+    private String moneyFormat(Long cost) {
         NumberFormat formatter = new DecimalFormat("#,###");
         String formattedNumber = formatter.format(cost);
-        return formattedNumber+" تومان";
+        return formattedNumber + " تومان";
     }
 
-    public void cleanRestaurantCart(long restaurantId){
+    public void cleanRestaurantCart(long restaurantId) {
         cartDataSource.cleanRestaurantCart(extraRestaurantId)
                 .subscribeOn(io.reactivex.schedulers.Schedulers.io())
                 .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
@@ -378,7 +378,12 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
             });
         }
     }
-    public void goToCartOnClick(){
+
+    public void goToCartOnClick() {
+        if (!restaurantInfoResponse.isWorking()) {
+            foodInterface.onFailure("عدم سرویس دهی");
+            return;
+        }
         foodInterface.goToCartFragment();
     }
 

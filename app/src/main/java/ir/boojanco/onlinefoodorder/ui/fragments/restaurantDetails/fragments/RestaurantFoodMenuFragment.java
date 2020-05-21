@@ -219,6 +219,10 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
 
     @Override
     public void goToCartFragment() {
+        if (!isLogin) {
+            onFailure("لطفا وارد شوید");
+            return;
+        }
         bundleCartFragment.putLong("restaurantID", extraRestauranId);
 
         Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.action_restaurantFoodMenuFragment_to_cartFragment, bundleCartFragment);
@@ -243,10 +247,7 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
 
     @Override
     public void onRecyclerViewItemClick(View v, FoodItem items) {
-        if (!isLogin) {
-            onFailure("لطفا وارد شوید");
-            return;
-        }
+
         switch (v.getId()) {
             case R.id.img_btn_increase:
                 viewModel.addToCartItemDB(items, extraRestauranId);

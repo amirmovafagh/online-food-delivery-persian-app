@@ -289,6 +289,11 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
 
     }
 
+    @Override
+    public void tryAgain() {
+
+    }
+
 
     @Override
     public void onStateItemClick(AllStatesList state) {

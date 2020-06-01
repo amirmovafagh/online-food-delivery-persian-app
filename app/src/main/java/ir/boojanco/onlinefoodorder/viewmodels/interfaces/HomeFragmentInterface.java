@@ -20,4 +20,6 @@ public interface HomeFragmentInterface {
     void searchRestaurantOnClick();
 
     void setCityAndState(String state, String city);
+
+    void tryAgain();
 }

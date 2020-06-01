@@ -138,6 +138,7 @@ public class HomeViewModel extends ViewModel {
 
                 @Override
                 public void onError(Throwable e) {
+                    fragmentInterface.tryAgain();
                     if (e instanceof NoNetworkConnectionException)
                         fragmentInterface.onFailure(e.getMessage());
                     if (e instanceof HttpException) {

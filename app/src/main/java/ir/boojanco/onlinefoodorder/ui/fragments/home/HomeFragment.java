@@ -13,6 +13,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -42,6 +43,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -90,6 +92,7 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
     private RecyclerView recyclerViewFoodTypeSearchFilter;
     private SearchView searchView;
     private Button searchButton;
+    private LottieAnimationView lottie;
     private boolean btnSearchColor = false;
     private String searchQuery = "";
     private CityAdapter cityAdapter;
@@ -117,6 +120,7 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
         viewModel = new ViewModelProvider(this, factory).get(HomeViewModel.class);
         binding.setHomeViewModel(viewModel);
         binding.setLifecycleOwner(this);
+        lottie = binding.animationView;
 
         viewModel.setFragmentInterface(this);
         viewModel.setUserAuthToken(sharedPreferences.getUserAuthTokenKey());
@@ -252,7 +256,7 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
     public void onFailure(String error) {
         Snackbar snackbar = Snackbar.make(binding.mainContent, "" + error, Snackbar.LENGTH_SHORT);
         snackbar.show();
-        binding.cvWaitingResponse.setVisibility(View.GONE);
+        //binding.cvWaitingResponse.setVisibility(View.GONE);
     }
 
     @Override
@@ -291,7 +295,9 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
 
     @Override
     public void tryAgain() {
+        lottie.setAnimation(R.raw.no_internet_connection_animate);
 
+        lottie.playAnimation();
     }
 
 

@@ -31,6 +31,7 @@ public class HomeViewModel extends ViewModel {
     private String userAuthToken;
     public MutableLiveData<String> cityLiveData;
     public MutableLiveData<String> stateLiveData;
+    public MutableLiveData<Boolean> stateWatingOrNoConnection;
 
     public void setUserAuthToken(String userAuthToken) {
         this.userAuthToken = userAuthToken;
@@ -46,6 +47,8 @@ public class HomeViewModel extends ViewModel {
         stateLiveData = new MutableLiveData<>();
         cityLiveData = new MutableLiveData<>();
         stateLiveData.setValue("انتخاب شهر");
+        stateWatingOrNoConnection = new MutableLiveData<>();
+        stateWatingOrNoConnection.setValue(false);
 
     }
 
@@ -126,6 +129,10 @@ public class HomeViewModel extends ViewModel {
         }
     }
 
+    public void tryAgainOnClick(){
+        getCategories();
+    }
+
     public void getCategories() {
         rx.Observable<FoodCategoriesResponse> observable = restaurantRepository.getCategoriesResponseObservable();
         if (observable != null) {
@@ -133,12 +140,13 @@ public class HomeViewModel extends ViewModel {
             observable.retry(3).subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<FoodCategoriesResponse>() {
                 @Override
                 public void onCompleted() {
-
+                    stateWatingOrNoConnection.setValue(false); //show tryAgain view
                 }
 
                 @Override
                 public void onError(Throwable e) {
                     fragmentInterface.tryAgain();
+                    stateWatingOrNoConnection.setValue(true); //show tryAgain view
                     if (e instanceof NoNetworkConnectionException)
                         fragmentInterface.onFailure(e.getMessage());
                     if (e instanceof HttpException) {

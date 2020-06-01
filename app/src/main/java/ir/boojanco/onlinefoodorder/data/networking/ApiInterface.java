@@ -41,7 +41,7 @@ import rx.Observable;
 
 public interface ApiInterface {
 
-    @POST("api/v1/auth/register")
+    @POST("api/auth/register")
     //@Headers("Content-Type: application/x-www-form-urlencoded")
     @FormUrlEncoded
     Observable<Long> registerUser(@Field("mobile") String phoneNumber/*@Body RegisterUserResponse registerResponse*/);
@@ -50,113 +50,113 @@ public interface ApiInterface {
      * Update the APIService registerUser(...) method from Call to become an Observable for using Rx java.
      */
 
-    @POST("/api/v1/auth/login")
+    @POST("/api/auth/login")
     @FormUrlEncoded
     Observable<LoginUserResponse> loginUser(@Field("mobile") String phoneNumber, @Field("password") String password);
 
-    @POST("/api/v1/auth/verify")
+    @POST("/api/auth/verify")
     Observable<VerificationNewUserResponse> verificationNewUser(@Query("code") String verificationCode, @Query("mobile") String phoneNumber);
 
-    @PUT("/api/v1/auth/activate")
+    @PUT("/api/auth/activate")
     Observable<Response<Void>> activateNewUser(@Body ActivateUserBody activateUserBody);
 
     /*@Headers("Authorization: 9900a9720d31dfd5fdb4352700c...")*/
-    @GET("/api/v1/restaurant/last")
+    @GET("/api/restaurant/last")
     Observable<RestaurantResponse> getLastRestaurant(/*@Header("Authorization") String authToken,*/ @Query("page") int page, @Query("size") int size);
 
-    @GET("/api/v1/search/coords")
+    @GET("/api/search/coords")
     Observable<RestaurantResponse> searchRestaurantBaseOnCoordinate(@Query("lat") double latitude, @Query("lon") double longitude, @Query("page") int page, @Query("size") int size);
 
-    @GET("/api/v1/restaurant/{restaurantId}/assessment")
+    @GET("/api/restaurant/{restaurantId}/assessment")
     Observable<RestaurantAssessmentResponse> getRestaurantAssessment(@Path("restaurantId") long restaurantId);
 
-    @GET("/api/v1/search/base")
+    @GET("/api/search/base")
     Observable<RestaurantResponse> searchRestaurant(@Query("name") String name, @Query("city") String city, @Query("region") String region, @Query("page") int page, @Query("size") int size);
 
-    @GET("/api/v1/search/category")
+    @GET("/api/search/category")
     Observable<RestaurantResponse> searchByFoodCategory(@Query("category") String category, @Query("city") String city, @Query("page") int page, @Query("size") int size);
 
-    @GET("/api/v1/food/restaurant/{restaurantId}")
+    @GET("/api/food/restaurant/{restaurantId}")
     Observable<GetAllFoodResponse> getAllFood(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
 
-    @GET("/api/v1/restaurant/{restaurantId}/info")
+    @GET("/api/restaurant/{restaurantId}/info")
     Observable<RestaurantInfoResponse> getRestaurantInfo(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
 
-    @GET("/api/v1/menu/{restaurantId}/menuType/info")
+    @GET("/api/menu/{restaurantId}/menuType/info")
     Observable<MenuTypesInfoResponse> getMenuTypesInfo(@Path("restaurantId") long restaurantId);
 
-    @GET("/api/v1/restaurant/{restaurantId}/addToFavoriteList")
+    @GET("/api/restaurant/{restaurantId}/addToFavoriteList")
     Observable<Response<Void>> addRestaurantToFavoriteList(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
 
-    @GET("/api/v1/food/{foodId}/addToFavoriteList")
+    @GET("/api/food/{foodId}/addToFavoriteList")
     Observable<Response<Void>> addFoodToFavoriteList(@Header("Authorization") String authToken, @Path("foodId") long foodId);
 
-    @GET("/api/v1/restaurant/{restaurantId}/removeFromFavoriteList")
+    @GET("/api/restaurant/{restaurantId}/removeFromFavoriteList")
     Observable<Response<Void>> removeRestaurantFromFavoriteList(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
 
-    @GET("/api/v1/food/{foodId}/removeFromFavoriteList")
+    @GET("/api/food/{foodId}/removeFromFavoriteList")
     Observable<Response<Void>> removeFoodFromFavoriteList(@Header("Authorization") String authToken, @Path("foodId") long foodId);
 
-    @GET("/api/v1/package/{restaurantId}/valid")
+    @GET("/api/package/{restaurantId}/valid")
     Observable<AllPackagesResponse> getAllPackagesResponseObservable(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
 
-    @GET("/api/v1/club/restaurant/{restaurantId}/user/points")
+    @GET("/api/club/restaurant/{restaurantId}/user/points")
     Observable<UserPointRestaurantClubResponse> getUserPointInRestaurantClub(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
 
-    @GET("/api/v1/discountCode/validate/{code}")
+    @GET("/api/discountCode/validate/{code}")
     Observable<DiscountCodeResponse> getDiscountCodeResponseObservable(@Header("Authorization") String authToken, @Path("code") String code, @Query("restaurantId") Long restaurantId, @Query("totalCost") int totalCost);
 
-    @GET("/api/v1/address/user/all")
+    @GET("/api/address/user/all")
     Observable<GetUserAddressResponse> getUserAddressResponseObservable(@Header("Authorization") String authToken, @Query("page") int page, @Query("size") int size);
 
-    @POST("/api/v1/address/add")
+    @POST("/api/address/add")
     Observable<Response<Void>> addUserAddress(@Header("Authorization") String authToken, @Body AddUserAddressResponse addressBody);
 
-    @POST("/api/v1/order/add")
+    @POST("/api/order/add")
     Observable<Response<Boolean>> addOrder(@Header("Authorization") String authToken, @Body CartOrderResponse cartOrderBody);
 
-    @PUT("/api/v1/address/{addressId}/edit")
+    @PUT("/api/address/{addressId}/edit")
     Observable<Response<Void>> editUserAddress(@Header("Authorization") String authToken, @Path("addressId") long addressId, @Body EditUserAddressResponse editedAddressBody);
 
-    @DELETE("/api/v1/address/{addressId}/delete")
+    @DELETE("/api/address/{addressId}/delete")
     Observable<Response<Void>> deleteUserAddress(@Header("Authorization") String authToken, @Path("addressId") long addressId);
 
-    @GET("/api/v1/state/state/all")
+    @GET("/api/state/state/all")
     Observable<GetAllStatesResponse> getAllStatesResponseObservable(@Header("Authorization") String authToken);
 
-    @GET("/api/v1/city/all/state/{stateId}")
+    @GET("/api/city/all/state/{stateId}")
     Observable<GetAllCitiesResponse> getAllCitiesResponseObservable(@Header("Authorization") String authToken, @Path("stateId") long stateId);
 
     @GET("https://pm1.parsimap.com/comapi.svc/areaInfo/{latitude}/{longitude}/18/1/ccc1a4bc-ade4-460d-b799-82885ab21d6d/1") /*get Reverse Address from LatLng with parsiMap API*/
     Observable<ReverseFindAddressResponse> getReverseAddresse(@Path("latitude") Double latitude, @Path("longitude") Double longitude);
 
-    @GET("/api/v1/comment/restaurant/{restaurantId}/all")
+    @GET("/api/comment/restaurant/{restaurantId}/all")
     Observable<GetRestaurantCommentResponse> getRestaurantCommentsResponseObservable(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId, @Query("page") int page, @Query("size") int size);
 
-    @GET("/api/v1/order/user/getAll/")
+    @GET("/api/order/user/getAll/")
     Observable<GetUserOrdersResponse> getUserOrdersResponseObservable(@Header("Authorization") String authToken, @Query("page") int page, @Query("size") int size);
 
-    @GET("/api/v1/comment/order/{orderId}")
+    @GET("/api/comment/order/{orderId}")
     Observable<GetUserOrderCommentResponse> getUserOrderCommentObservable(@Header("Authorization") String authToken, @Path("orderId") long orderId);
 
-    @GET("/api/v1/user/getProfile")
+    @GET("/api/user/getProfile")
     Observable<UserProfileResponse> getUserProfileResponseObservable(@Header("Authorization") String authToken);
 
-    @POST("/api/v1/user/completeProfile")
+    @POST("/api/user/completeProfile")
     Observable<Response<Void>> completeUserProfileObservable(@Header("Authorization") String authToken, @Body UserProfileResponse userProfileBody);
 
-    @PUT("/api/v1/user/editProfile")
+    @PUT("/api/user/editProfile")
     Observable<Response<Void>> editUserProfileObservable(@Header("Authorization") String authToken, @Body UserProfileResponse userProfileBody);
 
-    @POST("/api/v1/comment/add")
+    @POST("/api/comment/add")
     Observable<Response<Void>> addUserOrderCommentObservable(@Header("Authorization") String authToken, @Body GetUserOrderCommentResponse userOrderCommentBody);
 
-    @GET("/api/v1/user/getFaveRestaurants")
+    @GET("/api/user/getFaveRestaurants")
     Observable<FavoriteRestaurantsResponse> getFavoriteRestaurantsResponseObservable(@Header("Authorization") String authToken, @Query("page") int page, @Query("size") int size);
 
-    @GET("/api/v1/user/getFaveFoods")
+    @GET("/api/user/getFaveFoods")
     Observable<FavoriteFoodsResponse> getFavoriteFoodsResponseObservable(@Header("Authorization") String authToken, @Query("page") int page, @Query("size") int size);
 
-    @GET("/api/v1/restaurant/categories")
+    @GET("/api/restaurant/categories")
     Observable<FoodCategoriesResponse> getCategoriesResponse();
 }

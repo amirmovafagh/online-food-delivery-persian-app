@@ -14,6 +14,7 @@ import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -36,11 +37,16 @@ import androidx.transition.TransitionManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -90,7 +96,7 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
     private HomeFragmentBinding binding;
     private FoodCategorySearchAdapter adapter;
     private RecyclerView recyclerViewFoodTypeSearchFilter;
-    private SearchView searchView;
+    private EditText searchEditText;
     private Button searchButton;
     private LottieAnimationView lottie;
     private boolean btnSearchColor = false;
@@ -133,7 +139,7 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
         adapter = new FoodCategorySearchAdapter(this);
         recyclerViewFoodTypeSearchFilter.setAdapter(adapter);
         recyclerViewFoodTypeSearchFilter.setItemViewCacheSize(20);
-        searchView = binding.search;
+        searchEditText = binding.search;
         colorAnimationButtonText = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(R.color.colorPrimaryDark), getResources().getColor(R.color.white));
         colorAnimationButtonBackground = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(R.color.colorGold), getResources().getColor(R.color.colorPrimary));
         colorAnimationButtonBackground.setDuration(600);
@@ -158,68 +164,65 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
             viewModel.stateLiveData.setValue(sharedPreferences.getState());
         }
 
-
-        searchView.setOnClickListener(v -> {
-            searchView.onActionViewExpanded();
-
-
-        });
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (sharedPreferences.getCity() != null) {
-                    searchQuery = query;
-                    Bundle bundle = new Bundle();
-                    bundle.putString("restaurantName", query);
-                    bundle.putBoolean("isSearchByName", true);
-                    Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.action_homeFragment_to_restaurantFragment, bundle);
-                    /*  NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
-                navController.navigate(action);*/
+                    searchQuery = s.toString();
+                    //dont search restaurant name and set button on location mode
+                    if (btnSearchColor && s.toString().length() == 0) {
+                        colorAnimationButtonText.reverse();
+                        colorAnimationButtonBackground.reverse();
+                        btnSearchColor = false;
+                        searchButton.animate().setDuration(300).setListener(new AnimatorListenerAdapter() {
+                            @SuppressLint("SetTextI18n")
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
+                                searchButton.setText("رستوران های نزدیک من");
+                                searchButton.animate().setListener(null).setDuration(300).alpha(1);
+                            }
+                        }).alpha(1);
+                    }
+                    //set button on restaurant name mode
+                    if (!btnSearchColor && s.toString().length() > 0) {
+                        btnSearchColor = true;
+                        colorAnimationButtonBackground.start();
+                        colorAnimationButtonText.start();
+                        searchButton.animate().setDuration(300).setListener(new AnimatorListenerAdapter() {
+                            @SuppressLint("SetTextI18n")
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
+                                searchButton.setText("جستجو در رستوران" + " های " + sharedPreferences.getCity());
+                                searchButton.animate().setListener(null).setDuration(300).alpha(1);
+                            }
+                        }).alpha(1);
+                    }
                 } else
                     onFailure("لطفا شهر را انتخاب کنید");
-                return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                searchQuery = newText;
-                //dont search restaurant name and set button on location mode
-                if (btnSearchColor && newText.length() == 0) {
-                    colorAnimationButtonText.reverse();
-                    colorAnimationButtonBackground.reverse();
-                    btnSearchColor = false;
-                    searchButton.animate().setDuration(300).setListener(new AnimatorListenerAdapter() {
-                        @SuppressLint("SetTextI18n")
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            super.onAnimationEnd(animation);
-                            searchButton.setText("رستوران های نزدیک من");
-                            searchButton.animate().setListener(null).setDuration(300).alpha(1);
-                        }
-                    }).alpha(1);
-                    return false;
-                }
-                //set button on restaurant name mode
-                if (!btnSearchColor && newText.length() > 0) {
-                    btnSearchColor = true;
-                    colorAnimationButtonBackground.start();
-                    colorAnimationButtonText.start();
-                    searchButton.animate().setDuration(300).setListener(new AnimatorListenerAdapter() {
-                        @SuppressLint("SetTextI18n")
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            super.onAnimationEnd(animation);
-                            searchButton.setText("جستجو در رستوران" + " های " + sharedPreferences.getCity());
-                            searchButton.animate().setListener(null).setDuration(300).alpha(1);
-                        }
-                    }).alpha(1);
-                }
-                return false;
+            public void afterTextChanged(Editable query) {
             }
         });
 
+        searchEditText.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(searchEditText.getWindowToken(), 0);
+                }
+                return true;
+            }
+            return false;
+        });
 
     }
 
@@ -232,6 +235,8 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
     @Override
     public void onStarted() {
         binding.cvWaitingResponse.setVisibility(View.VISIBLE);
+        lottie.setAnimation(R.raw.waiting_animate_burger);
+        lottie.playAnimation();
     }
 
     @Override
@@ -296,7 +301,6 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
     @Override
     public void tryAgain() {
         lottie.setAnimation(R.raw.no_internet_connection_animate);
-
         lottie.playAnimation();
     }
 

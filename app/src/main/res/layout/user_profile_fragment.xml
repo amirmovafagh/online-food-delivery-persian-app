@@ -69,7 +69,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="لطفا وارد شوید"
+                        android:fontFamily="@font/iran_sans_mobile_fa_num_bold"
+                        android:text="@string/pleaseLogin"
                         android:textAlignment="center"
                         android:textSize="@dimen/h6_title_font_size" />
 

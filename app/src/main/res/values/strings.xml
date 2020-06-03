@@ -18,20 +18,21 @@
     <string name="send_again_verification_code">دریافت مجدد کد (60)</string>
     <string name="userProfile">پروفایل</string>
     <string name="cartItem">سبد خرید</string>
-    <string name="restaurants">رستوران ها</string>
+    <string name="restaurants">رستوران\u200cها</string>
     <string name="home">خانه</string>
-    <string name="search_title">جستجوی رستوران …</string>
+    <string name="search_title">جستجوی رستوران\u200cها</string>
     <string name="search">جستجو</string>
     <string name="drawer">drawer</string>
     <string name="score">امتیاز</string>
+    <string name="defaultCity">تهران</string>
 
     <string name="tab_berger">برگر</string>
     <string name="tab_hotdog">هات داگ</string>
     <string name="tab_text_3">پیتزا</string>
     <string name="title_activity_maps">Map</string>
-    <string name="popular_categories">دسته بندی های پرطرفدار</string>
-    <string name="delicious">خوشمزه ها</string>
-    <string name="new_restaurants">جدید ترین رستوران ها</string>
+    <string name="popular_categories">دسته بندی\u200cهای پرطرفدار</string>
+    <string name="delicious">خوشمزه\u200cها</string>
+    <string name="new_restaurants">جدید ترین رستوران\u200cها</string>
     <string name="new_res">جدید</string>
     <string name="delivery_time">پیک (60 دقیقه)</string>
     <string name="region">محله</string>
@@ -65,12 +66,12 @@
     <string name="chooseOnDefault">انتخاب به عنوان پیشفرض</string>
     <string name="restaurant_shipping_cost">ارسال</string>
     <string name="pleaseEnterYourDiscountCode">لطفا کد تخفیف خود را وارد کنید</string>
-    <string name="your_addresses">آدرس های شما</string>
+    <string name="your_addresses">آدرس\u200cهای شما</string>
     <string name="online_pay">پرداخت آنلاین</string>
     <string name="in_place_pay">پرداخت در محل</string>
-    <string name="transactions">تراکنش ها</string>
-    <string name="yourFavoriteFoods">غذا های مورد علاقه شما</string>
-    <string name="yourFavoriteRestaurants">رستوران های مورد علاقه شما</string>
+    <string name="transactions">تراکنش\u200cها</string>
+    <string name="yourFavoriteFoods">غذا\u200cهای مورد علاقه شما</string>
+    <string name="yourFavoriteRestaurants">رستوران\u200cهای مورد علاقه شما</string>
     <string name="showOrderAndAddComment">مشاهده / ثبت نظر</string>
     <string name="foodQuality">کیفیت غذا</string>
     <string name="arrivalTime">دریافت به موقع</string>
@@ -100,8 +101,10 @@
     <string name="type_food_name">وعده غذایی</string>
     <string name="start_time">زمان شروع به کار</string>
     <string name="end_time">زمان پایان کار</string>
-    <string name="days_work">روز های کاری</string>
+    <string name="days_work">روزهای کاری</string>
     <string name="enterAsGuest">مشاهده منو</string>
     <string name="loginOrRegister">ورود / ثبتنام</string>
     <string name="tryAgain">تلاش دوباره</string>
+    <string name="restaurantsNearMe">رستوران‌های نزدیک من</string>
+    <string name="pleaseLogin">لطفا وارد شوید</string>
 </resources>

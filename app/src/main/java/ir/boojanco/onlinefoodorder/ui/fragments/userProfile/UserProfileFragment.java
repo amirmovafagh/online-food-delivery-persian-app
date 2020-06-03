@@ -104,6 +104,14 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
 
+        //handle bottom sheets
+        bottom_sheet = binding.bottomSheet;
+        bottom_sheet_profile = binding.bottomSheetProfile;
+        sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
+        sheetBehavior.setGestureInsetBottomIgnored(true);
+        sheetBehaviorProfile = BottomSheetBehavior.from(bottom_sheet_profile);
+        sheetBehaviorProfile.setGestureInsetBottomIgnored(true);
+
         if (sharedPreferences.getUserAuthTokenKey() == null || sharedPreferences.getUserAuthTokenKey().isEmpty()) {//when user is not login in the system
             viewModel.profileChangeVisibility.postValue(false); // show login reg button
             return binding.getRoot();
@@ -119,12 +127,7 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
 
 
         chipGroup = binding.bottomSheetAddressInclude.chipGroupAddressTag;
-        bottom_sheet = binding.bottomSheet;
-        bottom_sheet_profile = binding.bottomSheetProfile;
-        sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
-        sheetBehavior.setGestureInsetBottomIgnored(true);
-        sheetBehaviorProfile = BottomSheetBehavior.from(bottom_sheet_profile);
-        sheetBehaviorProfile.setGestureInsetBottomIgnored(true);
+
         //go to order fragment
         NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
         binding.frameLayoutOrders.setOnClickListener(v -> navController.navigate(R.id.action_userProfileFragment_to_ordersFragment));

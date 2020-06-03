@@ -32,6 +32,7 @@ public class HomeViewModel extends ViewModel {
     public MutableLiveData<String> cityLiveData;
     public MutableLiveData<String> stateLiveData;
     public MutableLiveData<Boolean> stateWatingOrNoConnection;
+    public MutableLiveData<Boolean> stateProgressBar;
 
     public void setUserAuthToken(String userAuthToken) {
         this.userAuthToken = userAuthToken;
@@ -46,9 +47,11 @@ public class HomeViewModel extends ViewModel {
         this.restaurantRepository = restaurantRepository;
         stateLiveData = new MutableLiveData<>();
         cityLiveData = new MutableLiveData<>();
+        stateProgressBar = new MutableLiveData<>();
         stateLiveData.setValue("انتخاب شهر");
         stateWatingOrNoConnection = new MutableLiveData<>();
-        stateWatingOrNoConnection.setValue(false);
+        stateWatingOrNoConnection.setValue(false); // dont show try again btn
+        stateProgressBar.setValue(false); //do not show progress bar
 
     }
 
@@ -59,6 +62,7 @@ public class HomeViewModel extends ViewModel {
     public void selectCityOnClick() {
         rx.Observable<GetAllStatesResponse> observable = restaurantRepository.getAllStatesResponseObservable(userAuthToken);
         if (observable != null) {
+            stateProgressBar.setValue(true); //show progress bar
             observable.retry(3).subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetAllStatesResponse>() {
                 @Override
                 public void onCompleted(){
@@ -66,6 +70,8 @@ public class HomeViewModel extends ViewModel {
 
                 @Override
                 public void onError(Throwable e) {
+                    stateProgressBar.setValue(false); //do not show progress bar
+
                     if (e instanceof NoNetworkConnectionException)
                         fragmentInterface.onFailure(e.getMessage());
                     if (e instanceof HttpException) {
@@ -85,6 +91,7 @@ public class HomeViewModel extends ViewModel {
 
                 @Override
                 public void onNext(GetAllStatesResponse getAllStatesResponse) {
+                    stateProgressBar.setValue(false); //do not show progress bar
                     fragmentInterface.showStateCityCustomDialog(getAllStatesResponse.getAllStatesLists());
                 }
             });
@@ -137,10 +144,10 @@ public class HomeViewModel extends ViewModel {
         rx.Observable<FoodCategoriesResponse> observable = restaurantRepository.getCategoriesResponseObservable();
         if (observable != null) {
             fragmentInterface.onStarted();
-            observable.retry(3).subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<FoodCategoriesResponse>() {
+            observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<FoodCategoriesResponse>() {
                 @Override
                 public void onCompleted() {
-                    stateWatingOrNoConnection.setValue(false); //show tryAgain view
+                    stateWatingOrNoConnection.setValue(false); //do not show tryAgain button view
                 }
 
                 @Override

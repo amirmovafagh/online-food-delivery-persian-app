@@ -127,7 +127,7 @@
                         android:onClick="@{()-> userLogin.onLoginClick()}"
                         android:text="@string/login_info_activity"
                         android:textSize="@dimen/button_font_size"
-                        app:cornerRadius="16dp" />
+                        app:cornerRadius="@dimen/button_corner_radius" />
                     <Button
                         android:id="@+id/buttonRegisterActivity"
                         style="@style/Widget.MaterialComponents.Button"
@@ -139,7 +139,7 @@
                         android:text="@string/regsterInMazzeh"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="@dimen/button_font_size"
-                        app:cornerRadius="16dp"
+                        app:cornerRadius="@dimen/button_corner_radius"
                         />
                 </LinearLayout>
 
@@ -154,7 +154,7 @@
                     android:text="@string/forgot_password"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="@dimen/body3_paragraph_font_size"
-                    app:cornerRadius="16dp" />
+                    app:cornerRadius="@dimen/button_corner_radius" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -171,7 +171,7 @@
             android:text="@string/enterAsGuest"
             android:textColor="@color/white"
             android:textSize="@dimen/button_font_size"
-            app:cornerRadius="16dp"
+            app:cornerRadius="@dimen/button_corner_radius"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="@id/login_cardview"
             app:layout_constraintRight_toRightOf="@id/login_cardview"

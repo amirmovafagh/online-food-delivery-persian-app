@@ -22,8 +22,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -56,8 +55,7 @@
                 app:layout_constraintLeft_toRightOf="@id/city_view_layout"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/img_mazeeh_logo"
-                app:startIconDrawable="@drawable/ic_search_restaurant"
-                app:startIconTint="@color/colorPrimaryDark">
+                app:startIconDrawable="@drawable/ic_search_restaurant">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/search"
@@ -65,30 +63,28 @@
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"
                     android:ellipsize="end"
-                    android:fontFamily="@font/iran_sans_mobile_fa_num_light"
+                    android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
                     android:imeOptions="actionDone"
-                    android:includeFontPadding="false"
                     android:singleLine="true"
-                    android:textAlignment="viewStart" />
+                    android:textSize="@dimen/body2_paragraph_font_size" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <!--search and location layout-->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/city_view_layout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="32dp"
                 android:layout_marginRight="8dp"
-                android:hint="شهر"
                 app:boxBackgroundColor="@color/transparent"
                 app:endIconDrawable="@drawable/ic_keyboard_arrow_down_black_24dp"
                 app:endIconMode="custom"
+                app:hintEnabled="false"
                 app:layout_constraintBottom_toBottomOf="@id/txtInputLayoutLoginSearch"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/txtInputLayoutLoginSearch"
-                app:layout_constraintTop_toTopOf="@id/txtInputLayoutLoginSearch">
+                app:layout_constraintRight_toLeftOf="@id/txtInputLayoutLoginSearch">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/my_spinner"
@@ -99,10 +95,13 @@
                     android:ellipsize="end"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
+                    android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
                     android:includeFontPadding="false"
                     android:maxLines="1"
                     android:onClick="@{()-> homeViewModel.selectCityOnClick()}"
-                    android:text="@{homeViewModel.cityLiveData , default=@string/defaultCity}" />
+                    android:padding="0dp"
+                    android:text="@{homeViewModel.cityLiveData , default=@string/defaultCity}"
+                    android:textSize="@dimen/body2_paragraph_font_size" />
 
             </com.google.android.material.textfield.TextInputLayout>
             <!--<LinearLayout

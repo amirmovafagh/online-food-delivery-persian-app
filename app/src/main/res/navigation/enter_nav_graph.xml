@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/enter_nav_graph"
+    app:startDestination="@id/mazeehLogoFragment">
+
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="ir.boojanco.onlinefoodorder.ui.activities.MainActivity" />
+
+    <fragment
+        android:id="@+id/mazeehLogoFragment"
+        android:name="ir.boojanco.onlinefoodorder.ui.fragments.logo.MazeehLogoFragment"
+        android:label="مزه"
+        tools:layout="@layout/fragment_mazeeh_logo">
+        <action
+            android:id="@+id/action_mazeehLogoFragment_to_loginRegisterFragment"
+            app:destination="@id/loginRegisterFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginRegisterFragment"
+        android:name="ir.boojanco.onlinefoodorder.ui.fragments.loginRegister.LoginRegisterFragment"
+        android:label="LoginRegisterFragment"
+        tools:layout="@layout/fragment_login_register" />
+</navigation>

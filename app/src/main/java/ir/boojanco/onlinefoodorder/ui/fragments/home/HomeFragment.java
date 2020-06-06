@@ -184,7 +184,7 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
                             @Override
                             public void onAnimationEnd(Animator animation) {
                                 super.onAnimationEnd(animation);
-                                searchButton.setText("رستوران های نزدیک من");
+                                searchButton.setText("رستوران\u200cهای نزدیک من");
                                 searchButton.animate().setListener(null).setDuration(300).alpha(1);
                             }
                         }).alpha(1);
@@ -199,7 +199,7 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
                             @Override
                             public void onAnimationEnd(Animator animation) {
                                 super.onAnimationEnd(animation);
-                                searchButton.setText("جستجو در رستوران" + " های " + sharedPreferences.getCity());
+                                searchButton.setText("جستجو در رستوران" + "\u200cهای " + sharedPreferences.getCity());
                                 searchButton.animate().setListener(null).setDuration(300).alpha(1);
                             }
                         }).alpha(1);
@@ -392,7 +392,7 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustomRTL);
         builder.setCancelable(false);
         builder.setTitle("تنظیمات موقعیت یاب");
-        builder.setMessage("در صورت تمایل به استفاده از سیستم موقعیت یاب به منظور یافتن نزدیکترین رستوران ها این بخش را فعال کنید.");
+        builder.setMessage("در صورت تمایل به استفاده از سیستم موقعیت یاب به منظور یافتن نزدیکترین رستوران\u200cها این بخش را فعال کنید.");
         // add the buttons
         builder.setPositiveButton("تایید", (dialog, which) -> {
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);

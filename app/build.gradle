@@ -37,7 +37,7 @@ android {
 }
 def lifecycle_version = "2.2.0"
 def retrofit_version = "2.5.0"
-def nav_version = "2.2.2"
+def nav_version = "2.3.0-beta01"
 def dagger_version = "2.23.2"
 def fragment_version = "1.2.4"
 def lottieVersion = "3.3.1"

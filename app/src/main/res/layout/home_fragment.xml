@@ -146,7 +146,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/city_view_layout"
-                tools:animatedVisibility="@{homeViewModel.stateProgressBar ? true : false , default=false}" />
+                android:visibility="@{homeViewModel.stateProgressBar ? View.VISIBLE : View.GONE , default=gone}" />
 
             <Button
                 android:id="@+id/buttonSearchRestaurant"

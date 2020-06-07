@@ -1,5 +1,6 @@
 package ir.boojanco.onlinefoodorder.ui.fragments.logo;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -15,7 +16,11 @@ import android.view.ViewGroup;
 
 import com.airbnb.lottie.LottieAnimationView;
 
+import javax.inject.Inject;
+
 import ir.boojanco.onlinefoodorder.R;
+import ir.boojanco.onlinefoodorder.dagger.App;
+import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.FragmentMazeehLogoBinding;
 import ir.boojanco.onlinefoodorder.viewmodels.MazeehLogoViewModel;
 
@@ -23,6 +28,9 @@ public class MazeehLogoFragment extends Fragment {
 
     private FragmentMazeehLogoBinding binding;
     private MazeehLogoViewModel viewModel;
+
+    @Inject
+    MySharedPreferences sharedPreferences;
 
     private LottieAnimationView animationView;
 
@@ -47,14 +55,21 @@ public class MazeehLogoFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ((App) getActivity().getApplication()).getComponent().inject(this);
 
         animationView.addAnimatorUpdateListener(animation -> {
+
             float progress = ((float) animation.getAnimatedValue() * 100);
             if ((int) progress == 99) {
 
                 //Navigation.findNavController(getView()).navigate(R.id.action_mazeehLogoFragment_to_loginRegisterFragment);
                 //Navigation.findNavController(getActivity(), R.id.enter_nav_host_fragment).navigate(R.id.action_mazeehLogoFragment_to_loginRegisterFragment);
-                if (Navigation.findNavController(getView()).getCurrentDestination().getId() == R.id.mazeehLogoFragment) {
+                if (sharedPreferences.getUserAuthTokenKey() != null) {
+                    if (Navigation.findNavController(getView()).getCurrentDestination().getId() == R.id.mazeehLogoFragment) {
+                        Navigation.findNavController(getView()).navigate(R.id.action_mazeehLogoFragment_to_mainActivity);
+                        getActivity().finish();
+                    }
+                } else if (Navigation.findNavController(getView()).getCurrentDestination().getId() == R.id.mazeehLogoFragment) {
                     Navigation.findNavController(getView()).navigate(R.id.action_mazeehLogoFragment_to_loginRegisterFragment);
                 }
             }

@@ -5,6 +5,10 @@
     android:id="@+id/bottom_navigation"
     app:startDestination="@id/homeFragment">
 
+    <activity
+        android:id="@+id/enterActivity"
+        android:name="ir.boojanco.onlinefoodorder.ui.activities.EnterActivity" />
+
     <fragment
         android:id="@+id/homeFragment"
         android:name="ir.boojanco.onlinefoodorder.ui.fragments.home.HomeFragment"
@@ -52,6 +56,15 @@
         android:name="ir.boojanco.onlinefoodorder.ui.fragments.userProfile.UserProfileFragment"
         android:label="پروفایل کاربری"
         tools:layout="@layout/user_profile_fragment">
+        <action
+            android:id="@+id/action_userProfileFragment_to_enterActivity"
+            app:destination="@id/enterActivity"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@+id/enterActivity"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_userProfileFragment_to_ordersFragment"
             app:destination="@id/ordersFragment"

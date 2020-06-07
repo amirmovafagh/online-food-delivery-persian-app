@@ -94,7 +94,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterAuth 
     public void onGoToLoginActivity() {
         if(getIntent()!=null){
             onBackPressed();
-        }else startActivity(new Intent(this, LoginActivity.class));
+        }//else startActivity(new Intent(this, LoginActivity.class));
 
     }
 

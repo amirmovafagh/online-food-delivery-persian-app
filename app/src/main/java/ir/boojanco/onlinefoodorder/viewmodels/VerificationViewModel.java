@@ -1,13 +1,9 @@
 package ir.boojanco.onlinefoodorder.viewmodels;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.CountDownTimer;
 import android.util.Log;
-import android.util.Patterns;
-import android.view.View;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -16,11 +12,8 @@ import org.json.JSONObject;
 import ir.boojanco.onlinefoodorder.data.repositories.UserRepository;
 import ir.boojanco.onlinefoodorder.models.user.ActivateUserBody;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
-import ir.boojanco.onlinefoodorder.models.user.RegisterUserResponse;
 import ir.boojanco.onlinefoodorder.models.user.VerificationNewUserResponse;
-import ir.boojanco.onlinefoodorder.ui.activities.LoginActivity;
 import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
-import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RegisterAuth;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.VerificationInterface;
 import retrofit2.HttpException;
 import retrofit2.Response;

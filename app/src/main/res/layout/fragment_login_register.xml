@@ -1,4 +1,6 @@
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -7,17 +9,195 @@
             type="ir.boojanco.onlinefoodorder.viewmodels.LoginRegisterViewModel" />
     </data>
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
+        android:layoutDirection="rtl"
         tools:context=".ui.fragments.loginRegister.LoginRegisterFragment">
-        <TextView
+
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:textSize="54sp"
-            android:text="Amir"/>
-    </FrameLayout>
+            android:scaleType="centerCrop"
+            android:src="@drawable/wallpaper_dark_dish"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/backgroundGrayLight_lowAlpha_test"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/login_cardview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:cardBackgroundColor="@color/overlapCardBackgroundColor"
+            app:cardCornerRadius="@dimen/card_view_corner_radius"
+            app:layout_constraintBottom_toTopOf="@id/buttonEnterAsGuest"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/login_register_info_fragment"
+                    android:textSize="@dimen/h6_title_font_size" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtInputLayoutLoginPhoneNumber"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:hint="@string/hint_text_phone_number_edt_text"
+                    app:boxBackgroundColor="@color/transparent"
+                    app:error="@{viewModel.phoneNumberError}">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/loginPhoneEdtText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:digits="1234567890"
+                        android:imeOptions="actionNext"
+                        android:inputType="phone"
+                        android:maxLength="11"
+                        android:singleLine="true"
+                        android:text="@={viewModel.phoneNumber}"
+                        android:textAlignment="viewStart"
+                        android:textSize="@dimen/edit_text_font_size" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtInputLayoutLoginPassword"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:background="@color/transparent"
+                    android:hint="@string/hint_text_password_edt_text"
+                    app:boxBackgroundColor="@color/transparent"
+                    app:error="@{viewModel.passwordError}"
+                    app:passwordToggleEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/loginPasswordEdtText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:imeOptions="actionDone"
+                        android:singleLine="true"
+                        android:text="@={viewModel.password}"
+                        android:textAlignment="viewStart"
+                        android:textSize="@dimen/edit_text_font_size" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:id="@+id/buttonLogin"
+                        style="@style/Widget.MaterialComponents.Button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:layout_margin="8dp"
+                        android:onClick="@{()-> viewModel.onLoginClick()}"
+                        android:text="@string/login"
+                        android:textSize="@dimen/button_font_size"
+                        app:cornerRadius="@dimen/button_corner_radius" />
+                    <Button
+                        android:id="@+id/buttonRegisterActivity"
+                        style="@style/Widget.MaterialComponents.Button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:layout_margin="8dp"
+                        android:backgroundTint="@color/colorGold"
+                        android:text="@string/regsterInMazzeh"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/button_font_size"
+                        app:cornerRadius="@dimen/button_corner_radius"
+                        />
+                </LinearLayout>
+
+
+                <Button
+                    android:id="@+id/txtViewForgotPassword"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:text="@string/forgot_password"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/body3_paragraph_font_size"
+                    app:cornerRadius="@dimen/button_corner_radius" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <Button
+            android:id="@+id/buttonEnterAsGuest"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:paddingRight="40dp"
+            android:paddingLeft="40dp"
+            android:backgroundTint="@color/colorSecondPrimary"
+            android:text="@string/enterAsGuest"
+            android:textColor="@color/white"
+            android:textSize="@dimen/button_font_size"
+            app:cornerRadius="@dimen/button_corner_radius"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/login_cardview"
+            app:layout_constraintRight_toRightOf="@id/login_cardview"
+            app:layout_constraintTop_toBottomOf="@id/login_cardview" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_waiting_response"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:cardBackgroundColor="@color/overlapBackgroundColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animation_view"
+                android:layout_width="150dp"
+                android:layout_height="250dp"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/waiting_animate_burger" />
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

@@ -21,14 +21,10 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.chip.ChipGroup;
@@ -47,7 +43,6 @@ import ir.boojanco.onlinefoodorder.databinding.UserProfileFragmentBinding;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllCitiesList;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList;
 import ir.boojanco.onlinefoodorder.models.user.UserAddressList;
-import ir.boojanco.onlinefoodorder.ui.activities.LoginActivity;
 import ir.boojanco.onlinefoodorder.ui.fragments.cart.CityAdapter;
 import ir.boojanco.onlinefoodorder.ui.fragments.cart.CustomStateCityDialog;
 import ir.boojanco.onlinefoodorder.ui.fragments.cart.StateAdapter;
@@ -296,10 +291,9 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
 
     @Override
     public void goToLoginRegisterActivity() {
-        Intent i = new Intent(getActivity(), LoginActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(i);
+        if (Navigation.findNavController(getView()).getCurrentDestination().getId() == R.id.userProfileFragment) {
+            Navigation.findNavController(getView()).navigate(R.id.action_userProfileFragment_to_enterActivity);
+        }
     }
 
     @Override

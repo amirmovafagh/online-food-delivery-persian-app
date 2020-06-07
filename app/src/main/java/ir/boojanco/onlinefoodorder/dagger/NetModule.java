@@ -23,7 +23,7 @@ import ir.boojanco.onlinefoodorder.viewmodels.factories.CartViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.FavoriteFoodsViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.FavoriteRestaurantsViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.HomeViewModelFactory;
-import ir.boojanco.onlinefoodorder.viewmodels.factories.LoginViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.factories.LoginRegisterViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.OrdersViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.PaymentViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RegisterViewModelFactory;
@@ -52,9 +52,9 @@ public class NetModule {
 
     @Provides
     @Singleton
-    LoginViewModelFactory provideLoginViewModelFactory(Application application, UserRepository userRepository) {
-        LoginViewModelFactory factory =
-                new LoginViewModelFactory(application, userRepository);
+    LoginRegisterViewModelFactory provideLoginRegisterViewModelFactory(Application application, UserRepository userRepository) {
+        LoginRegisterViewModelFactory factory =
+                new LoginRegisterViewModelFactory(application, userRepository);
         return factory;
     }
 

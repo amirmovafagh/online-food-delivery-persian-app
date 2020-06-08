@@ -21,7 +21,7 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"
-            app:popUpTo="@+id/loginRegisterFragment"
+            app:popUpTo="@+id/enter_nav_graph"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_mazeehLogoFragment_to_mainActivity"
@@ -35,12 +35,43 @@
     </fragment>
     <fragment
         android:id="@+id/loginRegisterFragment"
-        android:name="ir.boojanco.onlinefoodorder.ui.fragments.loginRegister.LoginRegisterFragment"
+        android:name="ir.boojanco.onlinefoodorder.ui.fragments.loginRegister.LoginRegisterRegisterFragment"
         android:label="LoginRegisterFragment"
         tools:layout="@layout/fragment_login_register">
 
         <action
             android:id="@+id/action_loginRegisterFragment_to_mainActivity"
+            app:destination="@id/mainActivity"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@+id/mainActivity"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_loginRegisterFragment_to_verificationFragment"
+            app:destination="@id/verificationFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/verificationFragment"
+        android:name="ir.boojanco.onlinefoodorder.ui.fragments.loginRegister.VerificationFragment"
+        android:label="verification_fragment"
+        tools:layout="@layout/verification_fragment">
+        <argument
+            android:name="verificationCodeTimer"
+            app:argType="long" />
+        <argument
+            android:name="phoneNumber"
+            app:argType="string" />
+        <argument
+            android:name="password"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_verificationFragment_to_mainActivity"
             app:destination="@id/mainActivity"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"

@@ -7,8 +7,10 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,23 +49,27 @@ public class MazeehLogoFragment extends Fragment {
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
 
+        //Back pressed Logic for fragment
+        View v =  binding.getRoot();
+        v.setFocusableInTouchMode(true);
+        v.requestFocus();
+        v.setOnKeyListener((v1, keyCode, event) -> {
+            if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    return true;
+                }
+            }
+            return false;
+        });
+
         animationView = binding.animationMazeehLogo;
 
-        return binding.getRoot();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         ((App) getActivity().getApplication()).getComponent().inject(this);
 
         animationView.addAnimatorUpdateListener(animation -> {
 
             float progress = ((float) animation.getAnimatedValue() * 100);
             if ((int) progress == 99) {
-
-                //Navigation.findNavController(getView()).navigate(R.id.action_mazeehLogoFragment_to_loginRegisterFragment);
-                //Navigation.findNavController(getActivity(), R.id.enter_nav_host_fragment).navigate(R.id.action_mazeehLogoFragment_to_loginRegisterFragment);
                 if (sharedPreferences.getUserAuthTokenKey() != null) {
                     if (Navigation.findNavController(getView()).getCurrentDestination().getId() == R.id.mazeehLogoFragment) {
                         Navigation.findNavController(getView()).navigate(R.id.action_mazeehLogoFragment_to_mainActivity);
@@ -75,5 +81,13 @@ public class MazeehLogoFragment extends Fragment {
             }
 
         });
+
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
     }
 }

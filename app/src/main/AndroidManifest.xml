@@ -51,8 +51,6 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".MapsActivity" />
-        <activity android:name=".ui.activities.RegisterActivity"></activity>
-        <activity android:name=".ui.activities.VerificationActivity"></activity>
         <activity
             android:name=".ui.activities.MainActivity"
             android:windowSoftInputMode="adjustPan"></activity>

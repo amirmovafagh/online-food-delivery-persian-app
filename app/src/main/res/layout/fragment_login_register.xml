@@ -1,6 +1,6 @@
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layoutDirection="rtl"
-        tools:context=".ui.fragments.loginRegister.LoginRegisterFragment">
+        tools:context=".ui.fragments.loginRegister.LoginRegisterRegisterFragment">
 
         <ImageView
             android:layout_width="match_parent"
@@ -116,30 +116,32 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <Button
                         android:id="@+id/buttonLogin"
                         style="@style/Widget.MaterialComponents.Button"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
                         android:layout_margin="8dp"
+                        android:layout_weight="0.5"
                         android:onClick="@{()-> viewModel.onLoginClick()}"
                         android:text="@string/login"
                         android:textSize="@dimen/button_font_size"
                         app:cornerRadius="@dimen/button_corner_radius" />
+
                     <Button
                         android:id="@+id/buttonRegisterActivity"
                         style="@style/Widget.MaterialComponents.Button"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
                         android:layout_margin="8dp"
+                        android:layout_weight="0.5"
                         android:backgroundTint="@color/colorGold"
+                        android:onClick="@{()->viewModel.onRegisterClick()}"
                         android:text="@string/regsterInMazzeh"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="@dimen/button_font_size"
-                        app:cornerRadius="@dimen/button_corner_radius"
-                        />
+                        app:cornerRadius="@dimen/button_corner_radius" />
                 </LinearLayout>
 
 
@@ -164,9 +166,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:paddingRight="40dp"
-            android:paddingLeft="40dp"
             android:backgroundTint="@color/colorSecondPrimary"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
             android:text="@string/enterAsGuest"
             android:textColor="@color/white"
             android:textSize="@dimen/button_font_size"

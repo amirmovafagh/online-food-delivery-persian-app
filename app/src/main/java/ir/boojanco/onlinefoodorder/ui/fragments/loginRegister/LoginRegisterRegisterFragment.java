@@ -30,10 +30,13 @@ import ir.boojanco.onlinefoodorder.databinding.FragmentLoginRegisterBinding;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
 import ir.boojanco.onlinefoodorder.viewmodels.LoginRegisterViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.LoginRegisterViewModelFactory;
-import ir.boojanco.onlinefoodorder.viewmodels.interfaces.LoginAuth;
+import ir.boojanco.onlinefoodorder.viewmodels.interfaces.LoginRegisterAuth;
 
-public class LoginRegisterFragment extends Fragment implements LoginAuth {
-
+public class LoginRegisterRegisterFragment extends Fragment implements LoginRegisterAuth {
+    private static final String TAG = LoginRegisterRegisterFragment.class.getSimpleName();
+    private String verificationCodeTimerKeyExtra = "verificationCodeTimer";
+    private String phoneNumberKeyExtra = "phoneNumber";
+    private String passwordKeyExtra = "password";
     private FragmentLoginRegisterBinding binding;
     private LoginRegisterViewModel viewModel;
 
@@ -63,7 +66,7 @@ public class LoginRegisterFragment extends Fragment implements LoginAuth {
         viewModel = new ViewModelProvider(this, factory).get(LoginRegisterViewModel.class);
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
-        viewModel.loginAuth = this;
+        viewModel.loginRegisterAuth = this;
 
         phoneNum = binding.loginPhoneEdtText;
         //set font on password editText
@@ -76,7 +79,6 @@ public class LoginRegisterFragment extends Fragment implements LoginAuth {
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
                 if (imm != null)
                     imm.hideSoftInputFromWindow(password.getWindowToken(), 0);
-                viewModel.onLoginClick();
                 return true;
             }
             return false;
@@ -110,7 +112,7 @@ public class LoginRegisterFragment extends Fragment implements LoginAuth {
     }
 
     @Override
-    public void onSuccess(LoginUserResponse loginUserResponse) {
+    public void onLoginSuccess(LoginUserResponse loginUserResponse) {
         if (loginUserResponse != null) {
             if (Navigation.findNavController(getView()).getCurrentDestination().getId() == R.id.loginRegisterFragment) {
                 sharedPreferences.setUserAuthTokenKey(loginUserResponse.getId());
@@ -120,6 +122,18 @@ public class LoginRegisterFragment extends Fragment implements LoginAuth {
                 binding.cvWaitingResponse.setVisibility(View.GONE);
             }
 
+        }
+    }
+
+    @Override
+    public void onRegisterSuccess(Long time, String phoneNumber, String password) {
+        if (Navigation.findNavController(getView()).getCurrentDestination().getId() == R.id.loginRegisterFragment) {
+            Bundle bundle = new Bundle();
+            bundle.putLong(verificationCodeTimerKeyExtra, time);
+            bundle.putString(phoneNumberKeyExtra, phoneNumber);
+            bundle.putString(passwordKeyExtra, password);
+            Navigation.findNavController(getView()).navigate(R.id.action_loginRegisterFragment_to_verificationFragment, bundle);
+            binding.cvWaitingResponse.setVisibility(View.GONE);
         }
     }
 

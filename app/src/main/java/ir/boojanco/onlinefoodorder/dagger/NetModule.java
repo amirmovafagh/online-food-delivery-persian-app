@@ -26,7 +26,6 @@ import ir.boojanco.onlinefoodorder.viewmodels.factories.HomeViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.LoginRegisterViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.OrdersViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.PaymentViewModelFactory;
-import ir.boojanco.onlinefoodorder.viewmodels.factories.RegisterViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantCommentFragmentViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantDetailsViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantFoodMenuViewModelFactory;
@@ -64,14 +63,6 @@ public class NetModule {
         CartDataSource cartDataSource =
                 new LocalCartDataSource(CartDatabase.getInstance(application).cartDAO());
         return cartDataSource;
-    }
-
-    @Provides
-    @Singleton
-    RegisterViewModelFactory provideRegisterViewModelFactory(Application application, UserRepository userRepository) {
-        RegisterViewModelFactory factory =
-                new RegisterViewModelFactory(application, userRepository);
-        return factory;
     }
 
     @Provides

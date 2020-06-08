@@ -140,8 +140,8 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
         recyclerViewFoodTypeSearchFilter.setAdapter(adapter);
         recyclerViewFoodTypeSearchFilter.setItemViewCacheSize(20);
         searchEditText = binding.search;
-        colorAnimationButtonText = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(R.color.colorPrimaryDark), getResources().getColor(R.color.white));
-        colorAnimationButtonBackground = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(R.color.colorGold), getResources().getColor(R.color.colorPrimary));
+        colorAnimationButtonText = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(R.color.white), getResources().getColor(R.color.white));
+        colorAnimationButtonBackground = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(R.color.colorSecondPrimaryDark), getResources().getColor(R.color.colorPrimaryDark));
         colorAnimationButtonBackground.setDuration(600);
         colorAnimationButtonText.setDuration(600);
 

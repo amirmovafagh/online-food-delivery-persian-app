@@ -113,8 +113,8 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         categoryList = new ArrayList<String>();
         categoryList.add(getArguments().getString("categoryName"));
 
-        restaurantViewModel.getAllSearchedRestaurant(categoryList, cityName, getArguments().getString("restaurantName"),false,
-                false,false,false,0,0,0);
+        restaurantViewModel.getAllSearchedRestaurant(null, cityName, getArguments().getString("restaurantName"),null,
+                null,null,null,null,null,0);
         if (!searchByCategory && !searchByLocation && !searchByRestaurantName) //show all restaurants in the city
             {/*restaurantViewModel.getAllSearchedRestaurant("", cityName, "");*/}
         else {

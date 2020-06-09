@@ -24,16 +24,16 @@ public class SearchRestaurantDataSource extends PageKeyedDataSource<Integer, Res
     private static final String TAG = SearchRestaurantDataSource.class.getSimpleName();
     public static final int PAGE_SIZE = 5;
     public static final int FIRST_PAGE = 1;
-    private String restaurantName;
-    private String city;
-    private ArrayList<String> categoryList;
-    private boolean discountFilter  ;
-    private boolean deliveryFilter  ;
-    private boolean servingFilter   ;
-    private boolean getInPlaceFilter;
-    private double latitude;
-    private double longitude;
-    private int sortBy = 0;
+    private Object restaurantName;
+    private Object city;
+    private Object categoryList;
+    private Object discountFilter  ;
+    private Object deliveryFilter  ;
+    private Object servingFilter   ;
+    private Object getInPlaceFilter;
+    private Object latitude;
+    private Object longitude;
+    private Object sortBy = 0;
     private RestaurantDataSourceInterface dataSourceInterface;
 
     /*
@@ -45,9 +45,9 @@ public class SearchRestaurantDataSource extends PageKeyedDataSource<Integer, Res
     private RestaurantRepository restaurantRepository;
 
 
-    public SearchRestaurantDataSource(RestaurantRepository restaurantRepository, RestaurantDataSourceInterface dataSourceInterface, ArrayList<String> categoryList, String city, String restaurantName, boolean deliveryFilter,
-                                      boolean discountFilter, boolean servingFilter, boolean getInPlaceFilter,
-                                      double latitude, double longitude, int sortBy) {
+    public SearchRestaurantDataSource(RestaurantRepository restaurantRepository, RestaurantDataSourceInterface dataSourceInterface, Object categoryList, Object city, Object restaurantName, Object deliveryFilter,
+                                      Object discountFilter, Object servingFilter, Object getInPlaceFilter,
+                                      Object latitude, Object longitude, Object sortBy) {
         this.restaurantRepository = restaurantRepository;
         this.dataSourceInterface = dataSourceInterface;
         this.restaurantName = restaurantName;

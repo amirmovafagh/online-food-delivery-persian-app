@@ -51,9 +51,9 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
         restaurantPagedListLiveData = (new LivePagedListBuilder(restaurantDataSourceFactory, config)).build();
     }
 
-    public void getAllSearchedRestaurant(ArrayList<String> categoryList, String city, String restaurantName, boolean deliveryFilter,
-                                         boolean discountFilter, boolean servingFilter, boolean getInPlaceFilter,
-                                         double latitude, double longitude, int sortBy) {
+    public void getAllSearchedRestaurant(Object categoryList, Object city, Object restaurantName, Object deliveryFilter,
+                                         Object discountFilter, Object servingFilter, Object getInPlaceFilter,
+                                         Object latitude, Object longitude, Object sortBy) {
         SearchRestaurantDataSourceFactory searchRestaurantDataSourceFactory = new SearchRestaurantDataSourceFactory(
                 restaurantRepository, this, categoryList, city, restaurantName, deliveryFilter, discountFilter,
                 servingFilter, getInPlaceFilter, latitude, longitude, sortBy);

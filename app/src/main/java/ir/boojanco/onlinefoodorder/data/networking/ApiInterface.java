@@ -68,9 +68,9 @@ public interface ApiInterface {
 
     @GET("/api/search/")
     Observable<RestaurantResponse> searchRestaurants(
-            @Query("category") ArrayList<String> categoryList, @Query("city") String city, @Query("name") String restaurantName, @Query("deliveryFilter") boolean deliveryFilter ,
-            @Query("discountFilter") boolean discountFilter , @Query("servingFilter") boolean servingFilter , @Query("getInPlaceFilter") boolean getInPlaceFilter ,
-            @Query("lat") double latitude, @Query("lon") double longitude, @Query("page") int page, @Query("size") int size, @Query("sortBy") int sortBy);
+            @Query("category") Object categoryList, @Query("city") Object city, @Query("name") Object restaurantName, @Query("deliveryFilter") Object deliveryFilter ,
+            @Query("discountFilter") Object discountFilter , @Query("servingFilter") Object servingFilter , @Query("getInPlaceFilter") Object getInPlaceFilter ,
+            @Query("lat") Object latitude, @Query("lon") Object longitude, @Query("page") int page, @Query("size") int size, @Query("sortBy") Object sortBy);
 
     @GET("/api/restaurant/{restaurantId}/assessment")
     Observable<RestaurantAssessmentResponse> getRestaurantAssessment(@Path("restaurantId") long restaurantId);

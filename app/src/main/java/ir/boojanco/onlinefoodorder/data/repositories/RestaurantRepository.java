@@ -37,9 +37,9 @@ public class RestaurantRepository {
         return apiInterface.getRestaurantAssessment(restaurantId);
     }
 
-    public Observable<RestaurantResponse> searchRestaurantObservable(ArrayList<String> categoryList, String city, String restaurantName, boolean deliveryFilter,
-                                                                     boolean discountFilter, boolean servingFilter, boolean getInPlaceFilter,
-                                                                     double latitude, double longitude, int page, int size, int sortBy) {
+    public Observable<RestaurantResponse> searchRestaurantObservable(Object categoryList, Object city, Object restaurantName, Object deliveryFilter,
+                                                                     Object discountFilter, Object servingFilter, Object getInPlaceFilter,
+                                                                     Object latitude, Object longitude, int page, int size, Object sortBy) {
         return apiInterface.searchRestaurants(categoryList, city, restaurantName, deliveryFilter, discountFilter,
                 servingFilter, getInPlaceFilter, latitude, longitude, page, size, sortBy);
     }

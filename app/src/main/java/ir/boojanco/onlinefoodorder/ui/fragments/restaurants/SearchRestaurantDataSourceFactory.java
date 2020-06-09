@@ -13,20 +13,20 @@ public class SearchRestaurantDataSourceFactory extends DataSource.Factory {
     private MutableLiveData<PageKeyedDataSource<Integer, RestaurantList>> searchRestaurantLiveDataSource = new MutableLiveData<>();
     private RestaurantRepository restaurantRepository;
     private RestaurantDataSourceInterface dataSourceInterface;
-    private String restaurantName;
-    private String city;
-    private ArrayList<String> categoryList;
-    private boolean discountFilter;
-    private boolean deliveryFilter;
-    private boolean servingFilter;
-    private boolean getInPlaceFilter;
-    private double latitude;
-    private double longitude;
-    private int sortBy;
+    private Object restaurantName;
+    private Object city;
+    private Object categoryList;
+    private Object discountFilter;
+    private Object deliveryFilter;
+    private Object servingFilter;
+    private Object getInPlaceFilter;
+    private Object latitude;
+    private Object longitude;
+    private Object sortBy;
 
-    public SearchRestaurantDataSourceFactory(RestaurantRepository restaurantRepository, RestaurantDataSourceInterface dataSourceInterface, ArrayList<String> categoryList, String city, String restaurantName, boolean deliveryFilter,
-                                             boolean discountFilter, boolean servingFilter, boolean getInPlaceFilter,
-                                             double latitude, double longitude, int sortBy) {
+    public SearchRestaurantDataSourceFactory(RestaurantRepository restaurantRepository, RestaurantDataSourceInterface dataSourceInterface, Object categoryList, Object city, Object restaurantName, Object deliveryFilter,
+                                             Object discountFilter, Object servingFilter, Object getInPlaceFilter,
+                                             Object latitude, Object longitude, Object sortBy) {
         this.restaurantRepository = restaurantRepository;
         this.dataSourceInterface = dataSourceInterface;
         this.restaurantName = restaurantName;

@@ -1,5 +1,7 @@
 package ir.boojanco.onlinefoodorder.data.networking;
 
+import java.util.ArrayList;
+
 import ir.boojanco.onlinefoodorder.models.food.FoodCategoriesResponse;
 import ir.boojanco.onlinefoodorder.models.food.FavoriteFoodsResponse;
 import ir.boojanco.onlinefoodorder.models.food.GetAllFoodResponse;
@@ -64,17 +66,14 @@ public interface ApiInterface {
     @GET("/api/restaurant/last")
     Observable<RestaurantResponse> getLastRestaurant(/*@Header("Authorization") String authToken,*/ @Query("page") int page, @Query("size") int size);
 
-    @GET("/api/search/coords")
-    Observable<RestaurantResponse> searchRestaurantBaseOnCoordinate(@Query("lat") double latitude, @Query("lon") double longitude, @Query("page") int page, @Query("size") int size);
+    @GET("/api/search/")
+    Observable<RestaurantResponse> searchRestaurants(
+            @Query("category") ArrayList<String> categoryList, @Query("city") String city, @Query("name") String restaurantName, @Query("deliveryFilter") boolean deliveryFilter ,
+            @Query("discountFilter") boolean discountFilter , @Query("servingFilter") boolean servingFilter , @Query("getInPlaceFilter") boolean getInPlaceFilter ,
+            @Query("lat") double latitude, @Query("lon") double longitude, @Query("page") int page, @Query("size") int size, @Query("sortBy") int sortBy);
 
     @GET("/api/restaurant/{restaurantId}/assessment")
     Observable<RestaurantAssessmentResponse> getRestaurantAssessment(@Path("restaurantId") long restaurantId);
-
-    @GET("/api/search/base")
-    Observable<RestaurantResponse> searchRestaurant(@Query("name") String name, @Query("city") String city, @Query("region") String region, @Query("page") int page, @Query("size") int size);
-
-    @GET("/api/search/category")
-    Observable<RestaurantResponse> searchByFoodCategory(@Query("category") String category, @Query("city") String city, @Query("page") int page, @Query("size") int size);
 
     @GET("/api/food/restaurant/{restaurantId}")
     Observable<GetAllFoodResponse> getAllFood(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);

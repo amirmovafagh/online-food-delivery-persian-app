@@ -26,6 +26,8 @@ import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 import ir.boojanco.onlinefoodorder.R;
@@ -52,6 +54,7 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
     private Toolbar toolbar;
     private SearchView searchView;
     private NavController navController;
+    private ArrayList<String> categoryList;
 
 
     @Override
@@ -107,16 +110,21 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         boolean searchByCategory = getArguments().getBoolean("isSearchByCategory");
         boolean searchByRestaurantName = getArguments().getBoolean("isSearchByName");
         String cityName = sharedPreferences.getCity();
+        categoryList = new ArrayList<String>();
+        categoryList.add(getArguments().getString("categoryName"));
+
+        restaurantViewModel.getAllSearchedRestaurant(categoryList, cityName, getArguments().getString("restaurantName"),false,
+                false,false,false,0,0,0);
         if (!searchByCategory && !searchByLocation && !searchByRestaurantName) //show all restaurants in the city
-            restaurantViewModel.getAllSearchedRestaurant("", cityName, "");
+            {/*restaurantViewModel.getAllSearchedRestaurant("", cityName, "");*/}
         else {
 
             if (searchByLocation)//search restaurants by location
-                restaurantViewModel.getAllSearchedByLocation(sharedPreferences.getLatitude(), sharedPreferences.getLongitud());
+                {/*restaurantViewModel.getAllSearchedByLocation(sharedPreferences.getLatitude(), sharedPreferences.getLongitud());*/}
             else if (searchByCategory) //search restaurants by category
-                restaurantViewModel.getAllSearchedByCategory(getArguments().getString("categoryName"), cityName);
+                {/*restaurantViewModel.getAllSearchedByCategory(getArguments().getString("categoryName"), cityName);*/}
             else //search restaurants by restaurant name
-                restaurantViewModel.getAllSearchedRestaurant(getArguments().getString("restaurantName"), cityName, "");
+                {/*restaurantViewModel.getAllSearchedRestaurant(getArguments().getString("restaurantName"), cityName, "");*/}
 
         }
 

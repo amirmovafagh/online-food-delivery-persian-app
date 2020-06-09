@@ -7,6 +7,8 @@ import androidx.paging.PageKeyedDataSource;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantList;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantResponse;
@@ -22,9 +24,16 @@ public class SearchRestaurantDataSource extends PageKeyedDataSource<Integer, Res
     private static final String TAG = SearchRestaurantDataSource.class.getSimpleName();
     public static final int PAGE_SIZE = 5;
     public static final int FIRST_PAGE = 1;
-    private String query;
+    private String restaurantName;
     private String city;
-    private String region;
+    private ArrayList<String> categoryList;
+    private boolean discountFilter  ;
+    private boolean deliveryFilter  ;
+    private boolean servingFilter   ;
+    private boolean getInPlaceFilter;
+    private double latitude;
+    private double longitude;
+    private int sortBy = 0;
     private RestaurantDataSourceInterface dataSourceInterface;
 
     /*
@@ -36,12 +45,21 @@ public class SearchRestaurantDataSource extends PageKeyedDataSource<Integer, Res
     private RestaurantRepository restaurantRepository;
 
 
-    public SearchRestaurantDataSource(RestaurantRepository restaurantRepository, RestaurantDataSourceInterface dataSourceInterface, String query, String city, String region) {
+    public SearchRestaurantDataSource(RestaurantRepository restaurantRepository, RestaurantDataSourceInterface dataSourceInterface, ArrayList<String> categoryList, String city, String restaurantName, boolean deliveryFilter,
+                                      boolean discountFilter, boolean servingFilter, boolean getInPlaceFilter,
+                                      double latitude, double longitude, int sortBy) {
         this.restaurantRepository = restaurantRepository;
         this.dataSourceInterface = dataSourceInterface;
-        this.query = query;
+        this.restaurantName = restaurantName;
         this.city = city;
-        this.region = region;
+        this.discountFilter = discountFilter;
+        this.deliveryFilter = deliveryFilter;
+        this.servingFilter = servingFilter;
+        this.getInPlaceFilter = getInPlaceFilter;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.sortBy = sortBy;
+        this.categoryList = categoryList;
     }
 
     /*
@@ -54,7 +72,8 @@ public class SearchRestaurantDataSource extends PageKeyedDataSource<Integer, Res
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, RestaurantList> callback) {
         dataSourceInterface.onStarted();
 
-        Observable<RestaurantResponse> observable = restaurantRepository.searchRestaurantObservable(query, city, region, FIRST_PAGE, PAGE_SIZE);
+        Observable<RestaurantResponse> observable = restaurantRepository.searchRestaurantObservable(categoryList, city, restaurantName, deliveryFilter, discountFilter,
+                servingFilter, getInPlaceFilter, latitude, longitude, FIRST_PAGE, PAGE_SIZE, sortBy);
         if (observable != null) {
             observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<RestaurantResponse>() {
                 @Override
@@ -91,7 +110,8 @@ public class SearchRestaurantDataSource extends PageKeyedDataSource<Integer, Res
     @Override
     public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, RestaurantList> callback) {
 
-        Observable<RestaurantResponse> observable = restaurantRepository.searchRestaurantObservable(query, city, region, params.key, PAGE_SIZE);
+        Observable<RestaurantResponse> observable = restaurantRepository.searchRestaurantObservable(categoryList, city, restaurantName, deliveryFilter, discountFilter,
+                servingFilter, getInPlaceFilter, latitude, longitude, params.key, PAGE_SIZE, sortBy);
         if (observable != null) {
             observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<RestaurantResponse>() {
                 @Override
@@ -127,7 +147,8 @@ public class SearchRestaurantDataSource extends PageKeyedDataSource<Integer, Res
     @Override
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, RestaurantList> callback) {
 
-        Observable<RestaurantResponse> observable = restaurantRepository.searchRestaurantObservable(query, city, region, params.key, PAGE_SIZE);
+        Observable<RestaurantResponse> observable = restaurantRepository.searchRestaurantObservable(categoryList, city, restaurantName, deliveryFilter, discountFilter,
+                servingFilter, getInPlaceFilter, latitude, longitude, params.key, PAGE_SIZE, sortBy);
         if (observable != null) {
             observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<RestaurantResponse>() {
                 @Override

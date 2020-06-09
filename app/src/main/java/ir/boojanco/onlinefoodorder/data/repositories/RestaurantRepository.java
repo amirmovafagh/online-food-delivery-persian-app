@@ -1,5 +1,7 @@
 package ir.boojanco.onlinefoodorder.data.repositories;
 
+import java.util.ArrayList;
+
 import ir.boojanco.onlinefoodorder.data.networking.ApiInterface;
 import ir.boojanco.onlinefoodorder.models.food.FoodCategoriesResponse;
 import ir.boojanco.onlinefoodorder.models.food.GetAllFoodResponse;
@@ -17,6 +19,7 @@ import ir.boojanco.onlinefoodorder.models.user.CartOrderResponse;
 import ir.boojanco.onlinefoodorder.models.user.UserPointRestaurantClubResponse;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.http.Query;
 import rx.Observable;
 
 public class RestaurantRepository {
@@ -34,16 +37,11 @@ public class RestaurantRepository {
         return apiInterface.getRestaurantAssessment(restaurantId);
     }
 
-    public Observable<RestaurantResponse> searchRestaurantObservable(String name, String city, String region, int page, int size) {
-        return apiInterface.searchRestaurant(name, city, region, page, size);
-    }
-
-    public Observable<RestaurantResponse> searchByCategoryObservable(String category, String city, int page, int size) {
-        return apiInterface.searchByFoodCategory(category, city, page, size);
-    }
-
-    public Observable<RestaurantResponse> searchRestaurantBaseOnCoordinate(double latitude, double longitude, int page, int size) {
-        return apiInterface.searchRestaurantBaseOnCoordinate(latitude, longitude, page, size);
+    public Observable<RestaurantResponse> searchRestaurantObservable(ArrayList<String> categoryList, String city, String restaurantName, boolean deliveryFilter,
+                                                                     boolean discountFilter, boolean servingFilter, boolean getInPlaceFilter,
+                                                                     double latitude, double longitude, int page, int size, int sortBy) {
+        return apiInterface.searchRestaurants(categoryList, city, restaurantName, deliveryFilter, discountFilter,
+                servingFilter, getInPlaceFilter, latitude, longitude, page, size, sortBy);
     }
 
     public Observable<ReverseFindAddressResponse> getReverseFindAddressResponse(Double latitude, Double longitude) {

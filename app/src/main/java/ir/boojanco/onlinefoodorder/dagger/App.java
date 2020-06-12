@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 public class App extends Application {
-    public final static String webServerMediaRoute = "http://198.143.180.86:8080/api/v1/media/download/";
+    public final static String webServerMediaRoute = "http://mazeeh.ir/api/media/download/";
     private AppComponent component;
 
     //Instantiating the component

@@ -55,6 +55,7 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
     private SearchView searchView;
     private NavController navController;
     private ArrayList<String> categoryList;
+    private int sortBy = 0; //default 0 - 1 == bestRestaurantScore _ 2= newest
 
 
     @Override
@@ -109,22 +110,31 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         boolean searchByLocation = getArguments().getBoolean("isSearchByLocation");
         boolean searchByCategory = getArguments().getBoolean("isSearchByCategory");
         boolean searchByRestaurantName = getArguments().getBoolean("isSearchByName");
+        sortBy = getArguments().getInt("sortByType", 0);
         String cityName = sharedPreferences.getCity();
         categoryList = new ArrayList<String>();
         categoryList.add(getArguments().getString("categoryName"));
 
-        restaurantViewModel.getAllSearchedRestaurant(null, cityName, getArguments().getString("restaurantName"),null,
-                null,null,null,null,null,0);
+
         if (!searchByCategory && !searchByLocation && !searchByRestaurantName) //show all restaurants in the city
-            {/*restaurantViewModel.getAllSearchedRestaurant("", cityName, "");*/}
-        else {
+        {
+            restaurantViewModel.getAllSearchedRestaurant(null, cityName, null, null,
+                    null, null, null, null, null, sortBy);
+        } else {
 
             if (searchByLocation)//search restaurants by location
-                {/*restaurantViewModel.getAllSearchedByLocation(sharedPreferences.getLatitude(), sharedPreferences.getLongitud());*/}
-            else if (searchByCategory) //search restaurants by category
-                {/*restaurantViewModel.getAllSearchedByCategory(getArguments().getString("categoryName"), cityName);*/}
-            else //search restaurants by restaurant name
-                {/*restaurantViewModel.getAllSearchedRestaurant(getArguments().getString("restaurantName"), cityName, "");*/}
+            {
+                restaurantViewModel.getAllSearchedRestaurant(null, null, null, null,
+                        null, null, null, sharedPreferences.getLatitude(), sharedPreferences.getLongitud(), 0);
+            } else if (searchByCategory) //search restaurants by category
+            {
+                restaurantViewModel.getAllSearchedRestaurant(categoryList, cityName, null, null,
+                        null, null, null, null, null, 0);
+            } else //search restaurants by restaurant name
+            {
+                restaurantViewModel.getAllSearchedRestaurant(null, cityName, getArguments().getString("restaurantName"), null,
+                        null, null, null, null, null, 0);
+            }
 
         }
 

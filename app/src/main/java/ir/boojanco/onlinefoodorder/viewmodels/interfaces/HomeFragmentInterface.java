@@ -22,4 +22,8 @@ public interface HomeFragmentInterface {
     void setCityAndState(String state, String city);
 
     void tryAgain();
+
+    void searchRestaurantsByScore();
+
+    void searchRestaurantsByNewestDate();
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools"
-    xmlns:bar="http://schemas.android.com/apk/res-auto">
+    xmlns:bar="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
 
@@ -34,16 +34,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
-            app:theme="@style/ToolbarColoredBackArrow">
+            android:theme="@style/ToolbarColoredBackArrow">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
+                app:collapsedTitleTextAppearance="@style/CollapsingToolbarLayoutCollapsedTextStyle"
                 app:contentScrim="?attr/colorPrimary"
                 app:expandedTitleGravity="top|right"
-                app:collapsedTitleTextAppearance="@style/CollapsingToolbarLayoutCollapsedTextStyle"
                 app:expandedTitleTextAppearance="@style/CollapsingToolbarLayoutExpandedTextStyle"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
@@ -85,8 +85,7 @@
                         app:cardElevation="0dp"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        >
+                        app:layout_constraintTop_toTopOf="parent">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -288,10 +287,10 @@
                                 android:layout_margin="4dp"
                                 bar:animation="true"
                                 bar:layout_constraintBottom_toBottomOf="parent"
-                                bar:layout_constraintTop_toBottomOf="@id/cv_logo"
                                 bar:layout_constraintHorizontal_weight="7"
                                 bar:layout_constraintLeft_toLeftOf="parent"
                                 bar:layout_constraintRight_toLeftOf="@id/lin_rating"
+                                bar:layout_constraintTop_toBottomOf="@id/cv_logo"
                                 bar:max_value="50"
                                 bar:rounded="true"
                                 bar:show_label="true"

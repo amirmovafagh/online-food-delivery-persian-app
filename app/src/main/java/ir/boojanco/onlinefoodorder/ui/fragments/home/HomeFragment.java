@@ -304,6 +304,20 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
         lottie.playAnimation();
     }
 
+    @Override
+    public void searchRestaurantsByScore() {
+        Bundle bundle = new Bundle();
+        bundle.putInt("sortByType", 1);
+        Navigation.findNavController(getView()).navigate(R.id.action_homeFragment_to_restaurantFragment, bundle);
+    }
+
+    @Override
+    public void searchRestaurantsByNewestDate() {
+        Bundle bundle = new Bundle();
+        bundle.putInt("sortByType", 2);
+        Navigation.findNavController(getView()).navigate(R.id.action_homeFragment_to_restaurantFragment, bundle);
+    }
+
 
     @Override
     public void onStateItemClick(AllStatesList state) {

@@ -110,6 +110,10 @@
         <argument
             android:name="categoryName"
             app:argType="string" />
+        <argument
+            android:name="sortByType"
+            app:argType="integer"
+            android:defaultValue="0"/>
         <action
             android:id="@+id/action_restaurantFragment_to_restaurantDetailsFragment"
             app:destination="@id/restaurantDetailsFragment"

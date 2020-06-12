@@ -55,7 +55,7 @@ public class HomeViewModel extends ViewModel {
 
     }
 
-    public void searchRestaurantOnClick(){
+    public void searchRestaurantOnClick() {
         fragmentInterface.searchRestaurantOnClick();
     }
 
@@ -65,7 +65,7 @@ public class HomeViewModel extends ViewModel {
             stateProgressBar.setValue(true); //show progress bar
             observable.retry(3).subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetAllStatesResponse>() {
                 @Override
-                public void onCompleted(){
+                public void onCompleted() {
                 }
 
                 @Override
@@ -84,7 +84,7 @@ public class HomeViewModel extends ViewModel {
 
 
                         } catch (Exception d) {
-                            Log.i(TAG,""+d.getMessage());
+                            Log.i(TAG, "" + d.getMessage());
                         }
                     }
                 }
@@ -122,7 +122,7 @@ public class HomeViewModel extends ViewModel {
 
                         } catch (Exception d) {
                             fragmentInterface.onFailure(d.getMessage());
-                            Log.i(TAG,""+d.getMessage());
+                            Log.i(TAG, "" + d.getMessage());
                         }
                     }
                 }
@@ -136,8 +136,16 @@ public class HomeViewModel extends ViewModel {
         }
     }
 
-    public void tryAgainOnClick(){
+    public void tryAgainOnClick() {
         getCategories();
+    }
+
+    public void searchRestaurantsByScoreOnClick() {
+        fragmentInterface.searchRestaurantsByScore();
+    }
+
+    public void searchRestaurantsByNewestDateOnClick() {
+        fragmentInterface.searchRestaurantsByNewestDate();
     }
 
     public void getCategories() {
@@ -199,17 +207,17 @@ public class HomeViewModel extends ViewModel {
 
                         try {
                             JSONObject jsonObject = new JSONObject(response.errorBody().string());
-                            Log.e(TAG,""+jsonObject.getString("message"));
+                            Log.e(TAG, "" + jsonObject.getString("message"));
 
                         } catch (Exception d) {
-                            Log.e(TAG,""+d.getMessage());
+                            Log.e(TAG, "" + d.getMessage());
                         }
                     }
                 }
 
                 @Override
                 public void onNext(ReverseFindAddressResponse reverseFindAddressResponse) {
-                    fragmentInterface.setCityAndState(reverseFindAddressResponse.getState(),reverseFindAddressResponse.getCity());
+                    fragmentInterface.setCityAndState(reverseFindAddressResponse.getState(), reverseFindAddressResponse.getCity());
 
                 }
             });

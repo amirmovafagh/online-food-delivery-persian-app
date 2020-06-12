@@ -50,7 +50,7 @@ public class MazeehLogoFragment extends Fragment {
         binding.setLifecycleOwner(this);
 
         //Back pressed Logic for fragment
-        View v =  binding.getRoot();
+        View v = binding.getRoot();
         v.setFocusableInTouchMode(true);
         v.requestFocus();
         v.setOnKeyListener((v1, keyCode, event) -> {
@@ -69,7 +69,7 @@ public class MazeehLogoFragment extends Fragment {
         animationView.addAnimatorUpdateListener(animation -> {
 
             float progress = ((float) animation.getAnimatedValue() * 100);
-            if ((int) progress == 99) {
+            if ((int) progress == 85) {
                 if (sharedPreferences.getUserAuthTokenKey() != null) {
                     if (Navigation.findNavController(getView()).getCurrentDestination().getId() == R.id.mazeehLogoFragment) {
                         Navigation.findNavController(getView()).navigate(R.id.action_mazeehLogoFragment_to_mainActivity);

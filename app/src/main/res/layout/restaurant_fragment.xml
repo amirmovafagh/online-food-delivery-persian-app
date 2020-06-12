@@ -32,10 +32,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/colorPrimary"
+                android:theme="@style/ToolbarColoredBackArrow"
                 app:actionViewClass="androidx.appcompat.widget.SearchView"
                 app:layout_scrollFlags="scroll|snap|enterAlways"
                 app:subtitleTextColor="@color/white"
-                app:theme="@style/ToolbarColoredBackArrow"
                 app:titleTextColor="@color/white">
                 <!-- dummy to catch focus -->
 

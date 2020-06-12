@@ -30,7 +30,7 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"
-            app:popUpTo="@+id/mainActivity"
+            app:launchSingleTop="true"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -46,7 +46,7 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"
-            app:popUpTo="@+id/mainActivity"
+            app:launchSingleTop="true"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_loginRegisterFragment_to_verificationFragment"
@@ -77,7 +77,7 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"
-            app:popUpTo="@+id/mainActivity"
+            app:launchSingleTop="true"
             app:popUpToInclusive="true" />
     </fragment>
 </navigation>

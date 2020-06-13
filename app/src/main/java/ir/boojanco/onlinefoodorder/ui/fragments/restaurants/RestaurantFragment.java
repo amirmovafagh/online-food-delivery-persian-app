@@ -3,6 +3,7 @@ package ir.boojanco.onlinefoodorder.ui.fragments.restaurants;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -24,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -55,6 +57,8 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
     private SearchView searchView;
     private NavController navController;
     private ArrayList<String> categoryList;
+    private NestedScrollView nestedScrollView;
+    private BottomSheetBehavior sheetBehavior;
     private int sortBy = 0; //default 0 - 1 == bestRestaurantScore _ 2= newest
 
 
@@ -65,7 +69,7 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         binding = DataBindingUtil.inflate(inflater, R.layout.restaurant_fragment, container, false);
         restaurantViewModel = new ViewModelProvider(this, factory).get(RestaurantViewModel.class);
         restaurantViewModel.restaurantInterface = this;
-        binding.setRestaurantViewModel(restaurantViewModel);
+        binding.setViewModel(restaurantViewModel);
         binding.setLifecycleOwner(this);
         toolbar = binding.toolbar;
 
@@ -74,6 +78,10 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
                 new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupWithNavController(
                 toolbar, navController, appBarConfiguration);
+
+        nestedScrollView = binding.bottomSheetRestaurantNestedScrollview;
+        sheetBehavior = BottomSheetBehavior.from(nestedScrollView);
+        sheetBehavior.setGestureInsetBottomIgnored(true);
 
         searchView = binding.search;
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -112,6 +120,7 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         boolean searchByRestaurantName = getArguments().getBoolean("isSearchByName");
         sortBy = getArguments().getInt("sortByType", 0);
         String cityName = sharedPreferences.getCity();
+        restaurantViewModel.cityNameLiveData.postValue(cityName);
         categoryList = new ArrayList<String>();
         categoryList.add(getArguments().getString("categoryName"));
 
@@ -141,6 +150,10 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         restaurantViewModel.restaurantPagedListLiveData.observe(getViewLifecycleOwner(), restaurantLists -> restaurantAdapter.submitList(restaurantLists));
     }
 
+    private void getRestaurants(){
+
+    }
+
     @Override
     public void onStarted() {
         binding.animationViewLoadRequest.setVisibility(View.VISIBLE);
@@ -158,6 +171,11 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         Snackbar snackbar = Snackbar.make(binding.mainContent, "" + error, Snackbar.LENGTH_SHORT);
         snackbar.show();
         binding.animationViewLoadRequest.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void openBottomSheet() {
+        sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
     @Override

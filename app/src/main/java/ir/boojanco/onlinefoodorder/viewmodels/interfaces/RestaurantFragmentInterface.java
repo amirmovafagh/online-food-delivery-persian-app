@@ -4,4 +4,5 @@ public interface RestaurantFragmentInterface {
     void onStarted();
     void onSuccess();
     void onFailure(String error);
+    void openBottomSheet();
 }

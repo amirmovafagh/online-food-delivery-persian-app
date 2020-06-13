@@ -294,18 +294,12 @@ public class MainActivity extends AppCompatActivity {
             if (mLastLocation != null) {
                 sharedPreferences.setLatitude(mLastLocation.getLatitude());
                 sharedPreferences.setLongitud(mLastLocation.getLongitude());
-               /* getCityName(mLastLocation);*/
             }
 
         }
     };
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.cart_toolbar_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
 
 }

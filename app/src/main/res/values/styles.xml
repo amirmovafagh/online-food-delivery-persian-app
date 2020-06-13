@@ -10,6 +10,10 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
         <!--<item name="android:backgroundDimEnabled">false</item>-->
+    </style>
+
+    <style name="SearchViewStyle" parent="Theme.MaterialComponents">
+        <item name="android:editTextColor">@color/white</item>
 
     </style>
 

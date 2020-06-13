@@ -109,4 +109,6 @@
     <string name="pleaseLogin">لطفا وارد شوید</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="login">ورود</string>
+    <string name="restaurantsFilter">فیلتر و مرتب سازی رستوران\u200cها</string>
+    <string name="filterByFoodType">مرتب سازی براساس غذا</string>
 </resources>

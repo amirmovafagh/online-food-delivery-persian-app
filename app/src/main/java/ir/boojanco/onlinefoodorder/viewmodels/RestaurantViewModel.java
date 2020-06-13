@@ -29,6 +29,7 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
     private RestaurantRepository restaurantRepository;
     private Context context;
     public MutableLiveData<RestaurantResponse> responseMutableLiveData;
+    public MutableLiveData<String> cityNameLiveData;
 
     public LiveData<PagedList<RestaurantList>> restaurantPagedListLiveData;
     public LiveData<PageKeyedDataSource<Integer, RestaurantList>> liveDataSource;
@@ -37,8 +38,7 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
         responseMutableLiveData = new MutableLiveData<>();
         this.context = context;
         this.restaurantRepository = restaurantRepository;
-
-
+        cityNameLiveData = new MutableLiveData<>();
     }
 
     public void getAllRestaurant(String authToken) {
@@ -63,6 +63,10 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
                         .setEnablePlaceholders(false)).setPageSize(SearchRestaurantDataSource.PAGE_SIZE)
                         .build();
         restaurantPagedListLiveData = (new LivePagedListBuilder(searchRestaurantDataSourceFactory, config)).build();
+    }
+
+    public void openFilterBottomSheetOnClick(){
+        restaurantInterface.openBottomSheet();
     }
 
     @Override

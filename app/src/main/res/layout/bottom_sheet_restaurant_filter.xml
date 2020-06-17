@@ -60,7 +60,6 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
             android:background="?android:attr/listDivider" />
 
         <TextView
@@ -78,61 +77,226 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.chip.ChipGroup xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/chips_group"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chips_group_food_type"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="8dp"
+            android:padding="4dp"
+            app:chipSpacingHorizontal="16dp"
             app:singleSelection="false">
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chip_fastfood"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Lollipop" />
+                android:onCheckedChanged="@{(v, checked) -> viewModel.setFilterCategoryOnClick(v,checked)}"
+                android:text="فست\u200cفود"
+
+                android:textAppearance="@style/ChipTextAppearance" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chip_burger"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Marshmallow" />
+                android:onCheckedChanged="@{(v, checked) -> viewModel.setFilterCategoryOnClick(v,checked)}"
+                android:text="برگر"
+
+                android:textAppearance="@style/ChipTextAppearance" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chip_pizza"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nougat" />
+                android:onCheckedChanged="@{(v, checked) -> viewModel.setFilterCategoryOnClick(v,checked)}"
+                android:text="پیتزا"
+                android:textAppearance="@style/ChipTextAppearance" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chip_sandwich"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Oreo" />
+                android:onCheckedChanged="@{(v, checked) -> viewModel.setFilterCategoryOnClick(v,checked)}"
+                android:text="ساندویچ"
+                android:textAppearance="@style/ChipTextAppearance" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chip_hotdog"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Lollipop" />
+                android:onCheckedChanged="@{(v, checked) -> viewModel.setFilterCategoryOnClick(v,checked)}"
+                android:text="هات داگ"
+                android:textAppearance="@style/ChipTextAppearance" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chip_fried"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Marshmallow" />
+                android:onCheckedChanged="@{(v, checked) -> viewModel.setFilterCategoryOnClick(v,checked)}"
+                android:text="سوخاری"
+                android:textAppearance="@style/ChipTextAppearance" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chip_iranianfood"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nougat" />
+                android:onCheckedChanged="@{(v, checked) -> viewModel.setFilterCategoryOnClick(v,checked)}"
+                android:text="ایرانی"
+                android:textAppearance="@style/ChipTextAppearance" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chip_coffeeshop"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Oreo" />
+                android:onCheckedChanged="@{(v, checked) -> viewModel.setFilterCategoryOnClick(v,checked)}"
+                android:text="کافی شاپ"
+                android:textAppearance="@style/ChipTextAppearance" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_chaineesefood"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onCheckedChanged="@{(v, checked) -> viewModel.setFilterCategoryOnClick(v,checked)}"
+                android:text="چینی"
+                android:textAppearance="@style/ChipTextAppearance" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_italianfood"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onCheckedChanged="@{(v, checked) -> viewModel.setFilterCategoryOnClick(v,checked)}"
+                android:text="ایتالیایی"
+                android:textAppearance="@style/ChipTextAppearance" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_kebab"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onCheckedChanged="@{(v, checked) -> viewModel.setFilterCategoryOnClick(v,checked)}"
+                android:text="کباب"
+                android:textAppearance="@style/ChipTextAppearance" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_vegetarianfood"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onCheckedChanged="@{(v, checked) -> viewModel.setFilterCategoryOnClick(v,checked)}"
+                android:text="گیاهی"
+                android:textAppearance="@style/ChipTextAppearance" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_seafood"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onCheckedChanged="@{(v, checked) -> viewModel.setFilterCategoryOnClick(v,checked)}"
+                android:text="دریایی"
+                android:textAppearance="@style/ChipTextAppearance" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_dessert"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onCheckedChanged="@{(v, checked) -> viewModel.setFilterCategoryOnClick(v,checked)}"
+                android:text="دسر"
+                android:textAppearance="@style/ChipTextAppearance" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="4dp"
+            android:background="?android:attr/listDivider" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
+            android:maxLines="1"
+            android:text="@string/filters"
+            android:textAlignment="center"
+            android:textSize="@dimen/body1_paragraph_font_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintLeft_toRightOf="@id/btn_close"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chips_group_"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="4dp"
+            app:chipSpacingHorizontal="8dp"
+            app:singleLine="false"
+            app:singleSelection="false">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_delivery_withpeyk"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onCheckedChanged="@{(v, checked) -> viewModel.setFilterCategoryOnClick(v,checked)}"
+                android:text="دریافت توسط پیک"
+                android:textAppearance="@style/ChipTextAppearance"
+                android:textColor="@android:color/white"
+                app:checkedIcon="@drawable/ic_check"
+                app:chipBackgroundColor="@color/colorSecondPrimary"
+                app:chipIconTint="@android:color/white" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_discounted"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onCheckedChanged="@{(v, checked) -> viewModel.setFilterCategoryOnClick(v,checked)}"
+                android:text="دارای تخفیف"
+                android:textAppearance="@style/ChipTextAppearance"
+                android:textColor="@android:color/white"
+                app:checkedIcon="@drawable/ic_check"
+                app:chipBackgroundColor="@color/colorSecondPrimary"
+                app:chipIconTint="@android:color/white" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_serving"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onCheckedChanged="@{(v, checked) -> viewModel.setFilterCategoryOnClick(v,checked)}"
+                android:text="درحال سرویس دهی"
+                android:textAppearance="@style/ChipTextAppearance"
+                android:textColor="@android:color/white"
+                app:checkedIcon="@drawable/ic_check"
+                app:chipBackgroundColor="@color/colorSecondPrimary"
+                app:chipIconTint="@android:color/white" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_get_inplace"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onCheckedChanged="@{(v, checked) -> viewModel.setFilterCategoryOnClick(v,checked)}"
+                android:text="دریافت در محل رستوران"
+                android:textAppearance="@style/ChipTextAppearance"
+                android:textColor="@android:color/white"
+                app:checkedIcon="@drawable/ic_check"
+                app:chipBackgroundColor="@color/colorSecondPrimary"
+                app:chipIconTint="@android:color/white" />
+
 
         </com.google.android.material.chip.ChipGroup>
 

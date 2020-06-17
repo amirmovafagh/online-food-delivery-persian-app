@@ -5,6 +5,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -58,6 +60,7 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
     private NavController navController;
     private ArrayList<String> categoryList;
     private NestedScrollView nestedScrollView;
+    private LiveData<PagedList<RestaurantList>> restaurantPagedListLiveData;
     private BottomSheetBehavior sheetBehavior;
     private int sortBy = 0; //default 0 - 1 == bestRestaurantScore _ 2= newest
 
@@ -121,8 +124,7 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         sortBy = getArguments().getInt("sortByType", 0);
         String cityName = sharedPreferences.getCity();
         restaurantViewModel.cityNameLiveData.postValue(cityName);
-        categoryList = new ArrayList<String>();
-        categoryList.add(getArguments().getString("categoryName"));
+        restaurantViewModel.setSortBy(sortBy);
 
 
         if (!searchByCategory && !searchByLocation && !searchByRestaurantName) //show all restaurants in the city
@@ -133,30 +135,43 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
 
             if (searchByLocation)//search restaurants by location
             {
+                double lat = sharedPreferences.getLatitude();
+                double lon = sharedPreferences.getLongitud();
                 restaurantViewModel.getAllSearchedRestaurant(null, null, null, null,
-                        null, null, null, sharedPreferences.getLatitude(), sharedPreferences.getLongitud(), 0);
+                        null, null, null, lat, lon, 0);
+                restaurantViewModel.setLatLon(lat, lon);
             } else if (searchByCategory) //search restaurants by category
             {
+                categoryList = new ArrayList<>();
+                categoryList.add(getArguments().getString("categoryName"));
                 restaurantViewModel.getAllSearchedRestaurant(categoryList, cityName, null, null,
                         null, null, null, null, null, 0);
+
             } else //search restaurants by restaurant name
             {
-                restaurantViewModel.getAllSearchedRestaurant(null, cityName, getArguments().getString("restaurantName"), null,
+                String restaurantName = getArguments().getString("restaurantName");
+                restaurantViewModel.getAllSearchedRestaurant(null, cityName, restaurantName, null,
                         null, null, null, null, null, 0);
+                restaurantViewModel.setRestaurantName(restaurantName);
             }
-
         }
-
-        restaurantViewModel.restaurantPagedListLiveData.observe(getViewLifecycleOwner(), restaurantLists -> restaurantAdapter.submitList(restaurantLists));
+        restaurantPagedListLiveData = restaurantViewModel.restaurantPagedListLiveData;
+        restaurantPagedListLiveData.observe(getViewLifecycleOwner(), restaurantLists -> restaurantAdapter.submitList(restaurantLists));
     }
 
-    private void getRestaurants(){
+    private void getRestaurants() {
 
     }
 
     @Override
     public void onStarted() {
-        binding.animationViewLoadRequest.setVisibility(View.VISIBLE);
+
+        new Runnable() {
+            @Override
+            public void run() {
+                binding.animationViewLoadRequest.setVisibility(View.VISIBLE);
+            }
+        };
     }
 
     @Override
@@ -176,6 +191,18 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
     @Override
     public void openBottomSheet() {
         sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+    }
+
+    @Override
+    public void updateRestaurantsRecyclerView(Object categoryList, Object city, Object restaurantName, Object deliveryFilter, Object discountFilter, Object servingFilter, Object getInPlaceFilter, Object latitude, Object longitude, Object sortBy) {
+        restaurantViewModel.getAllSearchedRestaurant(categoryList, city,
+                restaurantName, deliveryFilter, discountFilter, servingFilter, getInPlaceFilter,
+                latitude, longitude, sortBy);
+        if (restaurantPagedListLiveData.hasObservers()) {
+            restaurantPagedListLiveData.removeObservers(getActivity());
+            restaurantPagedListLiveData = restaurantViewModel.restaurantPagedListLiveData;
+            restaurantPagedListLiveData.observe(getViewLifecycleOwner(), restaurantLists -> restaurantAdapter.submitList(restaurantLists));
+        }
     }
 
     @Override

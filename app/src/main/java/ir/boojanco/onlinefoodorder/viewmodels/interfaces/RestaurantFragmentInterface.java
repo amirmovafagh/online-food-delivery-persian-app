@@ -5,4 +5,8 @@ public interface RestaurantFragmentInterface {
     void onSuccess();
     void onFailure(String error);
     void openBottomSheet();
+
+    void updateRestaurantsRecyclerView(Object categoryList, Object city, Object restaurantName, Object deliveryFilter,
+                                       Object discountFilter, Object servingFilter, Object getInPlaceFilter,
+                                       Object latitude, Object longitude, Object sortBy);
 }

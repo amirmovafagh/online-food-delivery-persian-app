@@ -86,15 +86,67 @@
 
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_all_restaurant"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layoutAnimation="@anim/layout_animation_fall_down"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/img_sort"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_sort_restaurant"
+                    android:foregroundGravity="center"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/chip_group_sort"
+                    app:layout_constraintBottom_toBottomOf="@id/chip_group_sort"
+                    app:layout_constraintLeft_toRightOf="@id/chip_group_sort"/>
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chip_group_sort"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    app:singleSelection="true"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/img_sort">
 
-            />
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_more_score"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onCheckedChanged="@{(v, checked) -> viewModel.setSortOnClick(v,checked)}"
+                        android:text="@string/fave_resturants"
+                        android:textAppearance="@style/ChipTextAppearance" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_newest"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onCheckedChanged="@{(v, checked) -> viewModel.setSortOnClick(v,checked)}"
+                        android:text="@string/new_restaurants"
+                        android:textAppearance="@style/ChipTextAppearance" />
+                </com.google.android.material.chip.ChipGroup>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_all_restaurant"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layoutAnimation="@anim/layout_animation_fall_down"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                />
+
+        </LinearLayout>
+
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_view_load_request"

@@ -110,5 +110,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="login">ورود</string>
     <string name="restaurantsFilter">فیلتر و مرتب سازی رستوران\u200cها</string>
-    <string name="filterByFoodType">مرتب سازی براساس غذا</string>
+    <string name="filterByFoodType">دسته\u200cبندی براساس غذا</string>
+    <string name="fave_resturants">محبوب ترین‌ها</string>
+    <string name="filters">فیلترها</string>
 </resources>

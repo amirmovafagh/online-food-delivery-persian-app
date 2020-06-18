@@ -116,10 +116,6 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
 
     }
 
-    public void onCheckedChanged(View v, boolean checked) {
-
-        Toast.makeText(context, v.getId() + " " + checked, Toast.LENGTH_SHORT).show();
-    }
 
     public void setFilterCategoryOnClick(View v, boolean checked) {
         switch (v.getId()) {
@@ -178,6 +174,13 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
                 initCategoryList("دسر", checked);
                 return;
         }
+
+    }
+
+    public void searchBtnOnClick(){
+        restaurantInterface.updateRestaurantsRecyclerView(categoryList, cityNameLiveData.getValue(),
+                restaurantName, deliveryFilter, discountFilter, servingFilter, getInPlaceFilter,
+                latitude, longitude, sortBy);
 
     }
 

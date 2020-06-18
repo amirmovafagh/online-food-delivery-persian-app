@@ -299,7 +299,22 @@
 
 
         </com.google.android.material.chip.ChipGroup>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
 
+        <Button
+            android:id="@+id/buttonLogin"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="0.5"
+            android:onClick="@{()-> viewModel.searchBtnOnClick()}"
+            android:text="@string/apply"
+            android:textSize="@dimen/button_font_size"
+            app:cornerRadius="@dimen/button_corner_radius" />
 
     </LinearLayout>
 

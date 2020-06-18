@@ -113,4 +113,5 @@
     <string name="filterByFoodType">دسته\u200cبندی براساس غذا</string>
     <string name="fave_resturants">محبوب ترین‌ها</string>
     <string name="filters">فیلترها</string>
+    <string name="apply">اعمال</string>
 </resources>

@@ -159,10 +159,6 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         restaurantPagedListLiveData.observe(getViewLifecycleOwner(), restaurantLists -> restaurantAdapter.submitList(restaurantLists));
     }
 
-    private void getRestaurants() {
-
-    }
-
     @Override
     public void onStarted() {
 
@@ -202,6 +198,9 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
             restaurantPagedListLiveData.removeObservers(getActivity());
             restaurantPagedListLiveData = restaurantViewModel.restaurantPagedListLiveData;
             restaurantPagedListLiveData.observe(getViewLifecycleOwner(), restaurantLists -> restaurantAdapter.submitList(restaurantLists));
+        }
+        if (sheetBehavior != null) {
+            sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         }
     }
 

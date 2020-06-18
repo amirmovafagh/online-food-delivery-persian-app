@@ -207,8 +207,8 @@ public class NetModule {
     @Singleton
     OkHttpClient provideOkHttpClient(Cache cache, NetworkConnectionInterceptor networkConnectionInterceptor) {
         OkHttpClient.Builder client = new OkHttpClient.Builder()
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(10, TimeUnit.SECONDS)
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .readTimeout(15, TimeUnit.SECONDS)
                 .addInterceptor(networkConnectionInterceptor);
         client.cache(cache);
         return client.build();

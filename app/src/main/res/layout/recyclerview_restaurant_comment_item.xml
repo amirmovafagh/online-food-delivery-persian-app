@@ -95,7 +95,6 @@
                     android:layout_height="wrap_content"
                     android:fillViewport="true"
                     android:rotation="180"
-
                     android:scrollbars="none"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"

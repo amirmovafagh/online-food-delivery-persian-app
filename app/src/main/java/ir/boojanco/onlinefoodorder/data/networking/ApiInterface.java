@@ -112,7 +112,7 @@ public interface ApiInterface {
     Observable<Response<Void>> addUserAddress(@Header("Authorization") String authToken, @Body AddUserAddressResponse addressBody);
 
     @POST("/api/order/add")
-    Observable<Response<Boolean>> addOrder(@Header("Authorization") String authToken, @Body CartOrderResponse cartOrderBody);
+    Observable<CartOrderResponse> addOrder(@Header("Authorization") String authToken, @Body CartOrderResponse cartOrderBody);
 
     @PUT("/api/address/{addressId}/edit")
     Observable<Response<Void>> editUserAddress(@Header("Authorization") String authToken, @Path("addressId") long addressId, @Body EditUserAddressResponse editedAddressBody);

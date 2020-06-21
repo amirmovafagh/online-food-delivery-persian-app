@@ -3,6 +3,7 @@ package ir.boojanco.onlinefoodorder.ui.fragments.restaurants;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.LiveData;
@@ -20,17 +21,25 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.AutoTransition;
+import androidx.transition.TransitionManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListView;
+import android.widget.HorizontalScrollView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -51,6 +60,14 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
     @Inject
     MySharedPreferences sharedPreferences;
 
+    private CoordinatorLayout mainLayout;
+    private AutoTransition transition;
+    private ChipGroup sortChipGroup;
+    private ExpandableListView expandableListViewCategory;
+    private List<String> listGroupCategory;
+    private HashMap<String, List<String>> listItemCategory;
+    private ExpandableCategoryListAadpter categoryListAadpter;
+    private HorizontalScrollView scrollViewFilterChipGroup;
     private RestaurantViewModel restaurantViewModel;
     private RestaurantFragmentBinding binding;
     private RestaurantAdapter restaurantAdapter;
@@ -75,6 +92,16 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         binding.setViewModel(restaurantViewModel);
         binding.setLifecycleOwner(this);
         toolbar = binding.toolbar;
+        mainLayout = binding.mainContent;
+        transition = new AutoTransition();
+        sortChipGroup = binding.chipGroupSort;
+        scrollViewFilterChipGroup = binding.horizontalScrollChipsGroupFilter;
+        expandableListViewCategory = binding.bottomSheetRestaurantInclude.expandableListviewFoodCategory;
+        listGroupCategory = new ArrayList<>();
+        listItemCategory = new HashMap<>();
+        categoryListAadpter = new ExpandableCategoryListAadpter(getContext(),listGroupCategory,listItemCategory);
+        expandableListViewCategory.setAdapter(categoryListAadpter);
+        initCategoryData();
 
         navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
         AppBarConfiguration appBarConfiguration =
@@ -114,6 +141,18 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
 
     }
 
+    private void initCategoryData() {
+        listGroupCategory.add(getString(R.string.food_category));
+
+        String[] array;
+        array = getResources().getStringArray(R.array.food_category);
+        List<String> list = new ArrayList<>(Arrays.asList(array));
+        listItemCategory.put(listGroupCategory.get(0),list);
+
+        categoryListAadpter.notifyDataSetChanged();
+
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -122,6 +161,17 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         boolean searchByCategory = getArguments().getBoolean("isSearchByCategory");
         boolean searchByRestaurantName = getArguments().getBoolean("isSearchByName");
         sortBy = getArguments().getInt("sortByType", 0);
+        if (sortBy == 0) {
+            sortChipGroup.check(R.id.chip_most_relevant);
+            restaurantViewModel.sortByNameLiveData.postValue(getString(R.string.most_relevant));
+        } else if (sortBy == 1) {
+            sortChipGroup.check(R.id.chip_more_score);
+            restaurantViewModel.sortByNameLiveData.postValue(getString(R.string.fave_resturants));
+        } else {
+            sortChipGroup.check(R.id.chip_newest);
+            restaurantViewModel.sortByNameLiveData.postValue(getString(R.string.new_restaurants));
+        }
+
         String cityName = sharedPreferences.getCity();
         restaurantViewModel.cityNameLiveData.postValue(cityName);
         restaurantViewModel.setSortBy(sortBy);
@@ -144,6 +194,7 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
             {
                 categoryList = new ArrayList<>();
                 categoryList.add(getArguments().getString("categoryName"));
+                restaurantViewModel.setCategoryList(categoryList);
                 restaurantViewModel.getAllSearchedRestaurant(categoryList, cityName, null, null,
                         null, null, null, null, null, 0);
 
@@ -185,8 +236,37 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
     }
 
     @Override
+    public void expandSortView() {
+        if (sortChipGroup.getVisibility() == View.GONE) {
+            TransitionManager.beginDelayedTransition(mainLayout, transition);
+            sortChipGroup.setVisibility(View.VISIBLE);
+
+        } else {
+            TransitionManager.beginDelayedTransition(mainLayout, transition);
+            sortChipGroup.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void expandFilterView() {
+        if (scrollViewFilterChipGroup.getVisibility() == View.GONE) {
+            TransitionManager.beginDelayedTransition(mainLayout, transition);
+            scrollViewFilterChipGroup.setVisibility(View.VISIBLE);
+
+        } else {
+            TransitionManager.beginDelayedTransition(mainLayout, transition);
+            scrollViewFilterChipGroup.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
     public void openBottomSheet() {
         sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+    }
+
+    @Override
+    public void closeBottomSheet() {
+        sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
     @Override

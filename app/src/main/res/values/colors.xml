@@ -44,5 +44,6 @@
     <color name="materialGray600">#757575</color>
     <color name="materialGray700">#616161</color>
     <color name="materialGray800">#424242</color>
+    <color name="materialGray850">#434750</color>
     <color name="materialGray900">#212121</color>
 </resources>

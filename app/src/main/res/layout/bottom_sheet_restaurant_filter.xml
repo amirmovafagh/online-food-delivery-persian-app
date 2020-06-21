@@ -17,6 +17,7 @@
         android:layoutDirection="rtl"
         android:orientation="vertical">
 
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -48,6 +49,9 @@
                 android:layout_gravity="center"
                 android:layout_margin="8dp"
                 android:background="@drawable/ic_close_black_24dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="@{()->viewModel.closeFilterBottomSheetOnClick()}"
                 app:layout_constraintBottom_toBottomOf="@id/txt_filter"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/txt_filter"
@@ -61,6 +65,14 @@
             android:layout_height="1dp"
             android:layout_marginTop="4dp"
             android:background="?android:attr/listDivider" />
+
+        <ExpandableListView
+            android:id="@+id/expandable_listview_food_category"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:layout_marginTop="8dp"
+            android:layoutDirection="rtl" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -221,88 +233,7 @@
             android:layout_marginTop="4dp"
             android:background="?android:attr/listDivider" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
-            android:maxLines="1"
-            android:text="@string/filters"
-            android:textAlignment="center"
-            android:textSize="@dimen/body1_paragraph_font_size"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintLeft_toRightOf="@id/btn_close"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chips_group_"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="4dp"
-            app:chipSpacingHorizontal="8dp"
-            app:singleLine="false"
-            app:singleSelection="false">
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_delivery_withpeyk"
-                style="@style/Widget.MaterialComponents.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onCheckedChanged="@{(v, checked) -> viewModel.setFilterCategoryOnClick(v,checked)}"
-                android:text="دریافت توسط پیک"
-                android:textAppearance="@style/ChipTextAppearance"
-                android:textColor="@android:color/white"
-                app:checkedIcon="@drawable/ic_check"
-                app:chipBackgroundColor="@color/colorSecondPrimary"
-                app:chipIconTint="@android:color/white" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_discounted"
-                style="@style/Widget.MaterialComponents.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onCheckedChanged="@{(v, checked) -> viewModel.setFilterCategoryOnClick(v,checked)}"
-                android:text="دارای تخفیف"
-                android:textAppearance="@style/ChipTextAppearance"
-                android:textColor="@android:color/white"
-                app:checkedIcon="@drawable/ic_check"
-                app:chipBackgroundColor="@color/colorSecondPrimary"
-                app:chipIconTint="@android:color/white" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_serving"
-                style="@style/Widget.MaterialComponents.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onCheckedChanged="@{(v, checked) -> viewModel.setFilterCategoryOnClick(v,checked)}"
-                android:text="درحال سرویس دهی"
-                android:textAppearance="@style/ChipTextAppearance"
-                android:textColor="@android:color/white"
-                app:checkedIcon="@drawable/ic_check"
-                app:chipBackgroundColor="@color/colorSecondPrimary"
-                app:chipIconTint="@android:color/white" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_get_inplace"
-                style="@style/Widget.MaterialComponents.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onCheckedChanged="@{(v, checked) -> viewModel.setFilterCategoryOnClick(v,checked)}"
-                android:text="دریافت در محل رستوران"
-                android:textAppearance="@style/ChipTextAppearance"
-                android:textColor="@android:color/white"
-                app:checkedIcon="@drawable/ic_check"
-                app:chipBackgroundColor="@color/colorSecondPrimary"
-                app:chipIconTint="@android:color/white" />
-
-
-        </com.google.android.material.chip.ChipGroup>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider" />
 
         <Button
             android:id="@+id/buttonLogin"

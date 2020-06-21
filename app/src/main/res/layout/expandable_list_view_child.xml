@@ -1,0 +1,20 @@
+<layout>
+    <data>
+        <variable
+            name="child"
+            type="String" />
+    </data>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/list_child"
+            android:text="@{child}"
+            android:textSize="@dimen/body1_paragraph_font_size"
+            android:paddingLeft="20dp"/>
+
+    </LinearLayout>
+</layout>

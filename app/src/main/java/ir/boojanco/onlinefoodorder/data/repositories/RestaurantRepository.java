@@ -72,7 +72,7 @@ public class RestaurantRepository {
         return apiInterface.getDiscountCodeResponseObservable(authToken, code, restaurantId, totalCost);
     }
 
-    public Observable<Response<Boolean>> addOrder(String authToken, CartOrderResponse cartOrderBody) {
+    public Observable<CartOrderResponse> addOrder(String authToken, CartOrderResponse cartOrderBody) {
         return apiInterface.addOrder(authToken, cartOrderBody);
     }
 

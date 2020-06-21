@@ -32,7 +32,7 @@
     <string name="title_activity_maps">Map</string>
     <string name="popular_categories">دسته بندی\u200cهای پرطرفدار</string>
     <string name="delicious">خوشمزه\u200cها</string>
-    <string name="new_restaurants">جدید ترین رستوران\u200cها</string>
+    <string name="new_restaurants">جدید ترین\u200cها</string>
     <string name="new_res">جدید</string>
     <string name="delivery_time">پیک (60 دقیقه)</string>
     <string name="region">محله</string>
@@ -114,4 +114,24 @@
     <string name="fave_resturants">محبوب ترین‌ها</string>
     <string name="filters">فیلترها</string>
     <string name="apply">اعمال</string>
+    <string name="most_relevant">مرتبط ترین‌ها</string>
+
+
+    <string name="food_category">دسته بندی براساس غذا</string>
+    <string-array name="food_category">
+        <item>فست فود</item>
+        <item>برگر</item>
+        <item>پیتزا</item>
+        <item>ساندویچ</item>
+        <item>هات داگ</item>
+        <item>سوخاری</item>
+        <item>ایرانی</item>
+        <item>کافی شاپ</item>
+        <item>چینی</item>
+        <item>ایتالیایی</item>
+        <item>کباب</item>
+        <item>گیاهی</item>
+        <item>دریایی</item>
+        <item>دسر</item>
+    </string-array>
 </resources>

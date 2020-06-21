@@ -33,6 +33,20 @@ public class CartOrderResponse {
     @SerializedName("userId")
     private long userId;
 
+    //for response
+    @SerializedName("state")
+    private String state;
+    @SerializedName("token")
+    private String token;
+
+    public String getState() {
+        return state;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
     public long getDate() {
         return date;
     }

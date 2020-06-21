@@ -141,9 +141,9 @@ public class PaymentViewModel extends ViewModel {
         CartOrderResponse cartOrderBody = new CartOrderResponse(date.getTime(), userDescriptionLiveData.getValue(),
                 discountCode, foodLists, orderType.toString(), packageId, packingCost, paymentType.toString(),
                 restaurantId, shippingAddressId, shippingCost, totalAllPrice, 0);
-        rx.Observable<Response<Boolean>> observable = restaurantRepository.addOrder(userAuthToken, cartOrderBody);
+        rx.Observable<CartOrderResponse> observable = restaurantRepository.addOrder(userAuthToken, cartOrderBody);
         if (observable != null) {
-            observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<Response<Boolean>>() {
+            observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<CartOrderResponse>() {
                 @Override
                 public void onCompleted() {
 
@@ -170,8 +170,8 @@ public class PaymentViewModel extends ViewModel {
                 }
 
                 @Override
-                public void onNext(Response<Boolean> booleanResponse) {
-                    paymentInterface.onFailure("" + booleanResponse);
+                public void onNext(CartOrderResponse response) {
+                    paymentInterface.onFailure("state :" + response.getState() + " token: " + response.getToken());
                 }
             });
         }

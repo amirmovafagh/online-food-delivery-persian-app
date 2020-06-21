@@ -25,116 +25,247 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/white">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/colorPrimary"
-                android:theme="@style/ToolbarColoredBackArrow"
-                app:actionViewClass="androidx.appcompat.widget.SearchView"
-                app:layout_scrollFlags="scroll|snap|enterAlways"
-                app:subtitleTextColor="@color/white"
-                app:titleTextColor="@color/white">
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:cardBackgroundColor="#f0f0f0"
+                app:cardCornerRadius="@dimen/little_view_corner_radius"
+                app:cardElevation="0dp"
+                app:layout_scrollFlags="scroll|snap|enterAlways">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@color/transparent"
+                    android:theme="@style/ToolbarColoredBackArrow"
+                    app:actionViewClass="androidx.appcompat.widget.SearchView"
+                    app:subtitleTextColor="@color/white"
+                    app:titleTextColor="@color/white">
 
-                    <ImageButton
-                        android:id="@+id/filter_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:background="@drawable/ic_filter_restaurant"
-                        android:onClick="@{()->viewModel.openFilterBottomSheetOnClick()}"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toLeftOf="@id/search"
-                        app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.appcompat.widget.SearchView
-                        android:id="@+id/search"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layoutDirection="rtl"
-                        android:nextFocusLeft="@id/search"
-                        android:nextFocusUp="@id/search"
-                        app:searchHintIcon="@null"
-                        android:theme="@style/SearchViewStyle"
-                        android:textDirection="rtl"
-                        app:defaultQueryHint="@string/search_title"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toRightOf="@id/filter_icon"
-                        app:layout_constraintRight_toLeftOf="@id/city_name"
-                        app:layout_constraintTop_toTopOf="parent" />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/city_name"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:text="@{viewModel.cityNameLiveData, default=شهر}"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/body1_paragraph_font_size"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toRightOf="@id/search"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        <androidx.appcompat.widget.SearchView
+                            android:id="@+id/search"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layoutDirection="rtl"
+                            android:nextFocusLeft="@id/search"
+                            android:nextFocusUp="@id/search"
+                            android:textDirection="rtl"
+                            android:theme="@style/SearchViewStyle"
+                            app:defaultQueryHint="@string/search_title"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toLeftOf="@id/city_name"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:queryBackground="@color/transparent"
+                            app:searchHintIcon="@null" />
 
-            </androidx.appcompat.widget.Toolbar>
-        </com.google.android.material.appbar.AppBarLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                        <TextView
+                            android:id="@+id/city_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewModel.cityNameLiveData, default=شهر}"
+                            android:textColor="@color/materialGray900"
+                            android:textSize="@dimen/body1_paragraph_font_size"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toRightOf="@id/search"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                </androidx.appcompat.widget.Toolbar>
+            </androidx.cardview.widget.CardView>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/img_sort"
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll|snap|enterAlways">
+
+                <Button
+                    android:id="@+id/btn_sort_restaurants"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
+                    android:lines="1"
+                    android:onClick="@{()->viewModel.sortBtnOnClick()}"
+                    android:text="@{viewModel.sortByNameLiveData ,default=مرتبسازی}"
+                    android:textColor="@color/materialGray900"
+                    android:textSize="@dimen/body3_paragraph_font_size"
+                    app:icon="@drawable/ic_sort_restaurant"
+                    app:iconTint="@color/materialGray850"
+                    app:layout_constraintHorizontal_chainStyle="spread"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/btn_category_food_restaurants"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_sort_restaurant"
-                    android:foregroundGravity="center"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/chip_group_sort"
-                    app:layout_constraintBottom_toBottomOf="@id/chip_group_sort"
-                    app:layout_constraintLeft_toRightOf="@id/chip_group_sort"/>
+                    android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
+                    android:lines="1"
+                    android:onClick="@{()-> viewModel.openFilterBottomSheetOnClick()}"
+                    android:text="@string/filterByFoodType"
+                    android:textColor="@color/materialGray900"
+                    android:textSize="@dimen/body3_paragraph_font_size"
+                    app:icon="@drawable/ic_categories_food_restaurant"
+                    app:iconTint="@color/materialGray850"
+                    app:layout_constraintRight_toLeftOf="@id/btn_sort_restaurants"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/btn_filter_restaurants"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
+                    android:lines="1"
+                    android:onClick="@{()->viewModel.filterBtnOnClick()}"
+                    android:text="فیلترها"
+                    android:textColor="@color/materialGray900"
+                    android:textSize="@dimen/body3_paragraph_font_size"
+                    app:icon="@drawable/ic_filter_restaurant"
+                    app:iconTint="@color/materialGray850"
+                    app:layout_constraintRight_toLeftOf="@id/btn_category_food_restaurants"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chip_group_sort"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="8dp"
-                    app:singleSelection="true"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:visibility="gone"
+
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/img_sort">
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btn_sort_restaurants"
+                    app:singleSelection="true">
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_more_score"
+                        android:id="@+id/chip_most_relevant"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:onCheckedChanged="@{(v, checked) -> viewModel.setSortOnClick(v,checked)}"
-                        android:text="@string/fave_resturants"
-                        android:textAppearance="@style/ChipTextAppearance" />
+                        android:onClick="@{(v) -> viewModel.setSortOnClick(v)}"
+                        android:text="@string/most_relevant"
+                        android:textAppearance="@style/ChipTextAppearance"
+                        app:chipCornerRadius="@dimen/little_view_corner_radius" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_newest"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:onCheckedChanged="@{(v, checked) -> viewModel.setSortOnClick(v,checked)}"
+                        android:onClick="@{(v) -> viewModel.setSortOnClick(v)}"
                         android:text="@string/new_restaurants"
-                        android:textAppearance="@style/ChipTextAppearance" />
+                        android:textAppearance="@style/ChipTextAppearance"
+                        app:chipCornerRadius="@dimen/little_view_corner_radius" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_more_score"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{(v) -> viewModel.setSortOnClick(v)}"
+                        android:text="@string/fave_resturants"
+                        android:textAppearance="@style/ChipTextAppearance"
+                        app:chipCornerRadius="@dimen/little_view_corner_radius" />
+
+
                 </com.google.android.material.chip.ChipGroup>
 
+                <HorizontalScrollView
+                    android:id="@+id/horizontal_scroll_chips_group_filter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layoutDirection="ltr"
+                    android:overScrollMode="never"
+                    android:rotation="180"
+                    android:scrollbars="none"
+                    android:visibility="gone"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/chip_group_sort">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chips_group_filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layoutDirection="rtl"
+                        android:paddingRight="8dp"
+                        android:rotation="180"
+                        app:singleLine="true"
+                        app:singleSelection="false">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_delivery_withpeyk"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onCheckedChanged="@{(v, checked) -> viewModel.setFilterCategoryOnClick(v,checked)}"
+                            android:text="دریافت توسط پیک"
+                            android:textAppearance="@style/ChipTextAppearance"
+                            app:chipCornerRadius="@dimen/little_view_corner_radius" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_discounted"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onCheckedChanged="@{(v, checked) -> viewModel.setFilterCategoryOnClick(v,checked)}"
+                            android:text="دارای تخفیف"
+                            android:textAppearance="@style/ChipTextAppearance"
+                            app:chipCornerRadius="@dimen/little_view_corner_radius" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_serving"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onCheckedChanged="@{(v, checked) -> viewModel.setFilterCategoryOnClick(v,checked)}"
+                            android:text="درحال سرویس دهی"
+                            android:textAppearance="@style/ChipTextAppearance"
+                            app:chipCornerRadius="@dimen/little_view_corner_radius" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_get_inplace"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:onCheckedChanged="@{(v, checked) -> viewModel.setFilterCategoryOnClick(v,checked)}"
+                            android:text="دریافت در محل رستوران"
+                            android:textAppearance="@style/ChipTextAppearance"
+                            app:chipCornerRadius="@dimen/little_view_corner_radius" />
+
+                    </com.google.android.material.chip.ChipGroup>
+
+
+                </HorizontalScrollView>
+                <!--filter chip group-->
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_all_restaurant"
@@ -142,11 +273,9 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layoutAnimation="@anim/layout_animation_fall_down"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                />
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         </LinearLayout>
-
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_view_load_request"

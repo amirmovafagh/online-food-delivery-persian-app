@@ -110,43 +110,40 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <RadioGroup
-                        android:id="@+id/radio_group_toggle_pament_type"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:background="@drawable/payment_type_radio_group_bg"
+                    <com.google.android.material.button.MaterialButtonToggleGroup
+                        android:id="@+id/material_toggle_payment_type_BtnGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="16dp"
                         android:checkedButton="@+id/r_btn_online"
-                        android:onCheckedChanged="@{(RadioGroup, id) -> viewModel.onPaymentTypeCheckedChanged(id)}"
-                        android:orientation="horizontal">
+                        app:selectionRequired="true"
+                        app:singleSelection="true">
 
-                        <RadioButton
-                            android:id="@+id/r_btn_online"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginRight="2dp"
-                            android:layout_marginBottom="2dp"
-                            android:layout_weight="0.5"
-                            android:background="@drawable/toggle_widget_background"
-                            android:button="@null"
-                            android:gravity="center"
+                        <Button
+                            android:id="@+id/btn_online"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/white"
+                            android:onClick="@{(v) -> viewModel.onPaymentTypeCheckedChanged(v)}"
                             android:text="@string/online_pay"
-                            android:textColor="@color/white" />
+                            android:textSize="@dimen/body2_paragraph_font_size"
+                            app:cornerRadius="@dimen/little_view_corner_radius" />
 
-                        <RadioButton
-                            android:id="@+id/r_btn_in_place"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="2dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginBottom="2dp"
-                            android:layout_weight="0.5"
-                            android:background="@drawable/toggle_widget_background"
-                            android:button="@null"
-                            android:gravity="center"
+                        <Button
+                            android:id="@+id/btn_in_place"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/white"
+                            android:onClick="@{(v) -> viewModel.onPaymentTypeCheckedChanged(v)}"
                             android:text="@string/in_place_pay"
-                            android:textColor="@color/white" />
-                    </RadioGroup>
+                            android:textSize="@dimen/body2_paragraph_font_size"
+                            app:cornerRadius="@dimen/little_view_corner_radius" />
+
+                    </com.google.android.material.button.MaterialButtonToggleGroup>
+
                     <!--
                                         <com.google.android.material.chip.ChipGroup
                                             android:id="@+id/chip_group_toggle_payment_type"
@@ -363,7 +360,7 @@
             android:id="@+id/cv_cart_details_property_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="@dimen/card_view_corner_radius"
+            app:cardCornerRadius="@dimen/little_view_corner_radius"
             app:layout_constraintBottom_toTopOf="@id/cv_cart_items"
             app:layout_constraintLeft_toLeftOf="@id/cv_cart_items"
             app:layout_constraintRight_toRightOf="@id/cv_cart_items"

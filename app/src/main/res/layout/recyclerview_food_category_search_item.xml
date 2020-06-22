@@ -10,12 +10,13 @@
             type="ir.boojanco.onlinefoodorder.models.food.FoodCategories" />
     </data>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:gravity="center"
-        android:layoutDirection="rtl">
+        android:layoutDirection="rtl"
+        android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_view"
@@ -28,26 +29,20 @@
             app:cardCornerRadius="40dp">
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:scaleType="centerCrop"
-                android:src="@drawable/wallpaper_dark_dish" />
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/backgroundGrayLight_lowAlpha_test" />
-
-            <TextView
+                android:id="@+id/img_food"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@{item.name ,default=غذا}"
-                android:textColor="@color/white"
-                android:textSize="@dimen/h7_title_font_size" />
-
+                android:scaleType="centerCrop"
+                android:src="@drawable/pizza"
+                />
 
         </androidx.cardview.widget.CardView>
-    </FrameLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@{item.name ,default=غذا}"
+            android:textSize="@dimen/body1_paragraph_font_size" />
+    </LinearLayout>
 </layout>

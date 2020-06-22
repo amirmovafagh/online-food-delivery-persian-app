@@ -33,6 +33,17 @@ public class CartOrderResponse {
     @SerializedName("userId")
     private long userId;
 
+    public boolean isUseWalletBalance() {
+        return useWalletBalance;
+    }
+
+    public void setUseWalletBalance(boolean useWalletBalance) {
+        this.useWalletBalance = useWalletBalance;
+    }
+
+    @SerializedName("useWalletBalance")
+    private boolean useWalletBalance;
+
     //for response
     @SerializedName("state")
     private String state;
@@ -151,7 +162,7 @@ public class CartOrderResponse {
         this.userId = userId;
     }
 
-    public CartOrderResponse(long date, String description, String discountCode, Map<Long, Integer> foodLists, String orderType, long packageId, int packingCost, String paymentType, long restaurantId, long shippingAddressId, int shippingCost, int totalCost, long userId) {
+    public CartOrderResponse(long date, String description, String discountCode, Map<Long, Integer> foodLists, String orderType, long packageId, int packingCost, String paymentType, long restaurantId, long shippingAddressId, int shippingCost, int totalCost, long userId, boolean useWalletBalance) {
         this.date = date;
         this.description = description;
         this.discountCode = discountCode;
@@ -165,5 +176,6 @@ public class CartOrderResponse {
         this.shippingCost = shippingCost;
         this.totalCost = totalCost;
         this.userId = userId;
+        this.useWalletBalance = useWalletBalance;
     }
 }

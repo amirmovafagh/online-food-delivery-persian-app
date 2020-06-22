@@ -2,6 +2,7 @@ package ir.boojanco.onlinefoodorder.viewmodels;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -140,7 +141,7 @@ public class PaymentViewModel extends ViewModel {
         Date date = new Date();
         CartOrderResponse cartOrderBody = new CartOrderResponse(date.getTime(), userDescriptionLiveData.getValue(),
                 discountCode, foodLists, orderType.toString(), packageId, packingCost, paymentType.toString(),
-                restaurantId, shippingAddressId, shippingCost, totalAllPrice, 0);
+                restaurantId, shippingAddressId, shippingCost, totalAllPrice, 0,false);
         rx.Observable<CartOrderResponse> observable = restaurantRepository.addOrder(userAuthToken, cartOrderBody);
         if (observable != null) {
             observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<CartOrderResponse>() {
@@ -281,12 +282,12 @@ public class PaymentViewModel extends ViewModel {
         totalAllPriceLiveData.setValue(moneyFormat(finalPaymentPrice));
     }
 
-    public void onPaymentTypeCheckedChanged(int id) {
-        switch (id) {
-            case R.id.r_btn_online:
+    public void onPaymentTypeCheckedChanged(View view) {
+        switch (view.getId()) {
+            case R.id.btn_online:
                 paymentType = PaymentType.ONLINE;
                 break;
-            case R.id.r_btn_in_place:
+            case R.id.btn_in_place:
                 paymentType = PaymentType.INPLACE;
                 break;
         }

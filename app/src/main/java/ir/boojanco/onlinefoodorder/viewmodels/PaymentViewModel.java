@@ -1,6 +1,8 @@
 package ir.boojanco.onlinefoodorder.viewmodels;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 
@@ -141,7 +143,7 @@ public class PaymentViewModel extends ViewModel {
         Date date = new Date();
         CartOrderResponse cartOrderBody = new CartOrderResponse(date.getTime(), userDescriptionLiveData.getValue(),
                 discountCode, foodLists, orderType.toString(), packageId, packingCost, paymentType.toString(),
-                restaurantId, shippingAddressId, shippingCost, totalAllPrice, 0,false);
+                restaurantId, shippingAddressId, shippingCost, totalAllPrice, 0, false);
         rx.Observable<CartOrderResponse> observable = restaurantRepository.addOrder(userAuthToken, cartOrderBody);
         if (observable != null) {
             observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<CartOrderResponse>() {
@@ -173,6 +175,11 @@ public class PaymentViewModel extends ViewModel {
                 @Override
                 public void onNext(CartOrderResponse response) {
                     paymentInterface.onFailure("state :" + response.getState() + " token: " + response.getToken());
+                    if (response.getToken() != null) {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://sadad.shaparak.ir/Purchase?token=" + response.getToken()));
+                        browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(browserIntent);
+                    }
                 }
             });
         }

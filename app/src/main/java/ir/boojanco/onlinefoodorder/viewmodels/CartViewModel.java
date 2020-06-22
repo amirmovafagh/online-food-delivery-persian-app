@@ -184,6 +184,8 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
         } else {
             deliveryTypeViewLiveData.setValue(2);
             orderType = OrderType.GET_BY_CUSTOMER;
+            restaurantShippingCostLiveData.setValue(String.valueOf(0));
+
         }
     }
 
@@ -412,7 +414,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
                 @Override
                 public void onNext(Response<Void> voidResponse) {
                     if (voidResponse.isSuccessful())
-                    fragmentInterface.hideAddressBottomSheet("آدرس ثبت شد");
+                        fragmentInterface.hideAddressBottomSheet("آدرس ثبت شد");
                 }
             });
         }
@@ -532,9 +534,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
                                 totalAllPriceLiveData.setValue(moneyFormat(totalAllPrice));
                                 Log.i(TAG + " 2 : ", "" + totalDiscountedPrice);
                             }
-
                         }
-
                     }
                 }
             }

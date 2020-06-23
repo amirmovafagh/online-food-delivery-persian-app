@@ -235,6 +235,10 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
 
     @Override
     public void onRecyclerViewAddressClick(View v, UserAddressList userAddress) {
+        if (v.getId() == R.id.cv_address_name) { //remove  selecte daddress
+            viewModel.removeUserAddressInfo();
+            return;
+        }
         viewModel.checkUserAddressForService(userAddress.getId(), userAddress.getLatitude(), userAddress.getLongitude());
     }
 

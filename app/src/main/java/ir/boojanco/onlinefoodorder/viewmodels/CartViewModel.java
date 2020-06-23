@@ -85,7 +85,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
 
     private OrderType orderType = OrderType.DONT_CHOOSE;
     public MutableLiveData<Boolean> changeViewLiveData;
-    public MutableLiveData<Long> totalRawPriceLiveData;
+    public MutableLiveData<String> totalRawPriceLiveData;
     private int totalRawPrice = 0;
     public MutableLiveData<String> cartStateLiveData;
     public MutableLiveData<String> city;
@@ -96,7 +96,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
     private int totalAllPrice = 0;
     public MutableLiveData<String> totalDiscountLiveData;
     private int totalDiscount = 0;
-    public MutableLiveData<Integer> packingCostLiveData;
+    public MutableLiveData<String> packingCostLiveData;
     private int packingCost = 0;
     private double taxAndServicePercent = 0;
     public MutableLiveData<String> restaurantShippingCostLiveData;
@@ -139,12 +139,14 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
         totalAllPriceLiveData = new MutableLiveData<>();
         totalDiscountLiveData = new MutableLiveData<>();
         packingCostLiveData = new MutableLiveData<>();
+        packingCostLiveData.setValue(moneyFormat(0));
         taxAndServiceLivedata = new MutableLiveData<>();
         deliveryTypeTextLiveData = new MutableLiveData<>();
         deliveryTypeButtonVisibilityLiveData = new MutableLiveData<>();
         deliveryTypeViewLiveData = new MutableLiveData<>();
         restaurantAddressLiveData = new MutableLiveData<>();
         restaurantShippingCostLiveData = new MutableLiveData<>();
+        restaurantShippingCostLiveData.setValue(moneyFormat(0));
         defaultAddress = new MutableLiveData<>();
         defaultAddress.setValue(false);
         compositeDisposableGetAllItems = new CompositeDisposable();
@@ -159,23 +161,12 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
     public void setRestaurantInfo(RestaurantInfoResponse restaurantInfo) {
         this.restaurantInfo = restaurantInfo;
         packingCost = restaurantInfo.getPackingCostInt();
-        packingCostLiveData.setValue(packingCost);
+        packingCostLiveData.setValue(moneyFormat(packingCost));
         taxAndServicePercent = restaurantInfo.getTaxAndService();
         //taxAndService.setValue(restaurantInfo.getTaxAndService());
         restaurantAddressLiveData.setValue(restaurantInfo.getRegion() + restaurantInfo.getAddress());
 
     }
-
-    /*public void onCheckedChanged(boolean checked) {
-        if (!checked) {
-            deliveryTypeTextLiveData.setValue("ارسال به آدرس شما");
-            deliveryTypeViewLiveData.setValue(1);
-        } else {
-            deliveryTypeTextLiveData.setValue("دریافت در رستوران");
-            deliveryTypeViewLiveData.setValue(2);
-            orderType = OrderType.GET_BY_CUSTOMER;
-        }
-    }*/
 
     public void OnButtonDeliveryChecked(View view) {
         if (view.getId() == R.id.btn_your_address) {
@@ -184,14 +175,13 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
         } else {
             deliveryTypeViewLiveData.setValue(2);
             orderType = OrderType.GET_BY_CUSTOMER;
-            restaurantShippingCostLiveData.setValue(String.valueOf(0));
+            shippingUserAddressId = 0;
+            restaurantShippingCostLiveData.setValue(moneyFormat(0));
+            shippingCost = 0;
+            calculateFinalCartTotalPrice();
 
         }
     }
-
-    /*public void onCheckedDefaultAddressChanged(boolean checked) {
-        defaultAddress = checked;
-    }*/
 
     private void initDeliveryType() {
         boolean deliverInPlace = restaurantInfo.isGetInPlace();
@@ -215,6 +205,14 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
         }
     }
 
+    public void removeUserAddressInfo() {
+        orderType = OrderType.DONT_CHOOSE;
+        restaurantShippingCostLiveData.setValue(moneyFormat(0));
+        shippingUserAddressId = 0;
+        shippingCost = 0;
+        calculateFinalCartTotalPrice();
+    }
+
     public void checkUserAddressForService(long userAddressId, Double lat, Double lng) {
         LatLng city = new LatLng(lat, lng);
         String closeRegionsCoordinates = restaurantInfo.getCloseRegionsCoordinates().substring(2); //substring for remove P:
@@ -231,7 +229,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
 
         if (PolyUtil.containsLocation(city.latitude, city.longitude, closePoints, true)) { //check user address is in close area
             shippingCost = restaurantInfo.getShippingCostInCloseRegions();
-            restaurantShippingCostLiveData.setValue(String.valueOf(shippingCost));
+            restaurantShippingCostLiveData.setValue(moneyFormat(shippingCost));
             orderType = OrderType.GET_BY_DELIVERY;
             shippingUserAddressId = userAddressId;
         } else {
@@ -243,7 +241,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
             }
             if (PolyUtil.containsLocation(city.latitude, city.longitude, serviceAreaPoints, true)) {
                 shippingCost = restaurantInfo.getShippingCostInServiceArea();
-                restaurantShippingCostLiveData.setValue(String.valueOf(restaurantInfo.getShippingCostInServiceArea()));
+                restaurantShippingCostLiveData.setValue(moneyFormat(shippingCost));
                 orderType = OrderType.GET_BY_DELIVERY;
                 shippingUserAddressId = userAddressId;
             } else {
@@ -553,7 +551,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
             @Override
             public void onSuccess(Long aLong) {
                 totalRawPrice = aLong.intValue();
-                totalRawPriceLiveData.setValue(aLong);
+                totalRawPriceLiveData.setValue(moneyFormat(aLong.intValue()));
                 calculateFinalCartTotalPrice();
                 totalDiscount = totalRawPrice - totalDiscountedPrice;
                 totalDiscountLiveData.setValue(moneyFormat(totalDiscount));
@@ -562,7 +560,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
 
             @Override
             public void onError(Throwable e) {
-                totalRawPriceLiveData.setValue((long) 0);
+                totalRawPriceLiveData.setValue(moneyFormat(0));
                 totalAllPriceLiveData.setValue("سبد خرید خالی است");
                 totalDiscountLiveData.setValue("");
                 Log.e(TAG, "{UPDATE CART ITEM}-> " + e.getMessage());

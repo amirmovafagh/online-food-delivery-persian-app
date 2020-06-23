@@ -46,7 +46,7 @@ public class PaymentViewModel extends ViewModel {
     private List<CartItem> cartItems;
     private String userAuthToken;
     private OrderType orderType;
-    private PaymentType paymentType = PaymentType.ONLINE;
+    private PaymentType paymentType = PaymentType.DONT_CHOOSE;
     private long packageId = 0;
     private long restaurantId = 0;
     private long shippingAddressId = 0;
@@ -143,7 +143,7 @@ public class PaymentViewModel extends ViewModel {
         Date date = new Date();
         CartOrderResponse cartOrderBody = new CartOrderResponse(date.getTime(), userDescriptionLiveData.getValue(),
                 discountCode, foodLists, orderType.toString(), packageId, packingCost, paymentType.toString(),
-                restaurantId, shippingAddressId, shippingCost, totalAllPrice, 0, false);
+                restaurantId, shippingAddressId, shippingCost, totalAllPrice,  false);
         rx.Observable<CartOrderResponse> observable = restaurantRepository.addOrder(userAuthToken, cartOrderBody);
         if (observable != null) {
             observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<CartOrderResponse>() {

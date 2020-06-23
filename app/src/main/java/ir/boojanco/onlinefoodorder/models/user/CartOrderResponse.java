@@ -162,7 +162,7 @@ public class CartOrderResponse {
         this.userId = userId;
     }
 
-    public CartOrderResponse(long date, String description, String discountCode, Map<Long, Integer> foodLists, String orderType, long packageId, int packingCost, String paymentType, long restaurantId, long shippingAddressId, int shippingCost, int totalCost, long userId, boolean useWalletBalance) {
+    public CartOrderResponse(long date, String description, String discountCode, Map<Long, Integer> foodLists, String orderType, long packageId, int packingCost, String paymentType, long restaurantId, long shippingAddressId, int shippingCost, int totalCost,  boolean useWalletBalance) {
         this.date = date;
         this.description = description;
         this.discountCode = discountCode;

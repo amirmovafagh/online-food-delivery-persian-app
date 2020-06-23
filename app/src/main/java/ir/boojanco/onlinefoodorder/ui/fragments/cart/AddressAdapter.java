@@ -48,17 +48,27 @@ public class AddressAdapter extends PagedListAdapter<UserAddressList, AddressAda
 
         if (selectedPosition == position) {// is selected
             holder.binding.frameLayout.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.cardview_border_restaurant_package_on_select, null));
+            holder.binding.imgClose.setVisibility(View.VISIBLE);
         } else {//remove selected
             holder.binding.frameLayout.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.color.white, null));
+            holder.binding.imgClose.setVisibility(View.GONE);
         }
 
             holder.binding.cvMainAddressLayout.setOnClickListener(v -> {
                 //is select
+                holder.binding.imgClose.setVisibility(View.VISIBLE);
                 holder.binding.frameLayout.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.cardview_border_restaurant_package_on_select, null));
                 clickListener.onRecyclerViewAddressClick(holder.binding.cvMainAddressLayout, currentAddress);
                 selectedPosition = position;
                 notifyDataSetChanged();
             });
+
+        holder.binding.cvAddressName.setOnClickListener(v -> {
+            //remove selected item
+            holder.binding.imgClose.setVisibility(View.GONE);
+            holder.binding.frameLayout.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.color.white, null));
+            clickListener.onRecyclerViewAddressClick(holder.binding.cvAddressName, currentAddress);
+        });
 
     }
 

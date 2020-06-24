@@ -179,6 +179,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
             restaurantShippingCostLiveData.setValue(moneyFormat(0));
             shippingCost = 0;
             calculateFinalCartTotalPrice();
+            fragmentInterface.resetAddressRecyclerView();
 
         }
     }

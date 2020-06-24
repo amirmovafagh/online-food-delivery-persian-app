@@ -1,6 +1,5 @@
 package ir.boojanco.onlinefoodorder.ui.fragments.cart;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.widget.NestedScrollView;
@@ -10,7 +9,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Application;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,16 +23,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.AutoTransition;
 import androidx.transition.TransitionManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButtonToggleGroup;
@@ -259,12 +252,12 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
             toolbar.setTitle("سبد خرید شما خالی است!");
         }
         restaurantsCartAdapter.setRestaurantItems(restaurantItems);
-        binding.animationViewLoadRequest.setVisibility(View.GONE);
+        binding.cvWaitingResponse.setVisibility(View.GONE);
     }
 
     @Override
     public void onSuccessGetAddress() {
-        binding.animationViewLoadRequest.setVisibility(View.GONE);
+        binding.cvWaitingResponse.setVisibility(View.GONE);
     }
 
     @Override
@@ -344,6 +337,12 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
     public void hideAddressBottomSheet(String msg) {
         sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         onFailure(msg);
+    }
+
+    @Override
+    public void resetAddressRecyclerView() {
+        addressAdapter.resetSelectedPosition();
+        addressAdapter.notifyDataSetChanged();
     }
 
     @Override

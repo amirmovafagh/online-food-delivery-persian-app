@@ -207,7 +207,7 @@
                                     android:gravity="center"
                                     android:maxLines="1"
                                     android:onClick="@{()->viewModel.goToCartOnClick()}"
-                                    android:padding="4dp"
+                                    android:padding="8dp"
                                     android:text="@string/showCart"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/body2_paragraph_font_size" />

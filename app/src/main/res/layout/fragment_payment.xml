@@ -9,7 +9,7 @@
             type="ir.boojanco.onlinefoodorder.viewmodels.PaymentViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,409 +25,375 @@
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_scrollFlags="scroll|snap|enterAlways">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:layout_gravity="top"
+                app:title="تایید و پرداخت سفارش"
                 android:fitsSystemWindows="true"
-                app:layout_collapseMode="parallax">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="فروتن"
-                        android:textAlignment="center"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/body1_paragraph_font_size"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                android:theme="@style/ToolbarColoredBackArrow"
+                app:subtitleTextColor="@color/white"
+                app:titleTextColor="@color/white">
 
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_cart_items"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginRight="16dp"
-            app:cardBackgroundColor="@color/restaurantDetailsCardViewBackground"
-            app:cardCornerRadius="@dimen/card_view_corner_radius"
-            app:cardElevation="0dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/appbar">
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_cart_items"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="16dp"
+                app:cardBackgroundColor="@color/restaurantDetailsCardViewBackground"
+                app:cardCornerRadius="@dimen/card_view_corner_radius"
+                app:cardElevation="0dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <LinearLayout
-                    android:id="@+id/linear_layout_cart_details_view"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:orientation="vertical"
-                    android:visibility="visible"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:layout_height="wrap_content">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/txtInputLayoutLoginPhoneNumber"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                    <LinearLayout
+                        android:id="@+id/linear_layout_cart_details_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:hint="@string/pleaseEnterYourDiscountCode"
-                        app:boxBackgroundColor="@color/transparent">
+                        android:layout_margin="16dp"
+                        android:orientation="vertical"
+                        android:visibility="visible"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                        <com.google.android.material.textfield.TextInputEditText
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/txtInputLayoutLoginPhoneNumber"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/transparent"
-                            android:ellipsize="end"
-                            android:inputType="text"
-                            android:maxLines="1"
-                            android:text="@={viewModel.discountCodeLiveData}"
-                            android:textSize="@dimen/edit_text_font_size" />
+                            android:layout_marginTop="16dp"
+                            app:startIconDrawable="@drawable/ic_discount_code"
+                            android:hint="@string/pleaseEnterYourDiscountCode"
+                            app:boxBackgroundColor="@color/transparent">
 
-                    </com.google.android.material.textfield.TextInputLayout>
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/transparent"
+                                android:ellipsize="end"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:text="@={viewModel.discountCodeLiveData}"
+                                android:textSize="@dimen/edit_text_font_size" />
 
-                    <com.google.android.material.button.MaterialButtonToggleGroup
-                        android:id="@+id/material_toggle_payment_type_BtnGroup"
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!--<com.google.android.material.button.MaterialButtonToggleGroup
+                            android:id="@+id/material_toggle_payment_type_BtnGroup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="16dp"
+                            android:checkedButton="@+id/r_btn_online"
+                            app:selectionRequired="true"
+                            app:singleSelection="true">
+
+                            <Button
+                                android:id="@+id/btn_online"
+                                style="?attr/materialButtonOutlinedStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="@color/white"
+                                android:onClick="@{(v) -> viewModel.onPaymentTypeCheckedChanged(v)}"
+                                android:text="@string/online_pay"
+                                android:textSize="@dimen/body2_paragraph_font_size"
+                                app:cornerRadius="@dimen/card_view_corner_radius" />
+
+                            <Button
+                                android:id="@+id/btn_in_place"
+                                style="?attr/materialButtonOutlinedStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="@color/white"
+                                android:onClick="@{(v) -> viewModel.onPaymentTypeCheckedChanged(v)}"
+                                android:text="@string/in_place_pay"
+                                android:textSize="@dimen/body2_paragraph_font_size"
+                                app:cornerRadius="@dimen/card_view_corner_radius" />
+
+                        </com.google.android.material.button.MaterialButtonToggleGroup>-->
+
+                        <!--details layout-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:orientation="horizontal"
+                            android:paddingTop="16dp">
+
+                            <TextView
+                                android:id="@+id/text_view_total_items"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:text="@string/total_items_price"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/body4_paragraph_font_size"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/text_view_total_items_price"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:maxLines="1"
+                                android:text="@{String.valueOf(viewModel.totalRawPriceLiveData)}"
+                                android:textAlignment="viewEnd"
+                                android:textSize="@dimen/body4_paragraph_font_size"
+                                tools:ignore="RtlCompat" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="?android:attr/listDivider" />
+
+                        <!--discount layout-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/text_view_discount_total"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:text="@string/discount"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/body4_paragraph_font_size"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/text_view_discount_total_price"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:maxLines="1"
+                                android:text="@{viewModel.totalDiscountLiveData}"
+                                android:textAlignment="viewEnd"
+                                android:textSize="@dimen/body4_paragraph_font_size"
+                                tools:ignore="RtlCompat" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="?android:attr/listDivider" />
+
+                        <!--food packaging prooce layout-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/text_view_food_packing"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:text="@string/food_packing"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/body4_paragraph_font_size"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/text_view_food_packing_price"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:maxLines="1"
+                                android:text="@{String.valueOf(viewModel.packingCostLiveData)}"
+                                android:textAlignment="viewEnd"
+                                android:textSize="@dimen/body4_paragraph_font_size"
+                                tools:ignore="RtlCompat" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="?android:attr/listDivider" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/text_view_shipping_cost"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:text="@string/restaurant_shipping_cost"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/body4_paragraph_font_size"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/text_view_food_shipping_cost_price"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:maxLines="1"
+                                android:text="@{String.valueOf(viewModel.restaurantShippingCostLiveData)}"
+                                android:textAlignment="viewEnd"
+                                android:textSize="@dimen/body4_paragraph_font_size"
+                                tools:ignore="RtlCompat" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="?android:attr/listDivider" />
+
+                        <!--taxes layout-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/text_view_taxes"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:text="@string/restaurant_taxes"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/body4_paragraph_font_size"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/text_view_food_taxes_price"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:maxLines="1"
+                                android:text="@{viewModel.taxAndServiceLiveData}"
+                                android:textAlignment="viewEnd"
+                                android:textSize="@dimen/body4_paragraph_font_size"
+                                tools:ignore="RtlCompat" />
+                        </LinearLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/txtInputLayoutDescription"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            app:startIconDrawable="@drawable/ic_comment"
+                            android:hint="@string/description"
+                            app:boxBackgroundColor="@color/transparent">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/transparent"
+                                android:ellipsize="end"
+                                android:inputType="textMultiLine"
+                                android:maxLines="10"
+                                android:text="@={viewModel.userDescriptionLiveData}"
+                                android:textSize="@dimen/edit_text_font_size" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_cart_details_property_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/card_view_corner_radius"
+                app:layout_constraintBottom_toTopOf="@id/cv_cart_items"
+                app:layout_constraintLeft_toLeftOf="@id/cv_cart_items"
+                app:layout_constraintRight_toRightOf="@id/cv_cart_items"
+                app:layout_constraintTop_toTopOf="@id/cv_cart_items">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/img_btn_expand_arrow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="16dp"
-                        android:checkedButton="@+id/r_btn_online"
-                        app:selectionRequired="true"
-                        app:singleSelection="true">
+                        android:background="@drawable/ic_keyboard_arrow_down_black_24dp"
+                        android:padding="2dp" />
 
-                        <Button
-                            android:id="@+id/btn_online"
-                            style="?attr/materialButtonOutlinedStyle"
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginEnd="16dp"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:padding="4dp"
+                        android:drawablePadding="4dp"
+                        android:drawableStart="@drawable/ic_shopping_cart"
+                        android:text="@{viewModel.totalAllPriceLiveData ,default=قیمت}"
+                        android:textSize="@dimen/body1_paragraph_font_size"
+                        android:textStyle="bold" />
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorPrimary">
+
+                        <LinearLayout
+                            android:id="@+id/linear_layout_accept_order"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:backgroundTint="@color/white"
-                            android:onClick="@{(v) -> viewModel.onPaymentTypeCheckedChanged(v)}"
-                            android:text="@string/online_pay"
-                            android:textSize="@dimen/body2_paragraph_font_size"
-                            app:cornerRadius="@dimen/little_view_corner_radius" />
+                            android:orientation="horizontal">
 
-                        <Button
-                            android:id="@+id/btn_in_place"
-                            style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:backgroundTint="@color/white"
-                            android:onClick="@{(v) -> viewModel.onPaymentTypeCheckedChanged(v)}"
-                            android:text="@string/in_place_pay"
-                            android:textSize="@dimen/body2_paragraph_font_size"
-                            app:cornerRadius="@dimen/little_view_corner_radius" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:gravity="center"
+                                android:maxLines="1"
+                                android:padding="8dp"
+                                android:text="@string/payment"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/body2_paragraph_font_size" />
 
-                    </com.google.android.material.button.MaterialButtonToggleGroup>
-
-                    <!--
-                                        <com.google.android.material.chip.ChipGroup
-                                            android:id="@+id/chip_group_toggle_payment_type"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="30dp"
-                                            android:layout_gravity="center"
-                                            android:onCheckedChangeListener="@{(ChipGroup, id) -> viewModel.onPaymentTypeCheckedChanged(id)}"
-                                            android:orientation="horizontal"
-                                            app:checkedChip="@id/chip_btn_online"
-                                            app:chipSpacingHorizontal="30dp"
-                                            app:singleLine="true"
-                                            app:singleSelection="true">
-
-                                            <com.google.android.material.chip.Chip
-                                                android:id="@+id/chip_btn_online"
-                                                style="@style/Widget.MaterialComponents.Chip.Choice"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-
-                                                android:text="@string/online_pay"
-                                                android:textAlignment="center"
-                                                android:textAppearance="@style/ChipTextAppearance" />
-
-                                            <com.google.android.material.chip.Chip
-                                                android:id="@+id/chip_btn_in_place"
-                                                style="@style/Widget.MaterialComponents.Chip.Choice"
-                                                android:layout_width="wrap_content"
-
-                                                android:layout_height="wrap_content"
-                                                android:text="@string/in_place_pay"
-                                                android:textAlignment="center"
-                                                android:textAppearance="@style/ChipTextAppearance" />
-                                        </com.google.android.material.chip.ChipGroup>
-                    -->
-
-                    <!--details layout-->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:orientation="horizontal"
-                        android:paddingTop="16dp">
-
-                        <TextView
-                            android:id="@+id/text_view_total_items"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:text="@string/total_items_price"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/body4_paragraph_font_size"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/text_view_total_items_price"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:maxLines="1"
-                            android:text="@{String.valueOf(viewModel.totalRawPriceLiveData)}"
-                            android:textAlignment="viewEnd"
-                            android:textSize="@dimen/body4_paragraph_font_size"
-                            tools:ignore="RtlCompat" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?android:attr/listDivider" />
-
-                    <!--discount layout-->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/text_view_discount_total"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:text="@string/discount"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/body4_paragraph_font_size"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/text_view_discount_total_price"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:maxLines="1"
-                            android:text="@{viewModel.totalDiscountLiveData}"
-                            android:textAlignment="viewEnd"
-                            android:textSize="@dimen/body4_paragraph_font_size"
-                            tools:ignore="RtlCompat" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?android:attr/listDivider" />
-
-                    <!--food packaging prooce layout-->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/text_view_food_packing"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:text="@string/food_packing"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/body4_paragraph_font_size"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/text_view_food_packing_price"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:maxLines="1"
-                            android:text="@{String.valueOf(viewModel.packingCostLiveData)}"
-                            android:textAlignment="viewEnd"
-                            android:textSize="@dimen/body4_paragraph_font_size"
-                            tools:ignore="RtlCompat" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?android:attr/listDivider" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/text_view_shipping_cost"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:text="@string/restaurant_shipping_cost"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/body4_paragraph_font_size"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/text_view_food_shipping_cost_price"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:maxLines="1"
-                            android:text="@{String.valueOf(viewModel.restaurantShippingCostLiveData)}"
-                            android:textAlignment="viewEnd"
-                            android:textSize="@dimen/body4_paragraph_font_size"
-                            tools:ignore="RtlCompat" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?android:attr/listDivider" />
-
-                    <!--taxes layout-->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/text_view_taxes"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:text="@string/restaurant_taxes"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/body4_paragraph_font_size"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/text_view_food_taxes_price"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:maxLines="1"
-                            android:text="@{viewModel.taxAndServiceLiveData}"
-                            android:textAlignment="viewEnd"
-                            android:textSize="@dimen/body4_paragraph_font_size"
-                            tools:ignore="RtlCompat" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?android:attr/listDivider" />
-
-
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                app:srcCompat="@drawable/ic_left_arrow" />
+                        </LinearLayout>
+                    </FrameLayout>
                 </LinearLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_cart_details_property_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="@dimen/little_view_corner_radius"
-            app:layout_constraintBottom_toTopOf="@id/cv_cart_items"
-            app:layout_constraintLeft_toLeftOf="@id/cv_cart_items"
-            app:layout_constraintRight_toRightOf="@id/cv_cart_items"
-            app:layout_constraintTop_toTopOf="@id/cv_cart_items">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:id="@+id/img_btn_expand_arrow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@drawable/ic_keyboard_arrow_down_black_24dp"
-                    android:padding="2dp" />
-
-                <ImageView
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:layout_gravity="center"
-                    android:padding="4dp"
-                    app:srcCompat="@drawable/ic_shopping_cart" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginEnd="16dp"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:padding="4dp"
-                    android:text="@{viewModel.totalAllPriceLiveData ,default=قیمت}"
-                    android:textSize="@dimen/body1_paragraph_font_size"
-                    android:textStyle="bold" />
-
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="@color/colorPrimary">
-
-                    <LinearLayout
-                        android:id="@+id/linear_layout_accept_order"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="50dp"
-                            android:gravity="center"
-                            android:maxLines="1"
-                            android:padding="4dp"
-                            android:text="@string/payment"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/body2_paragraph_font_size" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            app:srcCompat="@drawable/ic_left_arrow" />
-                    </LinearLayout>
-                </FrameLayout>
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
 

@@ -39,4 +39,6 @@ public interface CartInterface {
     void onFailure(String Error);
 
     void hideAddressBottomSheet(String msg);
+
+    void resetAddressRecyclerView();
 }

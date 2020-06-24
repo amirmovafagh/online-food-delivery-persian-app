@@ -46,7 +46,7 @@ public class PaymentViewModel extends ViewModel {
     private List<CartItem> cartItems;
     private String userAuthToken;
     private OrderType orderType;
-    private PaymentType paymentType = PaymentType.DONT_CHOOSE;
+    private PaymentType paymentType = PaymentType.ONLINE;
     private long packageId = 0;
     private long restaurantId = 0;
     private long shippingAddressId = 0;
@@ -289,7 +289,8 @@ public class PaymentViewModel extends ViewModel {
         totalAllPriceLiveData.setValue(moneyFormat(finalPaymentPrice));
     }
 
-    public void onPaymentTypeCheckedChanged(View view) {
+    //just payment ONLINE
+    /*public void onPaymentTypeCheckedChanged(View view) {
         switch (view.getId()) {
             case R.id.btn_online:
                 paymentType = PaymentType.ONLINE;
@@ -298,7 +299,7 @@ public class PaymentViewModel extends ViewModel {
                 paymentType = PaymentType.INPLACE;
                 break;
         }
-    }
+    }*/
 
     public void setVariablesInTempVar(ArrayList<FinalPaymentPrice> finalPaymentPrices, List<CartItem> cartItems,
                                       int totalAllPrice, int totalRawPrice, int totalDiscount, int packingCost,

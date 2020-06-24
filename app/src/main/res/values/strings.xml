@@ -65,7 +65,7 @@
     <string name="payment"> تایید سفارش</string>
     <string name="chooseOnDefault">انتخاب به عنوان پیشفرض</string>
     <string name="restaurant_shipping_cost">ارسال</string>
-    <string name="pleaseEnterYourDiscountCode">لطفا کد تخفیف خود را وارد کنید</string>
+    <string name="pleaseEnterYourDiscountCode">کد تخفیف</string>
     <string name="your_addresses">آدرس\u200cهای شما</string>
     <string name="online_pay">پرداخت آنلاین</string>
     <string name="in_place_pay">پرداخت در محل</string>
@@ -118,6 +118,7 @@
 
 
     <string name="food_category">دسته بندی براساس غذا</string>
+    <string name="description">توضیحات</string>
     <string-array name="food_category">
         <item>فست فود</item>
         <item>برگر</item>

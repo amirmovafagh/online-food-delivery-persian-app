@@ -31,10 +31,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:fitsSystemWindows="true"
-                app:subtitleTextColor="@color/white"
                 android:theme="@style/ToolbarColoredBackArrow"
-                app:titleTextColor="@color/white">
-            </androidx.appcompat.widget.Toolbar>
+                app:subtitleTextColor="@color/white"
+                app:titleTextColor="@color/white"></androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
@@ -442,17 +441,12 @@
                             android:background="@drawable/ic_keyboard_arrow_down_black_24dp"
                             android:padding="2dp" />
 
-                        <ImageView
-                            android:layout_width="45dp"
-                            android:layout_height="45dp"
-                            android:layout_gravity="center"
-                            android:padding="4dp"
-                            app:srcCompat="@drawable/ic_shopping_cart" />
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
                             android:layout_marginEnd="16dp"
+                            android:drawableStart="@drawable/ic_shopping_cart"
+                            android:drawablePadding="4dp"
                             android:gravity="center"
                             android:maxLines="1"
                             android:padding="4dp"
@@ -478,7 +472,7 @@
                                     android:layout_height="50dp"
                                     android:gravity="center"
                                     android:maxLines="1"
-                                    android:padding="4dp"
+                                    android:padding="8dp"
                                     android:text="@string/payment"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/body2_paragraph_font_size" />
@@ -499,6 +493,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layoutAnimation="@anim/layout_animation_fall_down"
+                    android:minHeight="170dp"
                     android:visibility="@{viewModel.changeViewLiveData ? View.GONE : View.VISIBLE ,default=visible}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -507,14 +502,27 @@
 
         </androidx.core.widget.NestedScrollView>
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animation_view_load_request"
-            android:layout_width="150dp"
-            android:layout_height="250dp"
-            android:layout_gravity="center"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/waiting_animate_burger" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_waiting_response"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:cardBackgroundColor="@color/materialGray100"
+            app:cardElevation="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animation_view_load_request"
+                android:layout_width="150dp"
+                android:layout_height="250dp"
+                android:layout_gravity="center"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/waiting_animate_burger" />
+        </androidx.cardview.widget.CardView>
 
         <ImageView
             android:id="@+id/img_empty_cart"

@@ -25,6 +25,9 @@ public class AddressAdapter extends PagedListAdapter<UserAddressList, AddressAda
     public AddressRecyclerViewInterface clickListener;
     private Context context;
 
+    public void resetSelectedPosition() {
+        this.selectedPosition = 100000;
+    }
 
     public AddressAdapter(AddressRecyclerViewInterface clickListener, Context context) {
         super(DIFF_CALLBACK);

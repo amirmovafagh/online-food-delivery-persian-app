@@ -4,9 +4,14 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +44,8 @@ public class PaymentFragment extends Fragment implements PaymentInterface {
 
     FragmentPaymentBinding binding;
     private PaymentViewModel viewModel;
+    private Toolbar toolbar;
+    private NavController navController;
 
     private final String cartItemExtraName = "cartItem";
     private final String finalPaymentPricesExtraName = "finalPaymentPrices";
@@ -62,6 +69,13 @@ public class PaymentFragment extends Fragment implements PaymentInterface {
         viewModel.setPaymentInterface(this);
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
+        toolbar = binding.toolbar;
+        navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+        AppBarConfiguration appBarConfiguration =
+                new AppBarConfiguration.Builder(navController.getGraph()).build();
+
+        NavigationUI.setupWithNavController(
+                toolbar, navController, appBarConfiguration);
 
         binding.linearLayoutAcceptOrder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +88,7 @@ public class PaymentFragment extends Fragment implements PaymentInterface {
 
         Bundle extras = getArguments();
         if (extras != null) {
+            //toolbar.setTitle("سبد خرید ");
             ArrayList<FinalPaymentPrice> finalPaymentPrice = extras.getParcelableArrayList(finalPaymentPricesExtraName);
             List<CartItem> cartItems = (List<CartItem>) extras.getSerializable(cartItemExtraName);
             viewModel.setVariablesInTempVar(finalPaymentPrice, cartItems,

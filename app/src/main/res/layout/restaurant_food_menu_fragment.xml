@@ -31,7 +31,8 @@
                 android:id="@+id/cv_vip_package"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/materialGray100">
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/transparent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -59,7 +60,7 @@
                         android:focusable="true"
                         android:foreground="?android:attr/selectableItemBackground"
                         android:padding="5dp"
-                        app:cardBackgroundColor="@color/materialGray300"
+                        app:cardBackgroundColor="@color/materialGray200"
                         app:cardCornerRadius="@dimen/little_view_corner_radius"
                         app:layout_constraintBottom_toTopOf="@id/expandable_view"
                         app:layout_constraintLeft_toRightOf="@id/recycler_view_food_type"
@@ -103,7 +104,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:visibility="gone"
+                        android:background="@color/transparent"
+                        android:visibility="visible"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/cv_package_btn">
@@ -112,6 +114,7 @@
                             android:id="@+id/recycler_view_restaurant_package"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:background="@color/transparent"
                             android:orientation="horizontal"
                             android:overScrollMode="never"
                             app:layout_constraintLeft_toRightOf="parent"

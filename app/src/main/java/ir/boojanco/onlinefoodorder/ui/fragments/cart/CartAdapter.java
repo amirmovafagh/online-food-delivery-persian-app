@@ -44,73 +44,70 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
         CartItem currentItem = cartItems.get(position);
         holder.binding.setCartItem(currentItem);
-        holder.binding.imgBtnIncrease.setOnClickListener(v ->{
+        holder.binding.imgBtnIncrease.setOnClickListener(v -> {
             //if increase food number
-            if(currentItem.getFoodQuantity() < 99){
-                currentItem.setFoodQuantity(currentItem.getFoodQuantity()+1);
+            if (currentItem.getFoodQuantity() < 99) {
+                currentItem.setFoodQuantity(currentItem.getFoodQuantity() + 1);
                 updateCartItemDatabase(holder, currentItem);
-
             }
 
         });
-        holder.binding.imgBtnDecrease.setOnClickListener(v ->{
+        holder.binding.imgBtnDecrease.setOnClickListener(v -> {
             //if Decrease food number
-
-            if(currentItem.getFoodQuantity() == 1) {
-                deleteCartItemDatabase(currentItem,position);
-            }
-            else if(currentItem.getFoodQuantity() > 1) {
+            if (currentItem.getFoodQuantity() == 1) {
+                deleteCartItemDatabase(currentItem, position);
+            } else if (currentItem.getFoodQuantity() > 1) {
                 currentItem.setFoodQuantity(currentItem.getFoodQuantity() - 1);
                 updateCartItemDatabase(holder, currentItem);
             }
         });
     }
 
-    private void updateCartItemDatabase(CartViewHolder holder, CartItem currentItem){
+    private void updateCartItemDatabase(CartViewHolder holder, CartItem currentItem) {
         cartDataSource.updateCart(currentItem)
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new SingleObserver<Integer>() {
-            @Override
-            public void onSubscribe(Disposable d) {
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<Integer>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
-            }
+                    }
 
-            @Override
-            public void onSuccess(Integer integer) {
-                    holder.binding.setCartItem(currentItem);
-            }
+                    @Override
+                    public void onSuccess(Integer integer) {
+                        holder.binding.setCartItem(currentItem);
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                Log.e(TAG,"{UPDATE CART ITEM}-> "+e.getMessage());
-            }
-        });
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "{UPDATE CART ITEM}-> " + e.getMessage());
+                    }
+                });
     }
 
-    private void deleteCartItemDatabase(CartItem currentItem,int position){
+    private void deleteCartItemDatabase(CartItem currentItem, int position) {
         cartDataSource.deleteCart(currentItem)
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new SingleObserver<Integer>() {
-            @Override
-            public void onSubscribe(Disposable d) {
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<Integer>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
-            }
+                    }
 
-            @Override
-            public void onSuccess(Integer integer) {
-                if(cartItems != null)
-                    cartItems.remove(position);
-                notifyItemRemoved(position);
+                    @Override
+                    public void onSuccess(Integer integer) {
+                        if (cartItems != null)
+                            cartItems.remove(position);
+                        notifyItemRemoved(position);
 
-            }
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                Log.e(TAG,"{DELETE CART ITEM}-> "+e.getMessage());
-            }
-        });
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "{DELETE CART ITEM}-> " + e.getMessage());
+                    }
+                });
     }
 
     @Override
@@ -122,15 +119,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         }
     }
 
-    public void setCartItems(List<CartItem> cartItems){
+    public void setCartItems(List<CartItem> cartItems) {
         this.cartItems = cartItems;
         notifyDataSetChanged();
 
     }
 
-    class CartViewHolder extends RecyclerView.ViewHolder{
+    class CartViewHolder extends RecyclerView.ViewHolder {
         private RecyclerviewCartItemBinding binding;
-        public CartViewHolder(@NonNull RecyclerviewCartItemBinding binding){
+
+        public CartViewHolder(@NonNull RecyclerviewCartItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

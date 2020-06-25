@@ -82,7 +82,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
     private long shippingUserAddressId = 0;
     private String addressTag = "OTHER";
 
-
+    private boolean emptyCart = false;
     private OrderType orderType = OrderType.DONT_CHOOSE;
     public MutableLiveData<Boolean> changeViewLiveData;
     public MutableLiveData<String> totalRawPriceLiveData;
@@ -561,9 +561,12 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
 
             @Override
             public void onError(Throwable e) {
+                emptyCart = true;
                 totalRawPriceLiveData.setValue(moneyFormat(0));
                 totalAllPriceLiveData.setValue("سبد خرید خالی است");
-                totalDiscountLiveData.setValue("");
+                totalDiscountLiveData.setValue(moneyFormat(0));
+                taxAndServiceLivedata.setValue(moneyFormat(0));
+                packingCostLiveData.setValue(moneyFormat(0));
                 Log.e(TAG, "{UPDATE CART ITEM}-> " + e.getMessage());
             }
         });
@@ -646,6 +649,11 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
     }
 
     public void acceptOrder() {
+
+        if (emptyCart){
+            fragmentInterface.onFailure("سبد خرید خالی است.");
+            return;
+        }
         switch (orderType) {
             case DONT_CHOOSE:
                 fragmentInterface.onFailure("لطفا آدرس دریافت سفارش را مشخص کنید");

@@ -27,9 +27,9 @@ public class SearchRestaurantDataSource extends PageKeyedDataSource<Integer, Res
     private Object restaurantName;
     private Object city;
     private Object categoryList;
-    private Object discountFilter  ;
-    private Object deliveryFilter  ;
-    private Object servingFilter   ;
+    private Object discountFilter;
+    private Object deliveryFilter;
+    private Object servingFilter;
     private Object getInPlaceFilter;
     private Object latitude;
     private Object longitude;

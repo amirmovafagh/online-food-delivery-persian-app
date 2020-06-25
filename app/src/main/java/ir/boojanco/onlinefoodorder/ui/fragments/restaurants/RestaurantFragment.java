@@ -32,6 +32,7 @@ import android.widget.ExpandableListView;
 import android.widget.HorizontalScrollView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
@@ -59,6 +60,7 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
     RestaurantViewModelFactory factory;
     @Inject
     MySharedPreferences sharedPreferences;
+    private LottieAnimationView lottie;
 
     private CoordinatorLayout mainLayout;
     private AutoTransition transition;
@@ -95,11 +97,12 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         mainLayout = binding.mainContent;
         transition = new AutoTransition();
         sortChipGroup = binding.chipGroupSort;
+        lottie = binding.animationView;
         scrollViewFilterChipGroup = binding.horizontalScrollChipsGroupFilter;
         expandableListViewCategory = binding.bottomSheetRestaurantInclude.expandableListviewFoodCategory;
         listGroupCategory = new ArrayList<>();
         listItemCategory = new HashMap<>();
-        categoryListAadpter = new ExpandableCategoryListAadpter(getContext(),listGroupCategory,listItemCategory);
+        categoryListAadpter = new ExpandableCategoryListAadpter(getContext(), listGroupCategory, listItemCategory);
         expandableListViewCategory.setAdapter(categoryListAadpter);
         initCategoryData();
 
@@ -147,7 +150,7 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         String[] array;
         array = getResources().getStringArray(R.array.food_category);
         List<String> list = new ArrayList<>(Arrays.asList(array));
-        listItemCategory.put(listGroupCategory.get(0),list);
+        listItemCategory.put(listGroupCategory.get(0), list);
 
         categoryListAadpter.notifyDataSetChanged();
 
@@ -212,11 +215,12 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
 
     @Override
     public void onStarted() {
-
         new Runnable() {
             @Override
             public void run() {
-                binding.animationViewLoadRequest.setVisibility(View.VISIBLE);
+                binding.cvWaitingResponse.setVisibility(View.VISIBLE);
+                lottie.setAnimation(R.raw.waiting_animate_burger);
+                lottie.playAnimation();
             }
         };
     }
@@ -224,7 +228,7 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
     @Override
     public void onSuccess() {
         recyclerView.scheduleLayoutAnimation();
-        binding.animationViewLoadRequest.setVisibility(View.GONE);
+        binding.cvWaitingResponse.setVisibility(View.GONE);
     }
 
 
@@ -232,7 +236,7 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
     public void onFailure(String error) {
         Snackbar snackbar = Snackbar.make(binding.mainContent, "" + error, Snackbar.LENGTH_SHORT);
         snackbar.show();
-        binding.animationViewLoadRequest.setVisibility(View.GONE);
+        binding.cvWaitingResponse.setVisibility(View.GONE);
     }
 
     @Override
@@ -282,6 +286,13 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         if (sheetBehavior != null) {
             sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         }
+    }
+
+    @Override
+    public void tryAgain() {
+        lottie.setAnimation(R.raw.no_internet_connection_animate);
+        lottie.playAnimation();
+        binding.cvWaitingResponse.setVisibility(View.VISIBLE);
     }
 
     @Override

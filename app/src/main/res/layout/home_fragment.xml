@@ -251,13 +251,20 @@
 
                     <com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/animation_view"
-                        android:layout_width="200dp"
+                        android:layout_width="150dp"
                         android:layout_height="300dp"
                         android:layout_gravity="center"
                         android:layout_margin="8dp"
                         app:lottie_autoPlay="true"
                         app:lottie_loop="true"
                         app:lottie_rawRes="@raw/waiting_animate_burger" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
+                        android:layout_gravity="center"
+                        android:visibility="@{homeViewModel.stateWatingOrNoConnection ? View.VISIBLE : View.GONE , default=gone}"
+                        android:text="@string/issueincommunicatingwithserver"/>
 
                     <Button
                         android:id="@+id/buttonTryAgain"

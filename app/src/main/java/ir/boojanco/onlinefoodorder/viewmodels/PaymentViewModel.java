@@ -71,6 +71,7 @@ public class PaymentViewModel extends ViewModel {
     public MutableLiveData<String> totalRawPriceLiveData;
     private int totalRawPrice = 0;
     private PaymentInterface paymentInterface;
+    public MutableLiveData<Boolean> stateWaitingToPay;
 
     public void setPaymentInterface(PaymentInterface paymentInterface) {
         this.paymentInterface = paymentInterface;
@@ -88,6 +89,9 @@ public class PaymentViewModel extends ViewModel {
         totalRawPriceLiveData = new MutableLiveData<>();
         discountCodeLiveData = new MutableLiveData<>();
         userDescriptionLiveData = new MutableLiveData<>();
+        stateWaitingToPay = new MutableLiveData<>();
+        stateWaitingToPay.setValue(false); // dont show load animation
+
     }
 
 
@@ -135,7 +139,7 @@ public class PaymentViewModel extends ViewModel {
             paymentInterface.onFailure("لطفا نحوه پرداخت را مشخص کنید");
             return;
         }
-
+        stateWaitingToPay.setValue(true); //show load animation
         Map<Long, Integer> foodLists = new HashMap<>();
         for (CartItem item : cartItems) {
             foodLists.put(item.getFoodId(), item.getFoodQuantity());
@@ -154,6 +158,7 @@ public class PaymentViewModel extends ViewModel {
 
                 @Override
                 public void onError(Throwable e) {
+                    stateWaitingToPay.setValue(false); //dont show load animation
                     paymentInterface.onFailure(e.getMessage());
                     if (e instanceof NoNetworkConnectionException)
                         paymentInterface.onFailure(e.getMessage());
@@ -174,7 +179,6 @@ public class PaymentViewModel extends ViewModel {
 
                 @Override
                 public void onNext(CartOrderResponse response) {
-                    paymentInterface.onFailure("state :" + response.getState() + " token: " + response.getToken());
                     if (response.getToken() != null) {
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://sadad.shaparak.ir/Purchase?token=" + response.getToken()));
                         browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

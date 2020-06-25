@@ -7,6 +7,7 @@
         <variable
             name="viewModel"
             type="ir.boojanco.onlinefoodorder.viewmodels.PaymentViewModel" />
+        <import type="android.view.View"/>
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -394,6 +395,44 @@
 
             </androidx.cardview.widget.CardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_waiting_response"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{viewModel.stateWaitingToPay ? View.VISIBLE : View.GONE , default=gone}"
+            app:cardBackgroundColor="@color/materialGray100"
+            app:cardElevation="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/animation_view"
+                    android:layout_width="150dp"
+                    android:layout_height="300dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/waiting_animate_burger" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
+                    android:layout_gravity="center"
+                    android:text="@string/movetobankpay"/>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
 

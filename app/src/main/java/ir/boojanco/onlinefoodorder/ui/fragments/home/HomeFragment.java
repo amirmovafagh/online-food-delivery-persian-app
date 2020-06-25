@@ -278,6 +278,8 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
             Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.action_homeFragment_to_restaurantFragment, bundle);
         } else {//searchBy location
             binding.cvWaitingResponse.setVisibility(View.VISIBLE);
+            lottie.setAnimation(R.raw.waiting_animate_burger);
+            lottie.playAnimation();
             getLastLocation();
         }
 

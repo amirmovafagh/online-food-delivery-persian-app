@@ -119,6 +119,8 @@
 
     <string name="food_category">دسته بندی براساس غذا</string>
     <string name="description">توضیحات</string>
+    <string name="issueincommunicatingwithserver">خطا در برقراری ارتباط با سرور</string>
+    <string name="movetobankpay">درحال انتقال به درگاه بانک…</string>
     <string-array name="food_category">
         <item>فست فود</item>
         <item>برگر</item>

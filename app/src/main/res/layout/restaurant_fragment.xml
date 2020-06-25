@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="ir.boojanco.onlinefoodorder.viewmodels.RestaurantViewModel" />
@@ -147,10 +149,10 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:visibility="gone"
-                    app:selectionRequired="true"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/btn_sort_restaurants"
+                    app:selectionRequired="true"
                     app:singleSelection="true">
 
                     <com.google.android.material.chip.Chip
@@ -277,14 +279,58 @@
 
         </LinearLayout>
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animation_view_load_request"
-            android:layout_width="150dp"
-            android:layout_height="250dp"
-            android:layout_gravity="center"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/waiting_animate_burger" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_waiting_response"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            app:cardBackgroundColor="@color/materialGray100"
+            app:cardElevation="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/animation_view"
+                    android:layout_width="150dp"
+                    android:layout_height="300dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/waiting_animate_burger" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
+                    android:text="@string/issueincommunicatingwithserver"
+                    android:visibility="@{viewModel.stateWaitingOrNoConnection ? View.VISIBLE : View.GONE , default=gone}" />
+
+                <Button
+                    android:id="@+id/buttonTryAgain"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="16dp"
+                    android:onClick="@{()->viewModel.tryAgainOnClick()}"
+                    android:text="@string/tryAgain"
+                    android:textSize="@dimen/h7_title_font_size"
+                    android:visibility="@{viewModel.stateWaitingOrNoConnection ? View.VISIBLE : View.GONE , default=gone}"
+                    app:cornerRadius="@dimen/card_view_corner_radius" />
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
 
         <View
             android:id="@+id/bottom_sheet_shadow_prof"

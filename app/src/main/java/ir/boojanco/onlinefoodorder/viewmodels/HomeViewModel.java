@@ -50,7 +50,7 @@ public class HomeViewModel extends ViewModel {
         stateProgressBar = new MutableLiveData<>();
         stateLiveData.setValue("انتخاب شهر");
         stateWatingOrNoConnection = new MutableLiveData<>();
-        stateWatingOrNoConnection.setValue(false); // dont show try again btn
+        stateWatingOrNoConnection.setValue(false); // dont show try again btn textView
         stateProgressBar.setValue(false); //do not show progress bar
 
     }

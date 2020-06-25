@@ -32,6 +32,7 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
     public MutableLiveData<RestaurantResponse> responseMutableLiveData;
     public MutableLiveData<String> cityNameLiveData;
     public MutableLiveData<String> sortByNameLiveData;
+    public MutableLiveData<Boolean> stateWaitingOrNoConnection;
     public LiveData<PagedList<RestaurantList>> restaurantPagedListLiveData;
     public LiveData<PageKeyedDataSource<Integer, RestaurantList>> liveDataSource;
 
@@ -68,6 +69,9 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
         sortByNameLiveData = new MutableLiveData<>();
         sortByNameLiveData.setValue("مرتبط ترین\u200cها");
 
+        stateWaitingOrNoConnection = new MutableLiveData<>();
+        stateWaitingOrNoConnection.setValue(false); // dont show try again btn textView
+
     }
 
     public void getAllSearchedRestaurant(Object categoryList, Object city, Object restaurantName, Object deliveryFilter,
@@ -87,6 +91,7 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
     public void openFilterBottomSheetOnClick() {
         restaurantInterface.openBottomSheet();
     }
+
     public void closeFilterBottomSheetOnClick() {
         restaurantInterface.closeBottomSheet();
     }
@@ -95,21 +100,21 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
         switch (v.getId()) {
             case R.id.chip_most_relevant:
                 sortByNameLiveData.setValue(context.getString(R.string.most_relevant));
-                sortBy=0;
+                sortBy = 0;
                 restaurantInterface.updateRestaurantsRecyclerView(categoryList, cityNameLiveData.getValue(),
                         restaurantName, deliveryFilter, discountFilter, servingFilter, getInPlaceFilter,
                         latitude, longitude, sortBy);
                 return;
             case R.id.chip_more_score:
                 sortByNameLiveData.setValue(context.getString(R.string.fave_resturants));
-                sortBy=1;
+                sortBy = 1;
                 restaurantInterface.updateRestaurantsRecyclerView(categoryList, cityNameLiveData.getValue(),
                         restaurantName, deliveryFilter, discountFilter, servingFilter, getInPlaceFilter,
                         latitude, longitude, sortBy);
                 return;
             case R.id.chip_newest:
                 sortByNameLiveData.setValue(context.getString(R.string.new_restaurants));
-                sortBy=2;
+                sortBy = 2;
                 restaurantInterface.updateRestaurantsRecyclerView(categoryList, cityNameLiveData.getValue(),
                         restaurantName, deliveryFilter, discountFilter, servingFilter, getInPlaceFilter,
                         latitude, longitude, sortBy);
@@ -117,7 +122,7 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
 
     }
 
-    private void updateRestaurants(){
+    private void updateRestaurants() {
         restaurantInterface.updateRestaurantsRecyclerView(categoryList, cityNameLiveData.getValue(),
                 restaurantName, deliveryFilter, discountFilter, servingFilter, getInPlaceFilter,
                 latitude, longitude, sortBy);
@@ -195,10 +200,11 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
     }
 
     public void sortBtnOnClick() {
-            restaurantInterface.expandSortView();
+        restaurantInterface.expandSortView();
     }
+
     public void filterBtnOnClick() {
-            restaurantInterface.expandFilterView();
+        restaurantInterface.expandFilterView();
     }
 
     private void initCategoryList(String name, boolean checked) {
@@ -218,6 +224,9 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
         }
     }
 
+    public void tryAgainOnClick() {
+        updateRestaurants();
+    }
 
     @Override
     public void onStarted() {
@@ -232,5 +241,7 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
     @Override
     public void onFailure(String error) {
         restaurantInterface.onFailure(error);
+        restaurantInterface.tryAgain();
+        stateWaitingOrNoConnection.setValue(true); //show tryAgain view
     }
 }

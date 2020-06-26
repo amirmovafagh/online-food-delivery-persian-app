@@ -49,7 +49,7 @@ class RestaurantPackageAdapter extends RecyclerView.Adapter<RestaurantPackageAda
             holder.binding.linearPackageContent.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.cardview_border_restaurant_package_on_select, null));
             holder.binding.imgClose.setVisibility(View.VISIBLE);
         } else {//remove selected
-            holder.binding.linearPackageContent.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.color.white, null));
+            holder.binding.linearPackageContent.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.color.materialGray200, null));
             holder.binding.imgClose.setVisibility(View.GONE);
         }
 
@@ -66,7 +66,7 @@ class RestaurantPackageAdapter extends RecyclerView.Adapter<RestaurantPackageAda
         holder.binding.cvPackageName.setOnClickListener(v -> {
             //remove selected item
             holder.binding.imgClose.setVisibility(View.GONE);
-            holder.binding.linearPackageContent.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.color.white, null));
+            holder.binding.linearPackageContent.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.color.materialGray200, null));
             packageInterface.onPackageItemClick(holder.binding.cvPackageName, currentPackageItem);
 
         });

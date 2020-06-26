@@ -14,6 +14,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavBackStackEntry;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -117,6 +118,7 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
                              @Nullable Bundle savedInstanceState) {
         ((App) getActivity().getApplication()).getComponent().inject(this);
         binding = DataBindingUtil.inflate(inflater, R.layout.cart_fragment, container, false);
+        navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
         viewModel = new ViewModelProvider(this, factory).get(CartViewModel.class);
         viewModel.setFragmentInterface(this);
         binding.setViewModel(viewModel);
@@ -131,12 +133,7 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
         expandableLayout = binding.linearLayoutCartDetailsView;
         acceptOrder = binding.linearLayoutAcceptOrder;
         toolbar = binding.toolbar;
-        navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
-        AppBarConfiguration appBarConfiguration =
-                new AppBarConfiguration.Builder(navController.getGraph()).build();
 
-        NavigationUI.setupWithNavController(
-                toolbar, navController, appBarConfiguration);
 
         viewModel.setMaterialDeliveryBtnGroup(materialDeliveryBtnGroup);
         arrowBtn.setOnClickListener(v -> {
@@ -211,6 +208,11 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        navController = Navigation.findNavController(getView());
+        AppBarConfiguration appBarConfiguration =
+                new AppBarConfiguration.Builder(navController.getGraph()).build();
+        NavigationUI.setupWithNavController(
+                toolbar, navController, appBarConfiguration);
 
     }
 

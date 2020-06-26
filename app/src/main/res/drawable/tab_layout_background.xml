@@ -3,11 +3,9 @@
     android:shape="rectangle">
 
     <!-- radius should be half of the desired TabLayout height -->
-    <corners
-        android:radius="@dimen/card_view_corner_radius"/>
+    <corners android:radius="@dimen/little_view_corner_radius" />
 
     <!-- TabLayout background color -->
-    <solid
-        android:color="@color/materialGray100"/>
+    <solid android:color="@color/restaurantDetailsCardViewBackground" />
 
 </shape>

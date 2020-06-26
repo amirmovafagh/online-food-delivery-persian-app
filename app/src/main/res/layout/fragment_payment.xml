@@ -26,6 +26,7 @@
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
             app:layout_scrollFlags="scroll|snap|enterAlways">
 
             <androidx.appcompat.widget.Toolbar
@@ -35,9 +36,8 @@
                 app:title="تایید و پرداخت سفارش"
                 android:fitsSystemWindows="true"
                 android:theme="@style/ToolbarColoredBackArrow"
-                app:subtitleTextColor="@color/white"
-                app:titleTextColor="@color/white">
-
+                app:subtitleTextColor="@color/materialGray900"
+                app:titleTextColor="@color/materialGray900">
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 

@@ -48,6 +48,10 @@ public interface ApiInterface {
     @FormUrlEncoded
     Observable<Long> registerUser(@Field("mobile") String phoneNumber/*@Body RegisterUserResponse registerResponse*/);
 
+    @POST("/api/auth/forgetPass")
+    @FormUrlEncoded
+    Observable<Long> forgotPassword(@Field("mobile") String phoneNumber);
+
     /**
      * Update the APIService registerUser(...) method from Call to become an Observable for using Rx java.
      */
@@ -59,6 +63,9 @@ public interface ApiInterface {
     @POST("/api/auth/verify")
     Observable<VerificationNewUserResponse> verificationNewUser(@Query("code") String verificationCode, @Query("mobile") String phoneNumber);
 
+    @POST("/api/auth/verifyForgetPass")
+    Observable<VerificationNewUserResponse> verificationForgotPass(@Query("code") String verificationCode, @Query("mobile") String phoneNumber);
+
     @PUT("/api/auth/activate")
     Observable<Response<Void>> activateNewUser(@Body ActivateUserBody activateUserBody);
 
@@ -68,8 +75,8 @@ public interface ApiInterface {
 
     @GET("/api/search/")
     Observable<RestaurantResponse> searchRestaurants(
-            @Query("category") Object categoryList, @Query("city") Object city, @Query("name") Object restaurantName, @Query("deliveryFilter") Object deliveryFilter ,
-            @Query("discountFilter") Object discountFilter , @Query("servingFilter") Object servingFilter , @Query("getInPlaceFilter") Object getInPlaceFilter ,
+            @Query("category") Object categoryList, @Query("city") Object city, @Query("name") Object restaurantName, @Query("deliveryFilter") Object deliveryFilter,
+            @Query("discountFilter") Object discountFilter, @Query("servingFilter") Object servingFilter, @Query("getInPlaceFilter") Object getInPlaceFilter,
             @Query("lat") Object latitude, @Query("lon") Object longitude, @Query("page") int page, @Query("size") int size, @Query("sortBy") Object sortBy);
 
     @GET("/api/restaurant/{restaurantId}/assessment")

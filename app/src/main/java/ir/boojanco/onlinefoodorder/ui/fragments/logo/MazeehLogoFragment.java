@@ -24,6 +24,7 @@ import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.FragmentMazeehLogoBinding;
+import ir.boojanco.onlinefoodorder.ui.activities.MainActivity;
 import ir.boojanco.onlinefoodorder.viewmodels.MazeehLogoViewModel;
 
 public class MazeehLogoFragment extends Fragment {
@@ -71,9 +72,16 @@ public class MazeehLogoFragment extends Fragment {
             float progress = ((float) animation.getAnimatedValue() * 100);
             if ((int) progress == 85) {
                 if (sharedPreferences.getUserAuthTokenKey() != null) {
+
+                    /*getActivity().finish();
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);*/
                     if (Navigation.findNavController(getView()).getCurrentDestination().getId() == R.id.mazeehLogoFragment) {
-                        Navigation.findNavController(getView()).navigate(R.id.action_mazeehLogoFragment_to_mainActivity);
                         getActivity().finish();
+                        Navigation.findNavController(getView()).navigate(R.id.action_mazeehLogoFragment_to_mainActivity);
+
                     }
                 } else if (Navigation.findNavController(getView()).getCurrentDestination().getId() == R.id.mazeehLogoFragment) {
                     Navigation.findNavController(getView()).navigate(R.id.action_mazeehLogoFragment_to_loginRegisterFragment);

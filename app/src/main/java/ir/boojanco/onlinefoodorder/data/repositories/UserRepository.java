@@ -38,8 +38,16 @@ public class UserRepository {
         return apiInterface.registerUser(phoneNumber);
     }
 
+    public Observable<Long> forgotPassword(@NonNull String phoneNumber) {
+        return apiInterface.forgotPassword(phoneNumber);
+    }
+
     public Observable<VerificationNewUserResponse> verifyNewUser(String verificationCode, String phoneNumber) {
         return apiInterface.verificationNewUser(verificationCode, phoneNumber);
+    }
+
+    public Observable<VerificationNewUserResponse> verifyForgotPass(String verificationCode, String phoneNumber) {
+        return apiInterface.verificationForgotPass(verificationCode, phoneNumber);
     }
 
     public Observable<Response<Void>> activateNewUser(ActivateUserBody activateUserBody) {

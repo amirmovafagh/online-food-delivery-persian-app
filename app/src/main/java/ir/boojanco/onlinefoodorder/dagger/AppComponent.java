@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 import ir.boojanco.onlinefoodorder.ui.activities.MainActivity;
 import ir.boojanco.onlinefoodorder.ui.fragments.cart.CartFragment;
+import ir.boojanco.onlinefoodorder.ui.fragments.forgotPass.ForgotPassFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.loginRegister.LoginRegisterRegisterFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.loginRegister.VerificationFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.logo.MazeehLogoFragment;
@@ -28,6 +29,7 @@ public interface AppComponent {
     void inject(LoginRegisterRegisterFragment loginRegisterFragment);
     void inject(MazeehLogoFragment mazeehLogoFragment);
     void inject(VerificationFragment verificationFragment);
+    void inject(ForgotPassFragment forgotPassFragment);
     void inject(MainActivity mainActivity);
     void inject(HomeFragment homeFragment);
     void inject(RestaurantFragment restaurantFragment);

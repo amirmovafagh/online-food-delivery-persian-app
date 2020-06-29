@@ -10,7 +10,7 @@
             type="ir.boojanco.onlinefoodorder.viewmodels.ForgotPassViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,45 +21,31 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/wallpaper_dark_dish"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/backgroundGrayLight_lowAlpha_test"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            android:src="@drawable/wallpaper_dark_dish" />
         <androidx.cardview.widget.CardView
             android:id="@+id/verification_cardview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
+            android:layout_gravity="center"
             app:cardBackgroundColor="@color/overlapCardBackgroundColor"
             app:cardCornerRadius="@dimen/card_view_corner_radius"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="8dp">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="بازیابی کلمه عبور"
-                    android:visibility="visible"
-                    android:textSize="@dimen/h6_title_font_size" />
+                    android:textSize="@dimen/h6_title_font_size"
+                    android:visibility="visible" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/txtInputLayoutLoginPhoneNumber"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
@@ -92,9 +78,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:visibility="gone"
                     android:background="@color/transparent"
-                    android:hint="@string/hint_text_password_edt_text"
+                    android:hint="@string/hint_text_new_password_edt_text"
+                    android:visibility="gone"
                     app:boxBackgroundColor="@color/transparent"
                     app:error="@{viewModel.passwordError}"
                     app:passwordToggleEnabled="true">
@@ -105,6 +91,7 @@
                         android:layout_height="wrap_content"
                         android:background="@color/transparent"
                         android:imeOptions="actionDone"
+                        android:inputType="textPassword"
                         android:singleLine="true"
                         android:text="@={viewModel.password}"
                         android:textAlignment="viewStart"
@@ -118,15 +105,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="کد پیامک شده را وارد کنید"
-                    android:visibility="gone"
-                    android:textSize="@dimen/h6_title_font_size" />
+                    android:textSize="@dimen/h6_title_font_size"
+                    android:visibility="gone" />
 
                 <com.mukesh.OtpView
                     android:id="@+id/otp_view"
                     style="@style/OtpWidget.OtpView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
                     android:layout_gravity="center"
                     android:layout_margin="8dp"
                     android:cursorVisible="true"
@@ -135,6 +121,7 @@
                     android:inputType="number"
                     android:itemBackground="@color/transparent"
                     android:text="@={viewModel.verificationCode}"
+                    android:visibility="gone"
                     app:itemCount="5"
                     app:itemRadius="@dimen/card_view_corner_radius"
                     app:lineColor="@color/colorPrimary"
@@ -147,7 +134,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:onClick="@{()->viewModel.onResetPasswordClick()}"
-                    android:text="@string/accept"
+                    android:text="@{viewModel.buttonResetTxtLiveData}"
                     android:textSize="@dimen/button_font_size"
                     app:cornerRadius="@dimen/button_corner_radius" />
 
@@ -155,39 +142,40 @@
                     android:id="@+id/btnSendAgainVerifyCode"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="match_parent"
-                    android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:enabled="@{viewModel.buttonTimerStateLiveData==true ? true : false, default=false}"
+                    android:onClick="@{()-> viewModel.getVerificationCodeAgainOnClick()}"
                     android:text="@={viewModel.buttonTimerLiveData, default=@string/send_again_verification_code}"
                     android:textSize="@dimen/button_font_size"
+                    android:visibility="gone"
                     app:cornerRadius="@dimen/button_corner_radius" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_waiting_response"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            app:cardBackgroundColor="@color/overlapBackgroundColor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/animation_view"
-                android:layout_width="150dp"
-                android:layout_height="250dp"
-                android:layout_gravity="center"
-                android:layout_margin="5dp"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/waiting_animate_burger" />
-        </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_waiting_response"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/overlapBackgroundColor"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/animation_view"
+                    android:layout_width="150dp"
+                    android:layout_height="250dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/waiting_animate_burger" />
+            </androidx.cardview.widget.CardView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

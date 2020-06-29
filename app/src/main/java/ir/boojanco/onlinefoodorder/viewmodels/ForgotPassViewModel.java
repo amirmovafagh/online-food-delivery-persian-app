@@ -32,6 +32,7 @@ public class ForgotPassViewModel extends ViewModel {
     public MutableLiveData<String> phoneNumberError;
     public MutableLiveData<String> password;
     public MutableLiveData<String> passwordError;
+    public MutableLiveData<String> buttonResetTxtLiveData;
     private boolean verificationCodeState = false;
     private long verificationCodeTimer;
     private ForgotPassInterface fragmentInterface;
@@ -48,6 +49,8 @@ public class ForgotPassViewModel extends ViewModel {
         phoneNumberError = new MutableLiveData<>();
         password = new MutableLiveData<>();
         passwordError = new MutableLiveData<>();
+        buttonResetTxtLiveData = new MutableLiveData<>();
+        buttonResetTxtLiveData.setValue("دریافت کد تایید");
 
     }
 
@@ -62,20 +65,18 @@ public class ForgotPassViewModel extends ViewModel {
             public void onTick(long millisUntilFinished) {
                 buttonTimerLiveData.setValue("دریافت مجدد کد " + "(" + millisUntilFinished / 1000 + ")");
                 buttonTimerStateLiveData.setValue(false);
-                verificationCodeState = true;
             }
 
             @Override
             public void onFinish() {
                 buttonTimerLiveData.setValue("دریافت مجدد کد");
                 buttonTimerStateLiveData.setValue(true);
-                verificationCodeState = false;
             }
         }.start();
     }
 
     public void checkVerificationCode() {
-        if (verificationCode != null && verificationCode.getValue() != null && verificationCode.getValue().length() == 5) {
+        if (checkPasswordStrength(password.getValue()) && verificationCode != null && verificationCode.getValue() != null && verificationCode.getValue().length() == 5) {
             Observable<VerificationNewUserResponse> observable = userRepository.verifyForgotPass(verificationCode.getValue(), phoneNumber.getValue());
             if (observable != null) {
                 fragmentInterface.onStarted();
@@ -86,6 +87,7 @@ public class ForgotPassViewModel extends ViewModel {
 
                     @Override
                     public void onError(Throwable e) {
+                        fragmentInterface.tryAgain();
                         if (e instanceof NoNetworkConnectionException)
                             fragmentInterface.onFailure(e.getMessage());
                         if (e instanceof HttpException) {
@@ -102,7 +104,8 @@ public class ForgotPassViewModel extends ViewModel {
 
                     @Override
                     public void onNext(VerificationNewUserResponse verificationNewUserResponse) {
-                        Toast.makeText(context, "" + verificationNewUserResponse.getMobile(), Toast.LENGTH_SHORT).show();
+                        fragmentInterface.onFailure("کلمه عبور جدید تایید شد");
+                        fragmentInterface.goBackToLoginFragment();
                     }
                 });
             }
@@ -111,44 +114,55 @@ public class ForgotPassViewModel extends ViewModel {
 
     public void onResetPasswordClick() {
         if (!verificationCodeState)
-            if (isValidPhoneNumber(phoneNumber.getValue()) && checkPasswordStrength(password.getValue())) {
-                fragmentInterface.onStarted();
-                Observable<Long> observable = userRepository.forgotPassword(phoneNumber.getValue());
-                if (observable != null) {
-                    observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Long>() {
-                        @Override
-                        public void onCompleted() {
+            getVerificationCode();
+        else {
+            checkVerificationCode();
+        }
+    }
 
-                        }
+    public void getVerificationCodeAgainOnClick() {
+        if (verificationCodeState)
+            getVerificationCode();
+    }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            if (e instanceof NoNetworkConnectionException)
-                                fragmentInterface.onFailure(e.getMessage());
-                            if (e instanceof HttpException) {
-                                Response response = ((HttpException) e).response();
-                                try {
-                                    JSONObject jsonObject = new JSONObject(response.errorBody().string());
-                                    fragmentInterface.onFailure(jsonObject.getString("message"));
-                                } catch (Exception d) {
-                                    fragmentInterface.onFailure(d.getMessage());
-                                    Log.i(TAG, "" + d.getMessage());
-                                }
+    private void getVerificationCode() {
+        if (isValidPhoneNumber(phoneNumber.getValue())) {
+            fragmentInterface.onStarted();
+            Observable<Long> observable = userRepository.forgotPassword(phoneNumber.getValue());
+            if (observable != null) {
+                observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Long>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        fragmentInterface.tryAgain();
+                        if (e instanceof NoNetworkConnectionException)
+                            fragmentInterface.onFailure(e.getMessage());
+                        if (e instanceof HttpException) {
+                            Response response = ((HttpException) e).response();
+                            try {
+                                JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                                fragmentInterface.onFailure(jsonObject.getString("message"));
+                            } catch (Exception d) {
+                                fragmentInterface.onFailure(d.getMessage());
+                                Log.i(TAG, "" + d.getMessage());
                             }
                         }
+                    }
 
-                        @Override
-                        public void onNext(Long time) {
-                            setVerificationCodeTimer(time);
-                            verificationCodeState = true;
-                            fragmentInterface.onGetVerificationCode();
-                        }
-                    });
-                }
-            } else {
-                checkVerificationCode();
-
+                    @Override
+                    public void onNext(Long time) {
+                        buttonResetTxtLiveData.setValue("تایید کلمه عبور جدید");
+                        setVerificationCodeTimer(time);
+                        verificationCodeState = true;
+                        fragmentInterface.onGetVerificationCode();
+                    }
+                });
             }
+        }
     }
 
     private boolean isValidPhoneNumber(String phone) {

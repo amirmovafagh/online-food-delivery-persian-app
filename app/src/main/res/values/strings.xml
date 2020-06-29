@@ -139,4 +139,5 @@
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hint_text_new_password_edt_text">کلمه عبور جدید</string>
 </resources>

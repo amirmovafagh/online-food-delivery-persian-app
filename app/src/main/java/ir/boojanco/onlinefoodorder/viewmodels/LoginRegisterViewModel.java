@@ -116,6 +116,10 @@ public class LoginRegisterViewModel extends ViewModel {
         }
     }
 
+    public void goToForgotPassFragment(){
+        loginRegisterAuth.goToForgotPassFragment();
+    }
+
 
     private boolean isValidPhoneNumber(String phone) {
         if (phone == null || phone.isEmpty()) {

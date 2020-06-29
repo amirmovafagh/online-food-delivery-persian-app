@@ -5,9 +5,11 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.transition.AutoTransition;
 import androidx.transition.TransitionManager;
 
@@ -26,10 +28,8 @@ import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.FragmentForgotPassBinding;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
-import ir.boojanco.onlinefoodorder.ui.fragments.loginRegister.VerificationFragment;
 import ir.boojanco.onlinefoodorder.viewmodels.ForgotPassViewModel;
-import ir.boojanco.onlinefoodorder.viewmodels.VerificationViewModel;
-import ir.boojanco.onlinefoodorder.viewmodels.factories.VerificationViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.factories.ForgotPassViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.ForgotPassInterface;
 
 public class ForgotPassFragment extends Fragment implements ForgotPassInterface {
@@ -39,10 +39,10 @@ public class ForgotPassFragment extends Fragment implements ForgotPassInterface 
     @Inject
     MySharedPreferences sharedPreferences;
     @Inject
-    VerificationViewModelFactory factory;
+    ForgotPassViewModelFactory factory;
 
     private AutoTransition transition;
-    private ConstraintLayout mainLayout;
+    private CoordinatorLayout mainLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -103,17 +103,23 @@ public class ForgotPassFragment extends Fragment implements ForgotPassInterface 
 
     @Override
     public void onGetVerificationCode() {
-        if (binding.buttonResetPass.getVisibility() == View.GONE) {
+        binding.cvWaitingResponse.setVisibility(View.GONE);
+        if (binding.otpView.getVisibility() == View.GONE) {
             TransitionManager.beginDelayedTransition(mainLayout, transition);
             binding.textView2.setVisibility(View.VISIBLE);
             binding.otpView.setVisibility(View.VISIBLE);
+            binding.txtInputLayoutLoginPassword.setVisibility(View.VISIBLE);
             binding.btnSendAgainVerifyCode.setVisibility(View.VISIBLE);
-
-        } else {
-            TransitionManager.beginDelayedTransition(mainLayout, transition);
-            binding.textView2.setVisibility(View.GONE);
-            binding.otpView.setVisibility(View.GONE);
-            binding.btnSendAgainVerifyCode.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void tryAgain() {
+        binding.cvWaitingResponse.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void goBackToLoginFragment() {
+        Navigation.findNavController(getView()).navigate(R.id.action_fragment_forgotPassFragment_to_fragment_loginRegisterFragment);
     }
 }

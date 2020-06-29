@@ -71,8 +71,8 @@ public class LoginRegisterRegisterFragment extends Fragment implements LoginRegi
         phoneNum = binding.loginPhoneEdtText;
         //set font on password editText
         password = binding.loginPasswordEdtText;
-        password.setTypeface(Typeface.DEFAULT);
-        password.setTransformationMethod(new PasswordTransformationMethod());
+        //password.setTypeface(Typeface.DEFAULT);
+        //password.setTransformationMethod(new PasswordTransformationMethod());
 
         password.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -97,6 +97,16 @@ public class LoginRegisterRegisterFragment extends Fragment implements LoginRegi
 
 
         return binding.getRoot();
+    }
+
+    public void hideKeyboard() {
+        // Check if no view has focus:
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+            if (inputManager != null)
+                inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
     @Override
@@ -139,8 +149,16 @@ public class LoginRegisterRegisterFragment extends Fragment implements LoginRegi
 
     @Override
     public void onFailure(String Error) {
+        hideKeyboard();
         binding.cvWaitingResponse.setVisibility(View.GONE);
         Snackbar snackbar = Snackbar.make(binding.mainContent, "" + Error, Snackbar.LENGTH_SHORT);
         snackbar.show();
+    }
+
+    @Override
+    public void goToForgotPassFragment() {
+        if (Navigation.findNavController(getView()).getCurrentDestination().getId() == R.id.loginRegisterFragment) {
+            Navigation.findNavController(getView()).navigate(R.id.action_loginRegisterFragment_to_forgotPassFragment);
+        }
     }
 }

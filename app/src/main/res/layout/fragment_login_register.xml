@@ -98,7 +98,8 @@
                     android:hint="@string/hint_text_password_edt_text"
                     app:boxBackgroundColor="@color/transparent"
                     app:error="@{viewModel.passwordError}"
-                    app:passwordToggleEnabled="true">
+                    app:passwordToggleEnabled="true"
+                    >
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/loginPasswordEdtText"
@@ -107,6 +108,7 @@
                         android:background="@color/transparent"
                         android:imeOptions="actionDone"
                         android:singleLine="true"
+                        android:inputType="textPassword"
                         android:text="@={viewModel.password}"
                         android:textAlignment="viewStart"
                         android:textSize="@dimen/edit_text_font_size" />
@@ -146,13 +148,14 @@
 
 
                 <Button
-                    android:id="@+id/txtViewForgotPassword"
+                    android:id="@+id/btnForgotPassword"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:text="@string/forgot_password"
+                    android:onClick="@{()->viewModel.goToForgotPassFragment()}"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="@dimen/body3_paragraph_font_size"
                     app:cornerRadius="@dimen/button_corner_radius" />

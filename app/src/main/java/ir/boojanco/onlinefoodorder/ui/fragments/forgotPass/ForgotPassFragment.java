@@ -96,6 +96,7 @@ public class ForgotPassFragment extends Fragment implements ForgotPassInterface 
 
     @Override
     public void onFailure(String Error) {
+        hideKeyboard();
         binding.cvWaitingResponse.setVisibility(View.GONE);
         Snackbar snackbar = Snackbar.make(binding.mainContent, "" + Error, Snackbar.LENGTH_SHORT);
         snackbar.show();
@@ -121,5 +122,15 @@ public class ForgotPassFragment extends Fragment implements ForgotPassInterface 
     @Override
     public void goBackToLoginFragment() {
         Navigation.findNavController(getView()).navigate(R.id.action_fragment_forgotPassFragment_to_fragment_loginRegisterFragment);
+    }
+
+    public void hideKeyboard() {
+        // Check if no view has focus:
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+            if (inputManager != null)
+                inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 }

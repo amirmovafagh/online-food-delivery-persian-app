@@ -99,7 +99,7 @@ public class LoginRegisterRegisterFragment extends Fragment implements LoginRegi
         return binding.getRoot();
     }
 
-    public void hideKeyboard() {
+    private void hideKeyboard() {
         // Check if no view has focus:
         View view = getActivity().getCurrentFocus();
         if (view != null) {

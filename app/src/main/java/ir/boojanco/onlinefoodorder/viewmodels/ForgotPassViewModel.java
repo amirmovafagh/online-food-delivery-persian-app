@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel;
 import org.json.JSONObject;
 
 import ir.boojanco.onlinefoodorder.data.repositories.UserRepository;
+import ir.boojanco.onlinefoodorder.models.user.RecreatePass;
 import ir.boojanco.onlinefoodorder.models.user.VerificationNewUserResponse;
 import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.ForgotPassInterface;
@@ -104,8 +105,48 @@ public class ForgotPassViewModel extends ViewModel {
 
                     @Override
                     public void onNext(VerificationNewUserResponse verificationNewUserResponse) {
-                        fragmentInterface.onFailure("کلمه عبور جدید تایید شد");
-                        fragmentInterface.goBackToLoginFragment();
+                        RecreatePass pass = new RecreatePass(password.getValue(), verificationNewUserResponse.getMobile(), password.getValue());
+                        recreateNewPassword(pass);
+                    }
+                });
+            }
+        }
+    }
+
+    private void recreateNewPassword(RecreatePass pass) {
+        if (checkPasswordStrength(password.getValue()) && verificationCode != null && verificationCode.getValue() != null && verificationCode.getValue().length() == 5) {
+            Observable<Response<Void>> observable = userRepository.recreatePass(pass);
+            if (observable != null) {
+                fragmentInterface.onStarted();
+                observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Response<Void>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        fragmentInterface.tryAgain();
+                        if (e instanceof NoNetworkConnectionException)
+                            fragmentInterface.onFailure(e.getMessage());
+                        if (e instanceof HttpException) {
+                            Response response = ((HttpException) e).response();
+                            try {
+                                JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                                Log.i(TAG + " RecreatePass Func ", "" + jsonObject.getString("message"));
+                                fragmentInterface.onFailure(jsonObject.getString("message"));
+                            } catch (Exception d) {
+                                Log.i(TAG, "" + d.getMessage());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onNext(Response response) {
+                        if (response.isSuccessful()) {
+                            fragmentInterface.onFailure("کلمه عبور جدید تایید شد.");
+                            fragmentInterface.goBackToLoginFragment();
+                        } else fragmentInterface.onFailure("خطا در تغییر کلمه عبور.");
+
                     }
                 });
             }

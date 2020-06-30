@@ -24,6 +24,7 @@ import ir.boojanco.onlinefoodorder.models.user.GetUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.GetUserOrderCommentResponse;
 import ir.boojanco.onlinefoodorder.models.user.GetUserOrdersResponse;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
+import ir.boojanco.onlinefoodorder.models.user.RecreatePass;
 import ir.boojanco.onlinefoodorder.models.user.UserPointRestaurantClubResponse;
 import ir.boojanco.onlinefoodorder.models.user.UserProfileResponse;
 import ir.boojanco.onlinefoodorder.models.user.VerificationNewUserResponse;
@@ -65,6 +66,9 @@ public interface ApiInterface {
 
     @POST("/api/auth/verifyForgetPass")
     Observable<VerificationNewUserResponse> verificationForgotPass(@Query("code") String verificationCode, @Query("mobile") String phoneNumber);
+
+    @PUT("/api/auth/recreatePass")
+    Observable<Response<Void>> recreatePass(@Body RecreatePass pass);
 
     @PUT("/api/auth/activate")
     Observable<Response<Void>> activateNewUser(@Body ActivateUserBody activateUserBody);

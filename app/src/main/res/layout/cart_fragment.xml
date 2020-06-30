@@ -120,7 +120,7 @@
                                 android:onClick="@{()-> viewModel.showMap()}"
                                 android:text="@string/add_new_address"
                                 android:textSize="@dimen/button_font_size"
-                                app:cornerRadius="16dp"
+                                app:cornerRadius="@dimen/button_corner_radius"
                                 app:icon="@drawable/ic_add_location"
                                 app:layout_constraintLeft_toLeftOf="parent"
                                 app:layout_constraintRight_toRightOf="parent"

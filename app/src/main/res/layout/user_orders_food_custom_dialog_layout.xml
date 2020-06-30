@@ -194,7 +194,7 @@
                                 android:textSize="@dimen/body3_paragraph_font_size"
                                 android:textStyle="bold"
                                 android:visibility="@{variables.acceptButtonStateLiveData ? View.VISIBLE : View.GONE}"
-                                app:cornerRadius="16dp" />
+                                app:cornerRadius="@dimen/button_corner_radius" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 

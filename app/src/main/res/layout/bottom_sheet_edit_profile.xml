@@ -177,7 +177,7 @@
             android:onClick="@{()-> viewModel.acceptEditUserProfileOnClick()}"
             android:text="ثبت"
             android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.GONE : View.VISIBLE}"
-            app:cornerRadius="16dp" />
+            app:cornerRadius="@dimen/button_corner_radius" />
     </LinearLayout>
 
 

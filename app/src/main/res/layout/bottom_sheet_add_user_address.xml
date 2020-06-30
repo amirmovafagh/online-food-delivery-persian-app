@@ -239,7 +239,7 @@
             android:layout_marginBottom="16dp"
             android:onClick="@{()-> viewModel.addUserAddress()}"
             android:text="ثبت"
-            app:cornerRadius="16dp" />
+            app:cornerRadius="@dimen/button_corner_radius" />
 
     </LinearLayout>
 </layout>

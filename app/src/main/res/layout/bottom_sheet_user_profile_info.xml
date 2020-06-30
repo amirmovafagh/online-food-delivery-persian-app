@@ -154,6 +154,6 @@
             android:layout_gravity="center"
             android:onClick="@{()-> viewModel.acceptAddNewUserAddressOrEditAddressOnClick()}"
             android:text="ثبت"
-            app:cornerRadius="16dp" />
+            app:cornerRadius="@dimen/button_corner_radius" />
     </LinearLayout>
 </layout>

@@ -252,7 +252,7 @@
             android:onClick="@{()-> viewModel.acceptAddNewUserAddressOrEditAddressOnClick()}"
             android:text="ثبت"
             android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.VISIBLE : View.GONE}"
-            app:cornerRadius="16dp" />
+            app:cornerRadius="@dimen/button_corner_radius" />
 
     </LinearLayout>
 

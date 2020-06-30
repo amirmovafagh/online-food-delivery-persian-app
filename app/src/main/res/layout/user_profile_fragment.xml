@@ -80,7 +80,7 @@
                         android:layout_margin="24dp"
                         android:onClick="@{()-> viewModel.goToLoginRegisterActivity()}"
                         android:text="@string/loginOrRegister"
-                        app:cornerRadius="16dp" />
+                        app:cornerRadius="@dimen/button_corner_radius" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -208,7 +208,7 @@
                                 android:onClick="@{()-> viewModel.editUserProfile()}"
                                 android:text="@string/changeUserInfo"
                                 android:textSize="@dimen/body4_paragraph_font_size"
-                                app:cornerRadius="16dp"
+                                app:cornerRadius="@dimen/button_corner_radius"
                                 app:icon="@drawable/ic_edit_user"
                                 app:layout_constraintHorizontal_chainStyle="spread"
                                 app:layout_constraintLeft_toRightOf="@id/btn_exit_user"
@@ -223,7 +223,7 @@
                                 android:onClick="@{()-> viewModel.logoutUser()}"
                                 android:text="@string/logout"
                                 android:textSize="@dimen/body4_paragraph_font_size"
-                                app:cornerRadius="16dp"
+                                app:cornerRadius="@dimen/button_corner_radius"
                                 app:icon="@drawable/ic_exit"
                                 app:layout_constraintBottom_toBottomOf="@id/btn_edit_user"
                                 app:layout_constraintLeft_toLeftOf="parent"
@@ -405,7 +405,7 @@
                         android:textAlignment="textStart"
                         android:textColor="@color/colorSecondPrimary"
                         android:textSize="@dimen/button_font_size"
-                        app:cornerRadius="16dp"
+                        app:cornerRadius="@dimen/button_corner_radius"
                         app:icon="@drawable/ic_add_location"
                         app:layout_constraintBottom_toBottomOf="@id/text_view_addresses"
                         app:layout_constraintLeft_toLeftOf="parent"

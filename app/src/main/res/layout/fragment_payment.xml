@@ -7,7 +7,8 @@
         <variable
             name="viewModel"
             type="ir.boojanco.onlinefoodorder.viewmodels.PaymentViewModel" />
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -33,12 +34,11 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:title="تایید و پرداخت سفارش"
                 android:fitsSystemWindows="true"
                 android:theme="@style/ToolbarColoredBackArrow"
                 app:subtitleTextColor="@color/materialGray900"
-                app:titleTextColor="@color/materialGray900">
-            </androidx.appcompat.widget.Toolbar>
+                app:title="تایید و پرداخت سفارش"
+                app:titleTextColor="@color/materialGray900"></androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -75,15 +75,49 @@
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingTop="16dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:text="@string/walletCost"
+                                android:drawableRight="@drawable/ic_restaurant_wallet"
+                                android:drawablePadding="12dp"
+                                android:textColor="@android:color/black"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:maxLines="1"
+                                android:text="@{String.valueOf(viewModel.accountBalanceLiveData)}"
+                                android:textAlignment="viewEnd"
+                                android:textSize="@dimen/body3_paragraph_font_size"
+                                tools:ignore="RtlCompat" />
+                        </LinearLayout>
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:checked="false"
+                            android:text="@string/payWithWallet"
+                            android:onCheckedChanged="@{(v, checked) -> viewModel.setPayWithWalletOnClick(v,checked)}"
+                            android:visibility="@{viewModel.statePayWithWallet ? View.VISIBLE : View.GONE , default=visible}" />
+
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/txtInputLayoutLoginPhoneNumber"
                             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            app:startIconDrawable="@drawable/ic_discount_code"
                             android:hint="@string/pleaseEnterYourDiscountCode"
-                            app:boxBackgroundColor="@color/transparent">
+                            app:boxBackgroundColor="@color/transparent"
+                            app:startIconDrawable="@drawable/ic_discount_code">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
@@ -303,9 +337,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:layout_marginBottom="8dp"
-                            app:startIconDrawable="@drawable/ic_comment"
                             android:hint="@string/description"
-                            app:boxBackgroundColor="@color/transparent">
+                            app:boxBackgroundColor="@color/transparent"
+                            app:startIconDrawable="@drawable/ic_comment">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
@@ -354,11 +388,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:layout_marginEnd="16dp"
+                        android:drawableStart="@drawable/ic_shopping_cart"
+                        android:drawablePadding="4dp"
                         android:gravity="center"
                         android:maxLines="1"
                         android:padding="4dp"
-                        android:drawablePadding="4dp"
-                        android:drawableStart="@drawable/ic_shopping_cart"
                         android:text="@{viewModel.totalAllPriceLiveData ,default=قیمت}"
                         android:textSize="@dimen/body1_paragraph_font_size"
                         android:textStyle="bold" />
@@ -395,11 +429,12 @@
 
             </androidx.cardview.widget.CardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_waiting_response"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{viewModel.stateWaitingToPay ? View.VISIBLE : View.GONE , default=gone}"
+            android:visibility="@{viewModel.stateWaitingToLoad ? View.VISIBLE : View.GONE , default=gone}"
             app:cardBackgroundColor="@color/materialGray100"
             app:cardElevation="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -422,12 +457,26 @@
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
                     app:lottie_rawRes="@raw/waiting_animate_burger" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
                     android:layout_gravity="center"
-                    android:text="@string/movetobankpay"/>
+                    android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
+                    android:text="@{viewModel.stateWaitingToLoadDescription}" />
+
+                <Button
+                    android:id="@+id/buttonTryAgain"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="16dp"
+                    android:onClick="@{()->viewModel.tryAgainOnClick()}"
+                    android:text="@string/tryAgain"
+                    android:textSize="@dimen/h7_title_font_size"
+                    android:visibility="@{viewModel.stateTryAgainButton ? View.VISIBLE : View.GONE , default=gone}"
+                    app:cornerRadius="@dimen/card_view_corner_radius" />
 
             </LinearLayout>
 

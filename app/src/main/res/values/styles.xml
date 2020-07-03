@@ -77,8 +77,7 @@
 
     <style name="AlertDialogCustomRTL" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="android:layoutDirection">rtl</item>
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MyApp.Dialog.Rounded
-        </item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MyApp.Dialog.Rounded</item>
     </style>
 
     <style name="ShapeAppearanceOverlay.MyApp.Dialog.Rounded" parent="">

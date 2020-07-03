@@ -17,6 +17,7 @@ import ir.boojanco.onlinefoodorder.models.user.GetUserOrdersResponse;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
 import ir.boojanco.onlinefoodorder.models.user.RecreatePass;
 import ir.boojanco.onlinefoodorder.models.user.UserProfileResponse;
+import ir.boojanco.onlinefoodorder.models.user.UserSession;
 import ir.boojanco.onlinefoodorder.models.user.VerificationNewUserResponse;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -45,6 +46,10 @@ public class UserRepository {
 
     public Observable<Response<Void>> recreatePass(@NonNull RecreatePass pass) {
         return apiInterface.recreatePass(pass);
+    }
+
+    public Observable<UserSession> getUerSession(String authToken) {
+        return apiInterface.getUserSession(authToken);
     }
 
     public Observable<VerificationNewUserResponse> verifyNewUser(String verificationCode, String phoneNumber) {
@@ -97,10 +102,6 @@ public class UserRepository {
 
     public Observable<UserProfileResponse> getUserProfileResponseObservable(String authToken) {
         return apiInterface.getUserProfileResponseObservable(authToken);
-    }
-
-    public Observable<Response<Void>> completeUserProfileObservable(String authToken, UserProfileResponse userProfileBody) {
-        return apiInterface.completeUserProfileObservable(authToken, userProfileBody);
     }
 
     public Observable<Response<Void>> editUserProfileObservable(String authToken, UserProfileResponse userProfileBody) {

@@ -17,6 +17,7 @@ import ir.boojanco.onlinefoodorder.models.stateCity.GetAllCitiesResponse;
 import ir.boojanco.onlinefoodorder.models.stateCity.GetAllStatesResponse;
 import ir.boojanco.onlinefoodorder.models.user.CartOrderResponse;
 import ir.boojanco.onlinefoodorder.models.user.UserPointRestaurantClubResponse;
+import ir.boojanco.onlinefoodorder.models.user.UserSession;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.http.Query;
@@ -35,6 +36,10 @@ public class RestaurantRepository {
 
     public Observable<RestaurantAssessmentResponse> getRestaurantAssessment(long restaurantId) {
         return apiInterface.getRestaurantAssessment(restaurantId);
+    }
+
+    public Observable<UserSession> getUerSession(String authToken){
+        return apiInterface.getUserSession(authToken);
     }
 
     public Observable<RestaurantResponse> searchRestaurantObservable(Object categoryList, Object city, Object restaurantName, Object deliveryFilter,

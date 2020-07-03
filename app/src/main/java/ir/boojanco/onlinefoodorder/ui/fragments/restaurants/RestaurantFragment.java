@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.AutoTransition;
 import androidx.transition.TransitionManager;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -215,14 +216,15 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
 
     @Override
     public void onStarted() {
-        new Runnable() {
-            @Override
-            public void run() {
-                binding.cvWaitingResponse.setVisibility(View.VISIBLE);
-                lottie.setAnimation(R.raw.waiting_animate_burger);
-                lottie.playAnimation();
-            }
-        };
+        try {
+            binding.cvWaitingResponse.setVisibility(View.VISIBLE);
+            lottie.setAnimation(R.raw.waiting_animate_burger);
+            lottie.playAnimation();
+        } catch (Exception e) {
+            Log.e(TAG, "" + e.getMessage());
+        }
+
+
     }
 
     @Override

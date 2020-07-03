@@ -84,7 +84,7 @@ public class MazeehLogoFragment extends Fragment {
 
                     }
                 } else if (Navigation.findNavController(getView()).getCurrentDestination().getId() == R.id.mazeehLogoFragment) {
-                    Navigation.findNavController(getView()).navigate(R.id.action_mazeehLogoFragment_to_loginRegisterFragment);
+                    Navigation.findNavController(getView()).navigate(R.id.action_mazeehLogoFragment_to_loginFragment);
                 }
             }
 

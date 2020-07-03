@@ -1,8 +1,7 @@
-package ir.boojanco.onlinefoodorder.ui.fragments.loginRegister;
+package ir.boojanco.onlinefoodorder.ui.fragments.login;
 
 import android.app.Activity;
 import android.app.Application;
-import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -11,7 +10,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
-import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,24 +24,21 @@ import javax.inject.Inject;
 import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
-import ir.boojanco.onlinefoodorder.databinding.FragmentLoginRegisterBinding;
+import ir.boojanco.onlinefoodorder.databinding.FragmentLoginBinding;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
-import ir.boojanco.onlinefoodorder.viewmodels.LoginRegisterViewModel;
-import ir.boojanco.onlinefoodorder.viewmodels.factories.LoginRegisterViewModelFactory;
-import ir.boojanco.onlinefoodorder.viewmodels.interfaces.LoginRegisterAuth;
+import ir.boojanco.onlinefoodorder.viewmodels.LoginViewModel;
+import ir.boojanco.onlinefoodorder.viewmodels.factories.LoginViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.interfaces.LoginAuth;
 
-public class LoginRegisterRegisterFragment extends Fragment implements LoginRegisterAuth {
-    private static final String TAG = LoginRegisterRegisterFragment.class.getSimpleName();
-    private String verificationCodeTimerKeyExtra = "verificationCodeTimer";
-    private String phoneNumberKeyExtra = "phoneNumber";
-    private String passwordKeyExtra = "password";
-    private FragmentLoginRegisterBinding binding;
-    private LoginRegisterViewModel viewModel;
+public class LoginFragment extends Fragment implements LoginAuth {
+    private static final String TAG = LoginFragment.class.getSimpleName();
+    private FragmentLoginBinding binding;
+    private LoginViewModel viewModel;
 
     @Inject
     Application application;
     @Inject
-    LoginRegisterViewModelFactory factory;
+    LoginViewModelFactory factory;
     @Inject
     MySharedPreferences sharedPreferences;
 
@@ -62,11 +57,11 @@ public class LoginRegisterRegisterFragment extends Fragment implements LoginRegi
         // We need to cast to `App` in order to get the right method
         ((App) getActivity().getApplication()).getComponent().inject(this);
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login_register, container, false);
-        viewModel = new ViewModelProvider(this, factory).get(LoginRegisterViewModel.class);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false);
+        viewModel = new ViewModelProvider(this, factory).get(LoginViewModel.class);
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
-        viewModel.loginRegisterAuth = this;
+        viewModel.loginAuth = this;
 
         phoneNum = binding.loginPhoneEdtText;
         //set font on password editText
@@ -87,8 +82,8 @@ public class LoginRegisterRegisterFragment extends Fragment implements LoginRegi
         binding.buttonRegisterActivity.setOnClickListener(v -> {
         });
         binding.buttonEnterAsGuest.setOnClickListener(v -> {
-            if (Navigation.findNavController(getView()).getCurrentDestination().getId() == R.id.loginRegisterFragment) {
-                Navigation.findNavController(getView()).navigate(R.id.action_loginRegisterFragment_to_mainActivity);
+            if (Navigation.findNavController(getView()).getCurrentDestination().getId() == R.id.loginFragment) {
+                Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_mainActivity);
                 getActivity().finish();
                 binding.cvWaitingResponse.setVisibility(View.GONE);
             }
@@ -118,16 +113,17 @@ public class LoginRegisterRegisterFragment extends Fragment implements LoginRegi
 
     @Override
     public void onStarted() {
+        hideKeyboard();
         binding.cvWaitingResponse.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onLoginSuccess(LoginUserResponse loginUserResponse) {
         if (loginUserResponse != null) {
-            if (Navigation.findNavController(getView()).getCurrentDestination().getId() == R.id.loginRegisterFragment) {
+            if (Navigation.findNavController(getView()).getCurrentDestination().getId() == R.id.loginFragment) {
                 sharedPreferences.setUserAuthTokenKey(loginUserResponse.getId());
                 sharedPreferences.setPhoneNumber(loginUserResponse.getMobile());
-                Navigation.findNavController(getView()).navigate(R.id.action_loginRegisterFragment_to_mainActivity);
+                Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_mainActivity);
                 getActivity().finish();
                 binding.cvWaitingResponse.setVisibility(View.GONE);
             }
@@ -136,14 +132,9 @@ public class LoginRegisterRegisterFragment extends Fragment implements LoginRegi
     }
 
     @Override
-    public void onRegisterSuccess(Long time, String phoneNumber, String password) {
-        if (Navigation.findNavController(getView()).getCurrentDestination().getId() == R.id.loginRegisterFragment) {
-            Bundle bundle = new Bundle();
-            bundle.putLong(verificationCodeTimerKeyExtra, time);
-            bundle.putString(phoneNumberKeyExtra, phoneNumber);
-            bundle.putString(passwordKeyExtra, password);
-            Navigation.findNavController(getView()).navigate(R.id.action_loginRegisterFragment_to_verificationFragment, bundle);
-            binding.cvWaitingResponse.setVisibility(View.GONE);
+    public void goToRegisterFragment() {
+        if (Navigation.findNavController(getView()).getCurrentDestination().getId() == R.id.loginFragment) {
+            Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_registerFragment);
         }
     }
 
@@ -157,8 +148,8 @@ public class LoginRegisterRegisterFragment extends Fragment implements LoginRegi
 
     @Override
     public void goToForgotPassFragment() {
-        if (Navigation.findNavController(getView()).getCurrentDestination().getId() == R.id.loginRegisterFragment) {
-            Navigation.findNavController(getView()).navigate(R.id.action_loginRegisterFragment_to_forgotPassFragment);
+        if (Navigation.findNavController(getView()).getCurrentDestination().getId() == R.id.loginFragment) {
+            Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_forgotPassFragment);
         }
     }
 }

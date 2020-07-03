@@ -48,6 +48,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -139,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void showSetLocationEnabledAlertDialog() {
         // setup the alert builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogCustomRTL);
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this, R.style.AlertDialogCustomRTL);
         builder.setCancelable(false);
         builder.setTitle("تنظیمات موقعیت یاب");
         builder.setMessage("در صورت تمایل به استفاده از سیستم موقعیت یاب به منظور یافتن نزدیکترین رستوران ها این بخش را فعال کنید.");

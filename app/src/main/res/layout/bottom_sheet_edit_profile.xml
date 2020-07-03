@@ -4,17 +4,6 @@
 
     <data>
 
-        <!--<variable
-            name="state"
-            type="String" />
-
-        <variable
-            name="city"
-            type="String" />
-
-        <variable
-            name="region"
-            type="String" />-->
         <import type="android.view.View" />
 
         <variable
@@ -168,12 +157,91 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_view_old_pass"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="@string/currentPass"
+            android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.GONE : View.VISIBLE}"
+            app:boxBackgroundColor="@color/transparent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@color/transparent"
+                android:ellipsize="end"
+                android:imeOptions="actionNext"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:text="@={viewModel.currentPasswordLiveData}"
+                android:textDirection="rtl"
+                android:textSize="@dimen/edit_text_font_size" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_view_new_pass"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="@string/newPass"
+            android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.GONE : View.VISIBLE}"
+            app:boxBackgroundColor="@color/transparent"
+            app:error="@{viewModel.newPasswordErrorLiveData}">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@color/transparent"
+                android:ellipsize="end"
+                android:imeOptions="actionNext"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:text="@={viewModel.newPasswordLiveData}"
+                android:textDirection="rtl"
+                android:textSize="@dimen/edit_text_font_size" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_view_confirm_new_pass"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="@string/confirmNewPass"
+            android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.GONE : View.VISIBLE}"
+            app:boxBackgroundColor="@color/transparent"
+            app:error="@{viewModel.confirmPasswordErrorLiveData}">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@color/transparent"
+                android:ellipsize="end"
+                android:imeOptions="actionNext"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:text="@={viewModel.confirmPasswordLiveData}"
+                android:textDirection="rtl"
+                android:textSize="@dimen/edit_text_font_size" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
         <Button
             android:id="@+id/btn_accept_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-
             android:onClick="@{()-> viewModel.acceptEditUserProfileOnClick()}"
             android:text="ثبت"
             android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.GONE : View.VISIBLE}"

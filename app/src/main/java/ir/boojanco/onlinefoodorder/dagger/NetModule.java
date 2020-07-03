@@ -24,16 +24,16 @@ import ir.boojanco.onlinefoodorder.viewmodels.factories.FavoriteFoodsViewModelFa
 import ir.boojanco.onlinefoodorder.viewmodels.factories.FavoriteRestaurantsViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.ForgotPassViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.HomeViewModelFactory;
-import ir.boojanco.onlinefoodorder.viewmodels.factories.LoginRegisterViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.factories.LoginViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.OrdersViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.PaymentViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.factories.RegisterViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantCommentFragmentViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantDetailsViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantFoodMenuViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantInfoFragmentViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.UserProfileViewModelFactory;
-import ir.boojanco.onlinefoodorder.viewmodels.factories.VerificationViewModelFactory;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -52,9 +52,9 @@ public class NetModule {
 
     @Provides
     @Singleton
-    LoginRegisterViewModelFactory provideLoginRegisterViewModelFactory(Application application, UserRepository userRepository) {
-        LoginRegisterViewModelFactory factory =
-                new LoginRegisterViewModelFactory(application, userRepository);
+    LoginViewModelFactory provideLoginRegisterViewModelFactory(Application application, UserRepository userRepository) {
+        LoginViewModelFactory factory =
+                new LoginViewModelFactory(application, userRepository);
         return factory;
     }
 
@@ -108,9 +108,9 @@ public class NetModule {
 
     @Provides
     @Singleton
-    VerificationViewModelFactory provideVerificationViewModelFactory(Application application, UserRepository userRepository) {
-        VerificationViewModelFactory factory =
-                new VerificationViewModelFactory(application, userRepository);
+    RegisterViewModelFactory provideRegisterViewModelFactory(Application application, UserRepository userRepository) {
+        RegisterViewModelFactory factory =
+                new RegisterViewModelFactory(application, userRepository);
         return factory;
     }
 
@@ -121,6 +121,7 @@ public class NetModule {
                 new HomeViewModelFactory(application, restaurantRepository);
         return factory;
     }
+
     @Provides
     @Singleton
     ForgotPassViewModelFactory provideForgotPassViewModelFactory(Application application, UserRepository userRepository) {

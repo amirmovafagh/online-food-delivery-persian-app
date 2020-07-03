@@ -8,7 +8,6 @@
     <string name="date">تاریخ</string>
     <string name="comment">نظر</string>
 
-    <string name="login_register_info_fragment">ورود / ثبت\u200cنام</string>
     <string name="register_info_activity">ثبت نام</string>
     <string name="verify_info_activity">لطفا کد ارسال شده را وارد کنید</string>
     <string name="hint_text_phone_number_edt_text">شماره موبایل</string>
@@ -80,7 +79,7 @@
     <string name="acceptComment">ثبت</string>
     <string name="systemQuality">کیفیت سیستم</string>
     <string name="regsterInMazzeh">ثبت\u200cنام در مزه</string>
-    <string name="register">عضویت</string>
+    <string name="register">ثبت\u200cنام</string>
     <string name="changeUserInfo">ویرایش اطلاعات</string>
     <string name="logout">خروج</string>
     <string name="yourInfo">اطلاعات شما</string>
@@ -140,4 +139,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hint_text_new_password_edt_text">کلمه عبور جدید</string>
+    <string name="payWithWallet">پرداخت با کیف پول</string>
+    <string name="walletCost">موجودی کیف پول شما:</string>
+    <string name="currentPass">کلمه عبور فعلی</string>
+    <string name="newPass">کلمه عبور جدید</string>
+    <string name="confirmNewPass">تکرار کلمه عبور</string>
 </resources>

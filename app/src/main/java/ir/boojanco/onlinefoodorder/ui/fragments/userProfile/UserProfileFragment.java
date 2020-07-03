@@ -1,5 +1,6 @@
 package ir.boojanco.onlinefoodorder.ui.fragments.userProfile;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
@@ -21,6 +22,7 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +30,7 @@ import android.view.ViewGroup;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
@@ -158,14 +161,30 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
 
                 break;
             case R.id.img_remove_address:
-                viewModel.deleteUserAddress(userAddress.getId());
+                removeAddressDialog(userAddress.getId());
                 break;
         }
     }
 
+    private void removeAddressDialog(long userAddressId) {
+        // setup the alert builder
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity(), R.style.AlertDialogCustomRTL);
+        builder.setCancelable(true);
+        builder.setTitle("حذف آدرس");
+        builder.setMessage("آیا می\u200cخواهید آدرس را حذف کنید؟");
+        // add the buttons
+        builder.setPositiveButton("حذف", (dialog, which) -> {
+            viewModel.deleteUserAddress(userAddressId);
+        });
+        builder.setNegativeButton("انصراف", (dialog, which) -> dialog.cancel());
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+
+        dialog.show();
+    }
+
     @Override
     public void onStarted() {
-
         binding.cvWaitingResponse.setVisibility(View.VISIBLE);
     }
 
@@ -254,12 +273,31 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
 
     @Override
     public void onLogoutUser() {
-        sharedPreferences.removeUserAuthTokenKey();
-        sharedPreferences.removePhoneNumber();
-        if (getActivity() != null)
+        if (getActivity() != null) {
+            exitFromUserAccount();
+        }
+
+    }
+
+    private void exitFromUserAccount() {
+        // setup the alert builder
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity(), R.style.AlertDialogCustomRTL);
+        builder.setCancelable(true);
+        builder.setTitle("خروج از حساب کاربری");
+        builder.setMessage("آیا می\u200cخواهید از حساب کاربری خارج شوید؟");
+        // add the buttons
+        builder.setPositiveButton("خروج", (dialog, which) -> {
+            sharedPreferences.removeUserAuthTokenKey();
+            sharedPreferences.removePhoneNumber();
             getActivity().moveTaskToBack(true);
-        android.os.Process.killProcess(android.os.Process.myPid());
-        System.exit(1);
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(1);
+        });
+        builder.setNegativeButton("انصراف", (dialog, which) -> dialog.cancel());
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+
+        dialog.show();
     }
 
     @Override
@@ -270,7 +308,7 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
 
     @Override
     public void onFailure(String Error) {
-        binding.cvWaitingResponse.setVisibility(View.GONE);
+        binding.cvWaitingResponse.setVisibility(View.GONE);binding.cvWaitingResponse.setVisibility(View.GONE);
         snackbar = Snackbar.make(binding.coordinateLayoutMain, "" + Error, Snackbar.LENGTH_SHORT);
         snackbar.show();
 

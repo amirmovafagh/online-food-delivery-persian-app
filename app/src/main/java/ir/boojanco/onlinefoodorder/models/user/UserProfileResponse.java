@@ -15,12 +15,15 @@ public class UserProfileResponse {
     private String email;
     @SerializedName("birthDate")
     private long birthDate;
+    @SerializedName("changePassDTO")
+    private ChangePassword changePassword;
 
-    public UserProfileResponse(String firstName, String lastName, String email, long birthDate) {
+    public UserProfileResponse(String firstName, String lastName, String email, long birthDate, ChangePassword changePassword) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.birthDate = birthDate;
+        this.changePassword = changePassword;
     }
 
     PersianDate pdate;

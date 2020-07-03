@@ -54,6 +54,7 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 
@@ -398,7 +399,7 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
 
     private void showSetLocationEnabledAlertDialog() {
         // setup the alert builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustomRTL);
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogCustomRTL);
         builder.setCancelable(false);
         builder.setTitle("تنظیمات موقعیت یاب");
         builder.setMessage("در صورت تمایل به استفاده از سیستم موقعیت یاب به منظور یافتن نزدیکترین رستوران\u200cها این بخش را فعال کنید.");

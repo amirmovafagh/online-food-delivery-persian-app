@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="ir.boojanco.onlinefoodorder.viewmodels.ForgotPassViewModel" />
+            type="ir.boojanco.onlinefoodorder.viewmodels.RegisterViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layoutDirection="rtl"
-        tools:context=".ui.fragments.login.VerificationFragment">
+        tools:context=".ui.fragments.login.RegisterFragment">
 
         <ImageView
             android:layout_width="match_parent"
@@ -42,12 +42,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="بازیابی کلمه عبور"
+                    android:text="@string/regsterInMazzeh"
                     android:textSize="@dimen/h6_title_font_size"
                     android:visibility="visible" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/txtInputLayoutLoginPhoneNumber"
+                    android:id="@+id/txtInputLayoutRegisterPhoneNumber"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -73,13 +73,13 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/txtInputLayoutLoginPassword"
+                    android:id="@+id/txtInputLayoutRegisterPassword"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:background="@color/transparent"
-                    android:hint="@string/hint_text_new_password_edt_text"
+                    android:hint="@string/hint_text_password_edt_text"
                     android:visibility="gone"
                     app:boxBackgroundColor="@color/transparent"
                     app:error="@{viewModel.passwordError}"
@@ -128,13 +128,13 @@
                     app:viewType="rectangle" />
 
                 <Button
-                    android:id="@+id/buttonResetPass"
+                    android:id="@+id/buttonRegister"
                     style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:onClick="@{()->viewModel.onResetPasswordClick()}"
-                    android:text="@{viewModel.buttonResetTxtLiveData}"
+                    android:onClick="@{()->viewModel.onRegisterClick()}"
+                    android:text="@{viewModel.buttonRegisterTxtLiveData}"
                     android:textSize="@dimen/button_font_size"
                     app:cornerRadius="@dimen/button_corner_radius" />
 

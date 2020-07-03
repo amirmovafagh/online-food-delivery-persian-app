@@ -2,8 +2,14 @@ package ir.boojanco.onlinefoodorder.viewmodels.interfaces;
 
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
 
-public interface VerificationInterface {
+public interface LoginAuth {
     void onStarted();
-    void onSuccess(LoginUserResponse loginUserResponse);
+
+    void onLoginSuccess(LoginUserResponse loginUserResponse);
+
     void onFailure(String Error);
+
+    void goToRegisterFragment();
+
+    void goToForgotPassFragment();
 }

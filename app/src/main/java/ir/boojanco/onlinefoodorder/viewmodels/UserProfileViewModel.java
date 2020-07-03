@@ -27,6 +27,7 @@ import ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList;
 import ir.boojanco.onlinefoodorder.models.stateCity.GetAllCitiesResponse;
 import ir.boojanco.onlinefoodorder.models.stateCity.GetAllStatesResponse;
 import ir.boojanco.onlinefoodorder.models.user.AddUserAddressResponse;
+import ir.boojanco.onlinefoodorder.models.user.ChangePassword;
 import ir.boojanco.onlinefoodorder.models.user.EditUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.UserAddressList;
 import ir.boojanco.onlinefoodorder.models.user.UserProfileResponse;
@@ -72,7 +73,12 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
     public MutableLiveData<String> firstNameErrorLiveData;
     public MutableLiveData<String> birthDateLiveData;
     public MutableLiveData<String> birthDateErrorLiveData;
-
+    public MutableLiveData<String> currentPasswordLiveData;
+    public MutableLiveData<String> newPasswordLiveData;
+    public MutableLiveData<String> newPasswordErrorLiveData;
+    public MutableLiveData<String> confirmPasswordLiveData;
+    public MutableLiveData<String> confirmPasswordErrorLiveData;
+    private ChangePassword password = null;
     public long birthDateTimeMill;
     private double userLatitude;
     private double userLongitude;
@@ -81,7 +87,6 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
     private int addressFunctionFlag;
     private List<AllStatesList> statesLists;
     private List<AllCitiesList> citiesLists;
-    private boolean completeUserProfile = false;
     private ChipGroup chipGroup;
 
     public LiveData<PagedList<UserAddressList>> userAddressPagedListLiveData;
@@ -147,6 +152,16 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         bottomSheetChangeVisibility.setValue(true);//default onView Address
         profileChangeVisibility = new MutableLiveData<>();
         profileChangeVisibility.setValue(false);//default onView loginButton
+
+        currentPasswordLiveData = new MutableLiveData<>();
+        currentPasswordLiveData.setValue("");
+        newPasswordLiveData = new MutableLiveData<>();
+        newPasswordLiveData.setValue("");
+        newPasswordErrorLiveData = new MutableLiveData<>();
+        confirmPasswordLiveData = new MutableLiveData<>();
+        confirmPasswordLiveData.setValue("");
+        confirmPasswordErrorLiveData = new MutableLiveData<>();
+
 
     }
 
@@ -473,10 +488,12 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         if (observable != null) {
             observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<UserProfileResponse>() {
                 @Override
-                public void onCompleted() {}
+                public void onCompleted() {
+                }
 
                 @Override
                 public void onError(Throwable e) {
+                    onFailure(context.getString(R.string.issueincommunicatingwithserver));
                     if (e instanceof NoNetworkConnectionException)
                         userProfileInterface.onFailure(e.getMessage());
                     if (e instanceof HttpException) {
@@ -495,22 +512,12 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
                 @Override
                 public void onNext(UserProfileResponse profileResponse) {
 
-                    if (profileResponse.getBirthDate() == 0 && profileResponse.getEmail().equals("") &&
-                            profileResponse.getFirstName().equals("") && profileResponse.getLastName().equals("")) {
-                        completeUserProfile = false;
-                        birthDateTimeMill = profileResponse.getBirthDate();
-                        emailLiveData.setValue(profileResponse.getEmail());
-                        lastNameLiveData.setValue(profileResponse.getLastName());
-                        firstNameLiveData.setValue(profileResponse.getFirstName());
-                        birthDateLiveData.setValue(profileResponse.getShamsiDate());
-                    } else {
-                        completeUserProfile = true;
-                        birthDateTimeMill = profileResponse.getBirthDate();
-                        emailLiveData.setValue(profileResponse.getEmail());
-                        lastNameLiveData.setValue(profileResponse.getLastName());
-                        firstNameLiveData.setValue(profileResponse.getFirstName() + " ");
-                        birthDateLiveData.setValue(profileResponse.getShamsiDate());
-                    }
+                    birthDateTimeMill = profileResponse.getBirthDate();
+                    emailLiveData.setValue(profileResponse.getEmail());
+                    lastNameLiveData.setValue(profileResponse.getLastName());
+                    firstNameLiveData.setValue(profileResponse.getFirstName());
+                    birthDateLiveData.setValue(profileResponse.getShamsiDate());
+
                     userProfileInterface.onSuccessGetUserProfileInfo();
                 }
             });
@@ -527,90 +534,68 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         userProfileInterface.onEditUserProfile();
     }
 
+    private boolean checkPasswordSimilarity() {
+        if (currentPasswordLiveData.getValue().length() > 0)
+            if (newPasswordLiveData.getValue().length() < 6) {
+                newPasswordErrorLiveData.setValue("حداقل کلمه عبور 6 کاراکتر");
+                return false;
+            } else if (currentPasswordLiveData.getValue().equals(confirmPasswordLiveData.getValue())) {
+                password = new ChangePassword(confirmPasswordLiveData.getValue(), newPasswordLiveData.getValue(), currentPasswordLiveData.getValue());
+                newPasswordErrorLiveData.setValue(null);
+                confirmPasswordErrorLiveData.setValue(null);
+                return true;
+            } else {
+                confirmPasswordErrorLiveData.setValue("لطفا تکرار کلمه عبور را درست وارد کنید");
+                return false;
+            }
+        else return true;
+    }
+
     public void acceptEditUserProfileOnClick() {
-        if (!isValidEnteredUserInfo()) {
+        if (!isValidEnteredUserInfo() || !checkPasswordSimilarity()) {
             return;
         }
         userProfileInterface.onStarted();
         UserProfileResponse userProfileBody;
-        if (completeUserProfile) {
-            userProfileBody = new UserProfileResponse(firstNameLiveData.getValue(), lastNameLiveData.getValue(), emailLiveData.getValue(), birthDateTimeMill);
-            rx.Observable<Response<Void>> observable = userRepository.editUserProfileObservable(userAuthToken, userProfileBody);
-            if (observable != null) {
 
-                observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<Response<Void>>() {
-                    @Override
-                    public void onCompleted() {
+        userProfileBody = new UserProfileResponse(firstNameLiveData.getValue(), lastNameLiveData.getValue(), emailLiveData.getValue(), birthDateTimeMill, password);
+        rx.Observable<Response<Void>> observable = userRepository.editUserProfileObservable(userAuthToken, userProfileBody);
+        if (observable != null) {
 
-                    }
+            observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<Response<Void>>() {
+                @Override
+                public void onCompleted() {
 
-                    @Override
-                    public void onError(Throwable e) {
-                        if (e instanceof NoNetworkConnectionException)
-                            userProfileInterface.onFailure(e.getMessage());
-                        if (e instanceof HttpException) {
-                            Response response = ((HttpException) e).response();
+                }
 
-                            try {
-                                JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                @Override
+                public void onError(Throwable e) {
+                    onFailure("خطا در تغییر اطلاعات حساب کاربری");
+                    if (e instanceof NoNetworkConnectionException)
+                        userProfileInterface.onFailure(e.getMessage());
+                    if (e instanceof HttpException) {
+                        Response response = ((HttpException) e).response();
 
-                                userProfileInterface.onFailure(jsonObject.getString("message"));
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
+
+                            userProfileInterface.onFailure(jsonObject.getString("message"));
 
 
-                            } catch (Exception d) {
-                                userProfileInterface.onFailure(d.getMessage());
-                            }
+                        } catch (Exception d) {
+                            userProfileInterface.onFailure(d.getMessage());
                         }
                     }
+                }
 
-                    @Override
-                    public void onNext(Response<Void> voidResponse) {
-                        if (voidResponse.isSuccessful()) {
-                            userProfileInterface.hideBottomSheet();
-                            userProfileInterface.onSuccessGetUserProfileInfo();
-                        }
+                @Override
+                public void onNext(Response<Void> voidResponse) {
+                    if (voidResponse.isSuccessful()) {
+                        userProfileInterface.hideBottomSheet();
+                        userProfileInterface.onSuccessGetUserProfileInfo();
                     }
-                });
-            }
-        } else {
-            userProfileInterface.onStarted();
-            userProfileBody = new UserProfileResponse(firstNameLiveData.getValue(), lastNameLiveData.getValue(), emailLiveData.getValue(), birthDateTimeMill);
-            rx.Observable<Response<Void>> observable = userRepository.completeUserProfileObservable(userAuthToken, userProfileBody);
-            if (observable != null) {
-
-                observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<Response<Void>>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        if (e instanceof NoNetworkConnectionException)
-                            userProfileInterface.onFailure(e.getMessage());
-                        if (e instanceof HttpException) {
-                            Response response = ((HttpException) e).response();
-
-                            try {
-                                JSONObject jsonObject = new JSONObject(response.errorBody().string());
-
-                                userProfileInterface.onFailure(jsonObject.getString("message"));
-
-
-                            } catch (Exception d) {
-                                userProfileInterface.onFailure(d.getMessage());
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onNext(Response<Void> voidResponse) {
-                        if (voidResponse.isSuccessful()) {
-                            userProfileInterface.hideBottomSheet();
-                            userProfileInterface.onSuccessGetUserProfileInfo();
-                        }
-                    }
-                });
-            }
+                }
+            });
         }
 
     }

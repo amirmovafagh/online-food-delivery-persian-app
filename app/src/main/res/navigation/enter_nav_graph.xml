@@ -15,8 +15,8 @@
         android:label="مزه"
         tools:layout="@layout/fragment_mazeeh_logo">
         <action
-            android:id="@+id/action_mazeehLogoFragment_to_loginRegisterFragment"
-            app:destination="@id/loginRegisterFragment"
+            android:id="@+id/action_mazeehLogoFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
@@ -28,36 +28,43 @@
             app:destination="@id/mainActivity"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
+            app:launchSingleTop="true"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"
-            app:launchSingleTop="true"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
-        android:id="@+id/loginRegisterFragment"
-        android:name="ir.boojanco.onlinefoodorder.ui.fragments.loginRegister.LoginRegisterRegisterFragment"
-        android:label="LoginRegisterFragment"
-        tools:layout="@layout/fragment_login_register">
+        android:id="@+id/loginFragment"
+        android:name="ir.boojanco.onlinefoodorder.ui.fragments.login.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login">
 
         <action
-            android:id="@+id/action_loginRegisterFragment_to_mainActivity"
+            android:id="@+id/action_loginFragment_to_mainActivity"
             app:destination="@id/mainActivity"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
+            app:launchSingleTop="true"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"
-            app:launchSingleTop="true"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_loginRegisterFragment_to_verificationFragment"
+            android:id="@+id/action_loginFragment_to_verificationFragment"
             app:destination="@id/verificationFragment"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
         <action
-            android:id="@+id/action_loginRegisterFragment_to_forgotPassFragment"
+            android:id="@+id/action_loginFragment_to_forgotPassFragment"
             app:destination="@id/forgotPassFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
@@ -65,7 +72,7 @@
     </fragment>
     <fragment
         android:id="@+id/verificationFragment"
-        android:name="ir.boojanco.onlinefoodorder.ui.fragments.loginRegister.VerificationFragment"
+        android:name="ir.boojanco.onlinefoodorder.ui.fragments.login.VerificationFragment"
         android:label="verification_fragment"
         tools:layout="@layout/verification_fragment">
         <argument
@@ -82,22 +89,37 @@
             app:destination="@id/mainActivity"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
+            app:launchSingleTop="true"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"
-            app:launchSingleTop="true"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/forgotPassFragment"
         android:name="ir.boojanco.onlinefoodorder.ui.fragments.forgotPass.ForgotPassFragment"
-        android:label="ForgotPassFragment" >
+        android:label="ForgotPassFragment">
         <action
-            android:id="@+id/action_fragment_forgotPassFragment_to_fragment_loginRegisterFragment"
+            android:id="@+id/action_fragment_forgotPassFragment_to_fragment_loginFragment"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"
-            app:popUpTo="@+id/loginRegisterFragment"/>
+            app:popUpTo="@+id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="ir.boojanco.onlinefoodorder.ui.fragments.register.RegisterFragment"
+        android:label="RegisterFragment"
+        tools:layout="@layout/fragment_register">
+        <action
+            android:id="@+id/action_registerFragment_to_mainActivity"
+            app:destination="@id/mainActivity"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpToInclusive="true" />
     </fragment>
 
 </navigation>

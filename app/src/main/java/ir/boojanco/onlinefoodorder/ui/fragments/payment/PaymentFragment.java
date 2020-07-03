@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ public class PaymentFragment extends Fragment implements PaymentInterface {
     private PaymentViewModel viewModel;
     private Toolbar toolbar;
     private NavController navController;
+    private LottieAnimationView lottie;
 
     private final String cartItemExtraName = "cartItem";
     private final String finalPaymentPricesExtraName = "finalPaymentPrices";
@@ -70,6 +72,7 @@ public class PaymentFragment extends Fragment implements PaymentInterface {
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
         toolbar = binding.toolbar;
+        lottie = binding.animationView;
         navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
         AppBarConfiguration appBarConfiguration =
                 new AppBarConfiguration.Builder(navController.getGraph()).build();
@@ -88,7 +91,7 @@ public class PaymentFragment extends Fragment implements PaymentInterface {
 
         Bundle extras = getArguments();
         if (extras != null) {
-            //toolbar.setTitle("سبد خرید ");
+
             ArrayList<FinalPaymentPrice> finalPaymentPrice = extras.getParcelableArrayList(finalPaymentPricesExtraName);
             List<CartItem> cartItems = (List<CartItem>) extras.getSerializable(cartItemExtraName);
             viewModel.setVariablesInTempVar(finalPaymentPrice, cartItems,
@@ -96,6 +99,7 @@ public class PaymentFragment extends Fragment implements PaymentInterface {
                     extras.getInt(packingCostLiveDataExtraName), extras.getInt(taxAndServiceExtraName), extras.getInt(shippingCostExtraName),
                     (OrderType) extras.getSerializable(orderTypeExtraName), extras.getLong(restaurantIdExtraName),
                     extras.getLong(restaurantPackageIdExtraName), extras.getLong(shippingAddressIdExtraName));
+            viewModel.getUserAccountBalance();
         }
 
         return binding.getRoot();
@@ -110,17 +114,26 @@ public class PaymentFragment extends Fragment implements PaymentInterface {
 
     @Override
     public void onStarted() {
-
+        binding.cvWaitingResponse.setVisibility(View.VISIBLE);
+        lottie.setAnimation(R.raw.waiting_animate_burger);
+        lottie.playAnimation();
     }
 
     @Override
     public void onSuccess() {
-
+        binding.cvWaitingResponse.setVisibility(View.GONE);
     }
 
     @Override
     public void onFailure(String Error) {
         Snackbar snackbar = Snackbar.make(binding.mainContent, "" + Error, Snackbar.LENGTH_SHORT);
         snackbar.show();
+        binding.cvWaitingResponse.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void tryAgain() {
+        lottie.setAnimation(R.raw.no_internet_connection_animate);
+        lottie.playAnimation();
     }
 }

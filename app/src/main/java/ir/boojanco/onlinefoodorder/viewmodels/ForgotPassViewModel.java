@@ -89,6 +89,7 @@ public class ForgotPassViewModel extends ViewModel {
                     @Override
                     public void onError(Throwable e) {
                         fragmentInterface.tryAgain();
+                        fragmentInterface.onFailure("خطا در بررسی کد فعالسازی");
                         if (e instanceof NoNetworkConnectionException)
                             fragmentInterface.onFailure(e.getMessage());
                         if (e instanceof HttpException) {
@@ -126,6 +127,7 @@ public class ForgotPassViewModel extends ViewModel {
                     @Override
                     public void onError(Throwable e) {
                         fragmentInterface.tryAgain();
+                        fragmentInterface.onFailure("خطا در تغییر کلمه عبور");
                         if (e instanceof NoNetworkConnectionException)
                             fragmentInterface.onFailure(e.getMessage());
                         if (e instanceof HttpException) {
@@ -143,9 +145,9 @@ public class ForgotPassViewModel extends ViewModel {
                     @Override
                     public void onNext(Response response) {
                         if (response.isSuccessful()) {
-                            fragmentInterface.onFailure("کلمه عبور جدید تایید شد.");
+                            fragmentInterface.onFailure("کلمه عبور جدید تایید شد");
                             fragmentInterface.goBackToLoginFragment();
-                        } else fragmentInterface.onFailure("خطا در تغییر کلمه عبور.");
+                        } else fragmentInterface.onFailure("خطا در تغییر کلمه عبور");
 
                     }
                 });

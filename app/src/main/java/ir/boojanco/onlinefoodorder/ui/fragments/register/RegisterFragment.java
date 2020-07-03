@@ -1,10 +1,14 @@
-package ir.boojanco.onlinefoodorder.ui.fragments.forgotPass;
+package ir.boojanco.onlinefoodorder.ui.fragments.register;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -13,12 +17,6 @@ import androidx.navigation.Navigation;
 import androidx.transition.AutoTransition;
 import androidx.transition.TransitionManager;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-
 import com.google.android.material.snackbar.Snackbar;
 
 import javax.inject.Inject;
@@ -26,20 +24,20 @@ import javax.inject.Inject;
 import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
-import ir.boojanco.onlinefoodorder.databinding.FragmentForgotPassBinding;
+import ir.boojanco.onlinefoodorder.databinding.FragmentRegisterBinding;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
-import ir.boojanco.onlinefoodorder.viewmodels.ForgotPassViewModel;
-import ir.boojanco.onlinefoodorder.viewmodels.factories.ForgotPassViewModelFactory;
-import ir.boojanco.onlinefoodorder.viewmodels.interfaces.ForgotPassInterface;
+import ir.boojanco.onlinefoodorder.viewmodels.RegisterViewModel;
+import ir.boojanco.onlinefoodorder.viewmodels.factories.RegisterViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RegisterAuth;
 
-public class ForgotPassFragment extends Fragment implements ForgotPassInterface {
-    private static String TAG = ForgotPassFragment.class.getSimpleName();
-    private ForgotPassViewModel viewModel;
-    private FragmentForgotPassBinding binding;
+public class RegisterFragment extends Fragment implements RegisterAuth {
+    private static String TAG = RegisterFragment.class.getSimpleName();
+    private RegisterViewModel viewModel;
+    private FragmentRegisterBinding binding;
     @Inject
     MySharedPreferences sharedPreferences;
     @Inject
-    ForgotPassViewModelFactory factory;
+    RegisterViewModelFactory factory;
 
     private AutoTransition transition;
     private CoordinatorLayout mainLayout;
@@ -54,11 +52,11 @@ public class ForgotPassFragment extends Fragment implements ForgotPassInterface 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ((App) getActivity().getApplication()).getComponent().inject(this);
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_forgot_pass, container, false);
-        viewModel = new ViewModelProvider(this, factory).get(ForgotPassViewModel.class);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_register, container, false);
+        viewModel = new ViewModelProvider(this, factory).get(RegisterViewModel.class);
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
-        viewModel.setForgotPassInterface(this);
+        viewModel.setRegisterInterface(this);
 
         binding.otpView.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -90,10 +88,6 @@ public class ForgotPassFragment extends Fragment implements ForgotPassInterface 
         binding.cvWaitingResponse.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    public void onSuccess(LoginUserResponse loginUserResponse) {
-
-    }
 
     @Override
     public void onFailure(String Error) {
@@ -110,7 +104,7 @@ public class ForgotPassFragment extends Fragment implements ForgotPassInterface 
             TransitionManager.beginDelayedTransition(mainLayout, transition);
             binding.textView2.setVisibility(View.VISIBLE);
             binding.otpView.setVisibility(View.VISIBLE);
-            binding.txtInputLayoutLoginPassword.setVisibility(View.VISIBLE);
+            binding.txtInputLayoutRegisterPassword.setVisibility(View.VISIBLE);
             binding.btnSendAgainVerifyCode.setVisibility(View.VISIBLE);
         }
     }
@@ -121,8 +115,17 @@ public class ForgotPassFragment extends Fragment implements ForgotPassInterface 
     }
 
     @Override
-    public void goBackToLoginFragment() {
-        Navigation.findNavController(getView()).navigate(R.id.action_fragment_forgotPassFragment_to_fragment_loginFragment);
+    public void onLoginSuccess(LoginUserResponse loginUserResponse) {
+        if (loginUserResponse != null) {
+            if (Navigation.findNavController(getView()).getCurrentDestination().getId() == R.id.registerFragment) {
+                sharedPreferences.setUserAuthTokenKey(loginUserResponse.getId());
+                sharedPreferences.setPhoneNumber(loginUserResponse.getMobile());
+                Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_mainActivity);
+                getActivity().finish();
+                binding.cvWaitingResponse.setVisibility(View.GONE);
+            }
+
+        }
     }
 
     public void hideKeyboard() {

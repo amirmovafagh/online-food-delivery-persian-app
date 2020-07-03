@@ -6,10 +6,10 @@ import dagger.Component;
 import ir.boojanco.onlinefoodorder.ui.activities.MainActivity;
 import ir.boojanco.onlinefoodorder.ui.fragments.cart.CartFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.forgotPass.ForgotPassFragment;
-import ir.boojanco.onlinefoodorder.ui.fragments.loginRegister.LoginRegisterRegisterFragment;
-import ir.boojanco.onlinefoodorder.ui.fragments.loginRegister.VerificationFragment;
+import ir.boojanco.onlinefoodorder.ui.fragments.login.LoginFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.logo.MazeehLogoFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.payment.PaymentFragment;
+import ir.boojanco.onlinefoodorder.ui.fragments.register.RegisterFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments.RestaurantCommentFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments.RestaurantFoodMenuFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments.RestaurantInfoFragment;
@@ -26,9 +26,9 @@ import ir.boojanco.onlinefoodorder.ui.fragments.restaurants.RestaurantFragment;
 @Singleton
 @Component(modules = {AppModule.class, NetModule.class})
 public interface AppComponent {
-    void inject(LoginRegisterRegisterFragment loginRegisterFragment);
+    void inject(LoginFragment loginFragment);
+    void inject(RegisterFragment registerFragment);
     void inject(MazeehLogoFragment mazeehLogoFragment);
-    void inject(VerificationFragment verificationFragment);
     void inject(ForgotPassFragment forgotPassFragment);
     void inject(MainActivity mainActivity);
     void inject(HomeFragment homeFragment);

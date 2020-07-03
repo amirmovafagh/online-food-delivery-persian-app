@@ -27,6 +27,7 @@ import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
 import ir.boojanco.onlinefoodorder.models.user.RecreatePass;
 import ir.boojanco.onlinefoodorder.models.user.UserPointRestaurantClubResponse;
 import ir.boojanco.onlinefoodorder.models.user.UserProfileResponse;
+import ir.boojanco.onlinefoodorder.models.user.UserSession;
 import ir.boojanco.onlinefoodorder.models.user.VerificationNewUserResponse;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -76,6 +77,9 @@ public interface ApiInterface {
     /*@Headers("Authorization: 9900a9720d31dfd5fdb4352700c...")*/
     @GET("/api/restaurant/last")
     Observable<RestaurantResponse> getLastRestaurant(/*@Header("Authorization") String authToken,*/ @Query("page") int page, @Query("size") int size);
+
+    @GET("/api/auth/session")
+    Observable<UserSession> getUserSession(@Header("Authorization") String authToken);
 
     @GET("/api/search/")
     Observable<RestaurantResponse> searchRestaurants(
@@ -152,10 +156,7 @@ public interface ApiInterface {
     @GET("/api/user/getProfile")
     Observable<UserProfileResponse> getUserProfileResponseObservable(@Header("Authorization") String authToken);
 
-    @POST("/api/user/completeProfile")
-    Observable<Response<Void>> completeUserProfileObservable(@Header("Authorization") String authToken, @Body UserProfileResponse userProfileBody);
-
-    @PUT("/api/user/editProfile")
+    @POST("/api/user/editProfile")
     Observable<Response<Void>> editUserProfileObservable(@Header("Authorization") String authToken, @Body UserProfileResponse userProfileBody);
 
     @POST("/api/comment/add")

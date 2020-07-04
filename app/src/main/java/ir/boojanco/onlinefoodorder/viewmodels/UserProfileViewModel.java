@@ -147,7 +147,6 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         firstNameErrorLiveData = new MutableLiveData<>();
         birthDateLiveData = new MutableLiveData<>();
         birthDateErrorLiveData = new MutableLiveData<>();
-
         bottomSheetChangeVisibility = new MutableLiveData<>();
         bottomSheetChangeVisibility.setValue(true);//default onView Address
         profileChangeVisibility = new MutableLiveData<>();

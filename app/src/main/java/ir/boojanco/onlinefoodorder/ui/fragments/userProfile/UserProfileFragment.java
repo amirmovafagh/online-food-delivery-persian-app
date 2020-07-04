@@ -2,7 +2,9 @@ package ir.boojanco.onlinefoodorder.ui.fragments.userProfile;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.widget.NestedScrollView;
+import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -11,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Application;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,12 +24,15 @@ import androidx.navigation.Navigation;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.AutoTransition;
+import androidx.transition.TransitionManager;
 
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.chip.ChipGroup;
@@ -86,6 +92,9 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
     private PersianDate pdate;
     private Snackbar snackbar;
     private ChipGroup chipGroup;
+    private AutoTransition transition;
+    private Button buttonChangePass;
+    private CoordinatorLayout mainLayout;
 
 
     public static UserProfileFragment newInstance() {
@@ -106,9 +115,11 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
         bottom_sheet = binding.bottomSheet;
         bottom_sheet_profile = binding.bottomSheetProfile;
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
+        mainLayout = binding.coordinateLayoutMain;
         sheetBehavior.setGestureInsetBottomIgnored(true);
         sheetBehaviorProfile = BottomSheetBehavior.from(bottom_sheet_profile);
         sheetBehaviorProfile.setGestureInsetBottomIgnored(true);
+        transition = new AutoTransition();
 
         if (sharedPreferences.getUserAuthTokenKey() == null || sharedPreferences.getUserAuthTokenKey().isEmpty()) {//when user is not login in the system
             viewModel.profileChangeVisibility.postValue(false); // show login reg button
@@ -122,7 +133,7 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
         recyclerViewUserAddress.setHasFixedSize(true);
         addressAdapter = new AddressProfileAdapter(this, application);
         recyclerViewUserAddress.setAdapter(addressAdapter);
-
+        buttonChangePass = binding.bottomSheetEditProfileInclude.btnChangePass;
 
         chipGroup = binding.bottomSheetAddressInclude.chipGroupAddressTag;
 
@@ -149,7 +160,19 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
         super.onActivityCreated(savedInstanceState);
 
 
+        buttonChangePass.setOnClickListener(v -> {
+            if (binding.bottomSheetEditProfileInclude.linTextFields.getVisibility() == View.GONE) {
+                TransitionManager.beginDelayedTransition(mainLayout, transition);
+                binding.bottomSheetEditProfileInclude.linTextFields.setVisibility(View.VISIBLE);
+
+
+            } else {
+                TransitionManager.beginDelayedTransition(mainLayout, transition);
+                binding.bottomSheetEditProfileInclude.linTextFields.setVisibility(View.GONE);
+            }
+        });
     }
+
 
     @Override
     public void onRecyclerViewAddressClick(View v, UserAddressList userAddress) {
@@ -308,7 +331,8 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
 
     @Override
     public void onFailure(String Error) {
-        binding.cvWaitingResponse.setVisibility(View.GONE);binding.cvWaitingResponse.setVisibility(View.GONE);
+        binding.cvWaitingResponse.setVisibility(View.GONE);
+        binding.cvWaitingResponse.setVisibility(View.GONE);
         snackbar = Snackbar.make(binding.coordinateLayoutMain, "" + Error, Snackbar.LENGTH_SHORT);
         snackbar.show();
 

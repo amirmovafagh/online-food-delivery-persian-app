@@ -37,4 +37,6 @@ public interface UserProfileInterface {
     void hideBottomSheet();
 
     void goToLoginRegisterActivity();
+
+    void closeBottomSheet();
 }

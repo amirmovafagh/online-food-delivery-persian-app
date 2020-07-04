@@ -20,18 +20,47 @@
         android:layoutDirection="rtl"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:drawableStart="@drawable/ic_edit_user"
-            android:drawablePadding="4dp"
-            android:maxLines="1"
-            android:text="@string/yourInfo"
-            android:textAlignment="center"
-            android:textSize="@dimen/body1_paragraph_font_size"
-            android:textStyle="bold"
-            android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.GONE : View.VISIBLE}" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:drawableStart="@drawable/ic_edit_user"
+                android:drawablePadding="4dp"
+                android:drawableTint="@color/materialGray900"
+                android:fontFamily="@font/iran_sans_mobile_fa_num_bold"
+                android:maxLines="1"
+                android:text="@string/yourInfo"
+                android:textAlignment="center"
+                android:textSize="@dimen/body1_paragraph_font_size"
+                android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.GONE : View.VISIBLE}"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintLeft_toRightOf="@id/btn_close"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/btn_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
+                android:background="@drawable/ic_close_black_24dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="@{()->viewModel.closeBottomSheetOnClick()}"
+                app:layout_constraintBottom_toBottomOf="@id/txt"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/txt"
+                app:layout_constraintTop_toTopOf="@id/txt" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <View
             android:id="@+id/divider"
@@ -157,85 +186,129 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/text_view_old_pass"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_sset_default_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:hint="@string/currentPass"
-            android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.GONE : View.VISIBLE}"
-            app:boxBackgroundColor="@color/transparent">
+            android:layout_gravity="center"
+            android:layout_margin="16dp"
 
-            <com.google.android.material.textfield.TextInputEditText
+            android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.GONE : View.VISIBLE}"
+            app:cardCornerRadius="@dimen/card_view_corner_radius">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@color/transparent"
-                android:ellipsize="end"
-                android:imeOptions="actionNext"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:text="@={viewModel.currentPasswordLiveData}"
-                android:textDirection="rtl"
-                android:textSize="@dimen/edit_text_font_size" />
+                android:layout_margin="8dp"
+                android:orientation="vertical">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <Button
+                    android:id="@+id/btn_change_pass"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    app:icon="@drawable/ic_keyboard_arrow_down_black_24dp"
+                    android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
+                    android:maxLines="1"
+                    android:text="@string/changePassword"
+                    android:textColor="@color/materialGray900"
+                    app:cornerRadius="@dimen/button_corner_radius" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/text_view_new_pass"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:hint="@string/newPass"
-            android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.GONE : View.VISIBLE}"
-            app:boxBackgroundColor="@color/transparent"
-            app:error="@{viewModel.newPasswordErrorLiveData}">
+                <LinearLayout
+                    android:id="@+id/lin_text_fields"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@color/transparent"
-                android:ellipsize="end"
-                android:imeOptions="actionNext"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:text="@={viewModel.newPasswordLiveData}"
-                android:textDirection="rtl"
-                android:textSize="@dimen/edit_text_font_size" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/text_view_old_pass"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:hint="@string/currentPass"
+                        android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.GONE : View.VISIBLE}"
+                        app:boxBackgroundColor="@color/transparent">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@color/transparent"
+                            android:ellipsize="end"
+                            android:imeOptions="actionNext"
+                            android:inputType="textPassword"
+                            android:maxLines="1"
+                            android:text="@={viewModel.currentPasswordLiveData}"
+                            android:textDirection="rtl"
+                            android:textSize="@dimen/edit_text_font_size" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/text_view_confirm_new_pass"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:hint="@string/confirmNewPass"
-            android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.GONE : View.VISIBLE}"
-            app:boxBackgroundColor="@color/transparent"
-            app:error="@{viewModel.confirmPasswordErrorLiveData}">
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@color/transparent"
-                android:ellipsize="end"
-                android:imeOptions="actionNext"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:text="@={viewModel.confirmPasswordLiveData}"
-                android:textDirection="rtl"
-                android:textSize="@dimen/edit_text_font_size" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/text_view_new_pass"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:hint="@string/newPass"
+                        android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.GONE : View.VISIBLE}"
+                        app:boxBackgroundColor="@color/transparent"
+                        app:error="@{viewModel.newPasswordErrorLiveData}">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@color/transparent"
+                            android:ellipsize="end"
+                            android:imeOptions="actionNext"
+                            android:inputType="textPassword"
+                            android:maxLines="1"
+                            android:text="@={viewModel.newPasswordLiveData}"
+                            android:textDirection="rtl"
+                            android:textSize="@dimen/edit_text_font_size" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/text_view_confirm_new_pass"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginBottom="4dp"
+                        android:hint="@string/confirmNewPass"
+                        android:visibility="@{viewModel.bottomSheetChangeVisibility ? View.GONE : View.VISIBLE}"
+                        app:boxBackgroundColor="@color/transparent"
+                        app:error="@{viewModel.confirmPasswordErrorLiveData}">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@color/transparent"
+                            android:ellipsize="end"
+                            android:imeOptions="actionNext"
+                            android:inputType="textPassword"
+                            android:maxLines="1"
+                            android:text="@={viewModel.confirmPasswordLiveData}"
+                            android:textDirection="rtl"
+                            android:textSize="@dimen/edit_text_font_size" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
 
         <Button
             android:id="@+id/btn_accept_info"

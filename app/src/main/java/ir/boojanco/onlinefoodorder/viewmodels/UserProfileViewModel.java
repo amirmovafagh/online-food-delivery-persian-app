@@ -686,6 +686,9 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         }
     }
 
+    public void closeBottomSheetOnClick(){
+        userProfileInterface.closeBottomSheet();
+    }
     public void goToLoginRegisterActivity() {
         userProfileInterface.goToLoginRegisterActivity();
     }

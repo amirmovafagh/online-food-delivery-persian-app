@@ -144,4 +144,5 @@
     <string name="currentPass">کلمه عبور فعلی</string>
     <string name="newPass">کلمه عبور جدید</string>
     <string name="confirmNewPass">تکرار کلمه عبور</string>
+    <string name="changePassword">تغییر کلمه عبور</string>
 </resources>

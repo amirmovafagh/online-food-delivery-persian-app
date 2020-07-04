@@ -335,6 +335,12 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
     }
 
     @Override
+    public void closeBottomSheet() {
+        sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        sheetBehaviorProfile.setState(BottomSheetBehavior.STATE_COLLAPSED);
+    }
+
+    @Override
     public void onStateItemClick(AllStatesList state) {
         viewModel.setStateId(state.getId());
         viewModel.state.postValue(state.getName());

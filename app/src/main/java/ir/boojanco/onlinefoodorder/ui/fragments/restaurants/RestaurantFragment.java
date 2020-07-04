@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -45,6 +46,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+import io.reactivex.observers.DisposableObserver;
 import ir.boojanco.onlinefoodorder.R;
 
 import ir.boojanco.onlinefoodorder.dagger.App;
@@ -214,16 +217,16 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         restaurantPagedListLiveData.observe(getViewLifecycleOwner(), restaurantLists -> restaurantAdapter.submitList(restaurantLists));
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void onStarted() {
-        try {
-            binding.cvWaitingResponse.setVisibility(View.VISIBLE);
+        binding.cvWaitingResponse.setVisibility(View.VISIBLE);
+
+        Observable.fromCallable(() -> {
             lottie.setAnimation(R.raw.waiting_animate_burger);
             lottie.playAnimation();
-        } catch (Exception e) {
-            Log.e(TAG, "" + e.getMessage());
-        }
-
+            return false;
+        });
 
     }
 

@@ -17,7 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/wallpaper_restaurant_info"
-        android:fitsSystemWindows="true"
         android:layoutDirection="rtl"
         tools:context=".ui.fragments.userProfile.UserProfileFragment">
 
@@ -89,18 +88,24 @@
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/white"
-            app:layout_scrollFlags="scroll|snap|enterAlways">
+            android:background="@color/white">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:fitsSystemWindows="true"
                 android:theme="@style/ToolbarColoredBackArrow"
                 app:subtitleTextColor="@color/materialGray900"
-                app:title="اعتبار کیف پول"
-                app:titleTextColor="@color/materialGray900" />
+                app:titleTextColor="@color/materialGray900">
+                <TextView
+                    android:id="@+id/city_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.accountBalanceLiveData, default=اعتبار}"
+                    android:textColor="@color/materialGray900"
+                    android:textSize="@dimen/body1_paragraph_font_size"
+                    />
+            </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
 

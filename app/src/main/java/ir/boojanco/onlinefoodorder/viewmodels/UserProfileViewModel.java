@@ -337,7 +337,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
 
                 @Override
                 public void onNext(UserSession userSession) {
-                    userProfileInterface.setUserBalance(moneyFormat(userSession.getAccountBalance()));
+                    accountBalanceLiveData.setValue("اعتبار کیف پول: "+moneyFormat(userSession.getAccountBalance()));
                     userProfileInterface.onSuccessGetUserProfileInfo();
                 }
             });
@@ -585,7 +585,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
             if (newPasswordLiveData.getValue().length() < 6) {
                 newPasswordErrorLiveData.setValue("حداقل کلمه عبور 6 کاراکتر");
                 return false;
-            } else if (currentPasswordLiveData.getValue().equals(confirmPasswordLiveData.getValue())) {
+            } else if (newPasswordLiveData.getValue().equals(confirmPasswordLiveData.getValue())) {
                 password = new ChangePassword(confirmPasswordLiveData.getValue(), newPasswordLiveData.getValue(), currentPasswordLiveData.getValue());
                 newPasswordErrorLiveData.setValue(null);
                 confirmPasswordErrorLiveData.setValue(null);
@@ -594,7 +594,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
                 confirmPasswordErrorLiveData.setValue("لطفا تکرار کلمه عبور را درست وارد کنید");
                 return false;
             }
-        else return true;
+        else return false;
     }
 
     public void acceptEditUserProfileOnClick() {

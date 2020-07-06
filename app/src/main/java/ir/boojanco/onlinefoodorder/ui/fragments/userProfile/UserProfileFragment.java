@@ -347,13 +347,6 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
     }
 
     @Override
-    public void showMessage(String msg) {
-        binding.cvWaitingResponse.setVisibility(View.GONE);
-        snackbar = Snackbar.make(binding.coordinateLayoutMain, "" + msg, Snackbar.LENGTH_SHORT);
-        snackbar.show();
-    }
-
-    @Override
     public void hideBottomSheet() {
         sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         sheetBehaviorProfile.setState(BottomSheetBehavior.STATE_HIDDEN);
@@ -370,11 +363,6 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
     public void closeBottomSheet() {
         sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         sheetBehaviorProfile.setState(BottomSheetBehavior.STATE_COLLAPSED);
-    }
-
-    @Override
-    public void setUserBalance(String moneyFormat) {
-        toolbar.setTitle("موجودی کیف پول "+moneyFormat);
     }
 
     @Override

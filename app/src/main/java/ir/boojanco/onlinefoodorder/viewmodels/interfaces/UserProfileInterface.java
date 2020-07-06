@@ -32,13 +32,10 @@ public interface UserProfileInterface {
 
     void onFailure(String Error);
 
-    void showMessage(String msg);
-
     void hideBottomSheet();
 
     void goToLoginRegisterActivity();
 
     void closeBottomSheet();
 
-    void setUserBalance(String moneyFormat);
 }

@@ -31,7 +31,7 @@
             android:onClick="@{()-> viewModel.addMapPositionBtnClick()}"
             android:text="@string/accept_new_location"
             android:textSize="@dimen/button_font_size"
-            app:cornerRadius="@dimen/card_view_corner_radius"
+            app:cornerRadius="@dimen/button_corner_radius"
             app:icon="@drawable/ic_accept_location"
             app:layout_constraintBottom_toBottomOf="@id/map_view"
             app:layout_constraintLeft_toLeftOf="@id/map_view"

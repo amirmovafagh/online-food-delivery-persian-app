@@ -209,7 +209,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
-                    app:icon="@drawable/ic_keyboard_arrow_down_black_24dp"
+                    app:icon="@drawable/ic_change_password"
                     android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
                     android:maxLines="1"
                     android:text="@string/changePassword"

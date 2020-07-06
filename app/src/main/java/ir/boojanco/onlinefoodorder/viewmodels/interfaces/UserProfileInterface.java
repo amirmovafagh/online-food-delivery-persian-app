@@ -39,4 +39,6 @@ public interface UserProfileInterface {
     void goToLoginRegisterActivity();
 
     void closeBottomSheet();
+
+    void setUserBalance(String moneyFormat);
 }

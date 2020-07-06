@@ -16,6 +16,8 @@ import com.google.android.material.chip.ChipGroup;
 
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 import ir.boojanco.onlinefoodorder.R;
@@ -31,6 +33,7 @@ import ir.boojanco.onlinefoodorder.models.user.ChangePassword;
 import ir.boojanco.onlinefoodorder.models.user.EditUserAddressResponse;
 import ir.boojanco.onlinefoodorder.models.user.UserAddressList;
 import ir.boojanco.onlinefoodorder.models.user.UserProfileResponse;
+import ir.boojanco.onlinefoodorder.models.user.UserSession;
 import ir.boojanco.onlinefoodorder.ui.fragments.cart.AddressDataSource;
 import ir.boojanco.onlinefoodorder.ui.fragments.cart.AddressDataSourceFactory;
 import ir.boojanco.onlinefoodorder.ui.fragments.cart.AddressDataSourceInterface;
@@ -78,6 +81,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
     public MutableLiveData<String> newPasswordErrorLiveData;
     public MutableLiveData<String> confirmPasswordLiveData;
     public MutableLiveData<String> confirmPasswordErrorLiveData;
+    public MutableLiveData<String> accountBalanceLiveData;
     private ChangePassword password = null;
     public long birthDateTimeMill;
     private double userLatitude;
@@ -160,6 +164,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         confirmPasswordLiveData = new MutableLiveData<>();
         confirmPasswordLiveData.setValue("");
         confirmPasswordErrorLiveData = new MutableLiveData<>();
+        accountBalanceLiveData = new MutableLiveData<>();
 
 
     }
@@ -194,6 +199,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
 
                     @Override
                     public void onError(Throwable e) {
+                        onFailure("خطا در ثبت آدرس");
                         if (e instanceof NoNetworkConnectionException)
                             userProfileInterface.onFailure(e.getMessage());
                         if (e instanceof HttpException) {
@@ -232,6 +238,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
 
                     @Override
                     public void onError(Throwable e) {
+                        onFailure("خطا در تغییر آدرس");
                         userProfileInterface.onFailure(e.getMessage());
                         if (e instanceof NoNetworkConnectionException)
                             userProfileInterface.onFailure(e.getMessage());
@@ -293,6 +300,45 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
                     getUserAddress(userAuthToken);
                     userProfileInterface.updateAddressRecyclerView();
 
+                }
+            });
+        }
+    }
+
+    public void getUserAccountBalance() {
+        userProfileInterface.onStarted();
+        rx.Observable<UserSession> observable = restaurantRepository.getUerSession(userAuthToken);
+        if (observable != null) {
+            observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<UserSession>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    onFailure("خطا در دریافت اطلاعات کیف پول");
+                    if (e instanceof NoNetworkConnectionException)
+                        userProfileInterface.onFailure(e.getMessage());
+                    if (e instanceof HttpException) {
+                        Response response = ((HttpException) e).response();
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
+
+                            userProfileInterface.onFailure(jsonObject.getString("message"));
+
+
+                        } catch (Exception d) {
+                            userProfileInterface.onFailure(d.getMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onNext(UserSession userSession) {
+                    userProfileInterface.setUserBalance(moneyFormat(userSession.getAccountBalance()));
+                    userProfileInterface.onSuccessGetUserProfileInfo();
                 }
             });
         }
@@ -510,6 +556,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
 
                 @Override
                 public void onNext(UserProfileResponse profileResponse) {
+                    getUserAccountBalance();
 
                     birthDateTimeMill = profileResponse.getBirthDate();
                     emailLiveData.setValue(profileResponse.getEmail());
@@ -517,7 +564,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
                     firstNameLiveData.setValue(profileResponse.getFirstName());
                     birthDateLiveData.setValue(profileResponse.getShamsiDate());
 
-                    userProfileInterface.onSuccessGetUserProfileInfo();
+
                 }
             });
         }
@@ -685,10 +732,17 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         }
     }
 
-    public void closeBottomSheetOnClick(){
+    public void closeBottomSheetOnClick() {
         userProfileInterface.closeBottomSheet();
     }
+
     public void goToLoginRegisterActivity() {
         userProfileInterface.goToLoginRegisterActivity();
+    }
+
+    private String moneyFormat(int cost) {
+        NumberFormat formatter = new DecimalFormat("#,###");
+        String formattedNumber = formatter.format(cost);
+        return formattedNumber + " تومان";
     }
 }

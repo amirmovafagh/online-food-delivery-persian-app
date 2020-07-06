@@ -21,6 +21,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -110,6 +112,13 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
         viewModel.userProfileInterface = this;
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
+        toolbar = binding.toolbar;
+
+        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+        AppBarConfiguration appBarConfiguration =
+                new AppBarConfiguration.Builder(navController.getGraph()).build();
+        NavigationUI.setupWithNavController(
+                toolbar, navController, appBarConfiguration);
 
         //handle bottom sheets
         bottom_sheet = binding.bottomSheet;
@@ -138,7 +147,6 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
         chipGroup = binding.bottomSheetAddressInclude.chipGroupAddressTag;
 
         //go to order fragment
-        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
         binding.frameLayoutOrders.setOnClickListener(v -> navController.navigate(R.id.action_userProfileFragment_to_ordersFragment));
         binding.frameLayoutFaveRestaurants.setOnClickListener(v -> navController.navigate(R.id.action_userProfileFragment_to_faveRestaurantsFragment));
         binding.frameLayoutFaveFoods.setOnClickListener(v -> navController.navigate(R.id.action_userProfileFragment_to_faveFoodsFragment));
@@ -362,6 +370,11 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
     public void closeBottomSheet() {
         sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         sheetBehaviorProfile.setState(BottomSheetBehavior.STATE_COLLAPSED);
+    }
+
+    @Override
+    public void setUserBalance(String moneyFormat) {
+        toolbar.setTitle("موجودی کیف پول "+moneyFormat);
     }
 
     @Override

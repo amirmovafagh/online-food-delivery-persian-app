@@ -25,13 +25,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/backgroundGrayLight_lowAlpha">
-
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="16dp"
-                android:visibility="@{ viewModel.profileChangeVisibility ? View.GONE : View.VISIBLE }"
+                android:visibility="@{ viewModel.profileChangeVisibility ? View.GONE : View.VISIBLE ,default=gone}"
                 app:cardCornerRadius="@dimen/card_view_corner_radius">
 
                 <LinearLayout
@@ -86,15 +85,30 @@
             </androidx.cardview.widget.CardView>
         </FrameLayout>
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
+            app:layout_scrollFlags="scroll|snap|enterAlways">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:fitsSystemWindows="true"
+                android:theme="@style/ToolbarColoredBackArrow"
+                app:subtitleTextColor="@color/materialGray900"
+                app:title="اعتبار کیف پول"
+                app:titleTextColor="@color/materialGray900" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="@{viewModel.profileChangeVisibility ? View.VISIBLE : View.GONE}"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -159,12 +173,13 @@
                                 android:textAlignment="textStart"
                                 android:textSize="@dimen/body2_paragraph_font_size"
                                 android:textStyle="bold"
+                                app:layout_constraintBottom_toTopOf="@id/text_view_user_phone"
                                 app:layout_constraintHorizontal_bias="1"
                                 app:layout_constraintHorizontal_chainStyle="packed"
-                                app:layout_constraintBottom_toTopOf="@id/text_view_user_phone"
                                 app:layout_constraintLeft_toRightOf="@id/text_user_lastname"
                                 app:layout_constraintRight_toLeftOf="@id/cv_profile_photo"
                                 app:layout_constraintTop_toTopOf="@id/cv_profile_photo" />
+
                             <TextView
                                 android:id="@+id/text_user_lastname"
                                 android:layout_width="wrap_content"
@@ -177,8 +192,8 @@
                                 android:textAlignment="textStart"
                                 android:textSize="@dimen/body2_paragraph_font_size"
                                 android:textStyle="bold"
-                                app:layout_constraintHorizontal_bias="1"
                                 app:layout_constraintBottom_toBottomOf="@id/text_user_name"
+                                app:layout_constraintHorizontal_bias="1"
                                 app:layout_constraintLeft_toLeftOf="parent"
                                 app:layout_constraintRight_toLeftOf="@id/text_user_name"
                                 app:layout_constraintTop_toTopOf="@id/text_user_name" />
@@ -439,8 +454,8 @@
             android:id="@+id/cv_waiting_response"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:cardBackgroundColor="@color/materialGray100"
             android:visibility="gone"
+            app:cardBackgroundColor="@color/materialGray100"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

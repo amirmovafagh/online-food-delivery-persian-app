@@ -1,6 +1,7 @@
 package ir.boojanco.onlinefoodorder.ui.fragments;
 
 import android.app.Dialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -60,10 +61,11 @@ public class MapDialogProfileFragment extends DialogFragment implements OnMapRea
         if (getDialog() != null && getDialog().getWindow() != null) {
             getDialog().getWindow().setBackgroundDrawableResource(R.drawable.popup_background);
             getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-            getDialog().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M)
+                getDialog().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         }
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map_dialog_profile, container,false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map_dialog_profile, container, false);
         userProfileViewModel.mapDialogInterface = this;
         binding.setViewModel(userProfileViewModel);
         binding.setLifecycleOwner(this);
@@ -81,17 +83,17 @@ public class MapDialogProfileFragment extends DialogFragment implements OnMapRea
 
     @Override
     public void onMapReady(GoogleMap map) {
-        if(map != null){
+        if (map != null) {
             this.googleMap = map;
 
             LatLng restaurantLatLng = new LatLng(sharedPreferences.getLatitude(), sharedPreferences.getLongitud());
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(restaurantLatLng,15));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(restaurantLatLng, 15));
 
             googleMap.setOnMapClickListener(latLng -> {
-                Log.i(TAG,""+latLng);
-                if(latLng == null)
+                Log.i(TAG, "" + latLng);
+                if (latLng == null)
                     return;
-                if(marker != null)
+                if (marker != null)
                     marker.remove();
                 marker = googleMap.addMarker(new MarkerOptions().position(latLng).title("آدرس من"));
                 userProfileViewModel.getReverseAddressParsimap(latLng.latitude, latLng.longitude, sharedPreferences.getUserAuthTokenKey());

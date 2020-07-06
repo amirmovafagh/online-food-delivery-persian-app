@@ -38,7 +38,7 @@
                 android:theme="@style/ToolbarColoredBackArrow"
                 app:subtitleTextColor="@color/materialGray900"
                 app:title="تایید و پرداخت سفارش"
-                app:titleTextColor="@color/materialGray900"></androidx.appcompat.widget.Toolbar>
+                app:titleTextColor="@color/materialGray900"/>
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout

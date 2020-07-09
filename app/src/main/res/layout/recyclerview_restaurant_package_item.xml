@@ -94,6 +94,7 @@
                         android:maxLines="1"
                         android:text="@{packageItem.freeShipping ? @string/freeShipping : @string/notFreeShipping , default=0}"
                         android:textSize="@dimen/body4_paragraph_font_size"
+                        android:textColor="@color/colorSecondPrimary"
                         android:visibility="@{packageItem.freeShipping ? View.VISIBLE : View.INVISIBLE}" />
 
                     <Button
@@ -103,7 +104,7 @@
                         android:layout_height="30dp"
                         android:layout_weight="0.55"
                         android:padding="0dp"
-                        android:text=" مشاهده تخفیف ها"
+                        android:text="@string/showFoods"
                         android:textSize="@dimen/body4_paragraph_font_size"
                         android:visibility="@{packageItem.discountForAllFoods ? View.INVISIBLE : View.VISIBLE ,default=invisible}"
                         app:cornerRadius="@dimen/little_view_corner_radius" />

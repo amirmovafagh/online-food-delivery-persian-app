@@ -29,6 +29,7 @@ import ir.boojanco.onlinefoodorder.models.user.UserPointRestaurantClubResponse;
 import ir.boojanco.onlinefoodorder.models.user.UserProfileResponse;
 import ir.boojanco.onlinefoodorder.models.user.UserSession;
 import ir.boojanco.onlinefoodorder.models.user.VerificationNewUserResponse;
+import ir.boojanco.onlinefoodorder.models.user.WalletActivitiesResponse;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -167,6 +168,9 @@ public interface ApiInterface {
 
     @GET("/api/user/getFaveFoods")
     Observable<FavoriteFoodsResponse> getFavoriteFoodsResponseObservable(@Header("Authorization") String authToken, @Query("page") int page, @Query("size") int size);
+
+    @GET("/api/user/getWalletActivities")
+    Observable<WalletActivitiesResponse> getWalletActivities(@Header("Authorization") String authToken, @Query("page") int page, @Query("size") int size);
 
     @GET("/api/restaurant/categories")
     Observable<FoodCategoriesResponse> getCategoriesResponse();

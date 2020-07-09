@@ -616,7 +616,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
 
                 @Override
                 public void onError(Throwable e) {
-                    onFailure("خطا در تغییر اطلاعات حساب کاربری");
+                    userProfileInterface.onFailure("خطا در تغییر اطلاعات حساب کاربری");
                     if (e instanceof NoNetworkConnectionException)
                         userProfileInterface.onFailure(e.getMessage());
                     if (e instanceof HttpException) {
@@ -639,7 +639,8 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
                     if (voidResponse.isSuccessful()) {
                         userProfileInterface.hideBottomSheet();
                         userProfileInterface.onSuccessGetUserProfileInfo();
-                    }
+                        userProfileInterface.onFailure("اطلاعات حساب کاربری بروز شد");
+                    }else userProfileInterface.onFailure("خطا در تغییر اطلاعات حساب کاربری");
                 }
             });
         }

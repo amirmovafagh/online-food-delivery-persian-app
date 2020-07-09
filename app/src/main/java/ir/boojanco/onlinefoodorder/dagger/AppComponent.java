@@ -22,6 +22,7 @@ import ir.boojanco.onlinefoodorder.ui.fragments.userorders.OrdersFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.userProfile.UserProfileFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.home.HomeFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurants.RestaurantFragment;
+import ir.boojanco.onlinefoodorder.ui.fragments.usertransactions.TransactionsFragment;
 
 @Singleton
 @Component(modules = {AppModule.class, NetModule.class})
@@ -36,6 +37,7 @@ public interface AppComponent {
     void inject(RestaurantDetailsFragment restaurantDetailsFragment);
     void inject(UserProfileFragment userProfileFragment);
     void inject(OrdersFragment ordersFragment);
+    void inject(TransactionsFragment transactionsFragment );
     void inject(FavoriteRestaurantsFragment favoriteRestaurantsFragment);
     void inject(FavoriteFoodsFragment favoriteFoodsFragment);
     void inject(RestaurantFoodMenuFragment restaurantFoodMenuFragment);

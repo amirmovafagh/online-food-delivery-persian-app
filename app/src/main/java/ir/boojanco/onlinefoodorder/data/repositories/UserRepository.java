@@ -19,6 +19,7 @@ import ir.boojanco.onlinefoodorder.models.user.RecreatePass;
 import ir.boojanco.onlinefoodorder.models.user.UserProfileResponse;
 import ir.boojanco.onlinefoodorder.models.user.UserSession;
 import ir.boojanco.onlinefoodorder.models.user.VerificationNewUserResponse;
+import ir.boojanco.onlinefoodorder.models.user.WalletActivitiesResponse;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Observable;
@@ -118,6 +119,10 @@ public class UserRepository {
 
     public Observable<FavoriteFoodsResponse> getFavoriteFoodsResponseObservable(String authToken, int page, int size) {
         return apiInterface.getFavoriteFoodsResponseObservable(authToken, page, size);
+    }
+
+    public Observable<WalletActivitiesResponse> getWalletActivities(String authToken, int page, int size) {
+        return apiInterface.getWalletActivities(authToken, page, size);
     }
 
 }

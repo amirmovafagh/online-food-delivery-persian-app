@@ -148,6 +148,7 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
 
         //go to order fragment
         binding.frameLayoutOrders.setOnClickListener(v -> navController.navigate(R.id.action_userProfileFragment_to_ordersFragment));
+        binding.frameLayoutTransactions.setOnClickListener(v -> navController.navigate(R.id.action_userProfileFragment_to_transactionsFragment));
         binding.frameLayoutFaveRestaurants.setOnClickListener(v -> navController.navigate(R.id.action_userProfileFragment_to_faveRestaurantsFragment));
         binding.frameLayoutFaveFoods.setOnClickListener(v -> navController.navigate(R.id.action_userProfileFragment_to_faveFoodsFragment));
         viewModel.getUserProfileInfo(sharedPreferences.getUserAuthTokenKey());
@@ -249,7 +250,6 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
         fragmentTransaction.addToBackStack(null);
         mapFragment = new MapDialogProfileFragment(viewModel);
         //mapFragment.setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Material_Light_Panel);
-
         mapFragment.show(fragmentTransaction, "mapDialogUserProfile");
     }
 
@@ -339,7 +339,6 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
 
     @Override
     public void onFailure(String Error) {
-        binding.cvWaitingResponse.setVisibility(View.GONE);
         binding.cvWaitingResponse.setVisibility(View.GONE);
         snackbar = Snackbar.make(binding.coordinateLayoutMain, "" + Error, Snackbar.LENGTH_SHORT);
         snackbar.show();

@@ -1,0 +1,40 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="ir.boojanco.onlinefoodorder.viewmodels.TransactionsViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/main_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/wallpaper_restaurant_info"
+        android:layoutDirection="rtl"
+        tools:context=".ui.fragments.usertransactions.TransactionsFragment">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/backgroundGrayLight_lowAlpha" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_wallet_activities"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_view_load_request"
+            android:layout_width="150dp"
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/waiting_animate_burger" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

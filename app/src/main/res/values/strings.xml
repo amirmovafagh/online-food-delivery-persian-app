@@ -36,7 +36,7 @@
     <string name="delivery_time">پیک (60 دقیقه)</string>
     <string name="region">محله</string>
     <string name="minimum_order">حداقل سفارش</string>
-    <string name="total_items_price">جمع سفارشات</string>
+    <string name="total_items_price">جمع سفارش\u200cها</string>
     <string name="food_packing">بسته بندی</string>
     <string name="discount">تخفیف</string>
     <string name="restaurant_taxes">مالیات</string>
@@ -145,4 +145,6 @@
     <string name="newPass">کلمه عبور جدید</string>
     <string name="confirmNewPass">تکرار کلمه عبور</string>
     <string name="changePassword">تغییر کلمه عبور</string>
+    <string name="orders">سفارش\u200cها</string>
+    <string name="showFoods">مشاهده غذاها</string>
 </resources>

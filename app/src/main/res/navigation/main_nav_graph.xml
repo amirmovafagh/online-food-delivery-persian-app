@@ -73,6 +73,13 @@
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
         <action
+            android:id="@+id/action_userProfileFragment_to_transactionsFragment"
+            app:destination="@id/transactionsFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+        <action
             android:id="@+id/action_userProfileFragment_to_faveRestaurantsFragment"
             app:destination="@id/faveRestaurantsFragment"
             app:enterAnim="@anim/fade_in"
@@ -197,6 +204,7 @@
         android:name="ir.boojanco.onlinefoodorder.ui.fragments.userorders.OrdersFragment"
         android:label="@null"
         tools:layout="@layout/orders_fragment" />
+
     <fragment
         android:id="@+id/faveRestaurantsFragment"
         android:name="ir.boojanco.onlinefoodorder.ui.fragments.favoriteRestaurants.FavoriteRestaurantsFragment"
@@ -207,4 +215,8 @@
         android:name="ir.boojanco.onlinefoodorder.ui.fragments.favoriteFoods.FavoriteFoodsFragment"
         android:label="@null"
         tools:layout="@layout/favorite_foods_fragment" />
+    <fragment
+        android:id="@+id/transactionsFragment"
+        android:name="ir.boojanco.onlinefoodorder.ui.fragments.usertransactions.TransactionsFragment"
+        android:label="TransactionsFragment" />
 </navigation>

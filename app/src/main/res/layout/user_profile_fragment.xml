@@ -102,7 +102,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.accountBalanceLiveData, default=اعتبار}"
-                    android:textColor="@color/materialGray900"
+                    android:textColor="@color/colorSecondPrimaryDark"
                     android:textSize="@dimen/body1_paragraph_font_size"
                     />
             </androidx.appcompat.widget.Toolbar>
@@ -304,7 +304,7 @@
                                 android:drawableStart="@drawable/ic_orders_list"
                                 android:drawablePadding="8dp"
                                 android:padding="8dp"
-                                android:text="سفارشات" />
+                                android:text="@string/orders" />
                         </FrameLayout>
 
                     </androidx.cardview.widget.CardView>

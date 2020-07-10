@@ -54,7 +54,7 @@
     <fragment
         android:id="@+id/userProfileFragment"
         android:name="ir.boojanco.onlinefoodorder.ui.fragments.userProfile.UserProfileFragment"
-        android:label="پروفایل کاربری"
+        android:label="پروفایل کاربر"
         tools:layout="@layout/user_profile_fragment">
         <action
             android:id="@+id/action_userProfileFragment_to_enterActivity"
@@ -202,21 +202,21 @@
     <fragment
         android:id="@+id/ordersFragment"
         android:name="ir.boojanco.onlinefoodorder.ui.fragments.userorders.OrdersFragment"
-        android:label="@null"
+        android:label="@string/doneOrders"
         tools:layout="@layout/orders_fragment" />
 
     <fragment
         android:id="@+id/faveRestaurantsFragment"
         android:name="ir.boojanco.onlinefoodorder.ui.fragments.favoriteRestaurants.FavoriteRestaurantsFragment"
-        android:label="@null"
+        android:label="@string/yourFavoriteRestaurants"
         tools:layout="@layout/favorite_restaurants_fragment" />
     <fragment
         android:id="@+id/faveFoodsFragment"
         android:name="ir.boojanco.onlinefoodorder.ui.fragments.favoriteFoods.FavoriteFoodsFragment"
-        android:label="@null"
+        android:label="@string/yourFavoriteFoods"
         tools:layout="@layout/favorite_foods_fragment" />
     <fragment
         android:id="@+id/transactionsFragment"
         android:name="ir.boojanco.onlinefoodorder.ui.fragments.usertransactions.TransactionsFragment"
-        android:label="TransactionsFragment" />
+        android:label="@string/transActions_list" />
 </navigation>

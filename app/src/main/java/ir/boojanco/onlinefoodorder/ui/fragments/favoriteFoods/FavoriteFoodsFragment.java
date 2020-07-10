@@ -1,5 +1,6 @@
 package ir.boojanco.onlinefoodorder.ui.fragments.favoriteFoods;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -9,6 +10,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,6 +51,8 @@ public class FavoriteFoodsFragment extends Fragment implements FavoriteFoodsFrag
 
     private RecyclerView recyclerViewFaveFoods;
     private FavoriteFoodsAdapter favoriteFoodsAdapter;
+    private Toolbar toolbar;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -56,6 +63,14 @@ public class FavoriteFoodsFragment extends Fragment implements FavoriteFoodsFrag
         viewModel.setFragmentInterface(this);
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
+        toolbar = binding.toolbar;
+
+        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+        AppBarConfiguration appBarConfiguration =
+                new AppBarConfiguration.Builder(navController.getGraph()).build();
+        NavigationUI.setupWithNavController(
+                toolbar, navController, appBarConfiguration);
+
         viewModel.getFavoriteFoods(sharedPreferences.getUserAuthTokenKey());
         recyclerViewFaveFoods = binding.recyclerViewFavoriteFoods;
         recyclerViewFaveFoods.setLayoutManager(new LinearLayoutManager(getActivity().getApplication()));

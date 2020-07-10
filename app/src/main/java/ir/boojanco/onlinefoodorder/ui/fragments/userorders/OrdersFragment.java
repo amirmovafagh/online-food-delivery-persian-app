@@ -1,5 +1,6 @@
 package ir.boojanco.onlinefoodorder.ui.fragments.userorders;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -9,6 +10,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,6 +57,7 @@ public class OrdersFragment extends Fragment implements OrdersFragmentInterface,
     private CustomFoodOrdersDialog customFoodOrdersDialog;
     private RecyclerView recyclerViewUserOrders;
     private OrdersAdapter ordersAdapter;
+    private Toolbar toolbar;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -63,6 +69,14 @@ public class OrdersFragment extends Fragment implements OrdersFragmentInterface,
         viewModel.fragmentInterface = this;
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
+        toolbar = binding.toolbar;
+
+        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+        AppBarConfiguration appBarConfiguration =
+                new AppBarConfiguration.Builder(navController.getGraph()).build();
+        NavigationUI.setupWithNavController(
+                toolbar, navController, appBarConfiguration);
+
         viewModel.getUserOrders(sharedPreferences.getUserAuthTokenKey());
         recyclerViewUserOrders = binding.recyclerViewOrders;
         recyclerViewUserOrders.setLayoutManager(new LinearLayoutManager(getActivity().getApplication()));

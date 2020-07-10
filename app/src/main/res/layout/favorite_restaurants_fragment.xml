@@ -9,14 +9,29 @@
             type="ir.boojanco.onlinefoodorder.viewmodels.FavoriteRestaurantsViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/wallpaper_restaurant_info"
         android:layoutDirection="rtl"
         tools:context=".ui.fragments.favoriteRestaurantsFragment.FavoriteRestaurantsFragment">
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white">
 
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/ToolbarColoredBackArrow"
+                bind:title="@string/yourFavoriteRestaurants"
+                bind:subtitleTextColor="@color/materialGray900"
+                bind:titleTextColor="@color/materialGray900">
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -26,7 +41,8 @@
             android:id="@+id/recycler_view_favorite_restaurants"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layoutAnimation="@anim/layout_animation_fall_down" />
+            android:layoutAnimation="@anim/layout_animation_fall_down"
+            bind:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_view_load_request"
@@ -37,7 +53,7 @@
             bind:lottie_loop="true"
             bind:lottie_rawRes="@raw/waiting_animate_burger" />
 
-    </FrameLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
 </layout>

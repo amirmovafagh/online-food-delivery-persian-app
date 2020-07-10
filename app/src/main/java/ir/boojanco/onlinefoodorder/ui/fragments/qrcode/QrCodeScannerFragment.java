@@ -55,6 +55,8 @@ public class QrCodeScannerFragment extends Fragment {
         qrScan.setPrompt("لطفا QR کد را اسکن کنید");
         qrScan.setOrientationLocked(false);
         qrScan.setBarcodeImageEnabled(true);
+        qrScan.setBeepEnabled(true);
+
         binding.buttonScanQr.setOnClickListener(v -> {
             //initiating the qr code scan
             qrScan.initiateScan();

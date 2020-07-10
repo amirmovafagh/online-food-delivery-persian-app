@@ -15,8 +15,6 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,9 +33,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
 import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.transition.TransitionManager;
 
@@ -67,9 +63,11 @@ import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.ActivityMainBinding;
 import ir.boojanco.onlinefoodorder.viewmodels.MainViewModel;
+import ir.boojanco.onlinefoodorder.viewmodels.factories.MainViewModelFactory;
+import ir.boojanco.onlinefoodorder.viewmodels.interfaces.MainActivityInterface;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainActivityInterface {
     private static String TAG = MainActivity.class.getSimpleName();
     private MainViewModel viewModel;
     ActivityMainBinding binding;
@@ -80,7 +78,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Inject
     MySharedPreferences sharedPreferences;
-
+    @Inject
+    MainViewModelFactory factory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,12 +89,13 @@ public class MainActivity extends AppCompatActivity {
 
         getLastLocation();
         // get view model
-        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        viewModel = new ViewModelProvider(this, factory).get(MainViewModel.class);
         // Inflate view and obtain an instance of the binding class.
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setViewModel(viewModel); // connect activity_Main variable to ViewModel class
         // Specify the current activity as the lifecycle owner.
         binding.setLifecycleOwner(this);
+        viewModel.setActivityInterface(this);
         bottomNavigationView = binding.bottomNavigation;
 
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
                                 } else {
                                     sharedPreferences.setLatitude(location.getLatitude());
                                     sharedPreferences.setLongitud(location.getLongitude());
-                                    /*getCityName(location);*/
+                                    getCityNameFromParsiMap(location);
                                 }
                             } catch (Exception e) {
                                 Log.e(TAG, e.getMessage() + "");
@@ -221,22 +221,26 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void getCityNameFromParsiMap(Location location) {
+        viewModel.getReverseAddressParsimap(location.getLatitude(), location.getLongitude());
+    }
+
     //for remove focus with touch outside of edit text
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
-            if ( v instanceof EditText) {
+            if (v instanceof EditText) {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
                     v.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
         }
-        return super.dispatchTouchEvent( event );
+        return super.dispatchTouchEvent(event);
     }
 
     @Override
@@ -295,12 +299,28 @@ public class MainActivity extends AppCompatActivity {
             if (mLastLocation != null) {
                 sharedPreferences.setLatitude(mLastLocation.getLatitude());
                 sharedPreferences.setLongitud(mLastLocation.getLongitude());
+                getCityNameFromParsiMap(mLastLocation);
             }
 
         }
     };
 
 
+    @Override
+    public void onStarted() {
 
+    }
 
+    @Override
+    public void onSuccess(String state, String city) {
+        if (state != null && !state.equals("") && city != null && !city.equals("")) {
+            sharedPreferences.setState(state);
+            sharedPreferences.setCity(city);
+        }
+    }
+
+    @Override
+    public void onFailure(String error) {
+
+    }
 }

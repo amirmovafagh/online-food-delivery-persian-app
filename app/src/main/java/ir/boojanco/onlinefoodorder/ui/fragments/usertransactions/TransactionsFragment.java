@@ -8,9 +8,14 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,6 +45,7 @@ public class TransactionsFragment extends Fragment implements TransactionsFragme
 
     private RecyclerView recyclerViewUserWalletActivities;
     private TransactionsAdapter transactionsAdapter;
+    private Toolbar toolbar;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -51,11 +57,19 @@ public class TransactionsFragment extends Fragment implements TransactionsFragme
         viewModel.fragmentInterface = this;
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
+        toolbar = binding.toolbar;
+
+        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+        AppBarConfiguration appBarConfiguration =
+                new AppBarConfiguration.Builder(navController.getGraph()).build();
+        NavigationUI.setupWithNavController(
+                toolbar, navController, appBarConfiguration);
+
         viewModel.getUserWalletActivities(sharedPreferences.getUserAuthTokenKey());
         recyclerViewUserWalletActivities = binding.recyclerViewWalletActivities;
         recyclerViewUserWalletActivities.setLayoutManager(new LinearLayoutManager(getActivity().getApplication()));
         recyclerViewUserWalletActivities.setHasFixedSize(true);
-        transactionsAdapter = new TransactionsAdapter();
+        transactionsAdapter = new TransactionsAdapter(getContext());
         recyclerViewUserWalletActivities.setAdapter(transactionsAdapter);
         return binding.getRoot();
     }

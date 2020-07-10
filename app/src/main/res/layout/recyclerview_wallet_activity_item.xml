@@ -1,20 +1,74 @@
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="walletItem"
             type="ir.boojanco.onlinefoodorder.models.user.WalletActivity" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="@dimen/card_view_corner_radius">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="@{walletItem.description}"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:padding="8dp">
+
+            <ImageView
+                android:id="@+id/transaction_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="36dp"
+                android:minWidth="36dp"
+                android:layout_marginTop="4dp"
+                app:srcCompat="@drawable/ic_negative_transaction"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/cost"
+                app:layout_constraintTop_toTopOf="@id/cost"
+                />
+            <TextView
+                android:id="@+id/cost"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
+                android:text="@{walletItem.costMoneyFormat, default=قیمت}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/body1_paragraph_font_size"
+                app:layout_constraintLeft_toRightOf="@id/date"
+                app:layout_constraintRight_toLeftOf="@id/transaction_image"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@{walletItem.shamsiDate ,default=تاریخ}"
+                android:textAlignment="viewEnd"
+                android:textSize="@dimen/body2_paragraph_font_size"
+                app:layout_constraintBottom_toBottomOf="@id/cost"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/cost"
+                app:layout_constraintTop_toTopOf="@id/cost"
+                tools:ignore="RtlCompat" />
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
+                android:text="@{walletItem.description, default=توضیح}"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/body2_paragraph_font_size"
+                app:layout_constraintTop_toBottomOf="@id/cost"
+                app:layout_constraintRight_toRightOf="@id/cost"
+                app:layout_constraintLeft_toLeftOf="parent"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 </layout>

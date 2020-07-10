@@ -59,6 +59,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 
 import java.util.List;
+
 import javax.inject.Inject;
 
 import ir.boojanco.onlinefoodorder.R;
@@ -281,7 +282,7 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
 
     @Override
     public void setCityAndState(String state, String city) {
-        if (city != null && state != null) {
+        if (state != null && !state.equals("") && city != null && !city.equals("")) {
             sharedPreferences.setCity(city);
             viewModel.cityLiveData.setValue(city);
             sharedPreferences.setState(state);
@@ -426,6 +427,9 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Granted. Start getting the location information
                 getLastLocation();
+            } else {
+                binding.cvWaitingResponse.setVisibility(View.GONE);
+                onFailure("لطفا دسترسی به تنظیمات موقعیت یاب را فعال نماید");
             }
         }
     }

@@ -70,7 +70,7 @@
                             app:queryBackground="@color/transparent"
                             app:searchHintIcon="@null" />
 
-                        <TextView
+                       <!-- <TextView
                             android:id="@+id/city_name"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -80,7 +80,41 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintLeft_toRightOf="@id/search"
                             app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent" />-->
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/city_view_layout"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:boxBackgroundColor="@color/transparent"
+                            app:hintEnabled="false"
+                            app:counterTextColor="@color/materialGray900"
+                            android:textSize="@dimen/body1_paragraph_font_size"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toRightOf="@id/search"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/my_spinner"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/transparent"
+                                android:cursorVisible="false"
+                                android:drawableEnd="@drawable/ic_keyboard_arrow_down_black_24dp"
+                                android:drawablePadding="8dp"
+                                android:ellipsize="end"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/materialGray900"
+                                android:maxLines="1"
+                                android:text="@{viewModel.cityNameLiveData, default=شهر}"
+                                android:textSize="@dimen/body1_paragraph_font_size" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.appcompat.widget.Toolbar>
             </androidx.cardview.widget.CardView>

@@ -147,4 +147,6 @@
     <string name="changePassword">تغییر کلمه عبور</string>
     <string name="orders">سفارش\u200cها</string>
     <string name="showFoods">مشاهده غذاها</string>
+    <string name="transActions_list">لیست تراکنش\u200cها</string>
+    <string name="doneOrders">سفارش‌های انجام شده</string>
 </resources>

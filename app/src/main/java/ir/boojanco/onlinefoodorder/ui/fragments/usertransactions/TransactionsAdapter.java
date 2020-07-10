@@ -2,6 +2,7 @@ package ir.boojanco.onlinefoodorder.ui.fragments.usertransactions;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -21,9 +22,11 @@ import ir.boojanco.onlinefoodorder.viewmodels.interfaces.OrdersRecyclerViewInter
 
 public class TransactionsAdapter extends PagedListAdapter<WalletActivity, TransactionsAdapter.OrdersViewHolder> {
 
+    private Context context;
 
-    public TransactionsAdapter() {
+    public TransactionsAdapter(Context context) {
         super(DIFF_CALLBACK);
+        this.context = context;
     }
 
     @NonNull
@@ -38,6 +41,15 @@ public class TransactionsAdapter extends PagedListAdapter<WalletActivity, Transa
     public void onBindViewHolder(@NonNull OrdersViewHolder holder, int position) {
         WalletActivity currentActivity = getItem(position);
         holder.binding.setWalletItem(currentActivity);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { //>= API 21
+            if (currentActivity != null && currentActivity.getType().equals("کاهش موجودی بابت سفارش"))
+                holder.binding.transactionImage.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_negative_transaction, context.getApplicationContext().getTheme()));
+            else holder.binding.transactionImage.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_positive_transaction, context.getApplicationContext().getTheme()));
+        } else {
+            if (currentActivity != null && currentActivity.getType().equals("کاهش موجودی بابت سفارش"))
+                holder.binding.transactionImage.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_negative_transaction));
+            else holder.binding.transactionImage.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_positive_transaction));
+        }
 
     }
 

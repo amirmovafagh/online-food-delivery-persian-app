@@ -16,6 +16,22 @@
         android:background="@drawable/wallpaper_restaurant_info"
         android:layoutDirection="rtl"
         tools:context=".ui.fragments.userorders.OrdersFragment">
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/ToolbarColoredBackArrow"
+                app:title="@string/doneOrders"
+                app:subtitleTextColor="@color/materialGray900"
+                app:titleTextColor="@color/materialGray900">
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -25,7 +41,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_orders"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_view_load_request"

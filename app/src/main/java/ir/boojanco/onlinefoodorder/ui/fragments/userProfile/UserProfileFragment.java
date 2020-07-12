@@ -129,6 +129,7 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
         sheetBehaviorProfile = BottomSheetBehavior.from(bottom_sheet_profile);
         sheetBehaviorProfile.setGestureInsetBottomIgnored(true);
         transition = new AutoTransition();
+        buttonChangePass = binding.bottomSheetEditProfileInclude.btnChangePass;
 
         if (sharedPreferences.getUserAuthTokenKey() == null || sharedPreferences.getUserAuthTokenKey().isEmpty()) {//when user is not login in the system
             viewModel.profileChangeVisibility.postValue(false); // show login reg button
@@ -142,7 +143,7 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
         recyclerViewUserAddress.setHasFixedSize(true);
         addressAdapter = new AddressProfileAdapter(this, application);
         recyclerViewUserAddress.setAdapter(addressAdapter);
-        buttonChangePass = binding.bottomSheetEditProfileInclude.btnChangePass;
+
 
         chipGroup = binding.bottomSheetAddressInclude.chipGroupAddressTag;
 

@@ -31,13 +31,14 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
-        <activity android:name=".ui.activities.EnterActivity">
+        <activity android:name=".ui.fragments.qrcode.QrCodeScannerActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.EnterActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -51,10 +52,12 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".MapsActivity" />
+        <activity android:name=".MapsActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activities.MainActivity"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -69,7 +72,7 @@
                     android:scheme="http" />
                 <data
                     android:host="www.mazeeh.ir"
-                    android:pathPrefix="/user/profile"
+                    android:pathPrefix="/"
                     android:scheme="http" />
                 <data
                     android:host="mazeeh.ir"

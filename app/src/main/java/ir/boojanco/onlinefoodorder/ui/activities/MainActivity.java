@@ -45,8 +45,6 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -243,7 +241,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         return super.dispatchTouchEvent(event);
     }
 
-    @Override
+/*    @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
@@ -273,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
-    }
+    }*/
 
     @SuppressLint("MissingPermission")
     private void requestNewLocationData() {

@@ -12,6 +12,7 @@
             type="ir.boojanco.onlinefoodorder.viewmodels.HomeViewModel" />
     </data>
 
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/main_content"
         android:layout_width="match_parent"
@@ -20,329 +21,331 @@
         android:layoutDirection="rtl"
         tools:context=".ui.fragments.home.HomeFragment">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <FrameLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/backgroundGrayLight_lowAlpha" />
+                android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/img_mazeeh_logo"
-                android:layout_width="wrap_content"
-                android:layout_height="130dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:elevation="3dp"
-                android:src="@drawable/mazze_home_logo"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtInputLayoutLoginSearch"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="32dp"
-                android:hint="@string/search_title"
-                app:boxBackgroundColor="@color/transparent"
-                app:hintEnabled="false"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintLeft_toRightOf="@id/city_view_layout"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/img_mazeeh_logo">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/search"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/transparent"
-                    android:drawableStart="@drawable/ic_search_restaurant"
-                    android:drawablePadding="8dp"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
-                    android:hint="@string/search_title"
-                    android:imeOptions="actionDone"
-                    android:singleLine="true"
-                    android:textSize="@dimen/body2_paragraph_font_size" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!--search and location layout-->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/city_view_layout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="32dp"
-                android:layout_marginRight="8dp"
-                app:boxBackgroundColor="@color/transparent"
-                app:hintEnabled="false"
-                app:layout_constraintBottom_toBottomOf="@id/txtInputLayoutLoginSearch"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/txtInputLayoutLoginSearch">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/my_spinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/transparent"
-                    android:cursorVisible="false"
-                    android:drawableEnd="@drawable/ic_keyboard_arrow_down_black_24dp"
-                    android:drawablePadding="8dp"
-                    android:ellipsize="end"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
-                    android:includeFontPadding="false"
-                    android:maxLines="1"
-                    android:onClick="@{()-> homeViewModel.selectCityOnClick()}"
-                    android:paddingBottom="10dp"
-                    android:text="@{homeViewModel.cityLiveData , default=@string/defaultCity}"
-                    android:textSize="@dimen/body2_paragraph_font_size" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-            <!--<LinearLayout
-                android:id="@+id/city_view_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="32dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:onClick="@{()-> homeViewModel.selectCityOnClick()}"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="@id/txtInputLayoutLoginSearch"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/txtInputLayoutLoginSearch"
-                app:layout_constraintTop_toTopOf="@id/txtInputLayoutLoginSearch">
-
-
-                <TextView
-                    android:id="@+id/city"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="@{homeViewModel.cityLiveData , default=@string/defaultCity}"
-                    android:textSize="@dimen/body1_paragraph_font_size" />
+                    android:layout_height="match_parent"
+                    android:background="@color/backgroundGrayLight_lowAlpha" />
 
                 <ImageView
-                    android:id="@+id/img_down_arrow"
+                    android:id="@+id/img_mazeeh_logo"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="130dp"
                     android:layout_gravity="center"
-                    app:srcCompat="@drawable/ic_keyboard_arrow_down_white_24dp" />
+                    android:layout_marginTop="8dp"
+                    android:elevation="3dp"
+                    android:src="@drawable/mazze_home_logo"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-
-            </LinearLayout>-->
-            <ProgressBar
-                android:id="@+id/indeterminateBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:visibility="@{homeViewModel.stateProgressBar ? View.VISIBLE : View.GONE , default=gone}"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/city_view_layout" />
-
-            <Button
-                android:id="@+id/buttonSearchRestaurant"
-                style="@style/Widget.MaterialComponents.Button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="32dp"
-                android:backgroundTint="@color/colorSecondPrimaryDark"
-                android:onClick="@{()->homeViewModel.searchRestaurantOnClick()}"
-                android:text="@string/restaurantsNearMe"
-                android:textColor="@color/white"
-                android:textSize="@dimen/button_font_size"
-                app:cornerRadius="@dimen/button_corner_radius"
-                app:layout_constraintLeft_toLeftOf="@id/city_view_layout"
-                app:layout_constraintRight_toRightOf="@id/city_view_layout"
-                app:layout_constraintTop_toBottomOf="@id/indeterminateBar" />
-
-
-            <ImageView
-                android:id="@+id/img_half_burger"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:scaleType="matrix"
-                android:src="@drawable/table_pizza"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="@id/lin_txt" />
-
-            <LinearLayout
-                android:id="@+id/lin_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="vertical"
-                android:paddingBottom="8dp"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/buttonSearchRestaurant">
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtInputLayoutLoginSearch"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:cardBackgroundColor="@color/transparent"
-                    app:cardElevation="0dp">
+                    android:layout_marginRight="32dp"
+                    android:hint="@string/search_title"
+                    app:boxBackgroundColor="@color/transparent"
+                    app:hintEnabled="false"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintLeft_toRightOf="@id/city_view_layout"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/img_mazeeh_logo">
 
-                    <FrameLayout
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/search"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="@drawable/cardview_two_corner_rounded"
-                        android:clickable="true"
-                        android:elevation="2dp"
-                        android:focusable="true"
-                        android:foreground="?attr/selectableItemBackground"
-                        android:onClick="@{()->homeViewModel.searchRestaurantsByNewestDateOnClick()}"
-                        android:padding="4dp"
+                        android:background="@color/transparent"
+                        android:drawableStart="@drawable/ic_search_restaurant"
+                        android:drawablePadding="8dp"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
+                        android:hint="@string/search_title"
+                        android:imeOptions="actionDone"
+                        android:singleLine="true"
+                        android:textSize="@dimen/body2_paragraph_font_size" />
 
-                        >
+                </com.google.android.material.textfield.TextInputLayout>
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="75dp"
-                                android:layout_height="65dp"
-                                app:srcCompat="@drawable/ic_new_restaurants" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="@string/new_restaurants"
-                                android:textAlignment="center"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/body3_paragraph_font_size" />
-                        </LinearLayout>
-                    </FrameLayout>
-
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
+                <!--search and location layout-->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/city_view_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    app:cardBackgroundColor="@color/transparent"
-                    app:cardElevation="0dp">
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="8dp"
+                    app:boxBackgroundColor="@color/transparent"
+                    app:hintEnabled="false"
+                    app:layout_constraintBottom_toBottomOf="@id/txtInputLayoutLoginSearch"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/txtInputLayoutLoginSearch">
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/my_spinner"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="@drawable/cardview_two_corner_rounded"
-                        android:clickable="true"
-                        android:elevation="2dp"
-                        android:focusable="true"
-                        android:foreground="?attr/selectableItemBackground"
-                        android:onClick="@{()-> homeViewModel.searchRestaurantsByScoreOnClick()}"
-                        android:padding="4dp"
+                        android:background="@color/transparent"
+                        android:cursorVisible="false"
+                        android:drawableEnd="@drawable/ic_keyboard_arrow_down_black_24dp"
+                        android:drawablePadding="8dp"
+                        android:ellipsize="end"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
+                        android:includeFontPadding="false"
+                        android:maxLines="1"
+                        android:onClick="@{()-> homeViewModel.selectCityOnClick()}"
+                        android:paddingBottom="10dp"
+                        android:text="@{homeViewModel.cityLiveData , default=@string/defaultCity}"
+                        android:textSize="@dimen/body2_paragraph_font_size" />
 
-                        >
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:orientation="vertical">
-
-                            <ImageView
-
-                                android:layout_width="75dp"
-                                android:layout_height="65dp"
-                                app:srcCompat="@drawable/ic_delicious_foods" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:background="@drawable/textview_shape_white_rounded"
-                                android:text="@string/delicious"
-                                android:textAlignment="center"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/body3_paragraph_font_size" />
-                        </LinearLayout>
-                    </FrameLayout>
-
-
-                </androidx.cardview.widget.CardView>
-
-            </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview_food_type_search_filter_home"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                android:overScrollMode="never"
-                app:layout_constraintBottom_toBottomOf="parent" />
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cv_waiting_response"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                app:cardBackgroundColor="@color/materialGray100"
-                app:cardElevation="4dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                </com.google.android.material.textfield.TextInputLayout>
+                <!--<LinearLayout
+                    android:id="@+id/city_view_layout"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="vertical">
+                    android:layout_marginEnd="32dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:onClick="@{()-> homeViewModel.selectCityOnClick()}"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="@id/txtInputLayoutLoginSearch"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/txtInputLayoutLoginSearch"
+                    app:layout_constraintTop_toTopOf="@id/txtInputLayoutLoginSearch">
 
-                    <com.airbnb.lottie.LottieAnimationView
-                        android:id="@+id/animation_view"
-                        android:layout_width="150dp"
-                        android:layout_height="300dp"
-                        android:layout_gravity="center"
-                        android:layout_margin="8dp"
-                        app:lottie_autoPlay="true"
-                        app:lottie_loop="true"
-                        app:lottie_rawRes="@raw/waiting_animate_burger" />
 
                     <TextView
+                        android:id="@+id/city"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@{homeViewModel.cityLiveData , default=@string/defaultCity}"
+                        android:textSize="@dimen/body1_paragraph_font_size" />
+
+                    <ImageView
+                        android:id="@+id/img_down_arrow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
-                        android:text="@string/issueincommunicatingwithserver"
-                        android:visibility="@{homeViewModel.stateWatingOrNoConnection ? View.VISIBLE : View.GONE , default=gone}" />
+                        app:srcCompat="@drawable/ic_keyboard_arrow_down_white_24dp" />
 
-                    <Button
-                        android:id="@+id/buttonTryAgain"
-                        style="@style/Widget.MaterialComponents.Button"
-                        android:layout_width="200dp"
+
+                </LinearLayout>-->
+                <ProgressBar
+                    android:id="@+id/indeterminateBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:visibility="@{homeViewModel.stateProgressBar ? View.VISIBLE : View.GONE , default=gone}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/city_view_layout" />
+
+                <Button
+                    android:id="@+id/buttonSearchRestaurant"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="32dp"
+                    android:backgroundTint="@color/colorSecondPrimaryDark"
+                    android:onClick="@{()->homeViewModel.searchRestaurantOnClick()}"
+                    android:text="@string/restaurantsNearMe"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/button_font_size"
+                    app:cornerRadius="@dimen/button_corner_radius"
+                    app:layout_constraintLeft_toLeftOf="@id/city_view_layout"
+                    app:layout_constraintRight_toRightOf="@id/city_view_layout"
+                    app:layout_constraintTop_toBottomOf="@id/indeterminateBar" />
+
+
+                <ImageView
+                    android:id="@+id/img_half_burger"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="matrix"
+                    android:src="@drawable/table_pizza"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/lin_txt" />
+
+                <LinearLayout
+                    android:id="@+id/lin_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    android:paddingBottom="8dp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/buttonSearchRestaurant">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="16dp"
-                        android:onClick="@{()->homeViewModel.tryAgainOnClick()}"
-                        android:text="@string/tryAgain"
-                        android:textSize="@dimen/h7_title_font_size"
-                        android:visibility="@{homeViewModel.stateWatingOrNoConnection ? View.VISIBLE : View.GONE , default=gone}"
-                        app:cornerRadius="@dimen/card_view_corner_radius" />
+                        app:cardBackgroundColor="@color/transparent"
+                        app:cardElevation="0dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@drawable/cardview_two_corner_rounded"
+                            android:clickable="true"
+                            android:elevation="2dp"
+                            android:focusable="true"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:onClick="@{()->homeViewModel.searchRestaurantsByNewestDateOnClick()}"
+                            android:padding="4dp"
+
+                            >
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="75dp"
+                                    android:layout_height="65dp"
+                                    app:srcCompat="@drawable/ic_new_restaurants" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:text="@string/new_restaurants"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="@dimen/body3_paragraph_font_size" />
+                            </LinearLayout>
+                        </FrameLayout>
+
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:cardBackgroundColor="@color/transparent"
+                        app:cardElevation="0dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@drawable/cardview_two_corner_rounded"
+                            android:clickable="true"
+                            android:elevation="2dp"
+                            android:focusable="true"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:onClick="@{()-> homeViewModel.searchRestaurantsByScoreOnClick()}"
+                            android:padding="4dp"
+
+                            >
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:orientation="vertical">
+
+                                <ImageView
+
+                                    android:layout_width="75dp"
+                                    android:layout_height="65dp"
+                                    app:srcCompat="@drawable/ic_delicious_foods" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:background="@drawable/textview_shape_white_rounded"
+                                    android:text="@string/delicious"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="@dimen/body3_paragraph_font_size" />
+                            </LinearLayout>
+                        </FrameLayout>
+
+
+                    </androidx.cardview.widget.CardView>
+
                 </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview_food_type_search_filter_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:overScrollMode="never"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/lin_txt" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_waiting_response"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            app:cardBackgroundColor="@color/materialGray100"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/animation_view"
+                    android:layout_width="150dp"
+                    android:layout_height="300dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/waiting_animate_burger" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
+                    android:text="@string/issueincommunicatingwithserver"
+                    android:visibility="@{homeViewModel.stateWatingOrNoConnection ? View.VISIBLE : View.GONE , default=gone}" />
+
+                <Button
+                    android:id="@+id/buttonTryAgain"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="16dp"
+                    android:onClick="@{()->homeViewModel.tryAgainOnClick()}"
+                    android:text="@string/tryAgain"
+                    android:textSize="@dimen/h7_title_font_size"
+                    android:visibility="@{homeViewModel.stateWatingOrNoConnection ? View.VISIBLE : View.GONE , default=gone}"
+                    app:cornerRadius="@dimen/card_view_corner_radius" />
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

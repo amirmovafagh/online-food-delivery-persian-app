@@ -23,6 +23,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -47,6 +48,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -139,6 +141,12 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
         colorAnimationButtonBackground = ValueAnimator.ofObject(new ArgbEvaluator(), getResources().getColor(R.color.colorSecondPrimaryDark), getResources().getColor(R.color.colorPrimaryDark));
         colorAnimationButtonBackground.setDuration(600);
         colorAnimationButtonText.setDuration(600);
+
+        Uri data = getActivity().getIntent().getData();
+        if (data != null && data.isHierarchical()) {
+            String uri = getActivity().getIntent().getDataString();
+            Toast.makeText(application, "AMIR "+uri, Toast.LENGTH_SHORT).show();
+        }
 
         return binding.getRoot();
     }

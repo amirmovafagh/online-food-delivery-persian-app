@@ -15,6 +15,8 @@ android {
 
         vectorDrawables.useSupportLibrary = true
         /*fix loading drawable pics in api23 (android 6.0)*/
+
+
     }
     buildTypes {
         release {
@@ -106,7 +108,5 @@ dependencies {
     //Persian Date Picker
     implementation 'com.mohamadamin:persianmaterialdatetimepicker:1.2.1'
 
-    //zxing-android-embedded - for qr code scanner
-    implementation 'com.google.zxing:core:3.3.0'
-    implementation('com.journeyapps:zxing-android-embedded:4.1.0') { transitive = false }
+    implementation  'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.3'
 }

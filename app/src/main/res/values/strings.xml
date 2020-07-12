@@ -149,4 +149,5 @@
     <string name="showFoods">مشاهده غذاها</string>
     <string name="transActions_list">لیست تراکنش\u200cها</string>
     <string name="doneOrders">سفارش‌های انجام شده</string>
+    <string name="qr">لطفا QR کد را اسکن کنید</string>
 </resources>

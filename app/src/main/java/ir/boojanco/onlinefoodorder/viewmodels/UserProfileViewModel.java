@@ -337,7 +337,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
 
                 @Override
                 public void onNext(UserSession userSession) {
-                    accountBalanceLiveData.setValue("اعتبار کیف پول: "+moneyFormat(userSession.getAccountBalance()));
+                    accountBalanceLiveData.setValue("اعتبار کیف پول: " + moneyFormat(userSession.getAccountBalance()));
                     userProfileInterface.onSuccessGetUserProfileInfo();
                 }
             });
@@ -640,7 +640,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
                         userProfileInterface.hideBottomSheet();
                         userProfileInterface.onSuccessGetUserProfileInfo();
                         userProfileInterface.onFailure("اطلاعات حساب کاربری بروز شد");
-                    }else userProfileInterface.onFailure("خطا در تغییر اطلاعات حساب کاربری");
+                    } else userProfileInterface.onFailure("خطا در تغییر اطلاعات حساب کاربری");
                 }
             });
         }

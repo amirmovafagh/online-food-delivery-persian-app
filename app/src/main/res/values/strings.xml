@@ -65,6 +65,7 @@
     <string name="chooseOnDefault">انتخاب به عنوان پیشفرض</string>
     <string name="restaurant_shipping_cost">ارسال</string>
     <string name="pleaseEnterYourDiscountCode">کد تخفیف</string>
+    <string name="checkWalletBalance">بررسی کیف پول…</string>
     <string name="your_addresses">آدرس\u200cهای شما</string>
     <string name="online_pay">پرداخت آنلاین</string>
     <string name="in_place_pay">پرداخت در محل</string>

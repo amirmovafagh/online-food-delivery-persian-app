@@ -39,6 +39,7 @@ public class PaymentViewModel extends ViewModel {
     private String TAG = this.getClass().getSimpleName();
     private Context context;
     private int tempTotalDiscountedPrice = 0;
+    private int userAccountBalance = 0;
 
     private int finalPaymentPrice = 0;
 
@@ -144,6 +145,7 @@ public class PaymentViewModel extends ViewModel {
                 @Override
                 public void onNext(UserSession userSession) {
                     accountBalanceLiveData.setValue(moneyFormat(userSession.getAccountBalance()));
+                    userAccountBalance = userSession.getAccountBalance();
                     if (userSession.getAccountBalance() > 0)
                         statePayWithWallet.setValue(true); // show walletPaySwitch
                     paymentInterface.onSuccess();
@@ -210,7 +212,10 @@ public class PaymentViewModel extends ViewModel {
             return;
         }
         paymentInterface.onStarted();
-        stateWaitingToLoadDescription.setValue(context.getString(R.string.movetobankpay));
+        if (userAccountBalance >= totalAllPrice)
+            stateWaitingToLoadDescription.setValue(context.getString(R.string.checkWalletBalance));
+        else
+            stateWaitingToLoadDescription.setValue(context.getString(R.string.movetobankpay));
         Map<Long, Integer> foodLists = new HashMap<>();
         for (CartItem item : cartItems) {
             foodLists.put(item.getFoodId(), item.getFoodQuantity());
@@ -250,11 +255,14 @@ public class PaymentViewModel extends ViewModel {
 
                 @Override
                 public void onNext(CartOrderResponse response) {
-                    if (response.getToken() != null) {
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://sadad.shaparak.ir/Purchase?token=" + response.getToken()));
-                        browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(browserIntent);
-                    }
+                    if (response.getState().equals("PAYED_WITH_TOKEN"))
+                        if (response.getToken() != null) {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://sadad.shaparak.ir/Purchase?token=" + response.getToken()));
+                            browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(browserIntent);
+                        }
+                    else if(response.getState().equals("PAYED_BY_WALLET"))
+                        paymentInterface.onFailure("پرداخت با کیف پول انجام شد");
                 }
             });
         }

@@ -370,7 +370,7 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
         viewModel.setStateId(state.getId());
         viewModel.state.postValue(state.getName());
         viewModel.city.postValue(null);
-        viewModel.getCities(sharedPreferences.getUserAuthTokenKey(), state.getId());
+        viewModel.getCities(state.getId());
     }
 
     @Override

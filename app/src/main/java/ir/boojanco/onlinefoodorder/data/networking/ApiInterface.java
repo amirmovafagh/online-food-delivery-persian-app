@@ -137,10 +137,10 @@ public interface ApiInterface {
     Observable<Response<Void>> deleteUserAddress(@Header("Authorization") String authToken, @Path("addressId") long addressId);
 
     @GET("/api/state/state/all")
-    Observable<GetAllStatesResponse> getAllStatesResponseObservable(@Header("Authorization") String authToken);
+    Observable<GetAllStatesResponse> getAllStatesResponseObservable();
 
     @GET("/api/city/all/state/{stateId}")
-    Observable<GetAllCitiesResponse> getAllCitiesResponseObservable(@Header("Authorization") String authToken, @Path("stateId") long stateId);
+    Observable<GetAllCitiesResponse> getAllCitiesResponseObservable(@Path("stateId") long stateId);
 
     @GET("https://pm1.parsimap.com/comapi.svc/areaInfo/{latitude}/{longitude}/18/1/ccc1a4bc-ade4-460d-b799-82885ab21d6d/1") /*get Reverse Address from LatLng with parsiMap API*/
     Observable<ReverseFindAddressResponse> getReverseAddresse(@Path("latitude") Double latitude, @Path("longitude") Double longitude);

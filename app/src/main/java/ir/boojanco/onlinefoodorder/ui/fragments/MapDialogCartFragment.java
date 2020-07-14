@@ -93,7 +93,7 @@ public class MapDialogCartFragment extends DialogFragment implements OnMapReadyC
                 if(marker != null)
                     marker.remove();
                 marker = googleMap.addMarker(new MarkerOptions().position(latLng).title("آدرس من"));
-                cartViewModel.getReverseAddressParsiMap(latLng.latitude, latLng.longitude, sharedPreferences.getUserAuthTokenKey());
+                cartViewModel.getReverseAddressParsiMap(latLng.latitude, latLng.longitude);
 
             });
         }

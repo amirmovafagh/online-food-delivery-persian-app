@@ -85,12 +85,12 @@ public class UserRepository {
         return apiInterface.getReverseAddresse(latitude, longitude);
     }
 
-    public Observable<GetAllStatesResponse> getAllStatesResponseObservable(String authToken) {
-        return apiInterface.getAllStatesResponseObservable(authToken);
+    public Observable<GetAllStatesResponse> getAllStatesResponseObservable() {
+        return apiInterface.getAllStatesResponseObservable();
     }
 
-    public Observable<GetAllCitiesResponse> getAllCitiesResponseObservable(String authToken, long stateId) {
-        return apiInterface.getAllCitiesResponseObservable(authToken, stateId);
+    public Observable<GetAllCitiesResponse> getAllCitiesResponseObservable(long stateId) {
+        return apiInterface.getAllCitiesResponseObservable(stateId);
     }
 
     public Observable<GetUserOrdersResponse> getUserOrdersResponseObservable(String authToken, int page, int size) {

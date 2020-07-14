@@ -46,12 +46,12 @@ public class HomeViewModel extends ViewModel {
         this.context = context;
         this.restaurantRepository = restaurantRepository;
         stateLiveData = new MutableLiveData<>();
+        stateLiveData.setValue("انتخاب شهر");
         cityLiveData = new MutableLiveData<>();
         stateProgressBar = new MutableLiveData<>();
-        stateLiveData.setValue("انتخاب شهر");
+        stateProgressBar.setValue(false); //do not show progress bar
         stateWatingOrNoConnection = new MutableLiveData<>();
         stateWatingOrNoConnection.setValue(false); // dont show try again btn textView
-        stateProgressBar.setValue(false); //do not show progress bar
 
     }
 
@@ -60,7 +60,7 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void selectCityOnClick() {
-        rx.Observable<GetAllStatesResponse> observable = restaurantRepository.getAllStatesResponseObservable(userAuthToken);
+        rx.Observable<GetAllStatesResponse> observable = restaurantRepository.getAllStatesResponseObservable();
         if (observable != null) {
             stateProgressBar.setValue(true); //show progress bar
             observable.retry(3).subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetAllStatesResponse>() {
@@ -98,8 +98,8 @@ public class HomeViewModel extends ViewModel {
         }
     }
 
-    public void getCities(String userAuthTokenKey, long stateId) {
-        rx.Observable<GetAllCitiesResponse> observable = restaurantRepository.getAllCitiesResponseObservable(userAuthToken, stateId);
+    public void getCities(long stateId) {
+        rx.Observable<GetAllCitiesResponse> observable = restaurantRepository.getAllCitiesResponseObservable(stateId);
         if (observable != null) {
             observable.retry(3).subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetAllCitiesResponse>() {
                 @Override

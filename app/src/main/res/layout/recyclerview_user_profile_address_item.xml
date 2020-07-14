@@ -64,6 +64,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_weight="0.5"
+                            android:tint="@color/materialGray850"
                             android:src="@drawable/ic_edit_location"
                             />
 
@@ -72,6 +73,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_weight="0.5"
+                            android:tint="@color/materialGray850"
                             app:srcCompat="@drawable/ic_delete" />
                     </LinearLayout>
 

@@ -12,29 +12,39 @@ import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PageKeyedDataSource;
 import androidx.paging.PagedList;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantList;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantResponse;
+import ir.boojanco.onlinefoodorder.models.stateCity.GetAllCitiesResponse;
+import ir.boojanco.onlinefoodorder.models.stateCity.GetAllStatesResponse;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurants.RestaurantDataSourceInterface;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurants.SearchRestaurantDataSource;
 import ir.boojanco.onlinefoodorder.ui.fragments.restaurants.SearchRestaurantDataSourceFactory;
+import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantFragmentInterface;
+import retrofit2.HttpException;
+import retrofit2.Response;
+import rx.Subscriber;
 
 public class RestaurantViewModel extends ViewModel implements RestaurantDataSourceInterface {
     private static final String TAG = RestaurantViewModel.class.getSimpleName();
 
-    public RestaurantFragmentInterface restaurantInterface;
+    public RestaurantFragmentInterface fragmentInterface;
     private RestaurantRepository restaurantRepository;
     private Context context;
     public MutableLiveData<RestaurantResponse> responseMutableLiveData;
-    public MutableLiveData<String> cityNameLiveData;
     public MutableLiveData<String> sortByNameLiveData;
     public MutableLiveData<Boolean> stateWaitingOrNoConnection;
+    public MutableLiveData<String> cityLiveData;
+    public MutableLiveData<String> stateLiveData;
     public LiveData<PagedList<RestaurantList>> restaurantPagedListLiveData;
     public LiveData<PageKeyedDataSource<Integer, RestaurantList>> liveDataSource;
+    public MutableLiveData<Boolean> stateProgressBar;
 
     ArrayList<String> categoryList;
     String restaurantName;
@@ -65,12 +75,16 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
         responseMutableLiveData = new MutableLiveData<>();
         this.context = context;
         this.restaurantRepository = restaurantRepository;
-        cityNameLiveData = new MutableLiveData<>();
+        cityLiveData = new MutableLiveData<>();
         sortByNameLiveData = new MutableLiveData<>();
         sortByNameLiveData.setValue("مرتبط ترین\u200cها");
 
+        stateLiveData = new MutableLiveData<>();
+        cityLiveData = new MutableLiveData<>();
         stateWaitingOrNoConnection = new MutableLiveData<>();
         stateWaitingOrNoConnection.setValue(false); // dont show try again btn textView
+        stateProgressBar = new MutableLiveData<>();
+        stateProgressBar.setValue(false); //do not show progress bar
 
     }
 
@@ -89,11 +103,11 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
     }
 
     public void openFilterBottomSheetOnClick() {
-        restaurantInterface.openBottomSheet();
+        fragmentInterface.openBottomSheet();
     }
 
     public void closeFilterBottomSheetOnClick() {
-        restaurantInterface.closeBottomSheet();
+        fragmentInterface.closeBottomSheet();
     }
 
     public void setSortOnClick(View v) {
@@ -101,21 +115,21 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
             case R.id.chip_most_relevant:
                 sortByNameLiveData.setValue(context.getString(R.string.most_relevant));
                 sortBy = 0;
-                restaurantInterface.updateRestaurantsRecyclerView(categoryList, cityNameLiveData.getValue(),
+                fragmentInterface.updateRestaurantsRecyclerView(categoryList, cityLiveData.getValue(),
                         restaurantName, deliveryFilter, discountFilter, servingFilter, getInPlaceFilter,
                         latitude, longitude, sortBy);
                 return;
             case R.id.chip_more_score:
                 sortByNameLiveData.setValue(context.getString(R.string.fave_resturants));
                 sortBy = 1;
-                restaurantInterface.updateRestaurantsRecyclerView(categoryList, cityNameLiveData.getValue(),
+                fragmentInterface.updateRestaurantsRecyclerView(categoryList, cityLiveData.getValue(),
                         restaurantName, deliveryFilter, discountFilter, servingFilter, getInPlaceFilter,
                         latitude, longitude, sortBy);
                 return;
             case R.id.chip_newest:
                 sortByNameLiveData.setValue(context.getString(R.string.new_restaurants));
                 sortBy = 2;
-                restaurantInterface.updateRestaurantsRecyclerView(categoryList, cityNameLiveData.getValue(),
+                fragmentInterface.updateRestaurantsRecyclerView(categoryList, cityLiveData.getValue(),
                         restaurantName, deliveryFilter, discountFilter, servingFilter, getInPlaceFilter,
                         latitude, longitude, sortBy);
         }
@@ -123,7 +137,7 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
     }
 
     private void updateRestaurants() {
-        restaurantInterface.updateRestaurantsRecyclerView(categoryList, cityNameLiveData.getValue(),
+        fragmentInterface.updateRestaurantsRecyclerView(categoryList, cityLiveData.getValue(),
                 restaurantName, deliveryFilter, discountFilter, servingFilter, getInPlaceFilter,
                 latitude, longitude, sortBy);
     }
@@ -193,18 +207,18 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
     }
 
     public void searchBtnOnClick() {
-        restaurantInterface.updateRestaurantsRecyclerView(categoryList, cityNameLiveData.getValue(),
+        fragmentInterface.updateRestaurantsRecyclerView(categoryList, cityLiveData.getValue(),
                 restaurantName, deliveryFilter, discountFilter, servingFilter, getInPlaceFilter,
                 latitude, longitude, sortBy);
 
     }
 
     public void sortBtnOnClick() {
-        restaurantInterface.expandSortView();
+        fragmentInterface.expandSortView();
     }
 
     public void filterBtnOnClick() {
-        restaurantInterface.expandFilterView();
+        fragmentInterface.expandFilterView();
     }
 
     private void initCategoryList(String name, boolean checked) {
@@ -224,24 +238,102 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
         }
     }
 
+    public void selectCityOnClick() {
+        rx.Observable<GetAllStatesResponse> observable = restaurantRepository.getAllStatesResponseObservable();
+        if (observable != null) {
+            stateProgressBar.setValue(true); //show progress bar
+            observable.retry(1).subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetAllStatesResponse>() {
+                @Override
+                public void onCompleted() {
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    stateProgressBar.setValue(false); //do not show progress bar
+
+                    if (e instanceof NoNetworkConnectionException)
+                        fragmentInterface.onFailure(e.getMessage());
+                    if (e instanceof HttpException) {
+                        Response response = ((HttpException) e).response();
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
+
+                            fragmentInterface.onFailure(jsonObject.getString("message"));
+
+
+                        } catch (Exception d) {
+                            Log.i(TAG, "" + d.getMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onNext(GetAllStatesResponse getAllStatesResponse) {
+                    stateProgressBar.setValue(false); //do not show progress bar
+                    fragmentInterface.showStateCityCustomDialog(getAllStatesResponse.getAllStatesLists());
+                }
+            });
+        }
+    }
+
+    public void getCities(long stateId) {
+        rx.Observable<GetAllCitiesResponse> observable = restaurantRepository.getAllCitiesResponseObservable(stateId);
+        if (observable != null) {
+            observable.retry(3).subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetAllCitiesResponse>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    if (e instanceof NoNetworkConnectionException)
+                        fragmentInterface.onFailure(e.getMessage());
+                    if (e instanceof HttpException) {
+                        Response response = ((HttpException) e).response();
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
+
+                            fragmentInterface.onFailure(jsonObject.getString("message"));
+
+
+                        } catch (Exception d) {
+                            fragmentInterface.onFailure(d.getMessage());
+                            Log.i(TAG, "" + d.getMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onNext(GetAllCitiesResponse getAllCitiesResponse) {
+
+                    fragmentInterface.onSuccessGetCities(getAllCitiesResponse.getAllCitiesLists());
+                }
+            });
+        }
+    }
+
+
     public void tryAgainOnClick() {
         updateRestaurants();
     }
 
     @Override
     public void onStarted() {
-        restaurantInterface.onStarted();
+        fragmentInterface.onStarted();
     }
 
     @Override
     public void onSuccess() {
-        restaurantInterface.onSuccess();
+        fragmentInterface.onSuccess();
     }
 
     @Override
     public void onFailure(String error) {
-        restaurantInterface.onFailure(error);
-        restaurantInterface.tryAgain();
+        fragmentInterface.onFailure(error);
+        fragmentInterface.tryAgain();
         stateWaitingOrNoConnection.setValue(true); //show tryAgain view
     }
 }

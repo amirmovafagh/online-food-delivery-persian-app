@@ -38,7 +38,7 @@ public class RestaurantRepository {
         return apiInterface.getRestaurantAssessment(restaurantId);
     }
 
-    public Observable<UserSession> getUerSession(String authToken){
+    public Observable<UserSession> getUerSession(String authToken) {
         return apiInterface.getUserSession(authToken);
     }
 
@@ -97,12 +97,12 @@ public class RestaurantRepository {
         return apiInterface.removeFoodFromFavoriteList(authToken, foodId);
     }
 
-    public Observable<GetAllStatesResponse> getAllStatesResponseObservable(String authToken) {
-        return apiInterface.getAllStatesResponseObservable(authToken);
+    public Observable<GetAllStatesResponse> getAllStatesResponseObservable() {
+        return apiInterface.getAllStatesResponseObservable();
     }
 
-    public Observable<GetAllCitiesResponse> getAllCitiesResponseObservable(String authToken, long stateId) {
-        return apiInterface.getAllCitiesResponseObservable(authToken, stateId);
+    public Observable<GetAllCitiesResponse> getAllCitiesResponseObservable(long stateId) {
+        return apiInterface.getAllCitiesResponseObservable(stateId);
     }
 
     public Observable<UserPointRestaurantClubResponse> getUserPointInRestaurantClub(String authToken, long restaurantId) {

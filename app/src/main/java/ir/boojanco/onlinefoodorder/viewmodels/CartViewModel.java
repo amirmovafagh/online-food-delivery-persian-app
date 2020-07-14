@@ -255,7 +255,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
     }
 
 
-    public void getReverseAddressParsiMap(Double latitude, Double longitude, String authToken) {
+    public void getReverseAddressParsiMap(Double latitude, Double longitude) {
         rx.Observable<ReverseFindAddressResponse> observable = userRepository.getReverseFindAddressResponse(latitude, longitude);
         if (observable != null) {
 
@@ -265,7 +265,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
                     userLatitude = latitude;
                     userLongitude = longitude;
                     if (state.getValue() != null) {
-                        checkAddressAndGetStateId(authToken);
+                        checkAddressAndGetStateId();
                         mapDialogCartInterface.onSuccess();
                     }
                 }
@@ -315,17 +315,17 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
         fragmentInterface.showStateCityCustomDialog();
     }
 
-    private void checkAddressAndGetStateId(String authToken) {
+    private void checkAddressAndGetStateId() {
         if (statesLists != null) {// dont let extra request
             for (AllStatesList item : statesLists) {
                 if (item.getName().contains(state.getValue())) {
                     stateId = item.getId();
-                    getCities(authToken, stateId);
+                    getCities(stateId);
 
                 }
             }
 
-        } else getStates(authToken);
+        } else getStates();
     }
 
     private void getCityId() {
@@ -339,13 +339,13 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
             }
     }
 
-    private void getStateId(String authToken) {
+    private void getStateId() {
 
         if (state.getValue() != null)
             for (AllStatesList item : statesLists) {
                 if (item.getName().contains(state.getValue())) {
                     stateId = item.getId();
-                    getCities(authToken, stateId);
+                    getCities(stateId);
                 }
             }
     }
@@ -572,13 +572,13 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
         });
     }
 
-    public void getStates(String authToken) {
-        rx.Observable<GetAllStatesResponse> observable = userRepository.getAllStatesResponseObservable(authToken);
+    public void getStates() {
+        rx.Observable<GetAllStatesResponse> observable = userRepository.getAllStatesResponseObservable();
         if (observable != null) {
             observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetAllStatesResponse>() {
                 @Override
                 public void onCompleted() {
-                    getStateId(authToken);
+                    getStateId();
                 }
 
                 @Override
@@ -611,8 +611,8 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
         }
     }
 
-    public void getCities(String authToken, long stateId) {
-        rx.Observable<GetAllCitiesResponse> observable = userRepository.getAllCitiesResponseObservable(authToken, stateId);
+    public void getCities(long stateId) {
+        rx.Observable<GetAllCitiesResponse> observable = userRepository.getAllCitiesResponseObservable(stateId);
         if (observable != null) {
             observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetAllCitiesResponse>() {
                 @Override
@@ -650,7 +650,7 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
 
     public void acceptOrder() {
 
-        if (emptyCart){
+        if (emptyCart) {
             fragmentInterface.onFailure("سبد خرید خالی است.");
             return;
         }

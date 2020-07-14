@@ -72,6 +72,16 @@
                                 android:rating="@={variables.foodQualityLiveData}"
                                 android:stepSize="0.1"
                                 app:mrb_progressTint="@color/colorGold" />
+                            <!--<com.google.android.material.slider.Slider
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:stepSize="0.1"
+                                app:labelBehavior="withinBounds"
+                                android:value="@={variables.foodQualityLiveData,default=2}"
+                                android:valueFrom="0"
+                                android:valueTo="5"
+                            />-->
 
                             <View
                                 android:layout_width="match_parent"

@@ -10,6 +10,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -27,11 +30,17 @@ import androidx.transition.TransitionManager;
 
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -54,16 +63,24 @@ import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.RestaurantFragmentBinding;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantList;
+import ir.boojanco.onlinefoodorder.models.stateCity.AllCitiesList;
+import ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList;
+import ir.boojanco.onlinefoodorder.ui.fragments.cart.CityAdapter;
+import ir.boojanco.onlinefoodorder.ui.fragments.cart.CustomStateCityDialog;
+import ir.boojanco.onlinefoodorder.ui.fragments.cart.StateAdapter;
 import ir.boojanco.onlinefoodorder.viewmodels.RestaurantViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantFragmentInterface;
+import ir.boojanco.onlinefoodorder.viewmodels.interfaces.StateCityDialogInterface;
 
-public class RestaurantFragment extends Fragment implements RestaurantFragmentInterface, RecyclerViewRestaurantClickListener {
+public class RestaurantFragment extends Fragment implements RestaurantFragmentInterface, RecyclerViewRestaurantClickListener, StateCityDialogInterface {
     private static final String TAG = RestaurantFragment.class.getSimpleName();
     @Inject
     RestaurantViewModelFactory factory;
     @Inject
     MySharedPreferences sharedPreferences;
+    @Inject
+    Application application;
     private LottieAnimationView lottie;
 
     private CoordinatorLayout mainLayout;
@@ -74,12 +91,16 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
     private HashMap<String, List<String>> listItemCategory;
     private ExpandableCategoryListAadpter categoryListAadpter;
     private HorizontalScrollView scrollViewFilterChipGroup;
-    private RestaurantViewModel restaurantViewModel;
+    private RestaurantViewModel viewModel;
     private RestaurantFragmentBinding binding;
     private RestaurantAdapter restaurantAdapter;
     private RecyclerView recyclerView;
     private Toolbar toolbar;
-    private SearchView searchView;
+    private CityAdapter cityAdapter;
+    private CustomStateCityDialog stateCityDialog;
+    private ImageButton btnSearch;
+    private EditText searchEditText;
+    private Button cityNameBtn;
     private NavController navController;
     private ArrayList<String> categoryList;
     private NestedScrollView nestedScrollView;
@@ -93,9 +114,9 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
                              @Nullable Bundle savedInstanceState) {
         ((App) getActivity().getApplication()).getComponent().inject(this);
         binding = DataBindingUtil.inflate(inflater, R.layout.restaurant_fragment, container, false);
-        restaurantViewModel = new ViewModelProvider(this, factory).get(RestaurantViewModel.class);
-        restaurantViewModel.restaurantInterface = this;
-        binding.setViewModel(restaurantViewModel);
+        viewModel = new ViewModelProvider(this, factory).get(RestaurantViewModel.class);
+        viewModel.fragmentInterface = this;
+        binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
         toolbar = binding.toolbar;
         mainLayout = binding.mainContent;
@@ -109,6 +130,9 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         categoryListAadpter = new ExpandableCategoryListAadpter(getContext(), listGroupCategory, listItemCategory);
         expandableListViewCategory.setAdapter(categoryListAadpter);
         initCategoryData();
+        btnSearch = binding.btnSearch;
+        searchEditText = binding.editTextSearch;
+        cityNameBtn = binding.btnCityName;
 
         navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
         AppBarConfiguration appBarConfiguration =
@@ -119,22 +143,6 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         nestedScrollView = binding.bottomSheetRestaurantNestedScrollview;
         sheetBehavior = BottomSheetBehavior.from(nestedScrollView);
         sheetBehavior.setGestureInsetBottomIgnored(true);
-
-        searchView = binding.search;
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-
-                return false;
-            }
-        });
 
         recyclerView = binding.recyclerViewAllRestaurant;
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplication()));
@@ -160,9 +168,46 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
 
     }
 
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        searchEditText.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE || event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                String query = searchEditText.getText().toString();
+                if (query.length() > 0) {
+                    hideKeyboard();
+                    viewModel.setRestaurantName(query);
+                    viewModel.searchBtnOnClick();
+                } else {
+                    hideKeyboard();
+                }
+            }
+            return true;
+        });
+
+        btnSearch.setOnClickListener(v -> {
+            if (searchEditText.getVisibility() == View.INVISIBLE) {
+                TransitionManager.beginDelayedTransition(mainLayout, transition);
+                btnSearch.setImageDrawable(getResources().getDrawable(R.drawable.ic_close_black_24dp));
+                searchEditText.setVisibility(View.VISIBLE);
+                searchEditText.requestFocus();
+                showKeyboard();
+                cityNameBtn.setVisibility(View.INVISIBLE);
+            } else {
+                TransitionManager.beginDelayedTransition(mainLayout, transition);
+                btnSearch.setImageDrawable(getResources().getDrawable(R.drawable.ic_search_restaurant));
+                searchEditText.setVisibility(View.INVISIBLE);
+                cityNameBtn.setVisibility(View.VISIBLE);
+                hideKeyboard();
+                if (searchEditText.getText().toString().length()>0) {
+                    viewModel.setRestaurantName(null);
+                    viewModel.searchBtnOnClick();
+                }
+            }
+        });
+
         assert getArguments() != null;
         boolean searchByLocation = getArguments().getBoolean("isSearchByLocation");
         boolean searchByCategory = getArguments().getBoolean("isSearchByCategory");
@@ -170,23 +215,23 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         sortBy = getArguments().getInt("sortByType", 0);
         if (sortBy == 0) {
             sortChipGroup.check(R.id.chip_most_relevant);
-            restaurantViewModel.sortByNameLiveData.postValue(getString(R.string.most_relevant));
+            viewModel.sortByNameLiveData.postValue(getString(R.string.most_relevant));
         } else if (sortBy == 1) {
             sortChipGroup.check(R.id.chip_more_score);
-            restaurantViewModel.sortByNameLiveData.postValue(getString(R.string.fave_resturants));
+            viewModel.sortByNameLiveData.postValue(getString(R.string.fave_resturants));
         } else {
             sortChipGroup.check(R.id.chip_newest);
-            restaurantViewModel.sortByNameLiveData.postValue(getString(R.string.new_restaurants));
+            viewModel.sortByNameLiveData.postValue(getString(R.string.new_restaurants));
         }
 
         String cityName = sharedPreferences.getCity();
-        restaurantViewModel.cityNameLiveData.postValue(cityName);
-        restaurantViewModel.setSortBy(sortBy);
+        viewModel.cityLiveData.postValue(cityName);
+        viewModel.setSortBy(sortBy);
 
 
         if (!searchByCategory && !searchByLocation && !searchByRestaurantName) //show all restaurants in the city
         {
-            restaurantViewModel.getAllSearchedRestaurant(null, cityName, null, null,
+            viewModel.getAllSearchedRestaurant(null, cityName, null, null,
                     null, null, null, null, null, sortBy);
         } else {
 
@@ -194,35 +239,52 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
             {
                 double lat = sharedPreferences.getLatitude();
                 double lon = sharedPreferences.getLongitud();
-                restaurantViewModel.getAllSearchedRestaurant(null, null, null, null,
+                viewModel.getAllSearchedRestaurant(null, null, null, null,
                         null, null, null, lat, lon, 0);
-                restaurantViewModel.setLatLon(lat, lon);
+                viewModel.setLatLon(lat, lon);
             } else if (searchByCategory) //search restaurants by category
             {
                 categoryList = new ArrayList<>();
                 categoryList.add(getArguments().getString("categoryName"));
-                restaurantViewModel.setCategoryList(categoryList);
-                restaurantViewModel.getAllSearchedRestaurant(categoryList, cityName, null, null,
+                viewModel.setCategoryList(categoryList);
+                viewModel.getAllSearchedRestaurant(categoryList, cityName, null, null,
                         null, null, null, null, null, 0);
 
             } else //search restaurants by restaurant name
             {
                 String restaurantName = getArguments().getString("restaurantName");
-                restaurantViewModel.getAllSearchedRestaurant(null, cityName, restaurantName, null,
+                viewModel.getAllSearchedRestaurant(null, cityName, restaurantName, null,
                         null, null, null, null, null, 0);
-                restaurantViewModel.setRestaurantName(restaurantName);
+                viewModel.setRestaurantName(restaurantName);
             }
         }
-        restaurantPagedListLiveData = restaurantViewModel.restaurantPagedListLiveData;
+        restaurantPagedListLiveData = viewModel.restaurantPagedListLiveData;
         restaurantPagedListLiveData.observe(getViewLifecycleOwner(), restaurantLists -> restaurantAdapter.submitList(restaurantLists));
+    }
+
+    private void hideKeyboard() {
+        // Check if no view has focus:
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+            if (inputManager != null)
+                inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+    private void showKeyboard() {
+        InputMethodManager imm = (InputMethodManager) application.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null)
+            imm.showSoftInput(searchEditText, InputMethodManager.SHOW_IMPLICIT);
     }
 
     @SuppressLint("CheckResult")
     @Override
     public void onStarted() {
-        binding.cvWaitingResponse.setVisibility(View.VISIBLE);
+
 
         Observable.fromCallable(() -> {
+            binding.cvWaitingResponse.setVisibility(View.VISIBLE);
             lottie.setAnimation(R.raw.waiting_animate_burger);
             lottie.playAnimation();
             return false;
@@ -279,13 +341,30 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
     }
 
     @Override
+    public void showStateCityCustomDialog(List<AllStatesList> statesLists) {
+        StateAdapter stateAdapter = new StateAdapter(this, application);
+        cityAdapter = new CityAdapter(this, application);
+        stateCityDialog = new CustomStateCityDialog(getActivity(), stateAdapter, statesLists, cityAdapter);
+        stateCityDialog.setCanceledOnTouchOutside(false);
+        if (stateCityDialog != null)
+            stateCityDialog.show();
+        else
+            onFailure("خطا در دریافت اطلاعات استان ها");
+    }
+
+    @Override
+    public void onSuccessGetCities(List<AllCitiesList> allCitiesLists) {
+        cityAdapter.setCitiesLists(allCitiesLists);
+    }
+
+    @Override
     public void updateRestaurantsRecyclerView(Object categoryList, Object city, Object restaurantName, Object deliveryFilter, Object discountFilter, Object servingFilter, Object getInPlaceFilter, Object latitude, Object longitude, Object sortBy) {
-        restaurantViewModel.getAllSearchedRestaurant(categoryList, city,
+        viewModel.getAllSearchedRestaurant(categoryList, city,
                 restaurantName, deliveryFilter, discountFilter, servingFilter, getInPlaceFilter,
                 latitude, longitude, sortBy);
         if (restaurantPagedListLiveData.hasObservers()) {
             restaurantPagedListLiveData.removeObservers(getActivity());
-            restaurantPagedListLiveData = restaurantViewModel.restaurantPagedListLiveData;
+            restaurantPagedListLiveData = viewModel.restaurantPagedListLiveData;
             restaurantPagedListLiveData.observe(getViewLifecycleOwner(), restaurantLists -> restaurantAdapter.submitList(restaurantLists));
         }
         if (sheetBehavior != null) {
@@ -312,5 +391,20 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
                 navController.navigate(R.id.action_restaurantFragment_to_restaurantDetailsFragment, bundle);
                 break;
         }
+    }
+
+    @Override
+    public void onStateItemClick(AllStatesList state) {
+        sharedPreferences.setState(state.getName());
+        viewModel.stateLiveData.postValue(state.getName());
+        viewModel.getCities(state.getId());
+    }
+
+    @Override
+    public void onCityItemClick(AllCitiesList city) {
+        sharedPreferences.setCity(city.getName());
+        viewModel.cityLiveData.setValue(city.getName());
+        stateCityDialog.dismiss();
+        viewModel.searchBtnOnClick();
     }
 }

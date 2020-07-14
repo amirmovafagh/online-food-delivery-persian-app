@@ -371,7 +371,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
                     userLatitude = latitude;
                     userLongitude = longitude;
                     if (state.getValue() != null) {
-                        checkAddressAndGetStateId(authToken);
+                        checkAddressAndGetStateId();
                         mapDialogInterface.onSuccess();
                     }
                 }
@@ -412,17 +412,17 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         userProfileInterface.showStateCityCustomDialog();
     }
 
-    private void checkAddressAndGetStateId(String authToken) {
+    private void checkAddressAndGetStateId() {
         if (statesLists != null) {// dont let extra request
             for (AllStatesList item : statesLists) {
                 if (item.getName().contains(state.getValue())) {
                     stateId = item.getId();
-                    getCities(authToken, stateId);
+                    getCities(stateId);
 
                 }
             }
 
-        } else getStates(authToken);
+        } else getStates();
     }
 
     private void getCityId() {
@@ -436,24 +436,24 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
             }
     }
 
-    private void getStateId(String authToken) {
+    private void getStateId() {
 
         if (state.getValue() != null)
             for (AllStatesList item : statesLists) {
                 if (item.getName().contains(state.getValue())) {
                     stateId = item.getId();
-                    getCities(authToken, stateId);
+                    getCities(stateId);
                 }
             }
     }
 
-    public void getStates(String authToken) {
-        rx.Observable<GetAllStatesResponse> observable = userRepository.getAllStatesResponseObservable(authToken);
+    public void getStates() {
+        rx.Observable<GetAllStatesResponse> observable = userRepository.getAllStatesResponseObservable();
         if (observable != null) {
             observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetAllStatesResponse>() {
                 @Override
                 public void onCompleted() {
-                    getStateId(authToken);
+                    getStateId();
                 }
 
                 @Override
@@ -484,8 +484,8 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         }
     }
 
-    public void getCities(String authToken, long stateId) {
-        rx.Observable<GetAllCitiesResponse> observable = userRepository.getAllCitiesResponseObservable(authToken, stateId);
+    public void getCities(long stateId) {
+        rx.Observable<GetAllCitiesResponse> observable = userRepository.getAllCitiesResponseObservable(stateId);
         if (observable != null) {
             observable.subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetAllCitiesResponse>() {
                 @Override
@@ -699,7 +699,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
     }
 
     public void editUserAddress(UserAddressList userAddress) {
-        getStates(userAuthToken);
+        getStates();
         bottomSheetChangeVisibility.setValue(true);
         addressFunctionFlag = 2; // edit function
         addressBottomSheetTitle.setValue("تغییر آدرس");

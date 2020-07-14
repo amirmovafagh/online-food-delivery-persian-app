@@ -126,9 +126,10 @@ public class PaymentFragment extends Fragment implements PaymentInterface {
 
     @Override
     public void onFailure(String Error) {
+        binding.cvWaitingResponse.setVisibility(View.GONE);
         Snackbar snackbar = Snackbar.make(binding.mainContent, "" + Error, Snackbar.LENGTH_SHORT);
         snackbar.show();
-        binding.cvWaitingResponse.setVisibility(View.GONE);
+
     }
 
     @Override

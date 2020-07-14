@@ -291,8 +291,7 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
 
     @Override
     public void showMapDialogFragment() {
-        viewModel.getStates(sharedPreferences.getUserAuthTokenKey()); //get States once
-
+        viewModel.getStates(); //get States once
         fragmentTransaction = getChildFragmentManager().beginTransaction();
         fragment = getChildFragmentManager().findFragmentByTag("dialog");
         if (fragment != null) {
@@ -352,7 +351,7 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
         viewModel.stateId = state.getId();
         viewModel.state.setValue(state.getName());
         viewModel.city.setValue(null);
-        viewModel.getCities(sharedPreferences.getUserAuthTokenKey(), state.getId());
+        viewModel.getCities(state.getId());
     }
 
     @Override

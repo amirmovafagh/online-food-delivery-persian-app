@@ -1,5 +1,7 @@
 package ir.boojanco.onlinefoodorder.ui.fragments.home;
 
+import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -16,10 +18,16 @@ import ir.boojanco.onlinefoodorder.models.food.FoodCategories;
 public class FoodCategorySearchAdapter extends RecyclerView.Adapter<FoodCategorySearchAdapter.FoodCategorySearchAdapterViewHolder> {
 
     List<FoodCategories> foodCategories;
+    Context context;
     FoodCategorySearchInterface rvInterface;
 
-    public FoodCategorySearchAdapter(FoodCategorySearchInterface rvInterface) {
+    int categoryIcons[] = {R.drawable.ic_fast_food, R.drawable.ic_burger, R.drawable.ic_pizza, R.drawable.ic_sandwich,
+            R.drawable.ic_hotdog, R.drawable.ic_fried_chicken, R.drawable.ic_rice, R.drawable.ic_coffee, R.drawable.ic_chinese_food,
+            R.drawable.ic_italian_food, R.drawable.ic_kebab, R.drawable.ic_vegetables_food, R.drawable.ic_seafood, R.drawable.ic_desert};
+
+    public FoodCategorySearchAdapter(Context context, FoodCategorySearchInterface rvInterface) {
         this.rvInterface = rvInterface;
+        this.context = context;
     }
 
     @NonNull
@@ -35,6 +43,12 @@ public class FoodCategorySearchAdapter extends RecyclerView.Adapter<FoodCategory
         FoodCategories currentItem = foodCategories.get(position);
         holder.binding.setItem(currentItem);
         holder.binding.cardView.setOnClickListener(v -> rvInterface.onCategoryClick(currentItem.getName()));
+        if (position <= 13)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { //>= API 21
+                holder.binding.imgFood.setImageDrawable(context.getResources().getDrawable(categoryIcons[position], context.getApplicationContext().getTheme()));
+            } else {
+                holder.binding.imgFood.setImageDrawable(context.getResources().getDrawable(categoryIcons[position]));
+            }
     }
 
     public void setFoodCategoryItems(List<FoodCategories> foodCategories) {

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -255,14 +256,15 @@ public class PaymentViewModel extends ViewModel {
 
                 @Override
                 public void onNext(CartOrderResponse response) {
-                    if (response.getState().equals("PAYED_WITH_TOKEN"))
+                    if (response.getState().equals("PAYED_WITH_TOKEN")) {
                         if (response.getToken() != null) {
                             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://sadad.shaparak.ir/Purchase?token=" + response.getToken()));
                             browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(browserIntent);
                         }
-                    else if(response.getState().equals("PAYED_BY_WALLET"))
+                    } else if (response.getState().equals("PAYED_BY_WALLET")) {
                         paymentInterface.onFailure("پرداخت با کیف پول انجام شد");
+                    }
                 }
             });
         }

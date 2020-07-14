@@ -53,7 +53,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
-                        <androidx.appcompat.widget.SearchView
+                        <ImageButton
+                            android:id="@+id/btn_search"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:background="?android:selectableItemBackground"
+                            android:padding="4dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toLeftOf="@id/btn_city_name"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_search_restaurant" />
+                        <!--<androidx.appcompat.widget.SearchView
                             android:id="@+id/search"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -65,56 +77,62 @@
                             app:defaultQueryHint="@string/search_title"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintRight_toLeftOf="@id/city_name"
+                            app:layout_constraintRight_toLeftOf="@id/btn_city_name"
                             app:layout_constraintTop_toTopOf="parent"
                             app:queryBackground="@color/transparent"
-                            app:searchHintIcon="@null" />
+                            app:searchHintIcon="@null" />-->
 
-                       <!-- <TextView
-                            android:id="@+id/city_name"
+                        <!-- <TextView
+                             android:id="@+id/city_name"
+                             android:layout_width="0dp"
+                             android:layout_height="wrap_content"
+                             android:text="@{viewModel.cityNameLiveData, default=شهر}"
+                             android:textColor="@color/materialGray900"
+                             android:textSize="@dimen/body1_paragraph_font_size"
+                             app:layout_constraintBottom_toBottomOf="parent"
+                             app:layout_constraintLeft_toRightOf="@id/search"
+                             app:layout_constraintRight_toRightOf="parent"
+                             app:layout_constraintTop_toTopOf="parent" />-->
+
+                        <EditText
+                            android:id="@+id/edit_text_search"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="@{viewModel.cityNameLiveData, default=شهر}"
+                            android:ellipsize="end"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:hint="@string/search_title"
+                            android:imeOptions="actionDone"
+                            android:lines="1"
+                            android:maxLines="1"
+                            android:singleLine="true"
                             android:textColor="@color/materialGray900"
                             android:textSize="@dimen/body1_paragraph_font_size"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintLeft_toRightOf="@id/search"
+                            app:layout_constraintHorizontal_chainStyle="spread_inside"
+                            app:layout_constraintLeft_toRightOf="@id/btn_search"
                             app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />-->
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/city_view_layout"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                            android:layout_width="0dp"
+                        <Button
+                            android:id="@+id/btn_city_name"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:boxBackgroundColor="@color/transparent"
-                            app:hintEnabled="false"
-                            app:counterTextColor="@color/materialGray900"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
+                            android:onClick="@{()-> viewModel.selectCityOnClick()}"
+                            android:text="@{viewModel.cityLiveData, default=شهر}"
                             android:textSize="@dimen/body1_paragraph_font_size"
+                            app:cornerRadius="@dimen/button_corner_radius"
+                            app:icon="@drawable/ic_location"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintLeft_toRightOf="@id/search"
+                            app:layout_constraintHorizontal_chainStyle="spread_inside"
+                            app:layout_constraintLeft_toRightOf="@id/btn_search"
                             app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/my_spinner"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@color/transparent"
-                                android:cursorVisible="false"
-                                android:drawableEnd="@drawable/ic_keyboard_arrow_down_black_24dp"
-                                android:drawablePadding="8dp"
-                                android:ellipsize="end"
-                                android:focusable="false"
-                                android:focusableInTouchMode="false"
-                                android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
-                                android:includeFontPadding="false"
-                                android:textColor="@color/materialGray900"
-                                android:maxLines="1"
-                                android:text="@{viewModel.cityNameLiveData, default=شهر}"
-                                android:textSize="@dimen/body1_paragraph_font_size" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.appcompat.widget.Toolbar>
             </androidx.cardview.widget.CardView>
@@ -123,6 +141,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_scrollFlags="scroll|snap|enterAlways">
+
                 <Button
                     android:id="@+id/btn_sort_restaurants"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -313,7 +332,7 @@
             android:id="@+id/cv_waiting_response"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible"
+            android:visibility="gone"
             app:cardBackgroundColor="@color/materialGray100"
             app:cardElevation="4dp"
             app:layout_constraintBottom_toBottomOf="parent"

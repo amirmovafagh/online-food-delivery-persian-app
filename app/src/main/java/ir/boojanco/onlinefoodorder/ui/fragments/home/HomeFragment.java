@@ -133,7 +133,7 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
         recyclerViewFoodTypeSearchFilter.setLayoutManager(new LinearLayoutManager(getActivity().getApplication(), LinearLayoutManager.HORIZONTAL, false));
         recyclerViewFoodTypeSearchFilter.canScrollHorizontally(0);
         recyclerViewFoodTypeSearchFilter.setHasFixedSize(true);
-        adapter = new FoodCategorySearchAdapter(this);
+        adapter = new FoodCategorySearchAdapter(getContext(), this);
         recyclerViewFoodTypeSearchFilter.setAdapter(adapter);
         recyclerViewFoodTypeSearchFilter.setItemViewCacheSize(20);
         searchEditText = binding.search;
@@ -145,7 +145,7 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
         Uri data = getActivity().getIntent().getData();
         if (data != null && data.isHierarchical()) {
             String uri = getActivity().getIntent().getDataString();
-            Toast.makeText(application, "AMIR "+uri, Toast.LENGTH_SHORT).show();
+            Toast.makeText(application, "AMIR " + uri, Toast.LENGTH_SHORT).show();
         }
 
         return binding.getRoot();
@@ -329,7 +329,7 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
         sharedPreferences.setState(state.getName());
         viewModel.stateLiveData.postValue(state.getName());
         viewModel.cityLiveData.setValue("شهر را انتخاب کنید");
-        viewModel.getCities(sharedPreferences.getUserAuthTokenKey(), state.getId());
+        viewModel.getCities(state.getId());
     }
 
     @Override

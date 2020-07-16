@@ -54,116 +54,183 @@
                             android:orientation="vertical"
                             android:padding="8dp">
 
-                            <TextView
+                            <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="@string/foodQuality"
-                                android:textSize="@dimen/body1_paragraph_font_size" />
+                                android:layout_height="wrap_content">
 
-                            <me.zhanghai.android.materialratingbar.MaterialRatingBar
-                                style="@style/Widget.MaterialRatingBar.RatingBar"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="4dp"
-                                android:isIndicator="@{variables.rateBarStateLiveData , default=true}"
-                                android:layoutDirection="ltr"
-                                android:numStars="5"
-                                android:rating="@={variables.foodQualityLiveData}"
-                                android:stepSize="0.1"
-                                app:mrb_progressTint="@color/colorGold" />
-                            <!--<com.google.android.material.slider.Slider
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:stepSize="0.1"
-                                app:labelBehavior="withinBounds"
-                                android:value="@={variables.foodQualityLiveData,default=2}"
-                                android:valueFrom="0"
-                                android:valueTo="5"
-                            />-->
+                                <TextView
+                                    android:id="@+id/txt_quality"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:ellipsize="end"
+                                    android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
+                                    android:maxLines="2"
+                                    android:padding="8dp"
+                                    android:text="@string/foodQuality"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/body2_paragraph_font_size"
+                                    app:layout_constraintBottom_toBottomOf="@id/rate_quality"
+                                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                                    app:layout_constraintLeft_toRightOf="@id/rate_quality"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                                    android:id="@+id/rate_quality"
+                                    style="@style/Widget.MaterialRatingBar.RatingBar"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:isIndicator="@{variables.rateBarStateLiveData , default=true}"
+                                    android:layoutDirection="ltr"
+                                    android:numStars="5"
+                                    android:rating="@={variables.foodQualityLiveData}"
+                                    android:stepSize="0.1"
+                                    app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintRight_toLeftOf="@id/txt_quality"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:mrb_progressTint="@color/colorGold" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
 
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
-                                android:layout_margin="4dp"
+                                android:layout_margin="6dp"
                                 android:background="?android:attr/listDivider" />
 
-                            <TextView
+                            <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="@string/systemQuality"
-                                android:textSize="@dimen/body1_paragraph_font_size" />
+                                android:layout_height="wrap_content">
 
-                            <me.zhanghai.android.materialratingbar.MaterialRatingBar
-                                style="@style/Widget.MaterialRatingBar.RatingBar"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="4dp"
-                                android:isIndicator="@{variables.rateBarStateLiveData , default=true}"
-                                android:layoutDirection="ltr"
-                                android:numStars="5"
-                                android:rating="@={variables.systemExLiveData}"
-                                android:stepSize="0.1"
-                                app:mrb_progressTint="@color/colorGold" />
+                                <TextView
+                                    android:id="@+id/txt_sys_quality"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:ellipsize="end"
+                                    android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
+                                    android:maxLines="2"
+                                    android:padding="8dp"
+                                    android:text="@string/systemQuality"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/body2_paragraph_font_size"
+                                    app:layout_constraintBottom_toBottomOf="@id/rate_sys_quality"
+                                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                                    app:layout_constraintLeft_toRightOf="@id/rate_sys_quality"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                                    android:id="@+id/rate_sys_quality"
+                                    style="@style/Widget.MaterialRatingBar.RatingBar"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:isIndicator="@{variables.rateBarStateLiveData , default=true}"
+                                    android:layoutDirection="ltr"
+                                    android:numStars="5"
+                                    android:rating="@={variables.systemExLiveData}"
+                                    android:stepSize="0.1"
+                                    app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintRight_toLeftOf="@id/txt_sys_quality"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:mrb_progressTint="@color/colorGold" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
-                                android:layout_margin="4dp"
+                                android:layout_margin="6dp"
                                 android:background="?android:attr/listDivider" />
 
-                            <TextView
+                            <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="@string/arrivalTime"
-                                android:textSize="@dimen/body1_paragraph_font_size" />
+                                android:layout_height="wrap_content">
 
-                            <me.zhanghai.android.materialratingbar.MaterialRatingBar
-                                style="@style/Widget.MaterialRatingBar.RatingBar"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="4dp"
-                                android:isIndicator="@{variables.rateBarStateLiveData , default=true}"
-                                android:layoutDirection="ltr"
-                                android:numStars="5"
-                                android:rating="@={variables.arrivalTimeLiveData}"
-                                android:stepSize="0.1"
-                                app:mrb_progressTint="@color/colorGold" />
+                                <TextView
+                                    android:id="@+id/txt_time"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:ellipsize="end"
+                                    android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
+                                    android:maxLines="2"
+                                    android:padding="8dp"
+                                    android:text="@string/arrivalTime"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/body2_paragraph_font_size"
+                                    app:layout_constraintBottom_toBottomOf="@id/rate_time"
+                                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                                    app:layout_constraintLeft_toRightOf="@id/rate_time"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                                    android:id="@+id/rate_time"
+                                    style="@style/Widget.MaterialRatingBar.RatingBar"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:isIndicator="@{variables.rateBarStateLiveData , default=true}"
+                                    android:layoutDirection="ltr"
+                                    android:numStars="5"
+                                    android:rating="@={variables.arrivalTimeLiveData}"
+                                    android:stepSize="0.1"
+                                    app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintRight_toLeftOf="@id/txt_time"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:mrb_progressTint="@color/colorGold" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
-                                android:layout_margin="4dp"
-
+                                android:layout_margin="6dp"
                                 android:background="?android:attr/listDivider" />
 
-                            <TextView
+                            <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="@string/personnelBehaviour"
-                                android:textSize="@dimen/body1_paragraph_font_size" />
+                                android:layout_height="wrap_content">
 
-                            <me.zhanghai.android.materialratingbar.MaterialRatingBar
-                                style="@style/Widget.MaterialRatingBar.RatingBar"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="4dp"
-                                android:isIndicator="@{variables.rateBarStateLiveData , default=true}"
-                                android:layoutDirection="ltr"
-                                android:numStars="5"
-                                android:rating="@={variables.personnelBehaviourLiveData}"
-                                android:stepSize="0.1"
-                                app:mrb_progressTint="@color/colorGold" />
+                                <TextView
+                                    android:id="@+id/txt_behaviour"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:ellipsize="end"
+                                    android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
+                                    android:maxLines="2"
+                                    android:padding="8dp"
+                                    android:text="@string/personnelBehaviour"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/body2_paragraph_font_size"
+                                    app:layout_constraintBottom_toBottomOf="@id/rate_behaviour"
+                                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                                    app:layout_constraintLeft_toRightOf="@id/rate_behaviour"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                                    android:id="@+id/rate_behaviour"
+                                    style="@style/Widget.MaterialRatingBar.RatingBar"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:isIndicator="@{variables.rateBarStateLiveData , default=true}"
+                                    android:layoutDirection="ltr"
+                                    android:numStars="5"
+                                    android:rating="@={variables.personnelBehaviourLiveData}"
+                                    android:stepSize="0.1"
+                                    app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintRight_toLeftOf="@id/txt_behaviour"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:mrb_progressTint="@color/colorGold" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
-                                android:layout_margin="4dp"
+                                android:layout_margin="6dp"
                                 android:background="?android:attr/listDivider" />
 
                             <com.google.android.material.textfield.TextInputLayout
@@ -171,10 +238,7 @@
                                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="25dp"
-                                android:layout_marginLeft="25dp"
-                                android:layout_marginEnd="25dp"
-                                android:layout_marginRight="25dp"
+                                android:layout_margin="8dp"
                                 android:hint="@string/yourComment"
                                 app:boxBackgroundColor="@color/transparent">
 
@@ -188,23 +252,54 @@
                                     android:maxLength="999"
                                     android:text="@={variables.userCommentLiveData}"
                                     android:textAlignment="center"
+                                    android:textColor="@color/black"
                                     android:textSize="@dimen/edit_text_font_size" />
 
                             </com.google.android.material.textfield.TextInputLayout>
 
-                            <Button
-                                android:id="@+id/btn_accept_comment"
-                                style="@style/Widget.MaterialComponents.FloatingActionButton"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:maxLines="1"
-                                android:onClick="@{()-> variables.commentButtonOnClick()}"
-                                android:text="@string/acceptComment"
-                                android:textSize="@dimen/body3_paragraph_font_size"
-                                android:textStyle="bold"
-                                android:visibility="@{variables.acceptButtonStateLiveData ? View.VISIBLE : View.GONE}"
-                                app:cornerRadius="@dimen/button_corner_radius" />
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <Button
+                                    android:id="@+id/btn_accept_comment"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="8dp"
+                                    android:maxLines="1"
+                                    android:minWidth="100dp"
+                                    android:onClick="@{()-> variables.commentButtonOnClick()}"
+                                    android:text="@string/acceptComment"
+                                    android:textSize="@dimen/body3_paragraph_font_size"
+                                    android:textStyle="bold"
+                                    android:visibility="@{variables.acceptButtonStateLiveData ? View.VISIBLE : View.GONE}"
+                                    app:cornerRadius="@dimen/button_corner_radius"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintLeft_toRightOf="@id/btn_close_comment"/>
+
+                                <Button
+                                    android:id="@+id/btn_close_comment"
+                                    android:layout_width="wrap_content"
+                                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="8dp"
+                                    android:maxLines="1"
+                                    android:minWidth="100dp"
+                                    android:onClick="@{()-> variables.commentButtonCloseOnClick()}"
+                                    android:text="@string/closeWindow"
+                                    android:textSize="@dimen/body3_paragraph_font_size"
+                                    android:textStyle="bold"
+                                    android:visibility="@{variables.acceptButtonStateLiveData ? View.VISIBLE : View.GONE}"
+                                    app:cornerRadius="@dimen/button_corner_radius"
+                                    app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="@id/btn_accept_comment"
+                                    app:layout_constraintRight_toLeftOf="@id/btn_accept_comment"/>
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 

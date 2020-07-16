@@ -73,9 +73,9 @@
     <string name="yourFavoriteFoods">غذا\u200cهای مورد علاقه شما</string>
     <string name="yourFavoriteRestaurants">رستوران\u200cهای مورد علاقه شما</string>
     <string name="showOrderAndAddComment">مشاهده / ثبت نظر</string>
-    <string name="foodQuality">کیفیت غذا</string>
-    <string name="arrivalTime">دریافت به موقع</string>
-    <string name="personnelBehaviour">رضایت مندی از پرسنل رستوران</string>
+    <string name="foodQuality">کیفیت غذا:</string>
+    <string name="arrivalTime">زمان سرویس‌دهی:</string>
+    <string name="personnelBehaviour">برخورد پرسنل و پیک:</string>
     <string name="yourComment">نظر شما</string>
     <string name="acceptComment">ثبت</string>
     <string name="systemQuality">کیفیت سیستم</string>
@@ -97,6 +97,7 @@
     <string name="UNIVERSITY">دانشگاه</string>
     <string name="tagAddress">عنوان آدرس</string>
     <string name="close">بسته</string>
+    <string name="closeWindow">بستن</string>
     <string name="lackOfService">عدم سرویس دهی</string>
     <string name="type_food_name">وعده غذایی</string>
     <string name="start_time">زمان شروع به کار</string>

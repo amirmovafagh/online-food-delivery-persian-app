@@ -6,6 +6,10 @@
     <corners android:radius="@dimen/little_view_corner_radius" />
 
     <!-- TabLayout background color -->
+<!--
     <solid android:color="@color/restaurantDetailsCardViewBackground" />
+-->
+    <solid android:color="@color/transparent" />
+
 
 </shape>

@@ -332,7 +332,7 @@
             android:id="@+id/cv_waiting_response"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
+            android:visibility="visible"
             app:cardBackgroundColor="@color/materialGray100"
             app:cardElevation="4dp"
             app:layout_constraintBottom_toBottomOf="parent"

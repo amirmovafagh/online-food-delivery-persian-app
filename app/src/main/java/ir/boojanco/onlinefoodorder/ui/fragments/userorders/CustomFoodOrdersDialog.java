@@ -123,4 +123,8 @@ public class CustomFoodOrdersDialog extends Dialog {
         } else
             dialogInterface.showMessage("لطفا فیلد های موردنظر را تکمیل کنید");
     }
+
+    public void commentButtonCloseOnClick() {
+        this.cancel();
+    }
 }

@@ -96,7 +96,7 @@ public class MapDialogProfileFragment extends DialogFragment implements OnMapRea
                 if (marker != null)
                     marker.remove();
                 marker = googleMap.addMarker(new MarkerOptions().position(latLng).title("آدرس من"));
-                userProfileViewModel.getReverseAddressParsimap(latLng.latitude, latLng.longitude, sharedPreferences.getUserAuthTokenKey());
+                userProfileViewModel.getReverseAddressParsimap(latLng.latitude, latLng.longitude);
 
             });
         }

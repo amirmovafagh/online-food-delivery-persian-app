@@ -71,7 +71,7 @@ public class FavoriteRestaurants {
     }
 
     public String getCover() {
-        return webServerMediaRoute+cover;
+        return webServerMediaRoute + cover;
     }
 
     public void setCover(String cover) {
@@ -79,7 +79,7 @@ public class FavoriteRestaurants {
     }
 
     public String getLogo() {
-        return webServerMediaRoute+logo;
+        return webServerMediaRoute + logo;
     }
 
     public void setLogo(String logo) {

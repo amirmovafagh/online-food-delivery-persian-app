@@ -75,8 +75,18 @@ public class RestaurantList {
         StringBuilder tagListString = new StringBuilder();
         tagListString.append(" ");
         if (tagList != null)
-            for (String t : tagList) {
-                tagListString.append("(").append(t).append(")").append(" ");
+            /*for (String t : tagList) {
+                tagList.size()
+                tagListString.append(t).append(" • ");
+            }*/
+            for (int i = 0; i < tagList.size(); i++) {
+                String t = tagList.get(i);
+                if (i == tagList.size() - 1) {
+                    tagListString.append(t);
+                } else {
+                    tagListString.append(t).append(" • ");
+                }
+
             }
         return tagListString.toString();
     }

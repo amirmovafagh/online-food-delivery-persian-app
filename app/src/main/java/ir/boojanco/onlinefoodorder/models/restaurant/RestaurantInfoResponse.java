@@ -126,7 +126,7 @@ public class RestaurantInfoResponse implements Serializable {
     }
 
     public String getCover() {
-        return webServerMediaRoute+cover;
+        return webServerMediaRoute + cover;
     }
 
     public boolean isDelivery() {
@@ -146,14 +146,14 @@ public class RestaurantInfoResponse implements Serializable {
     }
 
     public String getLogo() {
-        return webServerMediaRoute+logo;
+        return webServerMediaRoute + logo;
     }
 
     public String getMinimumOrder() {
 
         NumberFormat formatter = new DecimalFormat("#,###");
         String formattedNumber = formatter.format(minimumOrder);
-        return " تومان "+formattedNumber;
+        return " تومان " + formattedNumber;
     }
 
     public String getName() {
@@ -163,9 +163,10 @@ public class RestaurantInfoResponse implements Serializable {
     public String getPackingCost() {
         NumberFormat formatter = new DecimalFormat("#,###");
         String formattedNumber = formatter.format(packingCost);
-        return " تومان "+formattedNumber;
+        return " تومان " + formattedNumber;
 
     }
+
     public int getPackingCostInt() {
 
         return packingCost;
@@ -176,14 +177,14 @@ public class RestaurantInfoResponse implements Serializable {
 
         NumberFormat formatter = new DecimalFormat("#,###");
         String formattedNumber = formatter.format(shippingCostInCloseRegions);
-        return "داخل محدوده "+formattedNumber+" تومان";
+        return "داخل محدوده " + formattedNumber + " تومان";
 
     }
 
     public String getShippingCostOutRegion() {
         NumberFormat formatter = new DecimalFormat("#,###");
         String formattedNumber = formatter.format(shippingCostInServiceArea);
-        return "خارج از محدوده "+formattedNumber+" تومان";
+        return "خارج از محدوده " + formattedNumber + " تومان";
     }
 
     public String getPhoneNumber() {
@@ -191,15 +192,24 @@ public class RestaurantInfoResponse implements Serializable {
     }
 
     public String getRegion() {
-        return region+" ";
+        return region + " ";
     }
 
     public String getTagList() {
-        StringBuilder tagListString= new StringBuilder();
+        StringBuilder tagListString = new StringBuilder();
         tagListString.append(" ");
-        if(tagList != null)
-            for(String t : tagList){
+        if (tagList != null)
+            /*for(String t : tagList){
                 tagListString.append("(").append(t).append(")").append(" ");
+            }*/
+            for (int i = 0; i < tagList.size(); i++) {
+                String t = tagList.get(i);
+                if (i == tagList.size() - 1) {
+                    tagListString.append(t);
+                } else {
+                    tagListString.append(t).append(" • ");
+                }
+
             }
         return tagListString.toString();
     }

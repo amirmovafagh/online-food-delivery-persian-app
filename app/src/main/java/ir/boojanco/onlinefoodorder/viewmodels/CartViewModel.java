@@ -293,8 +293,8 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
                 @Override
                 public void onNext(ReverseFindAddressResponse reverseFindAddressResponse) {
 
-                    state.setValue(reverseFindAddressResponse.getResult().get(0).getTitle());
-                    city.setValue(reverseFindAddressResponse.getResult().get(3).getTitle());
+                    state.setValue(reverseFindAddressResponse.getState());
+                    city.setValue(reverseFindAddressResponse.getCity());
                     region.setValue(reverseFindAddressResponse.getShortAddress());
                     fragmentInterface.onFailure("" + reverseFindAddressResponse.getShortAddress() + "  " + state.getValue() + "  " + city.getValue());
                 }

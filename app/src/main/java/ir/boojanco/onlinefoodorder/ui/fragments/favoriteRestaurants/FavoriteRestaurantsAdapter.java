@@ -46,12 +46,20 @@ public class FavoriteRestaurantsAdapter extends PagedListAdapter<FavoriteRestaur
     }
 
     public String getTagList(List<String> tagList) {
-        StringBuilder tagListString= new StringBuilder();
+        StringBuilder tagListString = new StringBuilder();
         tagListString.append(" ");
-        if(tagList != null)
-            for(String t : tagList){
+        if (tagList != null)
+            /*for(String t : tagList){
                 tagListString.append("(").append(t).append(")").append(" ");
+            }*/ for (int i = 0; i < tagList.size(); i++) {
+            String t = tagList.get(i);
+            if (i == tagList.size() - 1) {
+                tagListString.append(t);
+            } else {
+                tagListString.append(t).append(" • ");
             }
+
+        }
         return tagListString.toString();
     }
 

@@ -308,7 +308,7 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
 
                 @Override
                 public void onNext(GetAllCitiesResponse getAllCitiesResponse) {
-
+                    cityLiveData.setValue(getAllCitiesResponse.getAllCitiesLists().get(0).getName());//set the main province city if dont select any city
                     fragmentInterface.onSuccessGetCities(getAllCitiesResponse.getAllCitiesLists());
                 }
             });

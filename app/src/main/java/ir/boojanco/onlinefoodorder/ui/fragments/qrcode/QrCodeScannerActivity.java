@@ -5,10 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.PointF;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
+import com.google.android.material.snackbar.Snackbar;
 
 import ir.boojanco.onlinefoodorder.R;
 
@@ -16,6 +20,7 @@ public class QrCodeScannerActivity extends AppCompatActivity implements QRCodeRe
 
 
     private QRCodeReaderView qrCodeReaderView;
+    private Button scanAgainButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,12 @@ public class QrCodeScannerActivity extends AppCompatActivity implements QRCodeRe
 
         // Use this function to set back camera preview
         qrCodeReaderView.setBackCamera();
+
+        scanAgainButton = findViewById(R.id.scan_again);
+        scanAgainButton.setOnClickListener(v -> {
+            qrCodeReaderView.startCamera();
+            scanAgainButton.setVisibility(View.GONE);
+        });
     }
 
     // Called when a QR is decoded
@@ -42,8 +53,37 @@ public class QrCodeScannerActivity extends AppCompatActivity implements QRCodeRe
     // "points" : points where QR control points are placed in View
     @Override
     public void onQRCodeRead(String text, PointF[] points) {
-        Toast.makeText(this, ""+text, Toast.LENGTH_SHORT).show();
+        if (text.contains("mazee")) {
+            String[] str = text.split("/");
+            //4 index is restaurant id
+            if (isNumeric(str[4])) {
+                Toast.makeText(this, "ogeye", Toast.LENGTH_SHORT).show();
+                qrCodeReaderView.stopCamera();
+            } else {
+                Toast.makeText(this, "خطا در بررسی اطلاعات رستوران", Toast.LENGTH_SHORT).show();
+                qrCodeReaderView.stopCamera();
+            }
+        } else {
+            Toast.makeText(this, "لطفا از QR های مزه استفاده کنید", Toast.LENGTH_SHORT).show();
+            qrCodeReaderView.stopCamera();
+        }
+        if (scanAgainButton.getVisibility() == View.GONE) {
+            scanAgainButton.setVisibility(View.VISIBLE);
+        }
     }
+
+    public boolean isNumeric(String str) {
+        if (str == null) {
+            return false;
+        }
+        for (int i = 0; i < str.length(); i++) {
+            if (!Character.isDigit(str.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     @Override
     protected void onResume() {

@@ -90,6 +90,7 @@
 
     <string name="showCart">مشاهده سبد خرید</string>
     <string name="mazBin">مزبین</string>
+    <string name="findRestaurantsAccordingToLocation">یافتن\nرستوران\u200cهای\nدلخواه شما</string>
     <string name="scanMazeeBarcode">اسکن QR کد مزه</string>
     <string name="qrCodeFragmentDetails">فقط کافیه QR کد رستورانی که اونجا حضور داری رو اسکن کنی تا منو غذاهای خوشمزشون رو ببینی</string>
     <string name="workPlace">محل کار</string>

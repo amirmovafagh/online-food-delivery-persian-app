@@ -63,7 +63,7 @@ public class HomeViewModel extends ViewModel {
         rx.Observable<GetAllStatesResponse> observable = restaurantRepository.getAllStatesResponseObservable();
         if (observable != null) {
             stateProgressBar.setValue(true); //show progress bar
-            observable.retry(3).subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetAllStatesResponse>() {
+            observable.retry(1).subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetAllStatesResponse>() {
                 @Override
                 public void onCompleted() {
                 }
@@ -101,7 +101,7 @@ public class HomeViewModel extends ViewModel {
     public void getCities(long stateId) {
         rx.Observable<GetAllCitiesResponse> observable = restaurantRepository.getAllCitiesResponseObservable(stateId);
         if (observable != null) {
-            observable.retry(3).subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetAllCitiesResponse>() {
+            observable.retry(1).subscribeOn(rx.schedulers.Schedulers.io()).observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Subscriber<GetAllCitiesResponse>() {
                 @Override
                 public void onCompleted() {
 
@@ -129,7 +129,7 @@ public class HomeViewModel extends ViewModel {
 
                 @Override
                 public void onNext(GetAllCitiesResponse getAllCitiesResponse) {
-
+                    cityLiveData.setValue(getAllCitiesResponse.getAllCitiesLists().get(0).getName());//set the main province city if dont select any city
                     fragmentInterface.onSuccessGetCities(getAllCitiesResponse.getAllCitiesLists());
                 }
             });

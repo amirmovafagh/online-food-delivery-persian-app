@@ -362,7 +362,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
         userProfileInterface.showMapDialogFragment();
     }
 
-    public void getReverseAddressParsimap(Double latitude, Double longitude, String authToken) {
+    public void getReverseAddressParsimap(Double latitude, Double longitude) {
         Observable<ReverseFindAddressResponse> observable = userRepository.getReverseFindAddressResponse(latitude, longitude);
         if (observable != null) {
             observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<ReverseFindAddressResponse>() {
@@ -398,8 +398,8 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
 
                 @Override
                 public void onNext(ReverseFindAddressResponse reverseFindAddressResponse) {
-                    state.setValue(reverseFindAddressResponse.getResult().get(0).getTitle());
-                    city.setValue(reverseFindAddressResponse.getResult().get(3).getTitle());
+                    state.setValue(reverseFindAddressResponse.getState());
+                    city.setValue(reverseFindAddressResponse.getCity());
                     region.setValue(reverseFindAddressResponse.getShortAddress());
                     userProfileInterface.onFailure("" + reverseFindAddressResponse.getShortAddress() + "  " + state.getValue() + "  " + city.getValue());
 

@@ -60,7 +60,9 @@ import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.ActivityMainBinding;
+import ir.boojanco.onlinefoodorder.viewmodels.MainSharedViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.MainViewModel;
+import ir.boojanco.onlinefoodorder.viewmodels.RestaurantInfoSharedViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.MainViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.MainActivityInterface;
 
@@ -68,6 +70,7 @@ import ir.boojanco.onlinefoodorder.viewmodels.interfaces.MainActivityInterface;
 public class MainActivity extends AppCompatActivity implements MainActivityInterface {
     private static String TAG = MainActivity.class.getSimpleName();
     private MainViewModel viewModel;
+    private MainSharedViewModel sharedViewModel;
     ActivityMainBinding binding;
     BottomNavigationView bottomNavigationView;
     private NavController navController;
@@ -88,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
         getLastLocation();
         // get view model
         viewModel = new ViewModelProvider(this, factory).get(MainViewModel.class);
+        sharedViewModel = new ViewModelProvider(this).get(MainSharedViewModel.class);
         // Inflate view and obtain an instance of the binding class.
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setViewModel(viewModel); // connect activity_Main variable to ViewModel class
@@ -312,6 +316,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
     @Override
     public void onSuccess(String state, String city) {
         if (state != null && !state.equals("") && city != null && !city.equals("")) {
+            sharedViewModel.cityNameLiveData.postValue(city);
             sharedPreferences.setState(state);
             sharedPreferences.setCity(city);
         }

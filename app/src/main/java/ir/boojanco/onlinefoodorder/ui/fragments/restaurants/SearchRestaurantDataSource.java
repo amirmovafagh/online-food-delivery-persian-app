@@ -75,7 +75,7 @@ public class SearchRestaurantDataSource extends PageKeyedDataSource<Integer, Res
         Observable<RestaurantResponse> observable = restaurantRepository.searchRestaurantObservable(categoryList, city, restaurantName, deliveryFilter, discountFilter,
                 servingFilter, getInPlaceFilter, latitude, longitude, FIRST_PAGE, PAGE_SIZE, sortBy);
         if (observable != null) {
-            observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<RestaurantResponse>() {
+            observable.retry(1).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<RestaurantResponse>() {
                 @Override
                 public void onCompleted() {
                     dataSourceInterface.onSuccess();
@@ -113,7 +113,7 @@ public class SearchRestaurantDataSource extends PageKeyedDataSource<Integer, Res
         Observable<RestaurantResponse> observable = restaurantRepository.searchRestaurantObservable(categoryList, city, restaurantName, deliveryFilter, discountFilter,
                 servingFilter, getInPlaceFilter, latitude, longitude, params.key, PAGE_SIZE, sortBy);
         if (observable != null) {
-            observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<RestaurantResponse>() {
+            observable.retry(1).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<RestaurantResponse>() {
                 @Override
                 public void onCompleted() {
 
@@ -150,7 +150,7 @@ public class SearchRestaurantDataSource extends PageKeyedDataSource<Integer, Res
         Observable<RestaurantResponse> observable = restaurantRepository.searchRestaurantObservable(categoryList, city, restaurantName, deliveryFilter, discountFilter,
                 servingFilter, getInPlaceFilter, latitude, longitude, params.key, PAGE_SIZE, sortBy);
         if (observable != null) {
-            observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<RestaurantResponse>() {
+            observable.retry(1).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<RestaurantResponse>() {
                 @Override
                 public void onCompleted() {
 

@@ -41,6 +41,7 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
     public MutableLiveData<String> sortByNameLiveData;
     public MutableLiveData<Boolean> stateWaitingOrNoConnection;
     public MutableLiveData<String> cityLiveData;
+    public String city;
     public MutableLiveData<String> stateLiveData;
     public LiveData<PagedList<RestaurantList>> restaurantPagedListLiveData;
     public LiveData<PageKeyedDataSource<Integer, RestaurantList>> liveDataSource;
@@ -54,6 +55,10 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
 
     private boolean sortOnClickState = false;
 
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     public void setCategoryList(ArrayList<String> categoryList) {
         this.categoryList = categoryList;
     }
@@ -62,7 +67,7 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
         this.restaurantName = restaurantName;
     }
 
-    public void setLatLon(double latitude, double longitude) {
+    public void setLatLon(Double latitude, Double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
@@ -78,9 +83,7 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
         cityLiveData = new MutableLiveData<>();
         sortByNameLiveData = new MutableLiveData<>();
         sortByNameLiveData.setValue("مرتبط ترین\u200cها");
-
         stateLiveData = new MutableLiveData<>();
-        cityLiveData = new MutableLiveData<>();
         stateWaitingOrNoConnection = new MutableLiveData<>();
         stateWaitingOrNoConnection.setValue(false); // dont show try again btn textView
         stateProgressBar = new MutableLiveData<>();
@@ -115,21 +118,21 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
             case R.id.chip_most_relevant:
                 sortByNameLiveData.setValue(context.getString(R.string.most_relevant));
                 sortBy = 0;
-                fragmentInterface.updateRestaurantsRecyclerView(categoryList, cityLiveData.getValue(),
+                fragmentInterface.updateRestaurantsRecyclerView(categoryList, city,
                         restaurantName, deliveryFilter, discountFilter, servingFilter, getInPlaceFilter,
                         latitude, longitude, sortBy);
                 return;
             case R.id.chip_more_score:
                 sortByNameLiveData.setValue(context.getString(R.string.fave_resturants));
                 sortBy = 1;
-                fragmentInterface.updateRestaurantsRecyclerView(categoryList, cityLiveData.getValue(),
+                fragmentInterface.updateRestaurantsRecyclerView(categoryList, city,
                         restaurantName, deliveryFilter, discountFilter, servingFilter, getInPlaceFilter,
                         latitude, longitude, sortBy);
                 return;
             case R.id.chip_newest:
                 sortByNameLiveData.setValue(context.getString(R.string.new_restaurants));
                 sortBy = 2;
-                fragmentInterface.updateRestaurantsRecyclerView(categoryList, cityLiveData.getValue(),
+                fragmentInterface.updateRestaurantsRecyclerView(categoryList, city,
                         restaurantName, deliveryFilter, discountFilter, servingFilter, getInPlaceFilter,
                         latitude, longitude, sortBy);
         }
@@ -137,7 +140,7 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
     }
 
     private void updateRestaurants() {
-        fragmentInterface.updateRestaurantsRecyclerView(categoryList, cityLiveData.getValue(),
+        fragmentInterface.updateRestaurantsRecyclerView(categoryList, city,
                 restaurantName, deliveryFilter, discountFilter, servingFilter, getInPlaceFilter,
                 latitude, longitude, sortBy);
     }
@@ -207,7 +210,7 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
     }
 
     public void searchBtnOnClick() {
-        fragmentInterface.updateRestaurantsRecyclerView(categoryList, cityLiveData.getValue(),
+        fragmentInterface.updateRestaurantsRecyclerView(categoryList, city,
                 restaurantName, deliveryFilter, discountFilter, servingFilter, getInPlaceFilter,
                 latitude, longitude, sortBy);
 
@@ -308,7 +311,8 @@ public class RestaurantViewModel extends ViewModel implements RestaurantDataSour
 
                 @Override
                 public void onNext(GetAllCitiesResponse getAllCitiesResponse) {
-                    cityLiveData.setValue(getAllCitiesResponse.getAllCitiesLists().get(0).getName());//set the main province city if dont select any city
+                    city = getAllCitiesResponse.getAllCitiesLists().get(0).getName();//set the main province city if dont select any city
+                    cityLiveData.setValue(city);
                     fragmentInterface.onSuccessGetCities(getAllCitiesResponse.getAllCitiesLists());
                 }
             });

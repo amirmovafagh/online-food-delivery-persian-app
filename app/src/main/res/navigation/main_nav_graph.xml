@@ -198,7 +198,15 @@
         android:id="@+id/qrCodeScannerFragment"
         android:name="ir.boojanco.onlinefoodorder.ui.fragments.qrcode.QrCodeScannerFragment"
         android:label="@null"
-        tools:layout="@layout/qr_code_scanner_fragment" />
+        tools:layout="@layout/qr_code_scanner_fragment" >
+        <action
+            android:id="@+id/action_qrCodeScannerFragment_to_restaurantDetailsFragment"
+            app:destination="@id/restaurantDetailsFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
     <fragment
         android:id="@+id/ordersFragment"
         android:name="ir.boojanco.onlinefoodorder.ui.fragments.userorders.OrdersFragment"

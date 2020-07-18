@@ -16,6 +16,7 @@ import ir.boojanco.onlinefoodorder.models.stateCity.GetAllStatesResponse;
 import ir.boojanco.onlinefoodorder.ui.fragments.home.HomeFragment;
 import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.HomeFragmentInterface;
+import ir.boojanco.onlinefoodorder.viewmodels.interfaces.MapDialogInterface;
 import retrofit2.HttpException;
 import retrofit2.Response;
 import rx.Observable;
@@ -33,6 +34,8 @@ public class HomeViewModel extends ViewModel {
     public MutableLiveData<String> stateLiveData;
     public MutableLiveData<Boolean> stateWatingOrNoConnection;
     public MutableLiveData<Boolean> stateProgressBar;
+    private MapDialogInterface mapDialogInterface;
+    private Double lat,lon;
 
     public void setUserAuthToken(String userAuthToken) {
         this.userAuthToken = userAuthToken;
@@ -53,6 +56,10 @@ public class HomeViewModel extends ViewModel {
         stateWatingOrNoConnection = new MutableLiveData<>();
         stateWatingOrNoConnection.setValue(false); // dont show try again btn textView
 
+    }
+
+    public void setMapDialogInterface(MapDialogInterface mapDialogInterface) {
+        this.mapDialogInterface = mapDialogInterface;
     }
 
     public void searchRestaurantOnClick() {
@@ -224,4 +231,17 @@ public class HomeViewModel extends ViewModel {
         }
     }
 
+    public void openMapDialog(){
+        fragmentInterface.openMapDialog();
+    }
+
+    public void selectMapPositionBtnClick() {
+        fragmentInterface.searchRestaurantsBySelectedLocationDate(lat,lon);
+    }
+
+    public void setLocationForSearch(double latitude, double longitude) {
+        lat = latitude;
+        lon= longitude;
+        mapDialogInterface.onSuccess();
+    }
 }

@@ -226,6 +226,7 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
 
         String cityName = sharedPreferences.getCity();
         viewModel.cityLiveData.postValue(cityName);
+        viewModel.setCity(cityName);
         viewModel.setSortBy(sortBy);
 
 
@@ -236,7 +237,7 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         } else {
 
             if (searchByLocation)//search restaurants by location
-            {
+            {viewModel.cityLiveData.postValue("جستجو براساس موقعیت");
                 double lat = sharedPreferences.getLatitude();
                 double lon = sharedPreferences.getLongitud();
                 viewModel.getAllSearchedRestaurant(null, null, null, null,
@@ -404,7 +405,11 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
     public void onCityItemClick(AllCitiesList city) {
         sharedPreferences.setCity(city.getName());
         viewModel.cityLiveData.setValue(city.getName());
+        viewModel.setCity(city.getName());
         stateCityDialog.dismiss();
+        //because the city is changed so we must put null in location and restaurant
+        viewModel.setLatLon(null,null);
+        viewModel.setRestaurantName(null);
         viewModel.searchBtnOnClick();
     }
 }

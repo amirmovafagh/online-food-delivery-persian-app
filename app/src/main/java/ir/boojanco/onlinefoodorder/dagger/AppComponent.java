@@ -6,6 +6,7 @@ import dagger.Component;
 import ir.boojanco.onlinefoodorder.ui.activities.MainActivity;
 import ir.boojanco.onlinefoodorder.ui.fragments.cart.CartFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.forgotPass.ForgotPassFragment;
+import ir.boojanco.onlinefoodorder.ui.fragments.home.MapDialogHomeFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.login.LoginFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.logo.MazeehLogoFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.payment.PaymentFragment;
@@ -46,6 +47,7 @@ public interface AppComponent {
     void inject(CartFragment cartFragment);
     void inject(MapDialogCartFragment mapDialogCartFragment);
     void inject(MapDialogProfileFragment mapDialogProfileFragment);
+    void inject(MapDialogHomeFragment mapDialogHomeFragment);
     void inject(PaymentFragment paymentFragment);
 
 }

@@ -5,6 +5,8 @@ import androidx.appcompat.widget.SearchView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
@@ -71,10 +73,13 @@ import ir.boojanco.onlinefoodorder.databinding.HomeFragmentBinding;
 import ir.boojanco.onlinefoodorder.models.food.FoodCategories;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllCitiesList;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList;
+import ir.boojanco.onlinefoodorder.ui.fragments.MapDialogProfileFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.cart.CityAdapter;
 import ir.boojanco.onlinefoodorder.ui.fragments.cart.CustomStateCityDialog;
 import ir.boojanco.onlinefoodorder.ui.fragments.cart.StateAdapter;
 import ir.boojanco.onlinefoodorder.viewmodels.HomeViewModel;
+import ir.boojanco.onlinefoodorder.viewmodels.MainSharedViewModel;
+import ir.boojanco.onlinefoodorder.viewmodels.RestaurantInfoSharedViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.HomeViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.HomeFragmentInterface;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.StateCityDialogInterface;
@@ -90,10 +95,14 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
     MySharedPreferences sharedPreferences;
 
     private HomeViewModel viewModel;
+    private MainSharedViewModel sharedViewModel;
     private HomeFragmentBinding binding;
     private FoodCategorySearchAdapter adapter;
     private RecyclerView recyclerViewFoodTypeSearchFilter;
     private EditText searchEditText;
+    private DialogFragment mapFragment;
+    private FragmentTransaction fragmentTransaction;
+    private Fragment fragment;
     private Button searchButton;
     private LottieAnimationView lottie;
     private boolean btnSearchColor = false;
@@ -121,6 +130,7 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
         locationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
         binding = DataBindingUtil.inflate(inflater, R.layout.home_fragment, container, false);
         viewModel = new ViewModelProvider(this, factory).get(HomeViewModel.class);
+        sharedViewModel = new ViewModelProvider(getParentFragment()).get(MainSharedViewModel.class);
         binding.setHomeViewModel(viewModel);
         binding.setLifecycleOwner(this);
         lottie = binding.animationView;
@@ -145,8 +155,12 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
         Uri data = getActivity().getIntent().getData();
         if (data != null && data.isHierarchical()) {
             String uri = getActivity().getIntent().getDataString();
-            Toast.makeText(application, "AMIR " + uri, Toast.LENGTH_SHORT).show();
+
         }
+        sharedViewModel.cityNameLiveData.observe(getViewLifecycleOwner(), cityNameFromMainActivity -> {
+            viewModel.cityLiveData.postValue(cityNameFromMainActivity);
+
+        });
 
         return binding.getRoot();
     }
@@ -154,6 +168,8 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+
         viewModel.getCategories();
 
         colorAnimationButtonBackground.addUpdateListener(animator -> searchButton.setBackgroundColor((int) animator.getAnimatedValue()));
@@ -279,6 +295,7 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
             bundle.putBoolean("isSearchByName", true);
             bundle.putString("restaurantName", searchQuery);
             Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.action_homeFragment_to_restaurantFragment, bundle);
+            searchEditText.setText("");
         } else {//searchBy location
             binding.cvWaitingResponse.setVisibility(View.VISIBLE);
             lottie.setAnimation(R.raw.waiting_animate_burger);
@@ -323,12 +340,35 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
         Navigation.findNavController(getView()).navigate(R.id.action_homeFragment_to_restaurantFragment, bundle);
     }
 
+    @Override
+    public void searchRestaurantsBySelectedLocationDate(double latitude, double longitude) {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("isSearchByLocation", true);
+        sharedPreferences.setLatitude(latitude);
+        sharedPreferences.setLongitud(longitude);
+        Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.action_homeFragment_to_restaurantFragment, bundle);
+    }
+
+    @Override
+    public void openMapDialog() {
+        fragmentTransaction = getChildFragmentManager().beginTransaction();
+        fragment = getChildFragmentManager().findFragmentByTag("mapDialogHome");
+        if (fragment != null) {
+            fragmentTransaction.remove(fragment);
+        }
+
+        fragmentTransaction.addToBackStack(null);
+        mapFragment = new MapDialogHomeFragment(viewModel);
+        mapFragment.show(fragmentTransaction, "mapDialogHome");
+    }
+
 
     @Override
     public void onStateItemClick(AllStatesList state) {
         sharedPreferences.setState(state.getName());
         viewModel.stateLiveData.postValue(state.getName());
         viewModel.getCities(state.getId());
+        
     }
 
     @Override
@@ -336,6 +376,10 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
         sharedPreferences.setCity(city.getName());
         viewModel.cityLiveData.setValue(city.getName());
         stateCityDialog.dismiss();
+
+        if (searchEditText.getText().toString().length() > 0) { //check If search according to restaurant name set the new name of city on search button
+            searchButton.setText("جستجو در رستوران" + "\u200cهای " + sharedPreferences.getCity());
+        }
     }
 
     @Override
@@ -428,7 +472,8 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSION_ID) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {

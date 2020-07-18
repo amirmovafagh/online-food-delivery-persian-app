@@ -1,4 +1,4 @@
-package ir.boojanco.onlinefoodorder.ui.fragments;
+package ir.boojanco.onlinefoodorder.ui.fragments.home;
 
 import android.app.Dialog;
 import android.os.Build;
@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -28,23 +27,23 @@ import javax.inject.Inject;
 import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
-import ir.boojanco.onlinefoodorder.databinding.FragmentMapDialogBinding;
-import ir.boojanco.onlinefoodorder.viewmodels.CartViewModel;
+import ir.boojanco.onlinefoodorder.databinding.FragmentMapDialogHomeBinding;
+import ir.boojanco.onlinefoodorder.databinding.FragmentMapDialogProfileBinding;
+import ir.boojanco.onlinefoodorder.viewmodels.HomeViewModel;
+import ir.boojanco.onlinefoodorder.viewmodels.UserProfileViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.MapDialogInterface;
 
-public class MapDialogCartFragment extends DialogFragment implements OnMapReadyCallback, MapDialogInterface {
-    private static final String TAG = MapDialogCartFragment.class.getSimpleName();
-    private FragmentMapDialogBinding binding;
+public class MapDialogHomeFragment extends DialogFragment implements OnMapReadyCallback, MapDialogInterface {
+    private static final String TAG = MapDialogHomeFragment.class.getSimpleName();
+    private FragmentMapDialogHomeBinding binding;
     private GoogleMap googleMap;
     private Marker marker;
-    private CartViewModel cartViewModel;
-
+    private HomeViewModel homeViewModel;
     @Inject
     MySharedPreferences sharedPreferences;
 
-
-    public MapDialogCartFragment(CartViewModel cartViewModel) {
-        this.cartViewModel = cartViewModel;
+    public MapDialogHomeFragment(HomeViewModel homeViewModel) {
+        this.homeViewModel = homeViewModel;
     }
 
     @NonNull
@@ -66,9 +65,9 @@ public class MapDialogCartFragment extends DialogFragment implements OnMapReadyC
                 getDialog().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         }
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map_dialog, container,false);
-        cartViewModel.mapDialogCartInterface = this;
-        binding.setViewModel(cartViewModel);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map_dialog_home, container, false);
+        homeViewModel.setMapDialogInterface(this);
+        binding.setViewModel(homeViewModel);
         binding.setLifecycleOwner(this);
         return binding.getRoot();
     }
@@ -84,20 +83,20 @@ public class MapDialogCartFragment extends DialogFragment implements OnMapReadyC
 
     @Override
     public void onMapReady(GoogleMap map) {
-        if(map != null){
+        if (map != null) {
             this.googleMap = map;
 
             LatLng restaurantLatLng = new LatLng(sharedPreferences.getLatitude(), sharedPreferences.getLongitud());
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(restaurantLatLng,15));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(restaurantLatLng, 15));
 
             googleMap.setOnMapClickListener(latLng -> {
-                Log.i(TAG,""+latLng);
-                if(latLng == null)
+                Log.i(TAG, "" + latLng);
+                if (latLng == null)
                     return;
-                if(marker != null)
+                if (marker != null)
                     marker.remove();
-                marker = googleMap.addMarker(new MarkerOptions().position(latLng).title("آدرس من"));
-                cartViewModel.getReverseAddressParsiMap(latLng.latitude, latLng.longitude);
+                marker = googleMap.addMarker(new MarkerOptions().position(latLng).title("رستوران\u200cهای این ناحیه"));
+                homeViewModel.setLocationForSearch(latLng.latitude, latLng.longitude);
 
             });
         }

@@ -52,6 +52,7 @@
     <string name="deliverInMyAddress">دریافت در آدرس من</string>
     <string name="add_new_address">افزودن آدرس جدید</string>
     <string name="accept_new_location">تایید موقعیت مکانی</string>
+    <string name="accept_selected_location">تایید موقعیت انتخاب شده</string>
     <string name="accept">تایید</string>
     <string name="address">آدرس</string>
     <string name="exactAddress">آدرس دقیق</string>

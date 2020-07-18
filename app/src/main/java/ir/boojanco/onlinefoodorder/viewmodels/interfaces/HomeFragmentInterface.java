@@ -26,4 +26,8 @@ public interface HomeFragmentInterface {
     void searchRestaurantsByScore();
 
     void searchRestaurantsByNewestDate();
+
+    void searchRestaurantsBySelectedLocationDate(double latitude, double longitude);
+
+    void openMapDialog();
 }

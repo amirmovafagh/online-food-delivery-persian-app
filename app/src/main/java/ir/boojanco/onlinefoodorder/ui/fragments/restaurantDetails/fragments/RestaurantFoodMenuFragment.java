@@ -8,11 +8,13 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Application;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -25,12 +27,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -75,6 +77,7 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     private LinearLayoutManager linearLayoutManagerFoodMenu;
     private AutoTransition transition;
     private Bundle bundleCartFragment;
+    private NavController navigation;
 
     private long extraRestauranId = 0;
     private boolean isLogin = false;
@@ -102,6 +105,7 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
         viewModel.foodInterface = this;
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
+        navigation = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
         transition = new AutoTransition();
         expandableView = binding.expandableView;
         packageBtn = binding.cvPackageBtn;
@@ -171,7 +175,7 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
 
         packageBtn.setOnClickListener(v -> {
             if (!isLogin) {
-                onFailure("لطفا وارد شوید");
+                loginMessage("لطفا وارد شوید");
                 return;
             }
             if (expandableView.getVisibility() == View.GONE) {
@@ -217,15 +221,31 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
         snackbar.show();
     }
 
+    private void loginMessage(String msg) {
+        Snackbar snackbar = Snackbar.make(binding.mainContent, "" + msg, Snackbar.LENGTH_LONG)
+                .setActionTextColor(getResources().getColor(R.color.colorPrimaryDark))
+                .setTextColor(getResources().getColor(R.color.materialGray900))
+                .setBackgroundTint(getResources().getColor(R.color.colorLowGold))
+                .setAction(R.string.login, v -> {
+                    if (navigation.getCurrentDestination().getId() == R.id.restaurantDetailsFragment) {
+                        if (getActivity() != null) getActivity().finish();
+                        navigation.navigate(R.id.action_restaurantFoodMenuFragment_to_enterActivity);
+                    }
+                });
+        /*TextView tv = (TextView) (snackbar.getView()).findViewById(R.id.snackbar_text);
+        Typeface font = Typeface.createFromAsset(getResources().getAssets(), "fonts/iran_sans_mobile_fa_num_bold.ttf");
+        tv.setTypeface(font);*/
+        snackbar.show();
+    }
+
     @Override
     public void goToCartFragment() {
         if (!isLogin) {
-            onFailure("لطفا وارد شوید");
+            loginMessage("لطفا وارد شوید");
             return;
         }
         bundleCartFragment.putLong("restaurantID", extraRestauranId);
-
-        Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.action_restaurantFoodMenuFragment_to_cartFragment, bundleCartFragment);
+        navigation.navigate(R.id.action_restaurantFoodMenuFragment_to_cartFragment, bundleCartFragment);
     }
 
     @Override
@@ -260,7 +280,7 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     @Override
     public void onRecyclerViewFaveToggleClick(FoodItem items, boolean isChecked) {
         if (!isLogin) {
-            onFailure("لطفا وارد شوید");
+            loginMessage("لطفا وارد شوید");
             return;
         }
         viewModel.onFoodFavoriteCheckedChanged(items.getId(), isChecked);
@@ -296,7 +316,7 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     @Override
     public void onPackageItemClick(View v, RestaurantPackageItem packageItem) {
         if (!isLogin) {
-            onFailure("لطفا وارد شوید");
+            loginMessage("لطفا وارد شوید");
             return;
         }
         switch (v.getId()) {

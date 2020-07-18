@@ -133,6 +133,7 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
 
         if (sharedPreferences.getUserAuthTokenKey() == null || sharedPreferences.getUserAuthTokenKey().isEmpty()) {//when user is not login in the system
             viewModel.profileChangeVisibility.postValue(false); // show login reg button
+            binding.cvWaitingResponse.setVisibility(View.GONE);
             return binding.getRoot();
         }
         viewModel.profileChangeVisibility.postValue(true); // show profile
@@ -355,6 +356,7 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
     @Override
     public void goToLoginRegisterActivity() {
         if (Navigation.findNavController(getView()).getCurrentDestination().getId() == R.id.userProfileFragment) {
+            if (getActivity() != null) getActivity().finish();
             Navigation.findNavController(getView()).navigate(R.id.action_userProfileFragment_to_enterActivity);
         }
     }

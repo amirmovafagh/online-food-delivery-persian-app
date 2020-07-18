@@ -94,7 +94,10 @@ public class TransactionsFragment extends Fragment implements TransactionsFragme
     @Override
     public void onFailure(String error) {
         binding.animationViewLoadRequest.setVisibility(View.GONE);
-        Snackbar snackbar = Snackbar.make(binding.mainContent, "" + error, Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(binding.mainContent, "" + error, Snackbar.LENGTH_SHORT)
+                .setActionTextColor(getResources().getColor(R.color.colorPrimaryDark))
+                .setTextColor(getResources().getColor(R.color.materialGray900))
+                .setBackgroundTint(getResources().getColor(R.color.colorLowGold));
         snackbar.show();
     }
 }

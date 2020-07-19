@@ -78,6 +78,7 @@ public class MapDialogHomeFragment extends DialogFragment implements OnMapReadyC
         binding.mapView.onCreate(savedInstanceState);
         binding.mapView.onResume();
         binding.mapView.getMapAsync(this);
+        binding.cvClose.setOnClickListener(v -> dismiss());
 
     }
 

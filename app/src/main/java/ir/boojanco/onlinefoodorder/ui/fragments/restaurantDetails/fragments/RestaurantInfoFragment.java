@@ -114,7 +114,9 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantInfoFr
 
     @Override
     public void onFailure(String error) {
-        Snackbar snackbar = Snackbar.make(binding.frameLayoutInfoRestaurant, "" + error, Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(binding.frameLayoutInfoRestaurant, "" + error, Snackbar.LENGTH_SHORT)
+                .setTextColor(getResources().getColor(R.color.materialGray900))
+                .setBackgroundTint(getResources().getColor(R.color.colorLowGold));
         snackbar.show();
     }
 

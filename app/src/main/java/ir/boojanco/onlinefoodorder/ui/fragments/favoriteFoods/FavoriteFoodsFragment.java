@@ -102,7 +102,9 @@ public class FavoriteFoodsFragment extends Fragment implements FavoriteFoodsFrag
     @Override
     public void onFailure(String error) {
         binding.animationViewLoadRequest.setVisibility(View.GONE);
-        Snackbar snackbar = Snackbar.make(binding.mainContent, "" + error, Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(binding.mainContent, "" + error, Snackbar.LENGTH_SHORT)
+                .setTextColor(getResources().getColor(R.color.materialGray900))
+                .setBackgroundTint(getResources().getColor(R.color.colorLowGold));
         snackbar.show();
     }
 

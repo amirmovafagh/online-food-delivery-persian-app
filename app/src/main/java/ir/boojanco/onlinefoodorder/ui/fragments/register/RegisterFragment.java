@@ -93,7 +93,9 @@ public class RegisterFragment extends Fragment implements RegisterAuth {
     public void onFailure(String Error) {
         hideKeyboard();
         binding.cvWaitingResponse.setVisibility(View.GONE);
-        Snackbar snackbar = Snackbar.make(binding.mainContent, "" + Error, Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(binding.mainContent, "" + Error, Snackbar.LENGTH_SHORT)
+                .setTextColor(getResources().getColor(R.color.materialGray900))
+                .setBackgroundTint(getResources().getColor(R.color.colorLowGold));
         snackbar.show();
     }
 

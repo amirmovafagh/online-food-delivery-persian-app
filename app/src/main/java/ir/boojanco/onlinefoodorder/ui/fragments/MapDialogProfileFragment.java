@@ -78,6 +78,7 @@ public class MapDialogProfileFragment extends DialogFragment implements OnMapRea
         binding.mapView.onCreate(savedInstanceState);
         binding.mapView.onResume();
         binding.mapView.getMapAsync(this);
+        binding.cvClose.setOnClickListener(v -> dismiss());
 
     }
 

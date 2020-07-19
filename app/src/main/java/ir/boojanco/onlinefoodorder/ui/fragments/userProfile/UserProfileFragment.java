@@ -342,7 +342,9 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
     @Override
     public void onFailure(String Error) {
         binding.cvWaitingResponse.setVisibility(View.GONE);
-        snackbar = Snackbar.make(binding.coordinateLayoutMain, "" + Error, Snackbar.LENGTH_SHORT);
+        snackbar = Snackbar.make(binding.coordinateLayoutMain, "" + Error, Snackbar.LENGTH_SHORT)
+                .setTextColor(getResources().getColor(R.color.materialGray900))
+                .setBackgroundTint(getResources().getColor(R.color.colorLowGold));
         snackbar.show();
 
     }

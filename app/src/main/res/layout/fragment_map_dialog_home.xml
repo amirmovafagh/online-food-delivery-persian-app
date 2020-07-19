@@ -22,17 +22,36 @@
 
             />
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardCornerRadius="@dimen/little_view_corner_radius"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:srcCompat="@drawable/ic_close_black_24dp" />
+        </androidx.cardview.widget.CardView>
+
         <Button
             android:id="@+id/btn_choose_map_latlong"
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:enabled="false"
             android:onClick="@{()-> viewModel.selectMapPositionBtnClick()}"
             android:text="@string/accept_selected_location"
             android:textSize="@dimen/button_font_size"
             app:cornerRadius="@dimen/button_corner_radius"
-            android:enabled="false"
             app:icon="@drawable/ic_accept_location"
             app:layout_constraintBottom_toBottomOf="@id/map_view"
             app:layout_constraintLeft_toLeftOf="@id/map_view"

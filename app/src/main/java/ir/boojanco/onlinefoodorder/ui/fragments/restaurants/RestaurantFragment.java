@@ -201,7 +201,7 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
                 searchEditText.setVisibility(View.INVISIBLE);
                 cityNameBtn.setVisibility(View.VISIBLE);
                 hideKeyboard();
-                if (searchEditText.getText().toString().length()>0) {
+                if (searchEditText.getText().toString().length() > 0) {
                     viewModel.setRestaurantName(null);
                     viewModel.searchBtnOnClick();
                 }
@@ -237,7 +237,8 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         } else {
 
             if (searchByLocation)//search restaurants by location
-            {viewModel.cityLiveData.postValue("جستجو براساس موقعیت");
+            {
+                viewModel.cityLiveData.postValue("جستجو براساس موقعیت");
                 double lat = sharedPreferences.getLatitude();
                 double lon = sharedPreferences.getLongitud();
                 viewModel.getAllSearchedRestaurant(null, null, null, null,
@@ -302,7 +303,9 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
 
     @Override
     public void onFailure(String error) {
-        Snackbar snackbar = Snackbar.make(binding.mainContent, "" + error, Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(binding.mainContent, "" + error, Snackbar.LENGTH_SHORT)
+                .setTextColor(getResources().getColor(R.color.materialGray900))
+                .setBackgroundTint(getResources().getColor(R.color.colorLowGold));
         snackbar.show();
         binding.cvWaitingResponse.setVisibility(View.GONE);
     }
@@ -408,7 +411,7 @@ public class RestaurantFragment extends Fragment implements RestaurantFragmentIn
         viewModel.setCity(city.getName());
         stateCityDialog.dismiss();
         //because the city is changed so we must put null in location and restaurant
-        viewModel.setLatLon(null,null);
+        viewModel.setLatLon(null, null);
         viewModel.setRestaurantName(null);
         viewModel.searchBtnOnClick();
     }

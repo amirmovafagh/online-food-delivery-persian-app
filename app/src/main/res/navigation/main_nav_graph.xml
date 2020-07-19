@@ -209,7 +209,19 @@
         android:label="@null"
         tools:layout="@layout/qr_code_scanner_fragment">
         <action
-            android:id="@+id/action_qrCodeScannerFragment_to_restaurantDetailsFragment"
+            android:id="@+id/action_qrCodeScannerFragment_to_qrCodeCameraScannerFragment"
+            app:destination="@id/qrCodeCameraScannerFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/qrCodeCameraScannerFragment"
+        android:name="ir.boojanco.onlinefoodorder.ui.fragments.qrcode.QrCodeCameraScannerFragment"
+        android:label="QrCodeCameraScannerFragment" >
+        <action
+            android:id="@+id/action_qrCodeCameraScannerFragment_to_restaurantDetailsFragment"
             app:destination="@id/restaurantDetailsFragment"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
@@ -236,4 +248,5 @@
         android:id="@+id/transactionsFragment"
         android:name="ir.boojanco.onlinefoodorder.ui.fragments.usertransactions.TransactionsFragment"
         android:label="@string/transActions_list" />
+
 </navigation>

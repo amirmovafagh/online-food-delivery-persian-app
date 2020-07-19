@@ -95,7 +95,6 @@ public class RestaurantInfoViewModel extends ViewModel {
     }
 
     private void getRestaurantMenuTypesInfo(long restaurantId) {
-        Toast.makeText(context, ""+restaurantId, Toast.LENGTH_SHORT).show();
         infoFragmentInterface.onStarted();
         Observable<MenuTypesInfoResponse> observable = restaurantRepository.getMenuTypesInfo(restaurantId);
         if (observable != null) {

@@ -65,7 +65,6 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     @Inject
     CartDataSource cartDataSource;
 
-
     private ArrayList<String> foodTypeIndex;
 
     private RestaurantFoodMenuViewModel viewModel;

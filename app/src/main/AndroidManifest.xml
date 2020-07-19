@@ -31,8 +31,6 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
-        <activity android:name=".ui.fragments.qrcode.QrCodeScannerActivity"
-            android:screenOrientation="portrait"/>
         <activity android:name=".ui.activities.EnterActivity"
             android:screenOrientation="portrait">
             <intent-filter>

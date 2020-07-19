@@ -114,7 +114,7 @@ public class RestaurantDetailsFragment extends Fragment implements RestaurantDet
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Toast.makeText(application, "" + item.getItemId(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(application, "" + item.getItemId(), Toast.LENGTH_SHORT).show();
         return NavigationUI.onNavDestinationSelected(item, Navigation.findNavController(getActivity(), R.id.nav_host_fragment))
                 || super.onOptionsItemSelected(item);
     }

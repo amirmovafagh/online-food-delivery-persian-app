@@ -1,8 +1,6 @@
 package ir.boojanco.onlinefoodorder.ui.fragments.home;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.SearchView;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
@@ -15,14 +13,11 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -34,10 +29,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.transition.AutoTransition;
-import androidx.transition.TransitionManager;
 
-import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 import android.text.Editable;
@@ -73,13 +65,11 @@ import ir.boojanco.onlinefoodorder.databinding.HomeFragmentBinding;
 import ir.boojanco.onlinefoodorder.models.food.FoodCategories;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllCitiesList;
 import ir.boojanco.onlinefoodorder.models.stateCity.AllStatesList;
-import ir.boojanco.onlinefoodorder.ui.fragments.MapDialogProfileFragment;
 import ir.boojanco.onlinefoodorder.ui.fragments.cart.CityAdapter;
 import ir.boojanco.onlinefoodorder.ui.fragments.cart.CustomStateCityDialog;
 import ir.boojanco.onlinefoodorder.ui.fragments.cart.StateAdapter;
 import ir.boojanco.onlinefoodorder.viewmodels.HomeViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.MainSharedViewModel;
-import ir.boojanco.onlinefoodorder.viewmodels.RestaurantInfoSharedViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.HomeViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.HomeFragmentInterface;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.StateCityDialogInterface;
@@ -152,11 +142,7 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
         colorAnimationButtonBackground.setDuration(600);
         colorAnimationButtonText.setDuration(600);
 
-        Uri data = getActivity().getIntent().getData();
-        if (data != null && data.isHierarchical()) {
-            String uri = getActivity().getIntent().getDataString();
 
-        }
         sharedViewModel.cityNameLiveData.observe(getViewLifecycleOwner(), cityNameFromMainActivity -> {
             viewModel.cityLiveData.postValue(cityNameFromMainActivity);
 
@@ -243,6 +229,46 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
             return false;
         });
 
+
+        if (getActivity() != null) {
+            Uri data = getActivity().getIntent().getData();
+            if (data != null && data.isHierarchical()) {
+                String uri = getActivity().getIntent().getDataString();
+                if (uri != null)
+                    checkDeepLink(uri);
+                getActivity().getIntent().setData(Uri.parse("mazee.ir")); //set another uri for prevent loopback on back key from restaurant
+            }
+        }
+    }
+
+    private void checkDeepLink(String uri) {
+        if (uri.contains("mazeeh.ir/restaurant") || uri.contains("mazee.ir/restaurant")) {
+            String[] str = uri.split("/");
+            //4 index is restaurant id
+            if (isNumeric(str[4])) {
+                Bundle bundle = new Bundle();
+                bundle.putLong("restaurantID", Long.parseLong(str[4]));
+                if (Navigation.findNavController(getView()).getCurrentDestination().getId() == R.id.homeFragment) {
+                    Navigation.findNavController(getView()).navigate(R.id.action_homeFragment_to_restaurantDetailsFragment, bundle);
+                }
+            } else {
+                onFailure("خطا در بررسی اطلاعات رستوران");
+            }
+        } else {
+            Log.i(TAG, "empty uri");
+        }
+    }
+
+    private boolean isNumeric(String str) {
+        if (str == null) {
+            return false;
+        }
+        for (int i = 0; i < str.length(); i++) {
+            if (!Character.isDigit(str.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -370,7 +396,7 @@ public class HomeFragment extends Fragment implements HomeFragmentInterface, Sta
         sharedPreferences.setState(state.getName());
         viewModel.stateLiveData.postValue(state.getName());
         viewModel.getCities(state.getId());
-        
+
     }
 
     @Override

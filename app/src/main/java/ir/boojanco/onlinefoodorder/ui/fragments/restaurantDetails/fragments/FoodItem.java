@@ -15,10 +15,19 @@ public class FoodItem implements ListItemType {
     private int discount;
     private int cost;
     private int count;
+    private boolean active;
     private List<String> foodTypeList;
 
     public FoodItem( ) {
 
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public long getId() {

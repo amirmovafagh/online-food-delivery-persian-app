@@ -1,14 +1,18 @@
 package ir.boojanco.onlinefoodorder.dagger;
 
 import android.app.Application;
+import android.app.PendingIntent;
 import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;
+import androidx.navigation.NavDeepLinkBuilder;
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.bumptech.glide.Glide;
 
 import com.bumptech.glide.request.RequestOptions;
+
+import ir.boojanco.onlinefoodorder.R;
 
 public class App extends Application {
     public final static String webServerMediaRoute = "http://mazeeh.ir/api/media/download/";
@@ -18,7 +22,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         // Dagger%COMPONENT_NAME%
         component = DaggerAppComponent.builder()
                 // list of modules that are part of this component need to be created here too

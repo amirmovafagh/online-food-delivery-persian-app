@@ -16,6 +16,7 @@
     <color name="design_snackbar_background_color" tools:override="true">@color/colorPrimaryLight
     </color>
 
+    <color name="deactiveFoodColor">#BCFAFAFA</color>
     <color name="colorEdtTextHalfRounded">#B2FF6659</color>
     <color name="colorBotomNavigationNotSelected">#808080</color>
     <color name="overlapCardBackgroundColor">#EDFFFFFF</color>

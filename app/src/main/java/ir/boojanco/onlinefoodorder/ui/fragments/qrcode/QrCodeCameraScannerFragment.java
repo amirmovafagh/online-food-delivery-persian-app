@@ -99,7 +99,7 @@ public class QrCodeCameraScannerFragment extends Fragment implements QRCodeReade
         }
     }
 
-    public boolean isNumeric(String str) {
+    private boolean isNumeric(String str) {
         if (str == null) {
             return false;
         }
@@ -115,12 +115,14 @@ public class QrCodeCameraScannerFragment extends Fragment implements QRCodeReade
     @Override
     public void onResume() {
         super.onResume();
+        binding.scanningAnimate.setVisibility(View.VISIBLE);
         qrCodeReaderView.startCamera();
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        binding.scanningAnimate.setVisibility(View.INVISIBLE);
         qrCodeReaderView.stopCamera();
     }
 

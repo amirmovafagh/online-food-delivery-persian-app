@@ -115,6 +115,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
+                android:clickable="@{foodItem.active}"
                 android:background="@drawable/custom_button_add_to_cart"
                 bind:layout_constraintBottom_toBottomOf="parent"
                 bind:layout_constraintHorizontal_bias="1"
@@ -144,6 +145,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/custom_button_add_to_cart"
+                android:clickable="@{foodItem.active}"
                 android:visibility="@{countVisibility ? View.VISIBLE : View.INVISIBLE}"
                 bind:layout_constraintBottom_toBottomOf="@id/img_btn_increase"
                 bind:layout_constraintLeft_toRightOf="@id/text_view_discounted_price"
@@ -200,6 +202,13 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@color/deactiveFoodColor"
+            android:clickable="@{foodItem.active}"
+            android:visibility="@{foodItem.active ? View.GONE : View.VISIBLE ,default=visible}" />
     </androidx.cardview.widget.CardView>
 
 </layout>

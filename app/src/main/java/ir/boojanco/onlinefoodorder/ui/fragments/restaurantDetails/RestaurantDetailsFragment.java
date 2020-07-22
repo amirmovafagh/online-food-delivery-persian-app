@@ -125,6 +125,8 @@ public class RestaurantDetailsFragment extends Fragment implements RestaurantDet
 
         //change toolbarIcon color on collapse
         appBar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            if (toolbar == null || toolbar.getNavigationIcon()==null)
+                return;
             if (verticalOffset < -100 && verticalOffset > -600) {
                 toolbar.getNavigationIcon().setAlpha(0);
                 return;

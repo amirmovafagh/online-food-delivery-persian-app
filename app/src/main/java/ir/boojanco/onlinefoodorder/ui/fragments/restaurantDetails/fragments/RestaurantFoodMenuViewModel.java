@@ -284,6 +284,7 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
                                         foodItem.setLogo(allFoodList.getLogo());
                                         foodItem.setName(allFoodList.getName());
                                         foodItem.setPoint(allFoodList.getPoint());
+                                        foodItem.setActive(allFoodList.isActive());
                                         items.add(foodItem);
                                         foodTypeIndex.add(" ");
                                     }

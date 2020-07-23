@@ -59,6 +59,7 @@
                                 android:layout_height="wrap_content"
                                 android:drawableRight="@drawable/ic_restaurant_wallet"
                                 android:drawablePadding="8dp"
+                                android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
                                 android:maxLines="1"
                                 android:text="@string/minimum_order"
                                 android:textColor="@android:color/black"
@@ -92,6 +93,7 @@
                                 android:layout_height="wrap_content"
                                 android:drawableRight="@drawable/ic_restaurant_food_packaging"
                                 android:drawablePadding="8dp"
+                                android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
                                 android:maxLines="1"
                                 android:text="@string/food_packing"
                                 android:textColor="@android:color/black"
@@ -118,6 +120,7 @@
                             android:id="@+id/text_view_delivery_price"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/iran_sans_mobile_fa_num_medium"
                             android:maxLines="1"
                             android:text="@string/shipping_cost_on_location"
                             android:textAlignment="center"
@@ -142,7 +145,7 @@
                                 android:drawablePadding="8dp"
                                 android:maxLines="1"
                                 android:text="@{infoViewModel.restaurantShippingCostInRegion , default=@string/free}"
-                                android:textSize="@dimen/body4_paragraph_font_size" />
+                                android:textSize="@dimen/body3_paragraph_font_size" />
 
                             <TextView
                                 android:id="@+id/text_view_in_region"
@@ -154,7 +157,7 @@
                                 android:maxLines="1"
                                 android:text="@{infoViewModel.restaurantShippingCostOutRegion , default=@string/free}"
                                 android:textDirection="rtl"
-                                android:textSize="@dimen/body4_paragraph_font_size" />
+                                android:textSize="@dimen/body3_paragraph_font_size" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -191,123 +194,13 @@
                     app:layout_constraintRight_toRightOf="@id/cv_food_order_rules"
                     app:layout_constraintTop_toBottomOf="@id/cv_food_order_rules">
 
-                    <LinearLayout
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_menu_type_info_items"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingTop="8dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="16dp"
-                            android:orientation="horizontal"
-                            android:paddingTop="8dp">
-
-                            <TextView
-                                android:id="@+id/text_view_name_type"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:maxLines="1"
-                                android:text="@string/type_food_name"
-                                android:textColor="@android:color/black"
-                                android:textSize="@dimen/body2_paragraph_font_size" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:maxLines="1"
-                                android:text="@{infoViewModel.restaurantMenuTypeNameLiveData , default=آزاد}"
-                                android:textDirection="ltr"
-                                android:textSize="@dimen/body3_paragraph_font_size" />
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="?android:attr/listDivider" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="16dp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/text_view_start_time"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:maxLines="1"
-                                android:text="@string/start_time"
-                                android:textColor="@android:color/black"
-                                android:textSize="@dimen/body2_paragraph_font_size" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:maxLines="1"
-                                android:text="@{infoViewModel.restaurantMenuStartTimeLiveData , default=آزاد}"
-                                android:textDirection="ltr"
-                                android:textSize="@dimen/body3_paragraph_font_size" />
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="?android:attr/listDivider" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="16dp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/text_view_end_time"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:maxLines="1"
-                                android:text="@string/end_time"
-                                android:textColor="@android:color/black"
-                                android:textSize="@dimen/body2_paragraph_font_size" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:maxLines="1"
-                                android:text="@{infoViewModel.restaurantMenuEndTimeLiveData , default=آزاد}"
-                                android:textDirection="ltr"
-                                android:textSize="@dimen/body3_paragraph_font_size" />
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="?android:attr/listDivider" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="16dp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/text_view_days"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/days_work"
-                                android:textColor="@android:color/black"
-                                android:textSize="@dimen/body2_paragraph_font_size" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="@{infoViewModel.restaurantMenuTypeDaysLiveData , default=آزاد}"
-                                android:textDirection="ltr"
-                                android:textSize="@dimen/body3_paragraph_font_size" />
-                        </LinearLayout>
-                    </LinearLayout>
-
+                        android:layout_margin="8dp"
+                        android:overScrollMode="never"
+                        android:paddingTop="16dp" />
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView

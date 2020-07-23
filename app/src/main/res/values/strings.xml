@@ -41,7 +41,7 @@
     <string name="discount">تخفیف</string>
     <string name="restaurant_taxes">مالیات</string>
     <string name="free">رایگان</string>
-    <string name="shipping_cost_on_location">هزینه پیک بر اساس موقعیت</string>
+    <string name="shipping_cost_on_location">هزینه ارسال</string>
     <string name="percent">%</string>
     <string name="empty_cart">سبد خرید خالس است.</string>
     <string name="order">سفارش</string>

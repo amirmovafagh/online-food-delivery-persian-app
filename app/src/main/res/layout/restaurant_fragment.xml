@@ -324,6 +324,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layoutAnimation="@anim/layout_animation_fall_down"
+                android:overScrollMode="never"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         </LinearLayout>

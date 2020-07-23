@@ -181,9 +181,9 @@
                     android:layout_height="wrap_content"
                     android:scaleType="matrix"
                     android:src="@drawable/table_pizza"
+                    app:layout_constraintBottom_toBottomOf="@id/lin_txt"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/lin_txt"
-                    app:layout_constraintBottom_toBottomOf="@id/lin_txt"/>
+                    app:layout_constraintTop_toTopOf="@id/lin_txt" />
 
                 <LinearLayout
                     android:id="@+id/lin_txt"
@@ -307,8 +307,8 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?attr/selectableItemBackground"
-                    app:cardCornerRadius="@dimen/card_view_corner_radius"
                     android:onClick="@{()-> homeViewModel.openMapDialog()}"
+                    app:cardCornerRadius="@dimen/card_view_corner_radius"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/recyclerview_food_type_search_filter_home">
@@ -334,8 +334,8 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/iran_sans_mobile_fa_num_bold"
                             android:text="@string/findRestaurantsAccordingToLocation"
-                            android:textSize="@dimen/h6_title_font_size"
                             android:textAlignment="center"
+                            android:textSize="@dimen/h6_title_font_size"
                             app:layout_constraintBottom_toBottomOf="@id/img_map"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toLeftOf="@id/img_map"

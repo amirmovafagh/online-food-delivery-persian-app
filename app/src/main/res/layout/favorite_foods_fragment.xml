@@ -1,5 +1,5 @@
-<layout xmlns:bind="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -17,6 +17,7 @@
         android:background="@drawable/wallpaper_restaurant_info"
         android:layoutDirection="rtl"
         tools:context=".ui.fragments.favoriteFoodsFragment.FavoriteFoodsFragment">
+
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
@@ -28,10 +29,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:theme="@style/ToolbarColoredBackArrow"
-                bind:title="@string/yourFavoriteFoods"
                 bind:subtitleTextColor="@color/materialGray900"
-                bind:titleTextColor="@color/materialGray900">
-            </androidx.appcompat.widget.Toolbar>
+                bind:title="@string/yourFavoriteFoods"
+                bind:titleTextColor="@color/materialGray900"></androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
         <FrameLayout
@@ -44,7 +44,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layoutAnimation="@anim/layout_animation_fall_down"
-            bind:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            android:overScrollMode="never"
+            bind:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_view_load_request"

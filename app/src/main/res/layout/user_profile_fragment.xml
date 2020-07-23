@@ -24,6 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/backgroundGrayLight_lowAlpha">
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -97,14 +98,14 @@
                 android:theme="@style/ToolbarColoredBackArrow"
                 app:subtitleTextColor="@color/materialGray900"
                 app:titleTextColor="@color/materialGray900">
+
                 <TextView
                     android:id="@+id/city_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.accountBalanceLiveData, default=اعتبار}"
                     android:textColor="@color/colorSecondPrimaryDark"
-                    android:textSize="@dimen/body1_paragraph_font_size"
-                    />
+                    android:textSize="@dimen/body1_paragraph_font_size" />
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -426,6 +427,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp"
                         android:layoutAnimation="@anim/layout_animation_fall_down"
+                        android:overScrollMode="never"
                         app:layout_constraintHorizontal_chainStyle="spread_inside"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/text_view_addresses" />

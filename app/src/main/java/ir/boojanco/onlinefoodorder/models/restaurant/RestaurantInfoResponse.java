@@ -150,10 +150,7 @@ public class RestaurantInfoResponse implements Serializable {
     }
 
     public String getMinimumOrder() {
-
-        NumberFormat formatter = new DecimalFormat("#,###");
-        String formattedNumber = formatter.format(minimumOrder);
-        return " تومان " + formattedNumber;
+        return moneyFormat(minimumOrder);
     }
 
     public String getName() {
@@ -161,9 +158,8 @@ public class RestaurantInfoResponse implements Serializable {
     }
 
     public String getPackingCost() {
-        NumberFormat formatter = new DecimalFormat("#,###");
-        String formattedNumber = formatter.format(packingCost);
-        return " تومان " + formattedNumber;
+
+        return moneyFormat(packingCost);
 
     }
 
@@ -174,17 +170,11 @@ public class RestaurantInfoResponse implements Serializable {
     }
 
     public String getShippingCostInRegion() {
-
-        NumberFormat formatter = new DecimalFormat("#,###");
-        String formattedNumber = formatter.format(shippingCostInCloseRegions);
-        return "داخل محدوده " + formattedNumber + " تومان";
-
+        return "محدوده نزدیک " + moneyFormat(shippingCostInCloseRegions);
     }
 
     public String getShippingCostOutRegion() {
-        NumberFormat formatter = new DecimalFormat("#,###");
-        String formattedNumber = formatter.format(shippingCostInServiceArea);
-        return "خارج از محدوده " + formattedNumber + " تومان";
+        return "محدوده سفارش\u200Cگیری " + moneyFormat(shippingCostInServiceArea);
     }
 
     public String getPhoneNumber() {
@@ -212,6 +202,12 @@ public class RestaurantInfoResponse implements Serializable {
 
             }
         return tagListString.toString();
+    }
+
+    private String moneyFormat(int cost) {
+        NumberFormat formatter = new DecimalFormat("#,###");
+        String formattedNumber = formatter.format(cost);
+        return formattedNumber + " تومان";
     }
 
     public String getAddress() {

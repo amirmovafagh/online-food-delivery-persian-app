@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layoutAnimation="@anim/layout_animation_fall_down"
             android:overScrollMode="never" />
+
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_view_load_request"
             android:layout_width="150dp"

@@ -36,12 +36,31 @@ public class MenuType {
         return days;
     }
 
-    public String getDaysList() {
+    /*public String getDaysList() {
         StringBuilder daysListString = new StringBuilder();
         daysListString.append(" ");
         if (days != null)
             for (String d : days) {
                 daysListString.append(d).append(", ");
+            }
+        return daysListString.toString();
+    }*/
+    public String getTypeAndTime() {
+        return name + " (" + end + " - " + start + ")";
+    }
+
+    public String getDaysList() {
+        StringBuilder daysListString = new StringBuilder();
+        daysListString.append(" ");
+        if (days != null)
+            for (int i = 0; i < days.size(); i++) {
+                String t = days.get(i);
+                if (i == days.size() - 1) {
+                    daysListString.append(t);
+                } else {
+                    daysListString.append(t).append(" • ");
+                }
+
             }
         return daysListString.toString();
     }

@@ -23,8 +23,8 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
-            android:background="@color/white"
             android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
             app:layout_scrollFlags="scroll|snap|enterAlways">
 
             <androidx.appcompat.widget.Toolbar
@@ -34,7 +34,7 @@
                 android:fitsSystemWindows="true"
                 android:theme="@style/ToolbarColoredBackArrow"
                 app:subtitleTextColor="@color/materialGray900"
-                app:titleTextColor="@color/materialGray900"/>
+                app:titleTextColor="@color/materialGray900" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
@@ -107,6 +107,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layoutAnimation="@anim/layout_animation_fall_down"
+                                android:overScrollMode="never"
                                 app:layout_constraintLeft_toLeftOf="parent"
                                 app:layout_constraintRight_toRightOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -495,6 +496,7 @@
                     android:layout_height="wrap_content"
                     android:layoutAnimation="@anim/layout_animation_fall_down"
                     android:minHeight="170dp"
+                    android:overScrollMode="never"
                     android:visibility="@{viewModel.changeViewLiveData ? View.GONE : View.VISIBLE ,default=visible}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"

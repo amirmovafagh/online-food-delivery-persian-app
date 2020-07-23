@@ -42,10 +42,6 @@ public class RestaurantInfoViewModel extends ViewModel {
     public MutableLiveData<String> restaurantPhoneNumber;
     public MutableLiveData<String> restaurantRegion;
     public MutableLiveData<String> restaurantTagList;
-    public MutableLiveData<String> restaurantMenuEndTimeLiveData;
-    public MutableLiveData<String> restaurantMenuStartTimeLiveData;
-    public MutableLiveData<String> restaurantMenuTypeNameLiveData;
-    public MutableLiveData<String> restaurantMenuTypeDaysLiveData;
     public RestaurantInfoFragmentInterface infoFragmentInterface;
 
     public RestaurantInfoViewModel(Context context, RestaurantRepository restaurantRepository) {
@@ -68,10 +64,6 @@ public class RestaurantInfoViewModel extends ViewModel {
         restaurantShippingCostOutRegion = new MutableLiveData<>();
         restaurantPhoneNumber = new MutableLiveData<>();
         restaurantRegion = new MutableLiveData<>();
-        restaurantMenuEndTimeLiveData = new MutableLiveData<>();
-        restaurantMenuStartTimeLiveData = new MutableLiveData<>();
-        restaurantMenuTypeNameLiveData = new MutableLiveData<>();
-        restaurantMenuTypeDaysLiveData = new MutableLiveData<>();
     }
 
     public void setRestaurantInfo(RestaurantInfoResponse restaurantInfo) {
@@ -126,10 +118,7 @@ public class RestaurantInfoViewModel extends ViewModel {
 
                 @Override
                 public void onNext(MenuTypesInfoResponse typesInfoResponse) {
-                    restaurantMenuStartTimeLiveData.setValue(typesInfoResponse.getMenuType().get(0).getStart());
-                    restaurantMenuEndTimeLiveData.setValue(typesInfoResponse.getMenuType().get(0).getEnd());
-                    restaurantMenuTypeNameLiveData.setValue(typesInfoResponse.getMenuType().get(0).getName());
-                    restaurantMenuTypeDaysLiveData.setValue(typesInfoResponse.getMenuType().get(0).getDaysList());
+                    infoFragmentInterface.onSuccess(typesInfoResponse.getMenuType());
                 }
             });
         }

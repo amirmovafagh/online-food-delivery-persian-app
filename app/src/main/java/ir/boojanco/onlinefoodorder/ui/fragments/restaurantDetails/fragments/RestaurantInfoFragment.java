@@ -9,12 +9,13 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,12 +25,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import ir.boojanco.onlinefoodorder.R;
 import ir.boojanco.onlinefoodorder.dagger.App;
 import ir.boojanco.onlinefoodorder.data.MySharedPreferences;
 import ir.boojanco.onlinefoodorder.databinding.RestaurantInfoFragmentBinding;
+import ir.boojanco.onlinefoodorder.models.restaurant.MenuType;
 import ir.boojanco.onlinefoodorder.viewmodels.RestaurantInfoSharedViewModel;
 import ir.boojanco.onlinefoodorder.viewmodels.factories.RestaurantInfoFragmentViewModelFactory;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantInfoFragmentInterface;
@@ -47,6 +51,8 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantInfoFr
 
     RestaurantInfoViewModel viewModel;
     RestaurantInfoSharedViewModel sharedViewModel;
+    private RecyclerView recyclerViewRestaurantsMenuTypeInfo;
+    private RestaurantMenuTypeInfoAdapter restaurantsMenuTypeAdapter;
 
     private GoogleMap googleMap;
 
@@ -72,6 +78,12 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantInfoFr
             viewModel.setRestaurantInfo(restaurantInfoResponse);
         });
 
+        recyclerViewRestaurantsMenuTypeInfo = binding.rvMenuTypeInfoItems;
+        recyclerViewRestaurantsMenuTypeInfo.setLayoutManager(new LinearLayoutManager(application));
+        recyclerViewRestaurantsMenuTypeInfo.setHasFixedSize(true);
+        restaurantsMenuTypeAdapter = new RestaurantMenuTypeInfoAdapter();
+        recyclerViewRestaurantsMenuTypeInfo.setAdapter(restaurantsMenuTypeAdapter);
+
         return binding.getRoot();
     }
 
@@ -85,12 +97,12 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantInfoFr
 
     @Override
     public void onMapReady(GoogleMap map) {
-        if(map != null){
+        if (map != null) {
             this.googleMap = map;
             LatLng restaurantLatLng = new LatLng(31.839271, 54.361095);
 
             googleMap.addMarker(new MarkerOptions().position(restaurantLatLng).title("Marker in Restaurant"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(restaurantLatLng,16));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(restaurantLatLng, 16));
 
 
 
@@ -108,8 +120,8 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantInfoFr
     }
 
     @Override
-    public void onSuccess() {
-
+    public void onSuccess(List<MenuType> menuType) {
+        restaurantsMenuTypeAdapter.setMenuItems(menuType);
     }
 
     @Override
@@ -119,7 +131,6 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantInfoFr
                 .setBackgroundTint(getResources().getColor(R.color.colorLowGold));
         snackbar.show();
     }
-
 
 
 }

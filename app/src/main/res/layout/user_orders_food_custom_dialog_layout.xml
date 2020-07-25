@@ -22,7 +22,8 @@
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:overScrollMode="never">
 
 
             <androidx.cardview.widget.CardView
@@ -275,14 +276,14 @@
                                     android:textStyle="bold"
                                     android:visibility="@{variables.acceptButtonStateLiveData ? View.VISIBLE : View.GONE}"
                                     app:cornerRadius="@dimen/button_corner_radius"
+                                    app:layout_constraintLeft_toRightOf="@id/btn_close_comment"
                                     app:layout_constraintRight_toRightOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintLeft_toRightOf="@id/btn_close_comment"/>
+                                    app:layout_constraintTop_toTopOf="parent" />
 
                                 <Button
                                     android:id="@+id/btn_close_comment"
-                                    android:layout_width="wrap_content"
                                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginTop="8dp"
@@ -294,10 +295,10 @@
                                     android:textStyle="bold"
                                     android:visibility="@{variables.acceptButtonStateLiveData ? View.VISIBLE : View.GONE}"
                                     app:cornerRadius="@dimen/button_corner_radius"
-                                    app:layout_constraintLeft_toLeftOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
                                     app:layout_constraintBottom_toBottomOf="@id/btn_accept_comment"
-                                    app:layout_constraintRight_toLeftOf="@id/btn_accept_comment"/>
+                                    app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintRight_toLeftOf="@id/btn_accept_comment"
+                                    app:layout_constraintTop_toTopOf="parent" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
                         </LinearLayout>

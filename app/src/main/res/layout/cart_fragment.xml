@@ -41,6 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/backgroundGrayLight_lowAlpha"
+            android:overScrollMode="never"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -552,6 +553,7 @@
             android:fitsSystemWindows="true"
             android:layoutDirection="rtl"
             android:orientation="vertical"
+            android:overScrollMode="never"
             android:padding="16dp"
             android:visibility="@{viewModel.changeViewLiveData ? View.VISIBLE : View.GONE , default=gone}"
             app:behavior_hideable="true"

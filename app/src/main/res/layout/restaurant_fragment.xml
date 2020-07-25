@@ -396,6 +396,7 @@
             android:background="@drawable/bg_bottom_sheet"
             android:layoutDirection="rtl"
             android:orientation="vertical"
+            android:overScrollMode="never"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingBottom="16dp"

@@ -59,10 +59,9 @@
 
             <ImageView
                 android:id="@+id/ivLogo"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
                 android:scaleType="matrix"
-
                 bind:image="@{foodItem.logo}"
                 bind:layout_constraintHorizontal_bias="0"
                 bind:layout_constraintLeft_toLeftOf="parent"

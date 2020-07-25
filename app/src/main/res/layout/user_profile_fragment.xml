@@ -113,6 +113,7 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:overScrollMode="never"
             android:visibility="@{viewModel.profileChangeVisibility ? View.VISIBLE : View.GONE}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -494,6 +495,7 @@
             android:background="@drawable/bg_bottom_sheet"
             android:fitsSystemWindows="true"
             android:layoutDirection="rtl"
+            android:overScrollMode="never"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingBottom="16dp"
@@ -525,6 +527,7 @@
             android:fitsSystemWindows="true"
             android:layoutDirection="rtl"
             android:orientation="vertical"
+            android:overScrollMode="never"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingBottom="16dp"

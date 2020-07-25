@@ -2,12 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="cartItem"
-            type="ir.boojanco.onlinefoodorder.data.database.CartItem"/>
+            type="ir.boojanco.onlinefoodorder.data.database.CartItem" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -15,17 +16,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:animateLayoutChanges="true"
+        android:layoutDirection="rtl"
         android:visibility="@{cartItem != null ? 0 : 8 }"
         card_view:cardCornerRadius="@dimen/card_view_corner_radius"
-        tools:targetApi="lollipop"
-        android:layoutDirection="rtl"
-        android:animateLayoutChanges="true"
-        >
+        tools:targetApi="lollipop">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/textViewName"
@@ -58,7 +57,6 @@
                 bind:layout_constraintTop_toTopOf="parent" />
 
 
-
             <View
                 android:id="@+id/divider"
                 android:layout_width="0dp"
@@ -67,82 +65,70 @@
                 android:background="?android:attr/listDivider"
                 bind:layout_constraintLeft_toRightOf="@+id/ivLogo"
                 bind:layout_constraintRight_toRightOf="parent"
-                bind:layout_constraintTop_toBottomOf="@+id/textViewName"
-                />
+                bind:layout_constraintTop_toBottomOf="@+id/textViewName" />
+
             <ImageButton
                 android:id="@+id/img_btn_increase"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                bind:srcCompat="@drawable/ic_add"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/custom_button_add_to_cart"
-                bind:layout_constraintTop_toBottomOf="@id/divider"
-                bind:layout_constraintRight_toRightOf="@id/divider"
                 bind:layout_constraintBottom_toBottomOf="parent"
-                />
+                bind:layout_constraintRight_toRightOf="@id/divider"
+                bind:layout_constraintTop_toBottomOf="@id/divider"
+                bind:srcCompat="@drawable/ic_add" />
+
             <TextView
                 android:id="@+id/text_view_item_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:minWidth="15dp"
+                android:minHeight="25dp"
+                android:padding="1dp"
                 android:text="@{String.valueOf(cartItem.foodQuantity),default=0}"
-                bind:layout_constraintTop_toTopOf="@+id/img_btn_increase"
                 bind:layout_constraintBottom_toBottomOf="@id/img_btn_increase"
-                bind:layout_constraintRight_toLeftOf="@id/img_btn_increase"/>
+                bind:layout_constraintRight_toLeftOf="@id/img_btn_increase"
+                bind:layout_constraintTop_toTopOf="@+id/img_btn_increase" />
+
             <ImageButton
                 android:id="@+id/img_btn_decrease"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                bind:srcCompat="@drawable/ic_remove"
                 android:background="@drawable/custom_button_add_to_cart"
-                bind:layout_constraintTop_toTopOf="@id/text_view_item_count"
-                bind:layout_constraintRight_toLeftOf="@id/text_view_item_count"
                 bind:layout_constraintBottom_toBottomOf="@id/text_view_item_count"
-                />
+                bind:layout_constraintRight_toLeftOf="@id/text_view_item_count"
+                bind:layout_constraintTop_toTopOf="@id/text_view_item_count"
+                bind:srcCompat="@drawable/ic_remove" />
+
             <TextView
                 android:id="@+id/text_view_price"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
-                android:textAlignment="center"
                 android:gravity="center"
-                android:text="@{cartItem.foodPriceMoneyFormat}"
-                android:textSize="@dimen/body3_paragraph_font_size"
                 android:maxLines="1"
-                bind:layout_constraintLeft_toLeftOf="@id/divider"
-                bind:layout_constraintTop_toBottomOf="@id/divider"
+                android:text="@{cartItem.foodPriceMoneyFormat}"
+                android:textAlignment="center"
+                android:textSize="@dimen/body3_paragraph_font_size"
                 bind:layout_constraintBottom_toTopOf="@id/text_view_discounted_price"
-                />
+                bind:layout_constraintLeft_toLeftOf="@id/divider"
+                bind:layout_constraintTop_toBottomOf="@id/divider" />
+
             <TextView
                 android:id="@+id/text_view_discounted_price"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:textAlignment="center"
                 android:gravity="center"
-                android:textSize="@dimen/body3_paragraph_font_size"
-                android:text="@{cartItem.discountedPrice}"
                 android:maxLines="1"
+                android:text="@{cartItem.discountedPrice}"
+                android:textAlignment="center"
+                android:textSize="@dimen/body3_paragraph_font_size"
+                bind:layout_constraintBottom_toBottomOf="parent"
                 bind:layout_constraintLeft_toLeftOf="@id/text_view_price"
                 bind:layout_constraintRight_toRightOf="@id/text_view_price"
-                bind:layout_constraintTop_toBottomOf="@id/text_view_price"
-                bind:layout_constraintBottom_toBottomOf="parent"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:padding="2dp"
-                android:textAlignment="center"
-                android:gravity="center"
-                android:textSize="@dimen/body4_paragraph_font_size"
-                android:background="@drawable/custom_button_add_to_cart"
-                android:text="@{String.valueOf(cartItem.foodDiscount)}"
-                bind:layout_constraintTop_toTopOf="@id/divider"
-                bind:layout_constraintLeft_toRightOf="@id/text_view_price"
-                bind:layout_constraintBottom_toBottomOf="parent"
-                />
-
+                bind:layout_constraintTop_toBottomOf="@id/text_view_price" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

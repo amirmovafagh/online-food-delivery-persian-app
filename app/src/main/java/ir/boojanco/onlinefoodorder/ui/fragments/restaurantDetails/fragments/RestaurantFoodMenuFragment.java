@@ -23,16 +23,20 @@ import androidx.recyclerview.widget.SnapHelper;
 import androidx.transition.AutoTransition;
 import androidx.transition.TransitionManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -186,6 +190,16 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
                 TransitionManager.beginDelayedTransition(mainLayout, transition);
                 expandableView.setVisibility(View.GONE);
                 binding.textViewClubScore.setVisibility(View.GONE);
+            }
+        });
+
+        recyclerViewFoodMenu.getViewTreeObserver().addOnScrollChangedListener(() -> {
+            for (int childCount = recyclerViewFoodMenu.getChildCount(), i = 0; i < childCount; ++i) {
+
+                if (recyclerViewFoodMenu.getChildViewHolder(recyclerViewFoodMenu.getChildAt(i)).getItemViewType() == 1) {
+                    Log.e(TAG, "" + foodTypeIndex.get(recyclerViewFoodMenu.getChildViewHolder(recyclerViewFoodMenu.getChildAt(i)).getLayoutPosition()));
+                }
+
             }
         });
     }

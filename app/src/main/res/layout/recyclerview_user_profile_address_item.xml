@@ -11,16 +11,15 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layoutDirection="rtl"
         android:layout_marginRight="8dp"
+        android:layoutDirection="rtl"
         android:orientation="horizontal">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-
-            >
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="8dp">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_main_address_layout"
@@ -44,9 +43,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="0.8"
-                        android:paddingTop="4dp"
                         android:ellipsize="end"
                         android:maxLines="5"
+                        android:paddingTop="4dp"
                         android:text="@{addressList.completeAddress ,default=@string/address}"
                         android:textSize="@dimen/body3_paragraph_font_size" />
 
@@ -64,9 +63,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_weight="0.5"
-                            android:tint="@color/materialGray850"
                             android:src="@drawable/ic_edit_location"
-                            />
+                            android:tint="@color/materialGray850" />
 
                         <ImageView
                             android:id="@+id/img_remove_address"
@@ -104,11 +102,11 @@
                     android:layout_marginEnd="4dp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:textStyle="bold"
                     android:text="@{addressList.tag}"
                     android:textAlignment="center"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/body3_paragraph_font_size" />
+                    android:textSize="@dimen/body3_paragraph_font_size"
+                    android:textStyle="bold" />
 
             </androidx.cardview.widget.CardView>
         </androidx.constraintlayout.widget.ConstraintLayout>

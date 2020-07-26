@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/search"
             app:boxBackgroundColor="@color/transparent"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/cv_close"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -33,6 +33,25 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardCornerRadius="@dimen/little_view_corner_radius"
+            app:layout_constraintBottom_toBottomOf="@id/txtInputLayoutLoginPhoneNumber"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/txtInputLayoutLoginPhoneNumber"
+            app:layout_constraintTop_toTopOf="@id/txtInputLayoutLoginPhoneNumber">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:srcCompat="@drawable/ic_close_black_24dp" />
+        </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_state_city"

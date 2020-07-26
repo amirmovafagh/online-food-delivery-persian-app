@@ -18,17 +18,45 @@
         android:layoutDirection="rtl"
         android:orientation="vertical">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:drawableStart="@drawable/ic_deliver_in_my_address"
-            android:drawablePadding="4dp"
-            android:maxLines="1"
-            android:text="@string/add_new_address"
-            android:textAlignment="center"
-            android:textSize="@dimen/body1_paragraph_font_size" />
+            <TextView
+                android:id="@+id/txt_add_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:drawableStart="@drawable/ic_deliver_in_my_address"
+                android:drawablePadding="4dp"
+                android:fontFamily="@font/iran_sans_mobile_fa_num_bold"
+                android:maxLines="1"
+                android:text="@string/add_new_address"
+                android:textAlignment="center"
+                android:textSize="@dimen/body1_paragraph_font_size"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintLeft_toRightOf="@id/btn_close"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/btn_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
+                android:background="@drawable/ic_close_black_24dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="@{()->viewModel.closeFilterBottomSheetOnClick()}"
+                app:layout_constraintBottom_toBottomOf="@id/txt_add_address"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/txt_add_address"
+                app:layout_constraintTop_toTopOf="@id/txt_add_address" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <View
             android:layout_width="match_parent"
@@ -231,6 +259,7 @@
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
+
         <Button
             android:id="@+id/btn_accept_address"
             android:layout_width="wrap_content"

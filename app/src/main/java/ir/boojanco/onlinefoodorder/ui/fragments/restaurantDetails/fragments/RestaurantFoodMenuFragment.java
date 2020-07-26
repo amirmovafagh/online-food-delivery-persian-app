@@ -70,6 +70,7 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     CartDataSource cartDataSource;
 
     private ArrayList<String> foodTypeIndex;
+    private ArrayList<String> pureFoodTypeIndex;
 
     private RestaurantFoodMenuViewModel viewModel;
     private RestaurantFoodMenuFragmentBinding binding;
@@ -77,7 +78,7 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     private RestaurantFoodMenuAdapter adapterMenu;
     private RestaurantFoodTypeAdapter adapterFoodType;
     private RestaurantPackageAdapter adapterPackage;
-    private LinearLayoutManager linearLayoutManagerFoodMenu;
+    private LinearLayoutManager linearLayoutManagerFoodMenu, linearLayoutManagerFoodType;
     private AutoTransition transition;
     private Bundle bundleCartFragment;
     private NavController navigation;
@@ -132,8 +133,8 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
             recyclerViewRestaurantPackage.setAdapter(adapterPackage);
             recyclerViewRestaurantPackage.setItemViewCacheSize(20);
 
-
-            recyclerViewFoodType.setLayoutManager(new LinearLayoutManager(getActivity().getApplication(), LinearLayoutManager.HORIZONTAL, false));
+            linearLayoutManagerFoodType = new LinearLayoutManager(getActivity().getApplication(), LinearLayoutManager.HORIZONTAL, false);
+            recyclerViewFoodType.setLayoutManager(linearLayoutManagerFoodType);
             recyclerViewFoodType.canScrollHorizontally(0);
             recyclerViewFoodType.setHasFixedSize(true);
             adapterFoodType = new RestaurantFoodTypeAdapter(this, application);
@@ -193,11 +194,17 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
             }
         });
 
-        recyclerViewFoodMenu.getViewTreeObserver().addOnScrollChangedListener(() -> {
+        recyclerViewFoodMenu.getViewTreeObserver().addOnScrollChangedListener(() -> { // managing on Scroll foodMenu And select foodType recyclerView
             for (int childCount = recyclerViewFoodMenu.getChildCount(), i = 0; i < childCount; ++i) {
 
-                if (recyclerViewFoodMenu.getChildViewHolder(recyclerViewFoodMenu.getChildAt(i)).getItemViewType() == 1) {
+                if (recyclerViewFoodMenu.getChildViewHolder(recyclerViewFoodMenu.getChildAt(i)).getItemViewType() == 1) { // if is as header type condition is true
                     Log.e(TAG, "" + foodTypeIndex.get(recyclerViewFoodMenu.getChildViewHolder(recyclerViewFoodMenu.getChildAt(i)).getLayoutPosition()));
+                    for (int j = 0; j < pureFoodTypeIndex.size(); j++) {
+                        if (pureFoodTypeIndex.get(j).equals(foodTypeIndex.get(recyclerViewFoodMenu.getChildViewHolder(recyclerViewFoodMenu.getChildAt(i)).getLayoutPosition()))) {
+                            linearLayoutManagerFoodType.scrollToPositionWithOffset(j, linearLayoutManagerFoodType.getPaddingRight());
+                            adapterFoodType.changeOnScrollFoodMenu(j);
+                        }
+                    }
                 }
 
             }
@@ -218,6 +225,13 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
         this.foodTypeIndex = foodTypeIndex;
         recyclerViewFoodMenu.scheduleLayoutAnimation();
         adapterMenu.setFoodLists(items);
+
+        pureFoodTypeIndex = new ArrayList<>(); //use this variable for checking on scroll food menu and change food category
+        for (String str : foodTypeIndex) {
+            if (!str.equals(" ")) {
+                pureFoodTypeIndex.add(str);
+            }
+        }
     }
 
     @Override

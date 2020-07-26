@@ -41,4 +41,6 @@ public interface CartInterface {
     void hideAddressBottomSheet(String msg);
 
     void resetAddressRecyclerView();
+
+    void closeBottomSheet();
 }

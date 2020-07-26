@@ -400,8 +400,9 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
                 public void onNext(ReverseFindAddressResponse reverseFindAddressResponse) {
                     state.setValue(reverseFindAddressResponse.getState());
                     city.setValue(reverseFindAddressResponse.getCity());
-                    region.setValue(reverseFindAddressResponse.getShortAddress());
-                    userProfileInterface.onFailure("" + reverseFindAddressResponse.getShortAddress() + "  " + state.getValue() + "  " + city.getValue());
+                    String shortAddress[] = reverseFindAddressResponse.getShortAddress().split("،");
+                    region.setValue(shortAddress[0]);
+                    Log.i(TAG, "shortAddress: " + region.getValue() + " state: " + state.getValue() + " city: " + city.getValue());
 
                 }
             });
@@ -522,7 +523,7 @@ public class UserProfileViewModel extends ViewModel implements AddressDataSource
     }
 
     public void addMapPositionBtnClick() {
-        onFailure("" + state.getValue() + " " + stateId + " " + city.getValue() + " " + cityId);
+        Log.i(TAG,"" + state.getValue() + " " + stateId + " " + city.getValue() + " " + cityId);
         bottomSheetChangeVisibility.setValue(true);
         userProfileInterface.showAddressBottomSheet();
     }

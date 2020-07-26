@@ -349,6 +349,11 @@ public class CartFragment extends Fragment implements CartInterface, RecyclerVie
     }
 
     @Override
+    public void closeBottomSheet() {
+        sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+    }
+
+    @Override
     public void onStateItemClick(AllStatesList state) {
         viewModel.stateId = state.getId();
         viewModel.state.setValue(state.getName());

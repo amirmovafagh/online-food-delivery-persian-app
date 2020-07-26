@@ -167,6 +167,9 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
         restaurantAddressLiveData.setValue(restaurantInfo.getRegion() + restaurantInfo.getAddress());
 
     }
+    public void closeFilterBottomSheetOnClick(){
+        fragmentInterface.closeBottomSheet();
+    }
 
     public void OnButtonDeliveryChecked(View view) {
         if (view.getId() == R.id.btn_your_address) {
@@ -296,14 +299,14 @@ public class CartViewModel extends ViewModel implements AddressDataSourceInterfa
                     state.setValue(reverseFindAddressResponse.getState());
                     city.setValue(reverseFindAddressResponse.getCity());
                     region.setValue(reverseFindAddressResponse.getShortAddress());
-                    fragmentInterface.onFailure("" + reverseFindAddressResponse.getShortAddress() + "  " + state.getValue() + "  " + city.getValue());
+                    Log.i(TAG, "shortAddress: " + reverseFindAddressResponse.getShortAddress() + " state: " + state.getValue() + " city: " + city.getValue());
                 }
             });
         }
     }
 
     public void addMapPositionBtnClick() {
-        onFailure("" + state.getValue() + " " + stateId + " " + city.getValue() + " " + cityId);
+        Log.i(TAG, "" + state.getValue() + " " + stateId + " " + city.getValue() + " " + cityId);
         fragmentInterface.showAddressBottomSheet();
     }
 

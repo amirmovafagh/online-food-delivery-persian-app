@@ -18,10 +18,11 @@ public class RestaurantFoodTypeAdapter extends RecyclerView.Adapter<RestaurantFo
     private List<String> foodTypeLists;
     private Context context;
     public RecyclerViewRestaurantFoodTypeClickListener clickListener;
+    private boolean isScrollFlag = true;
 
     // if checkedPosition = -1, there is no default selection
     // if checkedPosition = 0, 1st item is selected by default
-    private int selectedPosition = 0;
+    private int selectedPosition = -1;
 
 
     public RestaurantFoodTypeAdapter(RecyclerViewRestaurantFoodTypeClickListener clickListener, Context context) {
@@ -42,6 +43,7 @@ public class RestaurantFoodTypeAdapter extends RecyclerView.Adapter<RestaurantFo
     @Override
     public void onBindViewHolder(@NonNull FoodTypeViewHolder holder, int position) {
         holder.binding.setFoodType(foodTypeLists.get(position));
+
         if (selectedPosition == position) {// is selected
             holder.binding.cvFoodTypeTextBackground.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
             holder.binding.cvFoodTypeTextBackground.setCardElevation(4);
@@ -62,7 +64,13 @@ public class RestaurantFoodTypeAdapter extends RecyclerView.Adapter<RestaurantFo
             notifyDataSetChanged();
         });
 
+    }
 
+    public void changeOnScrollFoodMenu(int p) {
+        if (selectedPosition != p) {
+            selectedPosition = p;
+            notifyDataSetChanged();
+        }
     }
 
 

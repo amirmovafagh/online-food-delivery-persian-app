@@ -78,6 +78,7 @@ public class CustomStateCityDialog extends Dialog implements StateCityDialogAnim
         cityRecyclerView.setLayoutManager( new LinearLayoutManager(activity));
         cityRecyclerView.setAdapter(cityAdapter);
 
+        binding.cvClose.setOnClickListener(v -> dismiss());
 
 
         tvSearch.addTextChangedListener(new TextWatcher() {

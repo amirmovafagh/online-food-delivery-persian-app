@@ -179,10 +179,9 @@ public class HomeViewModel extends ViewModel {
 
                             fragmentInterface.onFailure(jsonObject.getString("message"));
 
-
                         } catch (Exception d) {
-                            fragmentInterface.onFailure(d.getMessage());
-                            Log.i(TAG, "" + d.getMessage());
+//                            fragmentInterface.onFailure(d.getMessage());
+                            Log.e(TAG, "" + d.getMessage());
                         }
                     }
                 }

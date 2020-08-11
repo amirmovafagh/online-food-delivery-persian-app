@@ -10,6 +10,10 @@ import java.util.List;
 import static ir.boojanco.onlinefoodorder.dagger.App.webServerMediaRoute;
 
 public class RestaurantInfoResponse implements Serializable {
+    @SerializedName("menuTypes")
+    private MenuTypesInfo menuTypesInfo;
+    @SerializedName("assessments")
+    private RestaurantAssessment assessments;
     @SerializedName("averageScore")
     private Float averageScore;
     @SerializedName("branch")
@@ -30,10 +34,14 @@ public class RestaurantInfoResponse implements Serializable {
     private String logo;
     @SerializedName("minimumOrder")
     private int minimumOrder;
+    @SerializedName("userClubPoints")
+    private int userClubPoints;
     @SerializedName("name")
     private String name;
     @SerializedName("packingCost")
     private int packingCost;
+    @SerializedName("commentCount")
+    private int commentCount;
     @SerializedName("shippingCostInCloseRegions")
     private int shippingCostInCloseRegions;
     @SerializedName("shippingCostInServiceArea")
@@ -63,6 +71,26 @@ public class RestaurantInfoResponse implements Serializable {
 
     public void setShippingCostInCloseRegions(int shippingCostInCloseRegions) {
         this.shippingCostInCloseRegions = shippingCostInCloseRegions;
+    }
+
+    public RestaurantAssessment getAssessments() {
+        return assessments;
+    }
+
+    public void setAssessments(RestaurantAssessment assessments) {
+        this.assessments = assessments;
+    }
+
+    public int getCommentCount() {
+        return commentCount;
+    }
+
+    public MenuTypesInfo getMenuTypesInfo() {
+        return menuTypesInfo;
+    }
+
+    public int getUserClubPoints() {
+        return userClubPoints;
     }
 
     public boolean isWorking() {

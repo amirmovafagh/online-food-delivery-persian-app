@@ -1,25 +1,13 @@
 package ir.boojanco.onlinefoodorder.ui.fragments.restaurantDetails.fragments;
 
 import android.content.Context;
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import org.json.JSONObject;
-
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
-import ir.boojanco.onlinefoodorder.models.restaurant.MenuTypesInfoResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
-import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantInfoFragmentInterface;
-import retrofit2.HttpException;
-import retrofit2.Response;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class RestaurantInfoViewModel extends ViewModel {
     private static final String TAG = RestaurantInfoViewModel.class.getSimpleName();
@@ -83,45 +71,9 @@ public class RestaurantInfoViewModel extends ViewModel {
         restaurantPhoneNumber.setValue(restaurantInfo.getPhoneNumber());
         restaurantRegion.setValue(restaurantInfo.getRegion());
         restaurantTagList.setValue(restaurantInfo.getTagList());
-        getRestaurantMenuTypesInfo(restaurantInfo.getId());
+        infoFragmentInterface.onSuccess(restaurantInfo.getMenuTypesInfo().getMenuType());
+
     }
 
-    private void getRestaurantMenuTypesInfo(long restaurantId) {
-        infoFragmentInterface.onStarted();
-        Observable<MenuTypesInfoResponse> observable = restaurantRepository.getMenuTypesInfo(restaurantId);
-        if (observable != null) {
-            observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<MenuTypesInfoResponse>() {
-                @Override
-                public void onCompleted() {
-
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    Log.e(TAG, "" + e.toString());
-                    if (e instanceof NoNetworkConnectionException)
-                        infoFragmentInterface.onFailure(e.getMessage());
-                    if (e instanceof HttpException) {
-                        Response response = ((HttpException) e).response();
-
-                        try {
-                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
-
-                            infoFragmentInterface.onFailure(jsonObject.getString("message"));
-
-
-                        } catch (Exception d) {
-                            Log.e(TAG, "" + d.getMessage());
-                        }
-                    }
-                }
-
-                @Override
-                public void onNext(MenuTypesInfoResponse typesInfoResponse) {
-                    infoFragmentInterface.onSuccess(typesInfoResponse.getMenuType());
-                }
-            });
-        }
-    }
 
 }

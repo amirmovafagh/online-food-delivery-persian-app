@@ -11,7 +11,7 @@ public class ActivateUserBody {
     private String password;
 
     public ActivateUserBody(String confirmPass, String mobile, String password) {
-        this.confirmPassword = confirmPassword;
+        this.confirmPassword = confirmPass;
         this.mobile = mobile;
         this.password = password;
     }

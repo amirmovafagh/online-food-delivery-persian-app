@@ -1,7 +1,5 @@
 package ir.boojanco.onlinefoodorder.data.networking;
 
-import java.util.ArrayList;
-
 import ir.boojanco.onlinefoodorder.models.food.FoodCategoriesResponse;
 import ir.boojanco.onlinefoodorder.models.food.FavoriteFoodsResponse;
 import ir.boojanco.onlinefoodorder.models.food.GetAllFoodResponse;
@@ -9,8 +7,6 @@ import ir.boojanco.onlinefoodorder.models.map.ReverseFindAddressResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.DiscountCodeResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.FavoriteRestaurantsResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.GetRestaurantCommentResponse;
-import ir.boojanco.onlinefoodorder.models.restaurant.MenuTypesInfoResponse;
-import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantAssessmentResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantResponse;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
 import ir.boojanco.onlinefoodorder.models.restaurantPackage.AllPackagesResponse;
@@ -25,7 +21,6 @@ import ir.boojanco.onlinefoodorder.models.user.GetUserOrderCommentResponse;
 import ir.boojanco.onlinefoodorder.models.user.GetUserOrdersResponse;
 import ir.boojanco.onlinefoodorder.models.user.LoginUserResponse;
 import ir.boojanco.onlinefoodorder.models.user.RecreatePass;
-import ir.boojanco.onlinefoodorder.models.user.UserPointRestaurantClubResponse;
 import ir.boojanco.onlinefoodorder.models.user.UserProfileResponse;
 import ir.boojanco.onlinefoodorder.models.user.UserSession;
 import ir.boojanco.onlinefoodorder.models.user.VerificationNewUserResponse;
@@ -88,17 +83,13 @@ public interface ApiInterface {
             @Query("discountFilter") Object discountFilter, @Query("servingFilter") Object servingFilter, @Query("getInPlaceFilter") Object getInPlaceFilter,
             @Query("lat") Object latitude, @Query("lon") Object longitude, @Query("page") int page, @Query("size") int size, @Query("sortBy") Object sortBy);
 
-    @GET("/api/restaurant/{restaurantId}/assessment")
-    Observable<RestaurantAssessmentResponse> getRestaurantAssessment(@Path("restaurantId") long restaurantId);
 
     @GET("/api/food/restaurant/{restaurantId}")
     Observable<GetAllFoodResponse> getAllFood(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
 
     @GET("/api/restaurant/{restaurantId}/info")
-    Observable<RestaurantInfoResponse> getRestaurantInfo(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
+    Observable<RestaurantInfoResponse> getRestaurantInfo(@Path("restaurantId") long restaurantId);
 
-    @GET("/api/menu/{restaurantId}/menuType/info")
-    Observable<MenuTypesInfoResponse> getMenuTypesInfo(@Path("restaurantId") long restaurantId);
 
     @GET("/api/restaurant/{restaurantId}/addToFavoriteList")
     Observable<Response<Void>> addRestaurantToFavoriteList(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
@@ -114,9 +105,6 @@ public interface ApiInterface {
 
     @GET("/api/package/{restaurantId}/valid")
     Observable<AllPackagesResponse> getAllPackagesResponseObservable(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
-
-    @GET("/api/club/restaurant/{restaurantId}/user/points")
-    Observable<UserPointRestaurantClubResponse> getUserPointInRestaurantClub(@Header("Authorization") String authToken, @Path("restaurantId") long restaurantId);
 
     @GET("/api/discountCode/validate/{code}")
     Observable<DiscountCodeResponse> getDiscountCodeResponseObservable(@Header("Authorization") String authToken, @Path("code") String code, @Query("restaurantId") Long restaurantId, @Query("totalCost") int totalCost);

@@ -10,13 +10,10 @@ import androidx.lifecycle.ViewModel;
 
 import org.json.JSONObject;
 
-import java.util.Random;
-
 import ir.boojanco.onlinefoodorder.data.database.CartDataSource;
 import ir.boojanco.onlinefoodorder.data.repositories.RestaurantRepository;
-import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantAssessmentResponse;
+import ir.boojanco.onlinefoodorder.models.restaurant.MenuTypesInfo;
 import ir.boojanco.onlinefoodorder.models.restaurant.RestaurantInfoResponse;
-import ir.boojanco.onlinefoodorder.models.user.UserPointRestaurantClubResponse;
 import ir.boojanco.onlinefoodorder.util.NoNetworkConnectionException;
 import ir.boojanco.onlinefoodorder.viewmodels.interfaces.RestaurantDetailsInterface;
 import retrofit2.HttpException;
@@ -91,7 +88,7 @@ public class RestaurantDetailsViewModel extends ViewModel {
     public void getRestaurantInfo(String authToken, long restaurantId) {
         userAuthToken = authToken;
         this.restaurantId = restaurantId;
-        Observable<RestaurantInfoResponse> observable = restaurantRepository.getRestaurantInfo(authToken, restaurantId);
+        Observable<RestaurantInfoResponse> observable = restaurantRepository.getRestaurantInfo( restaurantId);
 
         if (observable != null) {
             observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<RestaurantInfoResponse>() {
@@ -123,9 +120,25 @@ public class RestaurantDetailsViewModel extends ViewModel {
                 @Override
                 public void onNext(RestaurantInfoResponse restaurantInfo) {
                     fragmentInterface.onStarted();
-                    if (authToken != null)
-                        getUserRestaurantClubPoint(authToken, restaurantId);
-                    getRestaurantAssessment();
+
+                    restaurantcommentCount.setValue(String.valueOf(restaurantInfo.getAssessments().getCommentCount()));
+
+                    int colors[] = new int[]{
+                            Color.parseColor("#0e9d58"),
+                            Color.parseColor("#bfd047"),
+                            Color.parseColor("#ffc105"),
+                    };
+
+                    int raters[] = new int[]{
+                            (int) (restaurantInfo.getAssessments().getFoodQuality() * 10),
+                            (int) (restaurantInfo.getAssessments().getArrivalTime() * 10),
+                            (int) (restaurantInfo.getAssessments().getPersonnelBehaviour() * 10)
+                    };
+
+                    fragmentInterface.initRatingViews(colors, raters);
+
+                    fragmentInterface.setUserClubPoint(restaurantInfo.getUserClubPoints());
+
                     restaurantWorking.setValue(restaurantInfo.isWorking());
                     restaurantCover.setValue(restaurantInfo.getCover());
                     restaurantLogo.setValue(restaurantInfo.getLogo());
@@ -145,94 +158,6 @@ public class RestaurantDetailsViewModel extends ViewModel {
                     restaurantTagList.setValue(restaurantInfo.getTagList());
 
                     fragmentInterface.onSuccess(restaurantInfo);
-                }
-            });
-        }
-    }
-
-    private void getRestaurantAssessment() {
-        Observable<RestaurantAssessmentResponse> observable = restaurantRepository.getRestaurantAssessment(restaurantId);
-        if (observable != null) {
-            observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<RestaurantAssessmentResponse>() {
-                @Override
-                public void onCompleted() {
-
-                }
-
-                @Override
-                public void onError(Throwable e) {
-
-                    if (e instanceof NoNetworkConnectionException)
-                        fragmentInterface.onFailure(e.getMessage());
-                    if (e instanceof HttpException) {
-                        Response response = ((HttpException) e).response();
-
-                        try {
-                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
-
-                            fragmentInterface.onFailure(jsonObject.getString("message"));
-
-
-                        } catch (Exception d) {
-                            Log.i(TAG, "" + d.getMessage());
-                        }
-                    }
-                }
-
-                @Override
-                public void onNext(RestaurantAssessmentResponse assessmentResponse) {
-                    restaurantcommentCount.setValue(String.valueOf(assessmentResponse.getCommentCount()));
-
-                    int colors[] = new int[]{
-                            Color.parseColor("#0e9d58"),
-                            Color.parseColor("#bfd047"),
-                            Color.parseColor("#ffc105"),
-                    };
-
-                    int raters[] = new int[]{
-                            (int) (assessmentResponse.getFoodQuality() * 10),
-                            (int) (assessmentResponse.getArrivalTime() * 10),
-                            (int) (assessmentResponse.getPersonnelBehaviour() * 10)
-                    };
-
-                    fragmentInterface.initRatingViews(colors, raters);
-                }
-            });
-        }
-    }
-
-    private void getUserRestaurantClubPoint(String authToken, long restaurantId) {
-        Observable<UserPointRestaurantClubResponse> observable = restaurantRepository.getUserPointInRestaurantClub(authToken, restaurantId);
-        if (observable != null) {
-            observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<UserPointRestaurantClubResponse>() {
-                @Override
-                public void onCompleted() {
-
-                }
-
-                @Override
-                public void onError(Throwable e) {
-
-                    if (e instanceof NoNetworkConnectionException)
-                        fragmentInterface.onFailure(e.getMessage());
-                    if (e instanceof HttpException) {
-                        Response response = ((HttpException) e).response();
-
-                        try {
-                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
-
-                            fragmentInterface.onFailure(jsonObject.getString("message"));
-
-
-                        } catch (Exception d) {
-                            Log.i(TAG, "" + d.getMessage());
-                        }
-                    }
-                }
-
-                @Override
-                public void onNext(UserPointRestaurantClubResponse clubResponse) {
-                    fragmentInterface.setUserClubPoint(clubResponse.getPoints());
                 }
             });
         }

@@ -195,9 +195,9 @@ public class RegisterViewModel extends ViewModel {
                     @Override
                     public void onNext(Response<Void> response) {
 
-                        if (response.isSuccessful()) {
+                        //if (response.isSuccessful()) {
                             doLogin();
-                        } else fragmentInterface.onFailure("خطا در فعالسازی حساب کاربری");
+                        //} else fragmentInterface.onFailure("خطا در فعالسازی حساب کاربری");
 
                     }
                 });

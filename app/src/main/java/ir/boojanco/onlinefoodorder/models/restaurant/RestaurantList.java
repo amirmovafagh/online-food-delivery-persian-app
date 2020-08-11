@@ -20,6 +20,8 @@ public class RestaurantList {
     private String branch;
     @SerializedName("working")
     private Boolean working;
+    @SerializedName("mostRecentlyRegistered")
+    private Boolean mostRecentlyRegistered;
     @SerializedName("logo")
     private String logo;
     @SerializedName("cover")
@@ -45,6 +47,10 @@ public class RestaurantList {
 
     public long getId() {
         return id;
+    }
+
+    public Boolean getMostRecentlyRegistered() {
+        return mostRecentlyRegistered;
     }
 
     public String getName() {

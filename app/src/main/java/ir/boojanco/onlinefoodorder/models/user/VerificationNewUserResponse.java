@@ -3,13 +3,13 @@ package ir.boojanco.onlinefoodorder.models.user;
 import com.google.gson.annotations.SerializedName;
 
 public class VerificationNewUserResponse {
-    @SerializedName("id")
-    private long id;
+    @SerializedName("status")
+    private String status;
     @SerializedName("mobile")
     private String mobile;
 
-    public long getId() {
-        return id;
+    public String getStatus() {
+        return status;
     }
 
     public String getMobile() {

@@ -154,16 +154,18 @@ public class RegisterViewModel extends ViewModel {
 
                     @Override
                     public void onNext(VerificationNewUserResponse verificationNewUserResponse) {
-                        activateUser(verificationNewUserResponse.getId(), verificationNewUserResponse.getMobile(), password.getValue());
+                        fragmentInterface.onFailure(verificationNewUserResponse.getStatus());
+                        Log.e(TAG,verificationNewUserResponse.getStatus()+"");
+                        activateUser(verificationNewUserResponse.getStatus(), verificationNewUserResponse.getMobile(), password.getValue());
                     }
                 });
             }
         }
     }
 
-    private void activateUser(long userId, String userPhoneNumber, String userPassword) {
-        if (userId != 0 && userPhoneNumber != null && userPassword != null) {
-            ActivateUserBody activeUserBody = new ActivateUserBody(userId, userPhoneNumber, userPassword);
+    private void activateUser(String status, String userPhoneNumber, String userPassword) {
+        if (status != null && !status.equals("") && userPhoneNumber != null && userPassword != null) {
+            ActivateUserBody activeUserBody = new ActivateUserBody(userPassword, userPhoneNumber, userPassword);
             Observable<Response<Void>> observable = userRepository.activateNewUser(activeUserBody);
             if (observable != null) {
                 fragmentInterface.onStarted();

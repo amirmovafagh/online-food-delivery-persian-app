@@ -176,6 +176,8 @@ public class RegisterViewModel extends ViewModel {
 
                     @Override
                     public void onError(Throwable e) {
+/*                        Log.e(TAG,e+"   1 ");
+                        Log.e(TAG,e.getMessage()+"  1");*/
                         fragmentInterface.tryAgain();
                         fragmentInterface.onFailure("خطا در فعالسازی حساب کاربری");
                         if (e instanceof NoNetworkConnectionException)
@@ -195,9 +197,9 @@ public class RegisterViewModel extends ViewModel {
                     @Override
                     public void onNext(Response<Void> response) {
 
-                        //if (response.isSuccessful()) {
+                        if (response.isSuccessful()) {
                             doLogin();
-                        //} else fragmentInterface.onFailure("خطا در فعالسازی حساب کاربری");
+                        } else fragmentInterface.onFailure("خطا در فعالسازی حساب کاربری");
 
                     }
                 });
@@ -215,6 +217,8 @@ public class RegisterViewModel extends ViewModel {
 
                 @Override
                 public void onError(Throwable e) {
+/*                    Log.e(TAG,e+"   2");
+                    Log.e(TAG,e.getMessage()+"   2");*/
                     fragmentInterface.tryAgain();
                     fragmentInterface.onFailure("خطا در ورود به سیستم");
                     if (e instanceof NoNetworkConnectionException)
@@ -235,6 +239,7 @@ public class RegisterViewModel extends ViewModel {
 
                 @Override
                 public void onNext(LoginUserResponse loginUserResponse) {
+                    loginUserResponse.setMobile(phoneNumber.getValue());
                     fragmentInterface.onLoginSuccess(loginUserResponse);
                 }
             });

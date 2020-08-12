@@ -122,7 +122,7 @@ public class RegisterFragment extends Fragment implements RegisterAuth {
             if (Navigation.findNavController(getView()).getCurrentDestination().getId() == R.id.registerFragment) {
                 sharedPreferences.setUserAuthTokenKey(loginUserResponse.getId());
                 sharedPreferences.setPhoneNumber(loginUserResponse.getMobile());
-                Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_mainActivity);
+                Navigation.findNavController(getView()).navigate(R.id.action_registerFragment_to_mainActivity);
                 getActivity().finish();
                 binding.cvWaitingResponse.setVisibility(View.GONE);
             }

@@ -90,6 +90,7 @@
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"
             app:popUpToInclusive="true" />
+
     </fragment>
 
 </navigation>

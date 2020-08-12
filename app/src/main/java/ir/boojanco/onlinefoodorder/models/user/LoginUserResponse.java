@@ -5,14 +5,10 @@ import com.google.gson.annotations.SerializedName;
 public class LoginUserResponse {
     @SerializedName("mobile")
     private String mobile;
-    @SerializedName("name")
-    private String name;
-    @SerializedName("email")
-    private String email;
-    @SerializedName("message")
-    private String message;
     @SerializedName("id")
     private String id;
+    @SerializedName("name")
+    private String name;
 
     /*//required fields
     public LoginUserResponse(String mobile, String password) {
@@ -28,20 +24,13 @@ public class LoginUserResponse {
         this.mobile = mobile;
     }
 
-
     public String getName() {
         return name;
-    }
-
-    public String getEmail() {
-        return email;
     }
 
     public String getId() {
         return id;
     }
 
-    public String getMessage() {
-        return message;
-    }
+
 }

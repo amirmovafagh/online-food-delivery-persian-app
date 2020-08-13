@@ -15,7 +15,7 @@ import com.bumptech.glide.request.RequestOptions;
 import ir.boojanco.onlinefoodorder.R;
 
 public class App extends Application {
-    public final static String webServerMediaRoute = "http://mazeeh.ir/api/media/download/";
+    public final static String webServerMediaRoute = "https://mazeeh.ir/api/media/download/";
     private AppComponent component;
 
     //Instantiating the component
@@ -26,7 +26,7 @@ public class App extends Application {
         component = DaggerAppComponent.builder()
                 // list of modules that are part of this component need to be created here too
                 .appModule(new AppModule(this)) //This also corresponds to the name of your module: %component_name%Module
-                .netModule(new NetModule("http://mazeeh.ir"))
+                .netModule(new NetModule("https://mazeeh.ir"))
                 .build();
 
         // If a Dagger 2 component does not have any constructor arguments for any of its modules,

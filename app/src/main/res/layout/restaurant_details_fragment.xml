@@ -130,13 +130,15 @@
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintVertical_bias="0" />
 
+                            <!--android:onCheckedChanged="@{(ToggleBottun, checked) -> viewModel.onRestaurantFavoriteCheckedChanged(checked)}"-->
                             <ToggleButton
                                 android:id="@+id/toggle_bookmark"
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:layout_marginEnd="8dp"
                                 android:background="@drawable/fav_toggle_selector"
-                                android:onCheckedChanged="@{(ToggleBottun, checked) -> viewModel.onRestaurantFavoriteCheckedChanged(checked)}"
+                                android:onClick="@{()->viewModel.onRestaurantFavoriteClick()}"
+                                android:checked="@{viewModel.restaurantFaveState}"
                                 android:textOff=""
                                 android:textOn=""
                                 app:layout_constraintBottom_toBottomOf="@id/text_view_restaurant_name"

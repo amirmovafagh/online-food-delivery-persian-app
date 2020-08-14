@@ -253,26 +253,26 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
                 public void onNext(GetAllFoodResponse getAllFoodResponse) {
                     foodInterface.onStarted();
                     allFoodMutableLiveData.setValue(getAllFoodResponse);
-                    foodInterface.onSuccess(makeFoodAndHeaderList(getAllFoodResponse), allFoodMutableLiveData, foodTypeIndex);
+                    foodInterface.onSuccess(makeFoodAndHeaderList(getAllFoodResponse), allFoodMutableLiveData, foodTypeIndex, getAllFoodResponse.getFaveList());
                 }
             });
         }
     }
 
     private ArrayList<ListItemType> makeFoodAndHeaderList(GetAllFoodResponse getAllFoodResponse) {
-        if (getAllFoodResponse.secondaryList() != null)
-            for (int i = 0; i < getAllFoodResponse.secondaryList().size(); i++) {
-                String foodType = getAllFoodResponse.secondaryList().get(i);
+        if (getAllFoodResponse.getFoodTypeList() != null)
+            for (int i = 0; i < getAllFoodResponse.getFoodTypeList().getTypeList().size(); i++) {
+                String foodType = getAllFoodResponse.getFoodTypeList().getTypeList().get(i);
 
                 foodTypeHeader = new FoodTypeHeader(foodType);
                 foodTypeIndex.add(foodType);
                 items.add(foodTypeHeader);
-                if (getAllFoodResponse.getMainList() != null)
-                    for (int j = 0; j < getAllFoodResponse.getMainList().getAllFoodList().size(); j++) {
+                if (getAllFoodResponse.getFoodList() != null)
+                    for (int j = 0; j < getAllFoodResponse.getFoodList().getAllFoodList().size(); j++) {
 
 
-                        if (getAllFoodResponse.getMainList().getAllFoodList() != null) {
-                            AllFoodList allFoodList = getAllFoodResponse.getMainList().getAllFoodList().get(j);
+                        if (getAllFoodResponse.getFoodList().getAllFoodList() != null) {
+                            AllFoodList allFoodList = getAllFoodResponse.getFoodList().getAllFoodList().get(j);
                             if (allFoodList != null)
                                 for (int n = 0; n < allFoodList.getFoodTypeList().size(); n++) {
                                     if (foodType.equals(allFoodList.getFoodTypeList().get(n)) || foodType.equalsIgnoreCase(allFoodList.getFoodTypeList().get(n)) || foodType == allFoodList.getFoodTypeList().get(n)) {
@@ -335,6 +335,7 @@ public class RestaurantFoodMenuViewModel extends ViewModel {
 
     public void onFoodFavoriteCheckedChanged(long foodId, boolean isChecked) {
         if (isChecked) {
+
             addToFavoriteList(foodId);
         } else {
             removeFromFavoriteList(foodId);

@@ -6,16 +6,22 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class GetAllFoodResponse {
-    @SerializedName("mainList")
-    private MainList mainList;
-    @SerializedName("secondaryList")
-    private List<String> secondaryList;
+    @SerializedName("faveList")
+    private List<Long> faveList;
+    @SerializedName("foodList")
+    private FoodList foodList;
+    @SerializedName("foodTypeList")
+    private FoodType foodTypeList;
 
-    public MainList getMainList() {
-        return mainList;
+    public List<Long> getFaveList() {
+        return faveList;
     }
 
-    public List<String> secondaryList() {
-        return secondaryList;
+    public FoodList getFoodList() {
+        return foodList;
+    }
+
+    public FoodType getFoodTypeList() {
+        return foodTypeList;
     }
 }

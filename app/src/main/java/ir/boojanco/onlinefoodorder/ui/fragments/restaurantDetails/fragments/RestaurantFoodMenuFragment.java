@@ -217,14 +217,14 @@ public class RestaurantFoodMenuFragment extends Fragment implements RestaurantFo
     }
 
     @Override
-    public void onSuccess(ArrayList<ListItemType> items, MutableLiveData<GetAllFoodResponse> foodTypeMutableLiveData, ArrayList<String> foodTypeIndex) {
+    public void onSuccess(ArrayList<ListItemType> items, MutableLiveData<GetAllFoodResponse> foodTypeMutableLiveData, ArrayList<String> foodTypeIndex, List<Long> faveFoods) {
         foodTypeMutableLiveData.observe(this, getAllFoodResponse -> {
             //recyclerViewFoodType.scheduleLayoutAnimation();
-            adapterFoodType.setFoodTypeLists(getAllFoodResponse.secondaryList());
+            adapterFoodType.setFoodTypeLists(getAllFoodResponse.getFoodTypeList().getTypeList());
         });
         this.foodTypeIndex = foodTypeIndex;
         recyclerViewFoodMenu.scheduleLayoutAnimation();
-        adapterMenu.setFoodLists(items);
+        adapterMenu.setFoodLists(items, faveFoods);
 
         pureFoodTypeIndex = new ArrayList<>(); //use this variable for checking on scroll food menu and change food category
         for (String str : foodTypeIndex) {

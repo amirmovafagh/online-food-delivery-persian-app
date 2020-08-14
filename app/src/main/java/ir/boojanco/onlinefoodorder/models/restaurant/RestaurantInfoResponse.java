@@ -28,6 +28,8 @@ public class RestaurantInfoResponse implements Serializable {
     private String deliveryTime;
     @SerializedName("getInPlace")
     private boolean getInPlace;
+    @SerializedName("userFavorite")
+    private boolean userFavorite;
     @SerializedName("id")
     private long id;
     @SerializedName("logo")
@@ -151,6 +153,10 @@ public class RestaurantInfoResponse implements Serializable {
 
     public String getBranch() {
         return branch;
+    }
+
+    public boolean isUserFavorite() {
+        return userFavorite;
     }
 
     public String getCover() {

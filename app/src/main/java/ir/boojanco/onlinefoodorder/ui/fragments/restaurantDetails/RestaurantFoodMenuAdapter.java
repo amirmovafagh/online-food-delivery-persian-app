@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -27,6 +28,7 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
     private String TAG = this.getClass().getSimpleName();
     //private List<AllFoodList> foodLists;
     private ArrayList<ListItemType> items;
+    private List<Long> faveFoods;
     private FoodTypeHeader header;
     private CartDataSource cartDataSource;
 
@@ -64,7 +66,15 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
         } else if (holder instanceof RestaurantFoodViewHolder) {
             FoodItem foodItem = (FoodItem) items.get(position);
             ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.setFoodItem(foodItem);
-            ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.toggleBookmark.setOnCheckedChangeListener((buttonView, isChecked) -> clickListener.onRecyclerViewFaveToggleClick(foodItem, isChecked));
+
+            if (faveFoods != null)
+                for (int j = 0; j < faveFoods.size(); j++)
+                    if (faveFoods.get(j) == foodItem.getId())
+                        ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.toggleBookmark.setChecked(true);
+
+            ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.toggleBookmark.setOnClickListener((buttonView) -> {
+                clickListener.onRecyclerViewFaveToggleClick(foodItem, ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.toggleBookmark.isChecked()); //check if checked send remove request
+            });
             getFoodByIdFromDB(foodItem, extraRestaurantId, (RestaurantFoodViewHolder) holder, false, false);
             ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.imgBtnIncrease.setOnClickListener(v -> {
                 ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.setCountVisibility(true);
@@ -86,6 +96,7 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
                 TextView textViewCostStrikeThrough = ((RestaurantFoodViewHolder) holder).recyclerviewRestaurantFoodMenuBinding.textViewPrice;
                 textViewCostStrikeThrough.setPaintFlags(textViewCostStrikeThrough.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             }
+
         }
 
     }
@@ -179,8 +190,9 @@ public class RestaurantFoodMenuAdapter extends RecyclerView.Adapter<RecyclerView
         return items.get(position).getItemType();
     }
 
-    public void setFoodLists(ArrayList<ListItemType> items) {
+    public void setFoodLists(ArrayList<ListItemType> items, List<Long> faveFoods) {
         this.items = items;
+        this.faveFoods = faveFoods;
         notifyDataSetChanged();
     }
 

@@ -47,6 +47,7 @@ public class RestaurantDetailsViewModel extends ViewModel {
     public MutableLiveData<String> restaurantTagList;
     public MutableLiveData<String> restaurantcommentCount;
     public MutableLiveData<Integer> cartItemCount;
+    public MutableLiveData<Boolean> restaurantFaveState;
 
     private Context context;
     private long restaurantId = 0;
@@ -82,13 +83,15 @@ public class RestaurantDetailsViewModel extends ViewModel {
         restaurantPhoneNumber = new MutableLiveData<>();
         restaurantRegion = new MutableLiveData<>();
         restaurantcommentCount = new MutableLiveData<>();
+        restaurantFaveState = new MutableLiveData<>();
+        restaurantFaveState.setValue(false);
     }
 
 
     public void getRestaurantInfo(String authToken, long restaurantId) {
         userAuthToken = authToken;
         this.restaurantId = restaurantId;
-        Observable<RestaurantInfoResponse> observable = restaurantRepository.getRestaurantInfo( restaurantId);
+        Observable<RestaurantInfoResponse> observable = restaurantRepository.getRestaurantInfo(restaurantId);
 
         if (observable != null) {
             observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<RestaurantInfoResponse>() {
@@ -156,7 +159,7 @@ public class RestaurantDetailsViewModel extends ViewModel {
                     restaurantPhoneNumber.setValue(restaurantInfo.getPhoneNumber());
                     restaurantRegion.setValue(restaurantInfo.getRegion());
                     restaurantTagList.setValue(restaurantInfo.getTagList());
-
+                    restaurantFaveState.setValue(restaurantInfo.isUserFavorite());
                     fragmentInterface.onSuccess(restaurantInfo);
                 }
             });
@@ -241,14 +244,22 @@ public class RestaurantDetailsViewModel extends ViewModel {
         }
     }
 
-
-    public void onRestaurantFavoriteCheckedChanged(boolean checked) {
+    //*** remove this function for confilicting with setChecked state
+    /*public void onRestaurantFavoriteCheckedChanged(boolean checked) {
 
         if (checked) {
             addToFavoriteList();
         } else {
             removeFromFavoriteList();
         }
+    }*/
+    public void onRestaurantFavoriteClick() {
+        if (restaurantFaveState != null)
+            if (!restaurantFaveState.getValue()) {
+                addToFavoriteList();
+            } else {
+                removeFromFavoriteList();
+            }
     }
 
 }

@@ -12,6 +12,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
@@ -45,6 +46,7 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -324,6 +326,29 @@ public class MainActivity extends AppCompatActivity implements MainActivityInter
 
     @Override
     public void onFailure(String error) {
+        Snackbar snackbar = Snackbar.make(binding.mainContent, "" + error, Snackbar.LENGTH_SHORT)
+                .setTextColor(getResources().getColor(R.color.materialGray900))
+                .setBackgroundTint(getResources().getColor(R.color.colorLowGold));
+        snackbar.show();
+    }
 
+    private boolean backPressedOnce = false;
+
+    @Override
+    public void onBackPressed() {
+
+        // Check if the current destination is actually the start sestination (Home screen)
+        if (navController.getGraph().getStartDestination() == navController.getCurrentDestination().getId()) {
+            // Check if back is already pressed. If yes, then exit the app.
+            if (backPressedOnce) {
+                finish();
+            }
+
+            backPressedOnce = true;
+            Toast.makeText(this, "برای خروج دوباره بازگشت را بزنید", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(() -> backPressedOnce = false, 2000);
+        } else
+            super.onBackPressed();
     }
 }

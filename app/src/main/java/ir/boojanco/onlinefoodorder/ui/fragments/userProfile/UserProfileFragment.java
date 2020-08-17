@@ -322,9 +322,7 @@ public class UserProfileFragment extends Fragment implements AddressRecyclerView
         builder.setPositiveButton("خروج", (dialog, which) -> {
             sharedPreferences.removeUserAuthTokenKey();
             sharedPreferences.removePhoneNumber();
-            getActivity().moveTaskToBack(true);
-            android.os.Process.killProcess(android.os.Process.myPid());
-            System.exit(1);
+            goToLoginRegisterActivity();
         });
         builder.setNegativeButton("انصراف", (dialog, which) -> dialog.cancel());
         // create and show the alert dialog
